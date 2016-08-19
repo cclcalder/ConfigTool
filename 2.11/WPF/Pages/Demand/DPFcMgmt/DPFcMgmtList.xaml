@@ -1,0 +1,32 @@
+﻿<pages:PageBase x:Class="WPF.Pages.Demand.DPFcMgmt.DPFCMgmtList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:filters="clr-namespace:WPF.UserControls.Filters.Controls"
+      xmlns:pages="clr-namespace:WPF.Pages"
+      xmlns:controls2="clr-namespace:WPF.UserControls.Tabs.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1200" Background="White"
+	  Title="DPFCMgmt">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" MaxHeight="500" x:Name="rowFilter"/>
+            <RowDefinition Height="6" />
+            <RowDefinition Height="*" x:Name="rowDataGrid" />
+
+        </Grid.RowDefinitions>
+
+        <filters:FilterControl Grid.Row="1" Order="0,2,1" CaretRowSource="{Binding ElementName=rowFilter}" FilterSource="{Binding FiltersVM}" ButtonsVisibility="Visible" HideSingleTree="True" />
+        
+        <GridSplitter ResizeDirection="Rows" Grid.Row="2" Height="5" HorizontalAlignment="Stretch"  
+                      VerticalAlignment="Center" />
+
+        <controls2:TabControl Grid.Row="3" TabDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.TabData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+
+    </Grid>
+</pages:PageBase>

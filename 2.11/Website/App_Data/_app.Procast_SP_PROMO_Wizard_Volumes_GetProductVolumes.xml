@@ -1,0 +1,614 @@
+﻿<Results>
+  <RootItem>
+    <Item_Idx>15184</Item_Idx>
+    <Item_Type>PromotionProductVolumes</Item_Type>
+    <Item_RowSortOrder>15184</Item_RowSortOrder>
+    <Attributes>
+      <Attribute>
+        <ColumnCode>ProductName</ColumnCode>
+        <HeaderText>Product Name</HeaderText>
+        <Value>(15184) Pouch 330ml Super Fizz Diet</Value>
+        <Format />
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>COUNT</TotalsAggregationMethod>
+        <ColumnSortOrder>-100</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>BaseVol_SI</ColumnCode>
+        <HeaderText>Base (Units)</HeaderText>
+        <Value>150000.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>1</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>BaseVol_SO</ColumnCode>
+        <HeaderText>Base Sales Out (Units)</HeaderText>
+        <Value>=BaseVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>0</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>1</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>PromoVol_SI</ColumnCode>
+        <HeaderText>Promo Volume (Units)</HeaderText>
+        <HeaderRow>
+          <HeaderOperation>
+            <Label>Set all to</Label>
+            <Type>Constant</Type>
+          </HeaderOperation>
+          <HeaderOperation>
+            <Label>Prorate by base volume</Label>
+            <Type>ProRate</Type>
+            <ProRatingColumnCode>BaseVol_SI</ProRatingColumnCode>
+          </HeaderOperation>
+        </HeaderRow>
+        <Value>450000.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>3</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>PromoVol_SO</ColumnCode>
+        <HeaderText>Promo Vol Sales Out (Units)</HeaderText>
+        <Value>=PromoVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>0</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>3</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>IncVol_SI</ColumnCode>
+        <HeaderText>Incremental Vol. (Units)</HeaderText>
+        <Value>=PromoVol_SI - BaseVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>6</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftPC</ColumnCode>
+        <HeaderText>Forecast Uplift %</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>11</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftMin</ColumnCode>
+        <HeaderText>Forecast Uplift Min</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>12</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftMax</ColumnCode>
+        <HeaderText>Forecast Uplift Max</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>13</ColumnSortOrder>
+      </Attribute>
+    </Attributes>
+  </RootItem>
+  <RootItem>
+    <Item_Idx>15260</Item_Idx>
+    <Item_Type>PromotionProductVolumes</Item_Type>
+    <Item_RowSortOrder>15260</Item_RowSortOrder>
+    <Attributes>
+      <Attribute>
+        <ColumnCode>ProductName</ColumnCode>
+        <HeaderText>Product Name</HeaderText>
+        <Value>(15260) 1 Litre Bottle Super Fizz Original</Value>
+        <Format />
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>COUNT</TotalsAggregationMethod>
+        <ColumnSortOrder>-100</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>BaseVol_SI</ColumnCode>
+        <HeaderText>Base (Units)</HeaderText>
+        <Value>150000.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>1</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>BaseVol_SO</ColumnCode>
+        <HeaderText>Base Sales Out (Units)</HeaderText>
+        <Value>=BaseVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>0</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>1</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>PromoVol_SI</ColumnCode>
+        <HeaderText>Promo Volume (Units)</HeaderText>
+        <HeaderRow>
+          <HeaderOperation>
+            <Label>Set all to</Label>
+            <Type>Constant</Type>
+          </HeaderOperation>
+          <HeaderOperation>
+            <Label>Prorate by base volume</Label>
+            <Type>ProRate</Type>
+            <ProRatingColumnCode>BaseVol_SI</ProRatingColumnCode>
+          </HeaderOperation>
+        </HeaderRow>
+        <Value>450000.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>3</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>PromoVol_SO</ColumnCode>
+        <HeaderText>Promo Vol Sales Out (Units)</HeaderText>
+        <Value>=PromoVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>0</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>3</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>IncVol_SI</ColumnCode>
+        <HeaderText>Incremental Vol. (Units)</HeaderText>
+        <Value>=PromoVol_SI - BaseVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>6</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftPC</ColumnCode>
+        <HeaderText>Forecast Uplift %</HeaderText>
+        <Value>0.00</Value>
+        <Format>P0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>11</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftMin</ColumnCode>
+        <HeaderText>Forecast Uplift Min</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>12</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftMax</ColumnCode>
+        <HeaderText>Forecast Uplift Max</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>13</ColumnSortOrder>
+      </Attribute>
+    </Attributes>
+  </RootItem>
+  <RootItem>
+    <Item_Idx>15272</Item_Idx>
+    <Item_Type>PromotionProductVolumes</Item_Type>
+    <Item_RowSortOrder>15272</Item_RowSortOrder>
+    <Attributes>
+      <Attribute>
+        <ColumnCode>ProductName</ColumnCode>
+        <HeaderText>Product Name</HeaderText>
+        <Value>(15272) Pouch 330ml Super Fizz Cherry</Value>
+        <Format />
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>COUNT</TotalsAggregationMethod>
+        <ColumnSortOrder>-100</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>BaseVol_SI</ColumnCode>
+        <HeaderText>Base (Units)</HeaderText>
+        <Value>150000.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>1</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>BaseVol_SO</ColumnCode>
+        <HeaderText>Base Sales Out (Units)</HeaderText>
+        <Value>=BaseVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>0</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>1</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>PromoVol_SI</ColumnCode>
+        <HeaderText>Promo Volume (Units)</HeaderText>
+        <HeaderRow>
+          <HeaderOperation>
+            <Label>Set all to</Label>
+            <Type>Constant</Type>
+          </HeaderOperation>
+          <HeaderOperation>
+            <Label>Prorate by base volume</Label>
+            <Type>ProRate</Type>
+            <ProRatingColumnCode>BaseVol_SI</ProRatingColumnCode>
+          </HeaderOperation>
+        </HeaderRow>
+        <Value>450000.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>3</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>PromoVol_SO</ColumnCode>
+        <HeaderText>Promo Vol Sales Out (Units)</HeaderText>
+        <Value>=PromoVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>0</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>3</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>IncVol_SI</ColumnCode>
+        <HeaderText>Incremental Vol. (Units)</HeaderText>
+        <Value>=PromoVol_SI - BaseVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>6</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftPC</ColumnCode>
+        <HeaderText>Forecast Uplift %</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>11</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftMin</ColumnCode>
+        <HeaderText>Forecast Uplift Min</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>12</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftMax</ColumnCode>
+        <HeaderText>Forecast Uplift Max</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>13</ColumnSortOrder>
+      </Attribute>
+    </Attributes>
+  </RootItem>
+  <RootItem>
+    <Item_Idx>15273</Item_Idx>
+    <Item_Type>PromotionProductVolumes</Item_Type>
+    <Item_RowSortOrder>15273</Item_RowSortOrder>
+    <Attributes>
+      <Attribute>
+        <ColumnCode>ProductName</ColumnCode>
+        <HeaderText>Product Name</HeaderText>
+        <Value>(15273) Carton 230ml Whole Juice Lemon</Value>
+        <Format />
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>COUNT</TotalsAggregationMethod>
+        <ColumnSortOrder>-100</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>BaseVol_SI</ColumnCode>
+        <HeaderText>Base (Units)</HeaderText>
+        <Value>150000.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>1</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>BaseVol_SO</ColumnCode>
+        <HeaderText>Base Sales Out (Units)</HeaderText>
+        <Value>=BaseVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>0</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>1</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>PromoVol_SI</ColumnCode>
+        <HeaderText>Promo Volume (Units)</HeaderText>
+        <HeaderRow>
+          <HeaderOperation>
+            <Label>Set all to</Label>
+            <Type>Constant</Type>
+          </HeaderOperation>
+          <HeaderOperation>
+            <Label>Prorate by base volume</Label>
+            <Type>ProRate</Type>
+            <ProRatingColumnCode>BaseVol_SI</ProRatingColumnCode>
+          </HeaderOperation>
+        </HeaderRow>
+        <Value>450000.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>3</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>PromoVol_SO</ColumnCode>
+        <HeaderText>Promo Vol Sales Out (Units)</HeaderText>
+        <Value>=PromoVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>0</IsDisplayed>
+        <IsEditable>1</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>3</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>IncVol_SI</ColumnCode>
+        <HeaderText>Incremental Vol. (Units)</HeaderText>
+        <Value>=PromoVol_SI - BaseVol_SI</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>SUM</TotalsAggregationMethod>
+        <ColumnSortOrder>6</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftPC</ColumnCode>
+        <HeaderText>Forecast Uplift %</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>11</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftMin</ColumnCode>
+        <HeaderText>Forecast Uplift Min</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>12</ColumnSortOrder>
+      </Attribute>
+      <Attribute>
+        <ColumnCode>SysUpliftMax</ColumnCode>
+        <HeaderText>Forecast Uplift Max</HeaderText>
+        <Value>0.00</Value>
+        <Format>N0</Format>
+        <ForeColour />
+        <BorderColour />
+        <IsDisplayed>1</IsDisplayed>
+        <IsEditable>0</IsEditable>
+        <ControlType>Textbox</ControlType>
+        <DataSource />
+        <DependentColumn />
+        <TotalsAggregationMethod>AVG</TotalsAggregationMethod>
+        <ColumnSortOrder>13</ColumnSortOrder>
+      </Attribute>
+    </Attributes>
+  </RootItem>
+</Results>

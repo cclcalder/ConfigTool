@@ -1,0 +1,32 @@
+﻿<Page x:Class="WPF.Pages.Combi.ReportWrapper"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+      xmlns:wpf="clr-namespace:WPF"
+      xmlns:userControls="clr-namespace:WPF.UserControls"
+      xmlns:controls="clr-namespace:Exceedra.Schedule.Controls;assembly=Exceedra.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+	Title="ReportWrapper">
+
+    <Grid>
+        <telerik:RadTabControl x:Name="RadTabControl" HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Stretch" SelectedIndex="0" HeaderBackground="DimGray" >
+
+            <telerik:RadTabItem x:Name="RadTabItem" Header="{wpf:Loc Label_Insights,'Insights'}" Height="25">
+                <Frame  x:Name="Insights" />
+            </telerik:RadTabItem>
+
+            <telerik:RadTabItem x:Name="RadTabItem2" Header="{wpf:Loc Label_Analytics, 'Analytics'}"  Height="25">
+                <Frame  x:Name="Analytics" />
+            </telerik:RadTabItem>
+
+            <telerik:RadTabItem x:Name="RadTabItem3" Header="{wpf:Loc Label_Canvas, 'Canvas'}"  Height="25">
+                <Frame  x:Name="Canvas" />
+            </telerik:RadTabItem>
+
+        </telerik:RadTabControl>
+    </Grid>
+</Page>

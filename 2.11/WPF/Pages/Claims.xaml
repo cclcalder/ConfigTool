@@ -1,0 +1,311 @@
+﻿<pages:PageBase xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:wpfControl="clr-namespace:Coder.UI.WPF;assembly=Coder.UI.WPF"
+      xmlns:controls="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls"
+      xmlns:lex="clr-namespace:WPF" 
+	xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+	xmlns:listings="clr-namespace:WPF.UserControls.Listings"
+	xmlns:controls1="clr-namespace:WPF.UserControls.Trees.Controls"
+	xmlns:pages="clr-namespace:WPF.Pages"
+	xmlns:userControls="clr-namespace:WPF.UserControls"
+	x:Class="WPF.Pages.Claims" 
+       mc:Ignorable="d"
+        d:DesignHeight="768" d:DesignWidth="1024" 
+                x:Name="ClaimsPage"
+                xmlns:caret="clr-namespace:Exceedra.Controls.Caret;assembly=Exceedra.Controls"
+	Title="Claims">
+    <Page.Resources>
+
+
+    </Page.Resources>
+    <Grid  Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" x:Name="rowFilter" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="*" />
+
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Center"  Text="{Binding PageTitle}" Style="{StaticResource GlobalGroupHeaderStyleLogin}" />
+
+        <caret:FilterCaretBtn x:Name="FilterCaretBtn" Grid.Row="0"  HorizontalAlignment="Right" />
+
+        <!--<ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Height="Auto">-->
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="230" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="0,0,4,0">
+
+                <controls1:TreeControl TreeTitle="{lex:Loc Label_StatusesAndTypes, 'Statuses and Types'}"  UseNewStyle="True" TreeSource="{Binding DataContext.StatusTree, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="4,0">
+                <listings:ListingsUserControl x:Name="ListingsControl" Margin="0,-25,0,0" ListingsSource="{Binding DataContext.ListingsVM, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+            </Grid>
+
+            <!--<Border BorderBrush="Gray" BorderThickness="0" CornerRadius="6" Padding="4"
+					Margin="0,0,0,0">-->
+
+            <ScrollViewer Grid.Column="2" Margin="0" Padding="4,0,0,0"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" BorderThickness="0"
+                              CanContentScroll="False" HorizontalContentAlignment="Stretch">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+
+
+                    <GroupBox BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" Padding="4"
+                                    Margin="0,0,0,5">
+                        <GroupBox.Header>
+                            <TextBlock Text="{lex:Loc Label_ClaimDate, 'Claim Date'}" Style="{StaticResource GlobalGroupHeaderStyle}" />
+                        </GroupBox.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="{lex:Loc Label_Start}" VerticalAlignment="Center" />
+                            <DatePicker Grid.Row="0" Height="24" Width="100" HorizontalAlignment="Right"
+										SelectedDate="{Binding ClaimDateFrom}" />
+
+                            <TextBlock Grid.Row="1" Text="{lex:Loc Label_End}" VerticalAlignment="Center" />
+                            <DatePicker Grid.Row="1" Height="24" Width="100" HorizontalAlignment="Right"
+                                                Margin="0,0,0,6"
+										SelectedDate="{Binding ClaimDateTo}" />
+
+                            <RadioButton Grid.Row="2" GroupName="SearchClaimDateGroup"
+                                                 IsChecked="{Binding IsSearchClaimDateSelected}"
+                                                 Content="{lex:Loc Label_SearchClaimDate}" />
+                            <RadioButton Grid.Row="3" GroupName="SearchClaimDateGroup"
+                                                 IsChecked="{Binding IsSearchEnteredDateSelected}"
+                                                 Content="{lex:Loc Label_SearchEnteredDate}" />
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox BorderBrush="Gray" BorderThickness="1"   Grid.Row="1" Height="Auto"
+                                    Padding="4" Margin="0,0,0,5" Grid.ColumnSpan="2">
+                        <GroupBox.Header>
+                            <TextBlock Text="{lex:Loc Label_EventDate, 'Event Date'}" Style="{StaticResource GlobalGroupHeaderStyle}" />
+                        </GroupBox.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30" />
+
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="{lex:Loc Label_Start}" VerticalAlignment="Center" />
+                            <DatePicker Grid.Row="0" Height="24" Width="100" HorizontalAlignment="Right"
+										SelectedDate="{Binding EventDateFrom}" />
+
+                            <TextBlock Grid.Row="1" Text="{lex:Loc Label_End}" VerticalAlignment="Center" />
+                            <DatePicker Grid.Row="1" Height="24" Width="100" HorizontalAlignment="Right"
+                                                Margin="0,0,0,6"
+										SelectedDate="{Binding EventDateTo}" />
+                        </Grid>
+                    </GroupBox>
+
+
+                    <GroupBox  BorderBrush="Gray" BorderThickness="1" Grid.Row="2"  Padding="4"
+                                    Margin="0,0,0,10">
+
+                        <GroupBox.Header>
+                            <TextBlock Text="{lex:Loc Label_ClaimValueRanges, 'Value Range'}" Style="{StaticResource GlobalGroupHeaderStyle}" />
+                        </GroupBox.Header>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Content="{lex:Loc Label_MinClaimsFilter, 'Claim Min Value'}" />
+                            <TextBox x:Name="Claims_Lower_Range" Text="{Binding ClaimsLowerValue}"
+                                             Grid.Row="0" HorizontalAlignment="Right" MinWidth="100" Margin="4,4,0,4"
+                                             BorderBrush="Gray" />
+
+                            <Label Grid.Row="1" Content="{lex:Loc Label_MaxClaimsFilter, 'Claim Max Value'}" />
+                            <TextBox x:Name="Claims_Upper_Range" Text="{Binding ClaimsUpperVlaue}"
+                                             Grid.Row="1" HorizontalAlignment="Right" MinWidth="100" Margin="4,4,0,4"
+                                             BorderBrush="Gray" />
+                        </Grid>
+                    </GroupBox>
+
+
+
+                    <Grid Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Bottom">
+                        <Button Command="{Binding SetUserDefaultCommand}" Content="{lex:Loc Button_SaveDefault}"
+                                    Width="100" Margin="4" HorizontalAlignment="left"
+                                    VerticalAlignment="Bottom" Style="{StaticResource SecondaryBtn}" />
+                        <Button Command="{Binding ApplyFiltersCommand}" Content="{lex:Loc Button_Apply}"
+                                    Width="100" Margin="4" HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom" Style="{StaticResource SecondaryBtn}" />
+                    </Grid>
+
+                </Grid>
+
+            </ScrollViewer>
+
+            <!--</Border>-->
+        </Grid>
+
+
+        <GridSplitter ResizeDirection="Rows" Grid.Row="2" Height="5" HorizontalAlignment="Stretch"  
+                      VerticalAlignment="Center" />
+
+
+        <telerik:RadTabControl  Grid.Row="3"     Margin="0,10,0,0"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedIndex="0">
+            <telerik:RadTabItem x:Name="RadTabItem" Header="{lex:Loc Label_Matching, 'Matching'}" Height="30">
+                <Grid Margin="5" Background="Transparent">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+
+                    <!--<StackPanel x:Name="FilterBox" Grid.Row="0" Grid.Column="0" Margin="2" Orientation="Horizontal">
+                        <telerik:RadWatermarkTextBox x:Name="FilterTextBox" GotFocus="FilterTextBox_GotFocus" LostFocus="FilterTextBox_LostFocus" KeyUp="FilterTextBox_TextChanged" >
+                            <telerik:RadWatermarkTextBox.WatermarkTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="3,0,0,0" Text="{lex:Loc Filter, 'Filter'}" Width="150" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </telerik:RadWatermarkTextBox.WatermarkTemplate>
+                        </telerik:RadWatermarkTextBox>
+                    </StackPanel>
+
+
+                    <StackPanel x:Name="FilterBox2" Grid.Row="0" Grid.Column="2" Margin="2" Orientation="Horizontal">
+                        <telerik:RadWatermarkTextBox x:Name="FilterTextBox2" GotFocus="FilterTextBox2_GotFocus" LostFocus="FilterTextBox2_LostFocus" KeyUp="FilterTextBox2_TextChanged" >
+                            <telerik:RadWatermarkTextBox.WatermarkTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="3,0,0,0" Text="{lex:Loc Filter, 'Filter'}" Width="150" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </telerik:RadWatermarkTextBox.WatermarkTemplate>
+                        </telerik:RadWatermarkTextBox>
+                    </StackPanel>-->
+
+
+                    <controls:DynamicGridControl x:Name="dynamicClaimsGrid" Grid.Row="1" Grid.Column="0"             
+                                                     ItemDataSource="{Binding DataContext.ClaimsDynamicGrid, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                                     />
+
+                    <!--<GridSplitter Grid.Row="1" Grid.Column="1" Width="3" ResizeDirection="Columns"/>-->
+
+                    <controls:DynamicGridControl x:Name="DynamicEventsGrid" Grid.Row="1" Grid.Column="2"                     
+                                                     ItemDataSource="{Binding DataContext.EventsDynamicGrid, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                                     />
+
+                    <CheckBox Grid.Row="2" Grid.Column="0" FlowDirection="RightToLeft"
+                              IsChecked="{Binding IsClaimsSelectAllChecked}" Click="ClaimsSelectAll_Clicked" Content="{lex:Loc Label_SelectAll}" Margin="2" 
+                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                              />
+
+
+                    <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" >
+
+                        <CheckBox IsChecked="{Binding IsEventsSelectAllChecked}" Click="EventsSelectAll_Clicked" Content="{lex:Loc Label_SelectAll}" Margin="2" />
+
+                        <Button HorizontalAlignment="Right"
+                                Command="{Binding AutomaticallyMatchCommand}"
+                                IsEnabled="{Binding CanMatchAutomatically}"
+                                Visibility="{Binding CanAutoMatch, Converter={StaticResource BoolToVisConverter}}" 
+                                Content="{lex:Loc Button_AutomaticallyMatch}" Width="120" Margin="2"
+                                Style="{StaticResource SecondaryBtn}"/>
+                        <Button HorizontalAlignment="Right"
+                                Command="{Binding ManualMatchCommand}" IsEnabled="{Binding CanMatchManually}"
+                                Content="{lex:Loc Button_ManualMatch}" Width="120" Margin="2"
+                                Style="{StaticResource SecondaryBtn}"/>
+                    </StackPanel>
+
+                </Grid>
+            </telerik:RadTabItem>
+            <telerik:RadTabItem x:Name="RadTabItem2" Header="{lex:Loc Label_ReviewMatches,'Review Matches'}"
+                                Height="30" IsSelected="{Binding LoadMatchesTab, Mode=OneWayToSource}">
+                <Grid Margin="5" Background="Transparent">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="28" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+                        <Button Command="{Binding SettleEventsCommand}" Content="Settle Events" Width="100"
+                                Style="{StaticResource SecondaryBtn}"
+                                Margin="4,0,0,4" />
+                        <Button Command="{Binding ApprovePaymentsCommand}" Content="Approve Claims" Width="120"
+                                Style="{StaticResource SecondaryBtn}"
+                                Margin="4,0,0,4" />
+                        <Button Command="{Binding SaveReviewMatchesCommand}" Content="Save" Width="100"
+                                Style="{StaticResource SecondaryBtn}"
+                                Margin="4,0,0,4" />
+                        <Button Command="{Binding CancelReviewMatchesCommand}" Content="Cancel" Width="100"
+                                Style="{StaticResource SecondaryBtn}"
+                                Margin="10,0,0,4" />
+                    </StackPanel>
+                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="6" Padding="4" Margin="0,0,10,0"
+                            Grid.Row="1">
+                        <wpfControl:DataTreeView Margin="5,5,11,5" x:Name="dgMatchingReview"
+                                                 RootNodes="{Binding ClaimsReturnedMatches, Mode=TwoWay}"
+                                                 IsReadOnly="True" CanSave="{Binding SaveReviewMatches, Mode=TwoWay}" />
+                    </Border>
+                </Grid>
+            </telerik:RadTabItem>
+            <telerik:RadTabItem x:Name="RadTabItem3" Header="{lex:Loc Label_ClaimEntry, 'Claim Entries'}" Height="30">
+                <Grid Margin="5" Background="Transparent">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Visibility="{Binding CreateClaimVisibility}"
+                                    Command="{Binding AddNewClaimRowCommand}" Style="{StaticResource SecondaryBtn}"
+                                    Content="{lex:Loc Label_AddNewClaimEntry, 'Add new claim'}" Width="80" Margin="4,0,0,4" />
+                        </StackPanel>-->
+                    </Grid>
+
+                        <controls:DynamicGridControl x:Name="dynamicClaimsEntryGrid" Grid.Row="1" Grid.Column="0" ActOnLostFocus="False"
+                                                     ItemDataSource="{Binding ClaimsEntryDynamicGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     />
+
+                    <Grid Grid.Row="2">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Visibility="{Binding CreateClaimVisibility}"
+                                    Command="{Binding AddClaimEntriesCommand}" Style="{StaticResource SecondaryBtn}"
+                                    Content="{lex:Loc Label_SaveClaimEntry, 'Save Claim Entries'}" Width="80" Margin="4,0,0,4" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </telerik:RadTabItem>
+        </telerik:RadTabControl>
+
+
+    </Grid>
+</pages:PageBase>

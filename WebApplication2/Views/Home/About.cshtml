@@ -1,0 +1,164 @@
+﻿<div ng-controller="mvcCRUDCtrl" class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <p style="text-align:left;">
+                <div id="childTableCSS">
+
+                    <center>
+                        <h1 class="display-1">
+                            Dim_ROB_AppType
+                            <small class="text-muted">Table</small>
+                        </h1>
+                    </center>
+                    <pre>About? ROBS blabla and related tables . . . . . . . . maybe activate this div on click of title or sumin</pre>
+                    <div style="float:right;">
+                        <ul>
+                            <li>@Html.ActionLink("Dim_ROB_AppType", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Dim_ROB_Type", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Dim_ROB_SubType", "Index", "Manage")</li>
+                            <li>@Html.ActionLink("Dim_ROB_Impact", "Index", "Manage")</li>
+                            <li>@Html.ActionLink("Dim_ROB_ImpactOption", "Index", "Manage")</li>
+                            @*@Html.Action*@
+                            @*<li><a href="" id="mylink" style="color:blue;">Login</a></li>*@
+
+                        </ul>
+                    </div>
+                </div>
+                <span style="float:right;">
+                    <button type="button" class="btn btn-default">Complete <i class="fa fa-check" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-default">Next  <i class="fa fa-space-shuttle" aria-hidden="true"></i></button>
+                </span>
+            </p>
+
+            <!--SYS_Config div-->
+            <div ng-show="divSYS_Config" class="input-group">
+                <p class="divHead"></p>
+                <table class="table">
+                    <tr>
+                        <td>{{Action}} SYS_Config</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><b>OptionItem_Id</b></td>
+                        <td>
+                            <input type="text" disabled="disabled" ng-model="SYS_ConfigId" />
+                        </td>
+                        <td><b>IsEditable</b></td>
+                        <td>
+                            <input type="checkbox" ng-model="SYS_ConfigIsEditable" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>MenuItem_Code</b></td>
+                        <td>
+                            <input type="text" ng-model="SYS_ConfigMenuItem_Code" />
+                            @*<select value="SYS_ConfigMenuItem_Code" ng-model="SYS_ConfigMenuItem_Code">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>*@
+                            @*</select>*@
+                        </td>
+
+
+                        <td><b>OptionItem</b></td>
+                        <td>
+                            <input type="text" ng-model="SYS_ConfigOptionItem" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>OptionItemDetail</b></td>
+                        <td>
+                            <input type="text" ng-model="SYS_ConfigOptionItemDetail" />
+                        </td>
+                        <td><b>OptionItemDetail_Value</b></td>
+                        <td>
+                            <input type="text" ng-model="SYS_ConfigOptionItemDetail_Value" />
+                        </td>
+                        <td></td>
+                        <td>
+                            <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateSYS_Config()" />
+                            <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+
+                        <th><a href="" ng-click="order('OptionItem_ID')">   AppType_Idx </a></th>
+                        <th><a href="" ng-click="order('age')">    AppType_Code </a> </th>
+                        <th><a href="" ng-click="order('gender')"> AppType_Name </a> </th>
+                        <th><a href="" ng-click="order('name')">  IsDisplayed</a> </th>
+                        <th><a href="" ng-click="order('name')"> IsNeededForAccountPlanBuild</a> </th>
+                        <th>
+                            <center>
+                                <span ng-click="AddSYS_ConfigDiv()" class="btn btn-info">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> SYS_Config
+                                </span>
+                            </center>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+
+                        <td> <input type="text" ng-model="search.OptionItem_ID" /></td>
+                        <td> <input type="text" ng-model="search.age" /> </td>
+                        <td><input type="text" ng-model="search.gender" /> </td>
+                        <td><input type="text" ng-model="search.gender" /> </td>
+                        <td><input type="text" ng-model="search.gender" /> </td>
+                    </tr>
+                    <tr ng-repeat="SYS_Config in SYS_Configs  | orderBy:sortType:sortReverse | filter:searchConfig" ng-click="setSelected();" >
+                        @*| orderBy:predicate:reverse | filter:paginate| filter:search" ng-class-odd="'odd'"*@
+                        <td>
+                            {{SYS_Config.OptionItem_ID}} <a class="btn" href="#"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        </td>
+                        <td>
+                            {{SYS_Config.IsEditable}}
+                        </td>
+                        <td>
+                            {{SYS_Config.MenuItem_Code}}
+                        </td>
+                        <td>
+                            {{SYS_Config.OptionItem}}
+                        </td>
+                        <td>
+                            {{SYS_Config.OptionItemDetail}}
+                        </td>
+                        <td>
+                            {{SYS_Config.OptionItemDetail_Value}}
+                        </td>
+                        <td>
+                            <center>
+                                <span ng-click="editSYS_Config(SYS_Config)" class="btn btn-success" id="popup"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                                <span ng-click="deleteSYS_Config(SYS_Config)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
+                            </center>
+                        </td>
+                    </tr>
+
+                    @*<tr ng-repeat="user in students | orderBy:predicate:reverse | filter:paginate| filter:search" ng-class-odd="'odd'">
+                        <td>
+                            <button class="btn">
+                                Edit
+                            </button>
+                        </td>
+                        <td>{{ user.name}}</td>
+                        <td>{{ user.age}}</td>
+                        <td>{{ user.gender}}</td>
+                    </tr>*@
+                </tbody>
+            </table>
+            <pagination total-items="totalItems" ng-model="currentPage"
+                        max-size="5" boundary-links="true"
+                        items-per-page="numPerPage" class="pagination-sm">
+            </pagination>
+        </div>
+    </div>
+    </div>

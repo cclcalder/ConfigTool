@@ -1,0 +1,20 @@
+﻿@using SalesPlannerWeb.Helpers
+@using SalesPlannerWeb.Models
+@model Message
+
+<div class='callout
+     @if (Model.Type == MessageType.Warning)
+     {
+         @: callout-danger
+     }
+     else if (Model.Type == MessageType.Success)
+     {
+         @: callout-success
+     }'>
+    <a href="#" class="close" data-dismiss="callout" aria-label="close">&times;</a>
+    <strong>
+        @Html.DisplayWithBreaksFor(x => x.Text)
+    </strong>
+</div>
+
+@*callout callout-danger *@

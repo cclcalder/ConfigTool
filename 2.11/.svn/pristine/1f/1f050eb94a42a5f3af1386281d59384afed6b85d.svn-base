@@ -1,0 +1,59 @@
+﻿@model Exceedra.Controls.DynamicRow.Models.RowProperty
+
+
+@* ReSharper disable once UnknownCssClass *@
+@{
+    var controlType = Model.ControlType.ToLower();
+    if (controlType == "checkbox")
+    {
+        @Html.CheckBox(Model.Value)
+    }
+    else if (controlType == "hyperlink")
+    {
+        @Html.ActionLink(Model.HeaderText, Model.Value)
+    }
+    else if (controlType == "dropdown")
+    {
+        if (Model.Values == null)
+        {
+            @Html.DropDownListFor(model => model.Values, new List<SelectListItem>())
+        }
+        else
+        {
+            var dropdownItems = new List<SelectListItem>(
+                @Model.Values.Select(value => new SelectListItem()
+                {
+                    Value = value.Item_Idx,
+                    Text = value.Item_Name,
+                    Selected = value.IsSelected
+                }));
+
+            @Html.DropDownListFor(model => model.SelectedItem.Item_Idx, dropdownItems)
+        }
+    }
+    else if (controlType == "datepicker")
+    {
+        @Html.TextBoxFor(model => model.Value, new { @class = "date-picker" })
+    }
+    // Razor cannot render a textbox if Model.Value is null but will render an empty textbox if Model.Value == ""
+    else if (controlType == "textbox" && Model.Value != null)
+    {
+        @Html.TextBoxFor(model => model.Value)
+    }
+    else if (controlType == "label")
+    {
+        @Html.TextBoxFor(x => x.Value, new { @readonly = "readonly" })
+    }
+    else
+    {
+        
+    }
+}
+
+<!-- to handle datepickers; http://forums.asp.net/t/1975676.aspx?Tutorial+for+Adding+Datepicker+in+MVC+5 -->
+<script type="text/javascript">
+    $(function () {
+        // This will make every element with the class "date-picker" into a DatePicker element
+        $('.date-picker').datepicker();
+    })
+</script>

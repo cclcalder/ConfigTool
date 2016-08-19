@@ -1,0 +1,8 @@
+<client>
+  <endpoint address="http://exceedra-rand.azurewebsites.net/webservices/v2_7/webservice.asmx" 
+            binding="basicHttpBinding" 
+            bindingConfiguration="WebServiceSoap" 
+            contract="ServiceReference1.WebServiceSoap" 
+            name="WebServiceSoap"/>
+  <endpoint address="http://exceedra-uat/ReportServer/ReportExecution2005.asmx" binding="basicHttpBinding" bindingConfiguration="ReportExecutionServiceSoap" contract="AzureReportService.ReportExecutionServiceSoap" name="ReportExecutionServiceSoap"/>
+</client>

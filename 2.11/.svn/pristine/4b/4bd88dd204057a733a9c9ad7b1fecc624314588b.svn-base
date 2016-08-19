@@ -1,0 +1,103 @@
+﻿@model Model.Entity.Listings.TreeViewHierarchy
+
+<div id="hiddenTree">
+    @Html.HiddenFor(model => model.Idx, new { @class = "hiddenNodeId" })
+    @Html.HiddenFor(model => model.IsSelected, new { @class = "hiddenNodeIsSelected", id = "hiddenTreeNode_" + @Model.Idx })
+
+    @if (@Model.Children != null && @Model.Children.Any())
+    {
+        for (int i = 0; i < @Model.Children.Count; i++)
+        {
+    @Html.EditorFor(model => model.Children[i], "_TreeHiddenNode")
+        }
+    }
+</div>
+
+<!-- overflow to allow horizontal scrollbar -->
+<div id="tree" style="overflow-x: auto; overflow-y: hidden">
+    <ul>
+        @{
+            var nodeId = "treeNode_" + @Model.Idx;
+
+                <!-- the value of disabled must be lowercase -->
+            <li id="@nodeId" data-jstree='{"disabled":@((!Model.IsSelectable).ToString().ToLower())}'>
+
+                @Html.Label(@Model.Name)
+
+                @if (@Model.Children != null && @Model.Children.Any())
+                {
+
+                    <ul>
+
+                        @for (int i = 0; i < @Model.Children.Count; i++)
+                        {
+                            @Html.EditorFor(model => model.Children[i], "_TreeNode")
+                        }
+
+                    </ul>
+
+                }
+
+            </li>
+        }
+    </ul>
+</div>
+
+<!-- for listing trees -->
+<script type="text/javascript">
+
+    $(function () {
+        $('#tree').jstree({
+            "conditionalselect" : function (node, event) {
+                if (node.children.length === 0)
+                    return true;
+            },
+            "plugins": ["checkbox", "changed", "conditionalselect"],
+            "core": {
+                "multiple": false,
+                "themes": {
+                    "dots": false,
+                    "icons": false
+                }
+            }
+        });
+
+        // initial nodes selecting
+        var isSelectedNodes = document.getElementById("hiddenTree").getElementsByClassName("hiddenNodeIsSelected");
+
+        for (var i = 0; i < isSelectedNodes.length; i++) {
+            var isSelected = isSelectedNodes[i].value;
+
+            if (isSelected === "1") {
+                var nodeId = isSelectedNodes[i].id.substring(15);
+                $('#tree').jstree(true).select_node('treeNode_' + nodeId);
+            }
+        }
+    });
+
+    // invoked everytime a checkbox is clicked
+    // changes hidden isSelected inputs' values to "0" or "1" depending on relevant checkbox's state
+    $('#tree').on("changed.jstree", function (e, data) {
+
+        var nodeIsSelectedInput, nodeId, i;
+
+        // newly selected nodes
+        for (i = 0; i < data.changed.selected.length; i++) {
+
+            // the node's id without the "treeNode_" prefix
+            nodeId = data.changed.selected[i].substring(9);
+            nodeIsSelectedInput = document.getElementById("hiddenTreeNode_" + nodeId);
+            nodeIsSelectedInput.setAttribute("value", "1");
+        }
+
+        // newly deselected nodes
+        for (i = 0; i < data.changed.deselected.length; i++) {
+
+            // the node's id without the "treeNode_" prefix
+            nodeId = data.changed.deselected[i].substring(9);
+            nodeIsSelectedInput = document.getElementById("hiddenTreeNode_" + nodeId);
+            nodeIsSelectedInput.setAttribute("value", "0");
+        }
+    });
+</script>
+<!-- /for listing trees -->

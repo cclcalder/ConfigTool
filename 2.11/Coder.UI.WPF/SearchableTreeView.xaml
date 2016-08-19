@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="Coder.WPF.UI.SearchableTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Name="me"
+             d:DesignHeight="300" d:DesignWidth="300" xmlns:my="clr-namespace:Coder.WPF.UI">
+
+    <UserControl.Resources>
+        <HierarchicalDataTemplate ItemsSource="{Binding Children}" x:Key="DefaultNodeTemplate">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsHighlighted}" Value="true" >
+                                <Setter Property="Background" Value="#FFFF96" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <CheckBox IsChecked="{Binding IsSelected}" Tag="{Binding Id}" Unchecked="CheckBox_Unchecked" Checked="ToggleButton_OnChecked" Margin="1" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=my:SearchableTreeView}, Path=IsNotReadOnly}">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type Control}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSingleSelectMode}" Value="True" >
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+                <RadioButton IsChecked="{Binding IsSelected}"  Margin="1" GroupName="{Binding ButonsGroupName}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=my:SearchableTreeView}, Path=IsNotReadOnly}" >
+                    <RadioButton.Style>
+                        <Style TargetType="{x:Type Control}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSingleSelectMode}" Value="True"/>
+                                        <Condition Binding="{Binding HasChildren}" Value="False"/>
+                                        <Condition Binding="{Binding IsSelectAnyOne}" Value="False"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSingleSelectMode}" Value="True"/>
+                                        <Condition Binding="{Binding IsSelectAnyOne}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </RadioButton.Style>
+                </RadioButton>
+                 
+                <Image Source="{Binding Icon}" Margin="1"  />
+                <TextBlock Text="{Binding Title}" Margin="1" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+
+    </UserControl.Resources>
+    <my:ReadOnlyStateManager>
+        <GroupBox BorderThickness="1" BorderBrush="Gray" Name="border"  >
+            <GroupBox.Header>
+                <TextBlock x:Name="TreeName" FontWeight="Bold" Style="{StaticResource GlobalGroupHeaderStyle}" /> <!---->
+            </GroupBox.Header>
+            <Grid Margin="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid  Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <my:ClearableTextBox x:Name="SearchTextBox" LostFocus="SearchTextBox_LostFocus" KeyDown="SearchTextBox_KeyDown" Text="{Binding ElementName=me, Path=SearchText, Mode=TwoWay, UpdateSourceTrigger=Default}"   />
+                    
+                    <Image HorizontalAlignment="Right" Width="16" Height="16"   KeyDown="imgSearch_KeyDown"  ToolTip="Search using filter"                        
+                           x:Name="imgSearch" Stretch="None" Grid.Column="1" MouseDown="Image_MouseDown" Source="Images/search.png" >
+                    </Image>
+                </Grid>
+
+                <Rectangle Stroke="Gray" Grid.Row="1" />                               
+                <TreeView BorderThickness="0" Grid.Row="2" ItemsSource="{Binding ElementName=me, Path=FilteredRootNodes}" Name="tv" ItemTemplate="{Binding ElementName=me, Path=PreferredItemTemplate}" IsEnabledChanged="tv_IsEnabledChanged" 
+                            VirtualizingStackPanel.IsVirtualizing="True" 
+                            VirtualizingStackPanel.VirtualizationMode="Standard" >
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                            <Setter Property="Foreground" Value="{Binding Foreground}" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    
+                </TreeView>
+            </Grid>
+        </GroupBox>
+    </my:ReadOnlyStateManager>
+</UserControl>

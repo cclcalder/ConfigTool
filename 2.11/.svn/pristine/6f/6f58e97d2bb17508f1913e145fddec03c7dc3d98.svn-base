@@ -1,0 +1,8 @@
+<publishData><publishProfile profileName="exceedra-rand - Web Deploy" publishMethod="MSDeploy" 
+                             publishUrl="exceedra-rand.scm.azurewebsites.net:443" msdeploySite="exceedra-rand" userName="$exceedra-rand" 
+                             userPWD="Y5o7w7XTF6avFtK1M7NhTi5PcWeF3hsua2jjG1PzGoZ7dpXfdku4NKsvexnf" 
+                             destinationAppUrl="http://exceedra-rand.azurewebsites.net" SQLServerDBConnectionString="" 
+                             mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases/></publishProfile>
+  <publishProfile profileName="exceedra-rand - FTP" publishMethod="FTP" publishUrl="ftp://waws-prod-db3-023.ftp.azurewebsites.windows.net/site/wwwroot" 
+                  ftpPassiveMode="True" userName="exceedra-rand\$exceedra-rand" userPWD="Y5o7w7XTF6avFtK1M7NhTi5PcWeF3hsua2jjG1PzGoZ7dpXfdku4NKsvexnf" 
+                  destinationAppUrl="http://exceedra-rand.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases/></publishProfile></publishData>

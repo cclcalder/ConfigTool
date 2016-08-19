@@ -1,0 +1,202 @@
+﻿<Page x:Class="WPF.Wizard.Dates" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:WPF"
+      xmlns:wizard="clr-namespace:WPF.Wizard" 
+      xmlns:UI="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF" mc:Ignorable="d" d:DesignHeight="359" d:DesignWidth="674"
+      Title="Dates"
+      xmlns:lex="clr-namespace:WPF"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+      x:Name="DatesScreen">
+
+    <Page.Resources>
+    	<lex:InvertedBoolToVisibilityConverter x:Key="InvertedBoolToVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
+        <Style x:Key="ComboIsEnabledStyle" TargetType="{x:Type telerik:RadComboBoxItem}" BasedOn="{StaticResource RadComboBoxItemStyle}">
+            <Setter Property="IsEnabled" Value="{Binding DataContext.CurrentPromotion.IsEditable, ElementName=DatesScreen}"/>
+        </Style>
+    </Page.Resources>
+    <!--<Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>-->
+        <Grid Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Background="LightGray">
+                <wizard:WizardLeftMenu />
+            </Grid>
+            <GridSplitter x:Name="splt1"  ResizeDirection="Columns" Grid.Column="1" Width="3"
+			Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeBehavior="BasedOnAlignment" Margin="0" />
+            <UI:ReadOnlyStateManager Grid.Column="2" IsReadOnly="{Binding CurrentPromotion.IsReadOnly}" DisableComboBoxes="True">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{lex:Loc Label_Dates,'Dates'}"  FontSize="16" Margin="10" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="0"  HorizontalAlignment="Right" >
+                        <Button Name="CancelReload" Content="{lex:Loc Button_Reload, 'Reload'}" Width="80" 
+                                Margin="8" IsEnabled="{Binding CurrentPromotion.IsEditable}"
+                                Command="{Binding ReloadCommand}" Style="{StaticResource SecondaryBtn}" />
+                        <Button Name="CancelNext" Content="{lex:Loc Button_Cancel, 'Cancel'}" Width="80" 
+                                HorizontalAlignment="Right" Margin="8"
+                                Command="{Binding CancelCommand}" Style="{StaticResource SecondaryBtn}" />
+                    </StackPanel>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="1">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Right"
+                  Visibility="{Binding Configuration.IsPromotionDatePeriodsActive, Converter={StaticResource boolToVis}}" Margin="6">
+                                <TextBlock Text="{lex:Loc Label_Period}" Margin="6" />
+
+                                <telerik:RadComboBox Width="200"
+                                    ItemsSource="{Binding Periods, UpdateSourceTrigger=PropertyChanged}"
+                                    DisplayMemberPath="Name"
+                                    ItemContainerStyle="{StaticResource ComboIsEnabledStyle}"
+                                    VerticalContentAlignment="Center"
+                                    SelectedItem="{Binding SelectedPeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    CanAutocompleteSelectItems="True" CanKeyboardNavigationSelectItems="True"
+                                    IsEditable="True" OpenDropDownOnFocus="True" IsFilteringEnabled="True"
+                                    TextSearchMode="Contains"
+                                />
+
+
+                            </StackPanel>
+                            <DataGrid Grid.Row="1" Margin="6" AutoGenerateColumns="False" SelectionUnit="Cell"
+                        RowHeaderWidth="30" IsSynchronizedWithCurrentItem="True" VerticalGridLinesBrush="#CCC" HorizontalGridLinesBrush="#CCC"
+                        CanUserAddRows="False" CanUserResizeRows="False" CanUserDeleteRows="False" ItemsSource="{Binding DateList}" 
+                        RowHeight="25">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}"
+                                      Width="80*" IsReadOnly="True">
+                                    </DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="Start Date" Width="100">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DatePicker x:Name="datePicker">
+                                                    <DatePicker.SelectedDate>
+                                                        <Binding Path="StartDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding.ValidationRules>
+                                                                <local:NormalDateViladation />
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </DatePicker.SelectedDate>
+                                                    <DatePicker.DisplayDateStart>
+                                                        <Binding Path="EarliestStartDate" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" />
+                                                    </DatePicker.DisplayDateStart>
+                                                    <!--<DatePicker.DisplayDateEnd>
+                                                        <Binding Path="EarliestEndDate" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" />
+                                                    </DatePicker.DisplayDateEnd>-->
+                                                    <!--style for setting the previous date picker value when a user provides an empty one-->
+                                                    <DatePicker.Style>
+                                                        <Style TargetType="{x:Type DatePicker}">
+                                                            <EventSetter Event="LostFocus" Handler="DatePickerCellLostFocus"/>
+                                                        </Style>
+                                                    </DatePicker.Style>
+                                                </DatePicker>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                               AncestorType={x:Type UI:ReadOnlyStateManager}},
+                                                               Path=IsReadOnly}" Value="True">
+                                                        <Setter TargetName="datePicker" Value="False" Property="IsEnabled">
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                          Binding="{Binding Path=IsEditable}"
+                                                          Value="False">
+                                                        <Setter TargetName="datePicker" Value="False" Property="IsEnabled">
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="End Date" Width="100">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DatePicker x:Name="datePicker2">
+                                                    <DatePicker.SelectedDate>
+                                                        <Binding Path="EndDate" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding.ValidationRules>
+                                                                <local:NormalDateViladation />
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </DatePicker.SelectedDate>
+                                                    <DatePicker.DisplayDateStart>
+                                                        <Binding Path="EarliestStartDate" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" />
+                                                    </DatePicker.DisplayDateStart>
+                                                    <!--<DatePicker.DisplayDateStart>
+                                                        <Binding Path="StartDate" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" />
+                                                    </DatePicker.DisplayDateStart>-->
+                                                    <!--style for setting the previous date picker value when a user provides an empty one-->
+                                                    <DatePicker.Style>
+                                                        <Style TargetType="{x:Type DatePicker}">
+                                                            <EventSetter Event="LostFocus" Handler="DatePickerCellLostFocus"/>
+                                                        </Style>
+                                                    </DatePicker.Style>
+                                                </DatePicker>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger
+  Binding="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                               AncestorType={x:Type UI:ReadOnlyStateManager}},
+                                                               Path=IsReadOnly}"
+  Value="True">
+                                                        <Setter TargetName="datePicker2" Value="False" Property="IsEnabled">
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                          Binding="{Binding Path=IsEditable}"
+                                                          Value="False">
+                                                        <Setter TargetName="datePicker2" Value="False" Property="IsEnabled">
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                      
+                            <TextBlock TextWrapping="Wrap" Text="{lex:Loc Label_StartAfterEndError}" Margin="6" HorizontalAlignment="Right"
+							Visibility="{Binding AreDatesValid, Converter={StaticResource InvertedBoolToVisibilityConverter}}"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="4" VerticalAlignment="Center"
+                                   Text="{lex:Loc Label_Status}" />
+                        <TextBlock Grid.Column="2" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="{Binding SelectedStatus.Name}" />
+                        <Button Grid.Column="3" Name="btnCancel" Content="{lex:Loc Button_Back, 'Back'}" Width="80"
+                                Command="{Binding BackCommand}" Style="{StaticResource SecondaryBtn}" />
+                        <Button Grid.Column="4" Name="btnNext" Content="{lex:Loc Button_Next, 'Next'}" Width="80" Margin="4,0"
+                                Command="{Binding NextCommand}" Style="{StaticResource SecondaryBtn}" />
+
+                    </Grid>
+
+                </Grid>
+
+            </UI:ReadOnlyStateManager>
+        </Grid>
+        <!--<wizard:StatusBarControl Grid.Row="1" />-->
+    <!--</Grid>-->
+</Page>

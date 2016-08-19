@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Exceedra.SingleSelectCombo.Controls.SingleSelectComboBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:converters="clr-namespace:Exceedra.MultiSelectCombo.Converters"
+             xmlns:local="clr-namespace:Exceedra.SingleSelectCombo.Controls"
+             xmlns:buttons="clr-namespace:Exceedra.Buttons"
+             mc:Ignorable="d" 
+             x:Name="thisControl"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <converters:BoolToBrushConverter x:Key="boolToBrushConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+
+        <DataTemplate x:Key="ComboBoxCustomTemplate">
+            <Border BorderBrush="{Binding Colour}" BorderThickness="1">
+                <Grid IsEnabled="{Binding IsEnabled}">
+                    <TextBlock Text="{Binding Name}" Foreground="{Binding IsEnabled, Converter={StaticResource boolToBrushConverter}}" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Column="0" Height="Auto" Width="16" Style="{StaticResource PrimaryBtn}" Margin="0"
+                Command="{Binding ElementName=thisControl, Path=DataSource.LeftCommand}" Visibility="{Binding ElementName=thisControl, Path=AreButtonsVisible, Converter={StaticResource BoolToVisConverter}}"
+                >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <fa:FontAwesome Icon="ArrowLeft" Foreground="#FFFFFF" FontSize="14" VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <telerik:RadComboBox x:Name="ThisComboBox" Grid.Column="1"
+                             VerticalContentAlignment="Center"
+                             telerik:TextSearch.TextPath="Name"
+                             ItemsSource="{Binding ElementName=thisControl, Path=DataSource.Items}" 
+                             SelectedItem="{Binding ElementName=thisControl, Path=DataSource.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             ItemTemplate="{StaticResource ComboBoxCustomTemplate}"
+                             SelectionChanged="Selector_OnSelectionChanged"                             
+                             CanAutocompleteSelectItems="False"
+                             IsEditable="{Binding ElementName=thisControl, Path=IsEditable}"
+                             IsFilteringEnabled="True"
+                             OpenDropDownOnFocus="True"
+                             >
+            <telerik:RadComboBox.FilteringBehavior>
+                <local:StringLenghtFilteringBehavior />
+            </telerik:RadComboBox.FilteringBehavior>
+        </telerik:RadComboBox>
+
+        <Button Grid.Column="2" Height="Auto" Width="16" Style="{StaticResource PrimaryBtn}" Margin="0"
+                Command="{Binding ElementName=thisControl, Path=DataSource.RightCommand}" Visibility="{Binding ElementName=thisControl, Path=AreButtonsVisible, Converter={StaticResource BoolToVisConverter}}"
+                >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <fa:FontAwesome Icon="ArrowRight" Foreground="#FFFFFF" FontSize="14" VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</UserControl>

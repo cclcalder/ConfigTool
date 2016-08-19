@@ -1,0 +1,204 @@
+2.0.1.458
+- Analytics V2 
+	- Single report/user linking
+	- All Cube connectivity is stored in DB, no admin for this
+	- un handled error message removed
+
+2.0.1.459
+- Search text filter on Robs screen
+	- Configured in config to be either on keydown or on button push
+	- Changed the text box clear to use the clear icon and not the search icon
+	- Schedule page now links through to edit promotion screen
+
+
+2.0.1.460
+- Claims
+	- Scan file location can now be local or remote, path must include http:// or file:// to work correctly and must be pasted/typed in to file field
+	- Scan location can be changed at anytime in the edit claim screen
+	- Grid columns auto-size to fill available screen space
+	- Grid columns auto-size to fill available sccreen space
+
+	
+2.0.1.461
+	- added code to allow Planning measures to understand the new parent/child XML
+	- added tfignore files to every project, set currently to stop obj folder being checked in
+
+- Conditions list
+	- Moved to set Products as required to filter customers	
+	- Conditions list is loaded using filters when screen is opened
+	
+
+- Conditions editor
+	- Apply button set to require all options to be selected before it is enabled
+	- Comments can be added at any status
+	- Statuses are disabled depending on their 'isEditable' flag
+	- Product level dropdown now auto selects first item if nothing has been set
+	- Statuses are loaded based on user, condition and scenario
+	- Customer list is cleared correctly based on Condition Type
+	- Sales organisation is selected correctly when existing condition is loaded
+	- Sped up new/edit condition screen load times
+	- Selected Scenario for exisitng conditions loading correctly
+	- Measure dates are now editable
+	- Validation occurs on measure dates to make sure they are within the condition start and end dates
+
+
+- Promotion wizard
+	- Promotion name visible in left menu area
+
+- App trace panel for diagnostics
+
+2.0.1.463
+	- Promotion Wizard
+		- Top level navigation is disabled when editing/viewing exisiting promotion
+		- Cancel button added to wizard screens to allow exiting without saving
+
+2.0.1.464 
+	- Sys admin trace panel added
+
+	- Planning Screen
+		- Selected measures fixed
+
+	- Promotion Editor 
+		- Promotions are not duplicated when switching between dates/customer tab
+
+2.0.1.465
+	- Promotion editor
+		- App calls async fire and forget when user cancels out of the Promo edit screen to a proc to rebuild data if needed
+
+
+
+2.0.2.101
+	- Merged Conditions screen Sales Org and Scenario work from 2.0.2.xxx 
+	- Edit condition oage understands ConditionType correctly now
+	- Edit Condition page uses isEditable flag now for workflow control over editing data
+
+
+- Conditions list
+	- Moved to set Products as required to filter customers	
+	- Conditions list is loaded using filters when screen is opened
+	
+
+- Conditions editor
+	- Apply button set to require all options to be selected before it is enabled
+	- Comments can be added at any status
+	- Statuses are disabled depending on their 'isEditable' flag
+	- Product level dropdown now auto selects first item if nothing has been set
+	- Statuses are loaded based on user, condition and scenario
+	- Customer list is cleared correctly based on Condition Type
+	- Sales organisation is selected correctly when existing condition is loaded
+	- Sped up new/edit condition screen load times
+	- Selected Scenario for exisitng conditions loading correctly
+	- Measure dates are now editable
+	- Validation occurs on measure dates to make sure they are within the condition start and end dates
+
+
+- Promotion wizard
+	- Promotion name visible in left menu area
+
+- App trace panel for diagnostics
+ 
+2.0.5.xxx
+	- Promotion list screen
+		- Payments checkbox removed
+
+	- ROBS
+		- Impacts moved to right hand side of screen to allow more impacts per ROB
+		- Add comment validates if no type selected or text added
+
+2.0.5.3
+	- Promotion Wizard
+		- Top navigation disabled
+		- Cancel button added to lower navigation
+		- Transations between pages sped up
+		- Cancel/Save now asks DB to rebuild P&L only if needed
+
+
+2.0.5.4 
+	- ROBs 
+		- Impact options must have at least one set before save
+	- Promo Wizard
+		- Additional checks added to guaruntee when promotions are added one after the other but not completed that they save correctly
+	- Diagnostics button reset for new role "Access Diagnostics Tab"
+
+2.0.6.1
+	- Scheduleview
+		- Fixed to load status color schemes dynamically
+
+
+2.0.6.3
+	- Conditions selected products fixed
+
+2.0.6.4
+	- Condition editor 
+		- loads data in order for existing conditions
+	- Web proxy service
+		- individual calls to DB can be cached for the user session using PROC name + XMLin as the key
+
+2.0.6.7
+	- Condition editor
+		- Missing proces service fixed
+
+2.0.6.9
+	- Condition editor
+		- Apply button changes state when custoemrs selection is changed while selected products are validated
+	- ROBs
+		- Impact options grid is now disabled correctly for ROBs out of draft status
+
+2.0.6.16
+	- Promotion wizard
+		- Added Display units to Volumes screen
+		- Added Display checkbox to producst screen grid
+		- IsDisplay and IsFOC flags for products grid are controlled by Sys confirguration
+	- ROBs
+		- Impacts grid is fixed for new ROB creation
+	- COndition edito
+		- Scenarios are now being passed through to the save XML for exisitng conditions
+
+2.0.6.19
+	- ROBs
+		- Last comment can now be deleted
+
+2.0.6.102
+	- Scenario editor
+		- Dynamic ROBs tabs loaded without data on NEW scenario
+		- Results count for each ROB datagrid displayed to user
+		- Empty data message on ROB grids
+
+	- https protocol now supported
+	- Claims button change
+
+2.0.6.103 
+	- Scenario editor
+		- Display grid support multipl display units
+		- Volumes grid supports row totals/updating of totals
+
+2.0.6.104
+	- Promo  wizard 
+		- volume operations call now supports errors (or if there are no operations returned by the proc)
+
+2.0.6.200
+	- Promo timeline screen built
+
+2.0.7.2
+	- NPD screen rebuilt
+
+
+2.0.7.3
+	- App generic
+		- CheckboxList now support coloured borders (used for statuses display)
+	- Claims
+		- Claims event screen has Start and End Dates
+	- Timeline/SChedule V2
+		- removed status key from schedule page 
+	- Scenario editor
+		- ROB tabs are not duplicating when scenario changed
+
+2.0.7.4 
+	- Timeline reporting
+		- Excel export of visible promotions included
+
+2.0.7.6
+	- Telerik control update to u
+
+2.0.7.7
+	- ROBs now have status colours

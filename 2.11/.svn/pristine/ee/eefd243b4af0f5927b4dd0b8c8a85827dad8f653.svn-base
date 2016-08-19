@@ -1,0 +1,21 @@
+﻿<Page x:Class="WPF.Pages.Demand.DemandControl"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WPF.Pages.Demand"
+      xmlns:tree="clr-namespace:Exceedra.TreeGrid.Controls;assembly=Exceedra.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="DemandControl">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Margin="10,2,0,0"  Text="Demand Control" Style="{StaticResource GlobalGroupHeaderStyleLogin}" HorizontalAlignment="Left" />
+
+        <tree:TreeGrid Grid.Row="1" x:Name="ThisTreeGrid"/>
+    </Grid>
+</Page>

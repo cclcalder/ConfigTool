@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<repositories>
+  <repository path="..\Coder.UI.WPF\packages.config" />
+  <repository path="..\Desktop\packages.config" />
+  <repository path="..\Exceedra.Common\packages.config" />
+  <repository path="..\Exceedra.Controls\packages.config" />
+  <repository path="..\Exceedra.DB\packages.config" />
+  <repository path="..\Exceedra.Documents\packages.config" />
+  <repository path="..\Exceedra.Secure\packages.config" />
+  <repository path="..\Exceedra.Web\packages.config" />
+  <repository path="..\ExceedraDB.Test\packages.config" />
+  <repository path="..\Model.Test\packages.config" />
+  <repository path="..\Model\packages.config" />
+  <repository path="..\SalesPlannerWeb.Test\packages.config" />
+  <repository path="..\SalesPlannerWeb\packages.config" />
+  <repository path="..\Website\packages.config" />
+  <repository path="..\WPF.IntegrationTest\packages.config" />
+  <repository path="..\WPF.ResourceLib\packages.config" />
+  <repository path="..\WPF.Test\packages.config" />
+  <repository path="..\WPF.UITest\packages.config" />
+  <repository path="..\WPF\packages.config" />
+</repositories>

@@ -1,0 +1,35 @@
+﻿<pages:PageBase
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:pages="clr-namespace:WPF.Pages"
+    xmlns:userControls="clr-namespace:WPF.UserControls"
+    xmlns:filterControls="clr-namespace:WPF.UserControls.Filters.Controls"
+    xmlns:tabControls="clr-namespace:WPF.UserControls.Tabs.Controls"
+    x:Class="WPF.Pages.ScenariosList"
+    DataContext=""
+    mc:Ignorable="d" d:DesignHeight="657" d:DesignWidth="1024"
+    Title="Scenarios">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" x:Name="Filters" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="2*" x:Name="Tabs" />
+        </Grid.RowDefinitions>
+
+        <filterControls:FilterControl Grid.Row="1" Margin="0,0,0,10" CaretRowSource="{Binding ElementName=Filters}"
+                                      FilterSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.FiltersVM}"
+                                      ButtonsVisibility="Visible" />
+
+        <GridSplitter ResizeDirection="Rows" Grid.Row="2" Height="5" HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center" />
+
+        <tabControls:TabControl Grid.Row="3"
+                                TabDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.TabData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+    </Grid>
+
+</pages:PageBase>

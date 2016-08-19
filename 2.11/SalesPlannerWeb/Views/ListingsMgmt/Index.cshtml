@@ -1,0 +1,102 @@
+﻿@model Exceedra.Controls.DynamicGrid.ViewModels.RecordViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- To "disable" the itemList when editing an item -->
+<div id="overlay" onclick="closeListingEditor();"></div>
+
+@if (TempData["ActionResponse"] != null)
+{
+    <div class="row row-margin-top">
+        <div class="col-md-12">
+            @Html.Partial("_Message", TempData["ActionResponse"])
+        </div>
+    </div>
+}
+
+<div class="row row-margin-top row-margin-bottom">
+    <div class="col-md-1 col-md-offset-11 text-right">
+        <input type="button" class="btn btn-default" value="Add" onclick="openListingEditor('');" />
+    </div>
+</div>
+
+<div class="row row-margin-bottom">
+    <div class="col-md-12">
+        <table class="table table-condensed table-bordered table-hover">
+            @{
+                if (Model.Records != null)
+                {
+                    var firstRecord = Model.Records.FirstOrDefault();
+                    if (firstRecord != null && firstRecord.Properties != null)
+                    {
+                        // Constructing headers
+                        <tr>
+                            @foreach (var header in firstRecord.Properties.Where(prop => prop.IsDisplayed))
+                            {
+                                <th>@header.HeaderText</th>
+                            }
+                        </tr>
+
+                        // Constructing records
+                        foreach (var record in Model.Records)
+                        {
+                            <tr>
+                                @foreach (var property in record.Properties.Where(prop => prop.IsDisplayed))
+                                {
+                                    if (property.ControlType.ToLower() == "checkbox")
+                                    {
+                                        <td>
+                                            <input type="checkbox"/>
+                                        </td>
+                                    }
+                                    else if (property.ControlType.ToLower() == "hyperlink")
+                                    {
+
+                                        <td>
+                                            <a href="#" onclick="openListingEditor('@record.Item_Idx');">
+                                                @property.Value
+                                            </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@property.Value</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    }
+                }
+            }
+        </table>
+    </div>
+</div>
+
+<div class="col-md-offset-9 col-md-3 panel panel-default" id="itemEditorPanel">
+    <div class="panel-body" id="itemEditor"></div>
+</div>
+
+<script type="text/javascript">
+    // setting default culture for datepickers for the whole application
+    $.datepicker.setDefaults($.datepicker.regional['@ViewBag.UserLang']);
+</script>
+
+<script type="text/javascript">
+
+    var openListingEditor = function (listingIdx) {
+
+        console.log('abc');
+
+        $("#overlay").show();
+
+        // Sliding the item editor to the left (specifically: toggling it)
+        $("#itemEditorPanel").animate({ width: 'toggle' }, 350);
+
+        // Calling the GetRecord action with promotionId as the argument
+        // /ESP_SVG_DEVELOPMENT/Web/ListingsMgmt/NewOrEdit
+        $("#itemEditor").load('@Url.Action("NewOrEdit")', { listingIdx: listingIdx }, null);
+    }
+
+</script>

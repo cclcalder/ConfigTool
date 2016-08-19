@@ -1,0 +1,109 @@
+﻿<pages:PageBase
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:lex="clr-namespace:WPF"		 
+	  xmlns:Controls="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls"
+    xmlns:pages="clr-namespace:WPF.Pages"
+    xmlns:modal="clr-namespace:Exceedra.Controls.Modal;assembly=Exceedra.Controls"
+    xmlns:controls="clr-namespace:Exceedra.Controls.DynamicRow.Controls;assembly=Exceedra.Controls"
+    xmlns:userControls="clr-namespace:WPF.UserControls"
+    xmlns:filterControls="clr-namespace:WPF.UserControls.Filters.Controls"
+    xmlns:tabControls="clr-namespace:WPF.UserControls.Tabs.Controls"
+    x:Class="WPF.Pages.FundsList"
+
+	  mc:Ignorable="d" 
+	  d:DesignHeight="600" d:DesignWidth="1024"
+	Title="EventsPage"
+      > 
+    <Grid  Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" x:Name="rowFilter"/>
+            <RowDefinition Height="6" />
+            <RowDefinition Height="2*" />
+
+        </Grid.RowDefinitions>
+
+        <filterControls:FilterControl Grid.Row="1" CaretRowSource="{Binding ElementName=rowFilter}" FilterSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.FiltersVM}" ButtonsVisibility="Visible" />
+
+        <GridSplitter ResizeDirection="Rows" Grid.Row="2"  Height="5" HorizontalAlignment="Stretch"
+			VerticalAlignment="Center" />
+
+        <tabControls:TabControl Grid.Row="3" TabDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.TabData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <modal:ModalContentPresenter x:Name="ProductDataModalPresenter"  Visibility="{Binding FundsPopUpVisibility, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+ 
+                                     Grid.Row="0" Grid.Column="0"
+                                     Grid.RowSpan="4"  IsModal="True" >
+            <modal:ModalContentPresenter.ModalContent>
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center"  MinHeight="400" >
+                    <Border BorderBrush="Black" BorderThickness="1" Background="White"  Width="auto" MaxWidth="1000" >
+
+                        <Grid   Width="900" Background="White"   >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5*"></ColumnDefinition>
+                                <ColumnDefinition Width="6" ></ColumnDefinition>
+                                <ColumnDefinition Width="8*" ></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Style="{StaticResource GlobalStackPanelStyle}"  Margin="0,0,0,0" Grid.Row="0" Grid.ColumnSpan="3" >
+                                <TextBlock Margin="10" FontSize="16" FontWeight="Bold"  Text="{lex:Loc Label_FundTransfer, 'Fund Transfer' }" TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <!--<Grid Grid.Row="1" Grid.Column="0" MaxHeight="{Binding ActualHeight,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition  Height="*" ></RowDefinition>
+                            <RowDefinition  Height="*" ></RowDefinition>
+                        </Grid.RowDefinitions>-->
+
+
+                            <!-- todo: bind vert grid to selected transfer from fund, only  need fund name, available funds and editable field to set total allocation for this transfer-->
+
+                            <controls:DynamicRowControl x:Name="FundDetail" HorizontalAlignment="Stretch" Grid.Row="1" 
+                                                    ItemDataSource="{Binding FundDetailRVM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                            </controls:DynamicRowControl>
+
+                            <!--<GridSplitter x:Name="splt1"   Grid.Column="1" Grid.Row="1" Width="5"   
+                          HorizontalAlignment="Center"
+				 VerticalAlignment="Stretch"    />-->
+                            <!-- todo: bind horiz grid to selected funds from list, only display name, status and editable column for amount or %  -->
+                            <!--<StackPanel Grid.Row="1">-->
+                            <!--<TextBlock Text="{lex:Loc Label_Transfer_to, 'Transfer to:' }" FontWeight="Bold" Margin="7,7,0,0"></TextBlock>-->
+                            <Controls:DynamicGridControl  x:Name="TransferGridControl" HorizontalAlignment="Stretch" CanSort="True" Grid.Row="1" Grid.Column="2" Header="Transfer to"                               
+                                    ItemDataSource="{Binding SelectedFundsVM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        VerticalAlignment="Top" Margin="4"  />
+
+                            <!--</StackPanel>-->
+
+                            <!--</Grid>-->
+                            <Grid Grid.Row="2" Grid.ColumnSpan="3"  >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="150"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <!-- todo: clear both grids on cancel -->
+                                <Button Style="{StaticResource SecondaryBtn}" HorizontalAlignment="Left" Grid.Row="0"  Height="30"  Width="120"  Grid.Column="0" Content="{lex:Loc Button_Cancel, Cancel}" Command="{Binding CancelTansferFund}" Margin="4" />
+
+
+                                <!--todo: validate total spend (if physical amounts) are less than the allocated amount for this transfer-->
+                                <Button Style="{StaticResource SecondaryBtn}" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="2"  Height="30"  Width="120"  Content="{lex:Loc Button_Save, Save}" Command="{Binding SaveTransferCommand}" Margin="4"  />
+
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </modal:ModalContentPresenter.ModalContent>
+        </modal:ModalContentPresenter>
+    </Grid>
+
+</pages:PageBase>

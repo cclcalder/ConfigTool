@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html ng-app="mvcCRUDApp">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Configuration Tool </title>
+    @Scripts.Render("~/bundles/angularJS")
+    @Scripts.Render("~/bundles/customJS")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")   
+    @*Put these in bundles if def need them in end*@
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
+    <script src="https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+    <script src="http://code.angularjs.org/1.4.8/angular-resource.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+
+    @*<link rel="stylesheet" href="/content/bootstrap.min.css">*@
+</head>
+
+<body>
+    <script type="text/javascript">
+    $(window).load(function () {
+        // Animate loader off screen
+        $(".se-pre-con").fadeOut("slow");;
+    });
+    </script>
+
+    <style>
+        .js #loader {
+            display: block;
+            position: absolute;
+            left: 100px;
+            top: 0;
+        }
+
+        .se-pre-con {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(images/loader-64x/Preloader_2.gif) center no-repeat #fff;
+        }
+    </style>
+
+
+    <header class="main-header">
+        <nav2>
+            <div id="st-trigger-effects" class="column">
+                <button data-effect="st-effect-2"><i class="fa fa-bars" aria-hidden="true"></i></button>
+            </div>
+        </nav2>
+        <nav1>
+            <ul>
+                <li><a href="/Home"><img src="/Images/ExceedraLogo_White.png" style="width:228px;" /></a></li>
+                <li><b>Help</b></li>
+                <li><b><a href="~/Account/Login">Login</a></b></li>
+                <li></li>
+            </ul>
+        </nav1>
+    </header>
+
+    <div id="st-container" class="st-container">
+        <nav class="st-menu st-effect-2" id="menu-2">
+            <h2 class="icon icon-stack">Config Tasks</h2>
+            <ul>
+                @*This will be filled with data from wizard upload*@
+                <li><a class="icon icon-data" href="@Url.Action("Home", "Home")">Home</a></li>
+                @*The rest of these need dropdowns*@
+                <li><a class="icon icon-data" href="@Url.Action("Index", "Home")">Master Data Setup</a></li> @*Temp until sorted wizard*@
+                <li><a class="icon icon-location" href="#">General Setup</a></li>
+                <li><a class="icon icon-study" href="#">Planning Screen Configuration</a></li>
+                <li><a class="icon icon-photo" href="#">Promotions Configuration</a></li>
+                <li><a class="icon icon-wallet" href="#">Terms Configuration</a></li>
+                <li><a class="icon icon-wallet" href="#">Management Adjustment Configuration</a></li>
+                <li><a class="icon icon-wallet" href="#">Risk And Ops Configuration</a></li>
+                <li><a class="icon icon-wallet" href="#">Funds</a></li>
+            </ul>
+        </nav>
+       
+    <!-- push wrapper -->
+        <div class="st-pusher">
+            <div class="st-content">
+                <div class="st-content-inner">
+                    <div class="main clearfix">
+                        <div class="se-pre-con"></div>
+                            @RenderBody()
+                            <footer>
+                                <center><p>&copy; @DateTime.Now.Year - Config Tool</p></center>
+                            </footer>
+                    </div><!-- /main -->
+                </div><!-- /st-content-inner -->
+            </div><!-- /st-content -->
+        </div><!-- /st-pusher -->
+    </div><!-- /st-container -->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/JSplugins")
+    @RenderSection("scripts", required: false)
+    <script src="js/classie.js"></script>
+    <script src="js/sidebarEffects.js"></script>
+
+</body>
+</html>
+
+
+
+@* OLD SIDE NAV CONTENT
+    
+    
+    
+    <div class='nav_menu'>
+        <nav>
+            <span class="icon">&equiv;</span>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li class="lili">@Html.ActionLink("Home", "Home", "Home")</li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        SYS_Config<span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="lili">@Html.ActionLink("SYS_Config", "Index", "Home")</li>
+                        <li class="lili">@Html.ActionLink("SYS_Screens", "Index", "Home")</li>
+                        <li class="lili">@Html.ActionLink("SYS_ScreenTabs", "Index", "Home")</li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Products<span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('SYS_Config')">Auto-filled</a></li>
+                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
+                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Customers<span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
+                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
+                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        ROBS<span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="lili">@Html.ActionLink("Dim_ROB_AppType", "About", "Home")</li>
+                        <li class="lili">@Html.ActionLink("Dim_ROB_Type", "Index", "Home")</li>
+                        <li class="lili">@Html.ActionLink("Dim_ROB_SubType", "Index", "Home")</li>
+                        <li class="lili">@Html.ActionLink("Dim_ROB_Impact", "Index", "Home")</li>
+                        <li class="lili">@Html.ActionLink("Dim_ROB_ImpactOption", "Index", "Home")</li>
+                        <li class="lili">@Html.ActionLink("+++", "Index", "Home")</li>
+                    </ul>
+                </li>
+
+
+            </ul>
+        </nav>
+
+    </div>*@

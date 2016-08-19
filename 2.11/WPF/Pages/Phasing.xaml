@@ -1,0 +1,44 @@
+﻿<pages:PageBase x:Class="WPF.Pages.Phasing" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:UserControls="clr-namespace:WPF.UserControls"
+      xmlns:Converters="clr-namespace:WPF.Converters"
+      xmlns:pages="clr-namespace:WPF.Pages"
+      xmlns:wpf="clr-namespace:WPF"
+      mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800"
+      Title="Phasing">
+
+  <Page.Resources>
+    <BooleanToVisibilityConverter x:Key="bool2vis" />
+    <Converters:BooleanNegationConverter x:Key="boolNegation" />
+  </Page.Resources>
+
+  <Grid Margin="4">
+      <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <StackPanel Grid.Row="0"
+                  Orientation="Horizontal" VerticalAlignment="Center"
+                  HorizontalAlignment="Right"
+                  Margin="5" >
+            <!--<Button Style="{StaticResource SecondaryBtn}" Width="100" Command="{Binding ReloadCommand}" Margin="4,0" Content="{lex:Loc Button_Reload, 'Reload'}"/>-->
+            <Button Style="{StaticResource SecondaryBtn}" Width="100" Command="{Binding CancelCommand}" Margin="4,0" Content="{wpf:Loc Button_Cancel, 'Cancel'}"/>
+        </StackPanel>
+      <TabControl Grid.Row="1">
+      <TabControl.Items>
+        <TabItem Header="Apply Phasing"
+                 Visibility="{Binding CanApplyPhasing, Converter={StaticResource bool2vis}}">
+          <UserControls:ApplyPhasing DataContext="{Binding ApplyPhasingViewModel}" MaxHeight="400"
+                                     MaxWidth="600" Margin="32" VerticalAlignment="Top" />
+        </TabItem>
+        <TabItem Header="Phasing management"
+                 IsSelected="{Binding CanApplyPhasing, Converter={StaticResource boolNegation}, Mode=OneTime}">
+          <Border BorderThickness="1" BorderBrush="Black" Margin="32">
+            <UserControls:ManagePhasing DataContext="{Binding ManagePhasingViewModel}" Margin="8" />
+          </Border>
+        </TabItem>
+      </TabControl.Items>
+    </TabControl>
+  </Grid>
+</pages:PageBase>

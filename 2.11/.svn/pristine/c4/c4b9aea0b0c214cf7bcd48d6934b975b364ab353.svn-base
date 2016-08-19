@@ -1,0 +1,534 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E083F69D-6507-4759-811B-113400F7642B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Model</RootNamespace>
+    <AssemblyName>Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttps|AnyCPU'">
+    <OutputPath>bin\ReleaseHttps\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttps|x86'">
+    <OutputPath>bin\x86\ReleaseHttps\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttp|AnyCPU'">
+    <OutputPath>bin\ReleaseHttp\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttp|x86'">
+    <OutputPath>bin\x86\ReleaseHttp\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AggregateEx.cs" />
+    <Compile Include="DataAccess\%40WebAPIProxy.cs" />
+    <Compile Include="DataAccess\Admin\Pattern1Access.cs" />
+    <Compile Include="DataAccess\Admin\Pattern2Access.cs" />
+    <Compile Include="DataAccess\Admin\Pattern2SaveClass.cs" />
+    <Compile Include="DataAccess\ClaimsAccess.cs" />
+    <Compile Include="DataAccess\ClientConfigurationAccess.cs" />
+    <Compile Include="DataAccess\ConditionAccess.cs" />
+    <Compile Include="DataAccess\ConstraintType.cs" />
+    <Compile Include="DataAccess\Converters\InputConverter.cs" />
+    <Compile Include="DataAccess\Converters\ListingConverter.cs" />
+    <Compile Include="DataAccess\Converters\MessageConverter.cs" />
+    <Compile Include="DataAccess\Demand\DemandAccess.cs" />
+    <Compile Include="DataAccess\Demand\FcMgmtAccess.cs" />
+    <Compile Include="DataAccess\Epos\EposAccess.cs" />
+    <Compile Include="DataAccess\FundAccess.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataAccess\Generic\XmlCache.cs" />
+    <Compile Include="DataAccess\Generic\ComboBoxAccess.cs" />
+    <Compile Include="DataAccess\Generic\CommonXml.cs" />
+    <Compile Include="DataAccess\Generic\DynamicDataAccess.cs" />
+    <Compile Include="DataAccess\Listings\ListingsAccess.cs" />
+    <Compile Include="DataAccess\LanguageAccess.cs" />
+    <Compile Include="DataAccess\EditListAccess.cs" />
+    <Compile Include="DataAccess\RobGroupAccess.cs" />
+    <Compile Include="DataAccess\IFundAccess.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataAccess\AnalyticsAccess.cs" />
+    <Compile Include="DataAccess\IScenarioListAccess.cs" />
+    <Compile Include="DataAccess\NDPAccess.cs" />
+    <Compile Include="DataAccess\PromotionTemplateAccess.cs" />
+    <Compile Include="DataAccess\PromotionScheduleAccess.cs" />
+    <Compile Include="DataAccess\RobAccess.cs" />
+    <Compile Include="DataAccess\PhasingProfileAccess.cs" />
+    <Compile Include="DataAccess\PricingAccess.cs" />
+    <Compile Include="DataAccess\ROBGroups\ROBCreatorAccess.cs" />
+    <Compile Include="DataAccess\ScenarioAccess.cs" />
+    <Compile Include="DataAccess\Schedule\ScheduleAccess.cs" />
+    <Compile Include="DataAccess\SettingsAccess.cs" />
+    <Compile Include="DataAccess\Storage\StorageAccess.cs" />
+    <Compile Include="DataAccess\WebServiceError.cs" />
+    <Compile Include="DataAccess\WebServiceResult.cs" />
+    <Compile Include="DataAccess\WebServiceSuccess.cs" />
+    <Compile Include="DTOs\AddClaimCommentDTO.cs" />
+    <Compile Include="DTOs\AddClaimsDTO.cs" />
+    <Compile Include="DTOs\AddEventCommentDTO.cs" />
+    <Compile Include="DTOs\ApprovePaymentsDTO.cs" />
+    <Compile Include="DTOs\AutomaticMatchDTO.cs" />
+    <Compile Include="DTOs\GetCustomersOnClaimEntryDTO.cs" />
+    <Compile Include="DTOs\PromotionPreferenceDTO.cs" />
+    <Compile Include="DTOs\ReturnClaimsDTO.cs" />
+    <Compile Include="DTOs\ReturnedMatchDTO.cs" />
+    <Compile Include="DTOs\GetClaimApportionmentsDTO.cs" />
+    <Compile Include="DTOs\GetEventApportionmentsDTO.cs" />
+    <Compile Include="DTOs\GetEventMaterialsDTO.cs" />
+    <Compile Include="DTOs\GetEventProductsDTO.cs" />
+    <Compile Include="DTOs\GetEventsDTO.cs" />
+    <Compile Include="DTOs\ReplaceNpdDTO.cs" />
+    <Compile Include="DTOs\ReturnEventsDTO.cs" />
+    <Compile Include="DTOs\RobPreferenceDTO.cs" />
+    <Compile Include="DTOs\SaveClaimDTO.cs" />
+    <Compile Include="DTOs\SaveEventDTO.cs" />
+    <Compile Include="DTOs\SaveMatchesDTO.cs" />
+    <Compile Include="DTOs\SaveNpdDTO.cs" />
+    <Compile Include="DTOs\SetDefaultFiltersDTO.cs" />
+    <Compile Include="DTOs\SettleEventsDTO.cs" />
+    <Compile Include="Entity\Admin\AdminApplySelectionList.cs" />
+    <Compile Include="Entity\Admin\AdminPatternObservableCollection.cs" />
+    <Compile Include="Entity\Admin\MenuItemAccessor.cs" />
+    <Compile Include="Entity\Admin\MenuItemList.cs" />
+    <Compile Include="Entity\Admin\Pattern1Grid.cs" />
+    <Compile Include="Entity\Admin\Pattern1List.cs" />
+    <Compile Include="Entity\Admin\Pattern1Permission.cs" />
+    <Compile Include="Entity\Admin\Pattern1Profile.cs" />
+    <Compile Include="Entity\Admin\Pattern1ValidationCode.cs" />
+    <Compile Include="Entity\Admin\UserListData.cs" />
+    <Compile Include="Entity\AllowedClaimStatuses.cs" />
+    <Compile Include="Entity\ApplicableRobResult.cs" />
+    <Compile Include="Entity\Apportionment.cs" />
+    <Compile Include="Entity\ApportionmentItem.cs" />
+    <Compile Include="Entity\AsynchronousTaskQueueItem.cs" />
+    <Compile Include="Entity\AutomaticMatch.cs" />
+    <Compile Include="Entity\BuildQueueClass.cs" />
+    <Compile Include="Entity\Calendar\Period.cs" />
+    <Compile Include="Entity\CellsGrid\CellsGridAccessor.cs" />
+    <Compile Include="Entity\CellsGrid\CellsGridModel.cs" />
+    <Compile Include="Entity\CellsGrid\InsightControl.cs" />
+    <Compile Include="Entity\Claim.cs" />
+    <Compile Include="Entity\ClaimCustomer.cs" />
+    <Compile Include="Entity\ClaimCustomerLevel.cs" />
+    <Compile Include="Entity\ClaimDetail.cs" />
+    <Compile Include="Entity\ClaimItem.cs" />
+    <Compile Include="Entity\ClaimUserDefaults.cs" />
+    <Compile Include="Entity\AllowedEventStatuses.cs" />
+    <Compile Include="Entity\Analytics.cs" />
+    <Compile Include="Entity\DemandPlanning\UpliftResponse.cs" />
+    <Compile Include="Entity\Diagnostics\LoggingConfigData.cs" />
+    <Compile Include="Entity\Funds\FundImpact.cs" />
+    <Compile Include="Entity\Generic\ComboboxItem.cs" />
+    <Compile Include="Entity\Demand\DemandFilterObject.cs" />
+    <Compile Include="Entity\Demand\FilterDateRange.cs" />
+    <Compile Include="Entity\Demand\ModelType.cs" />
+    <Compile Include="Entity\Funds\FundDetail.cs" />
+    <Compile Include="Entity\Generic\CommentComboboxItem.cs" />
+    <Compile Include="Entity\Generic\DropdownItem.cs" />
+    <Compile Include="Entity\GenericStatus.cs" />
+    <Compile Include="Entity\Canvas\ICanvasAccessor.cs" />
+    <Compile Include="Entity\Canvas\CanvasAccessor.cs" />
+    <Compile Include="Entity\Canvas\Insight.cs" />
+    <Compile Include="Entity\Generic\ExceedraRadComboBoxItem.cs" />
+    <Compile Include="Entity\Generic\FilterObject.cs" />
+    <Compile Include="Entity\Generic\ListboxComment.cs" />
+    <Compile Include="Entity\GroupEditor\GroupBase.cs" />
+    <Compile Include="Entity\Language\CurrentLanguageSet.cs" />
+    <Compile Include="Entity\Language\LanguageSet.cs" />
+    <Compile Include="Entity\Listing.cs" />
+    <Compile Include="Entity\ListingStatus.cs" />
+    <Compile Include="Entity\Listings\TreeViewHierarchy.cs" />
+    <Compile Include="Entity\Listings\UserSelectedDefaults.cs" />
+    <Compile Include="Entity\NPD\NPDForecastFactor.cs" />
+    <Compile Include="Entity\PlanningMeasures.cs" />
+    <Compile Include="Entity\PowerPromotion\PowerPromotion.cs" />
+    <Compile Include="Entity\Promotion.cs" />
+    <Compile Include="Entity\PromotionApprovalLevel.cs" />
+    <Compile Include="Entity\PromotionAttribute.cs" />
+    <Compile Include="Entity\PromotionAttributeOption.cs" />
+    <Compile Include="Entity\PromotionAttributeSet.cs" />
+    <Compile Include="Entity\PromotionChart.cs" />
+    <Compile Include="Entity\PromotionComment.cs" />
+    <Compile Include="Entity\PromotionCustomer.cs" />
+    <Compile Include="Entity\PromotionData.cs" />
+    <Compile Include="Entity\PromotionDate.cs" />
+    <Compile Include="Entity\PromotionDatePeriod.cs" />
+    <Compile Include="Entity\PromotionDisplayUnit.cs" />
+    <Compile Include="Entity\PromotionExtraData.cs" />
+    <Compile Include="Entity\PromotionFinancial.cs" />
+    <Compile Include="Entity\PromotionMeasure.cs" />
+    <Compile Include="Entity\PromotionProduct.cs" />
+    <Compile Include="Entity\PromotionProductPrice.cs" />
+    <Compile Include="Entity\PromotionSaveResults.cs" />
+    <Compile Include="Entity\PromotionSceduleStatuses.cs" />
+    <Compile Include="Entity\PromotionStatus.cs" />
+    <Compile Include="Entity\PromotionTemplate.cs" />
+    <Compile Include="Entity\PromotionTimelineItem.cs" />
+    <Compile Include="Entity\PromotionVolume.cs" />
+    <Compile Include="Entity\PromotionVolumeOperation.cs" />
+    <Compile Include="Entity\PromotionWizardCustomer.cs" />
+    <Compile Include="Entity\ScreenNavigator.cs" />
+    <Compile Include="Entity\NPD\NPDDate.cs" />
+    <Compile Include="Entity\NPD\NPDStatus.cs" />
+    <Compile Include="Entity\NPD\NPDUser.cs" />
+    <Compile Include="Entity\EventProductDetail.cs" />
+    <Compile Include="Entity\DynamicMeasure.cs" />
+    <Compile Include="Entity\EventStatus.cs" />
+    <Compile Include="Entity\Funds\Fund.cs" />
+    <Compile Include="Entity\ScheduleCustomer.cs" />
+    <Compile Include="Entity\ScheduleData.cs" />
+    <Compile Include="Entity\ReturnedMatches.cs" />
+    <Compile Include="Entity\ClaimStatus.cs" />
+    <Compile Include="Entity\ClaimValueRange.cs" />
+    <Compile Include="Entity\ClientConfiguration.cs" />
+    <Compile Include="Entity\Condition.cs" />
+    <Compile Include="Entity\ConditionComment.cs" />
+    <Compile Include="Entity\ConditionDetail.cs" />
+    <Compile Include="Entity\ConditionMeasure.cs" />
+    <Compile Include="Entity\ConditionMeasures.cs" />
+    <Compile Include="Entity\ConditionReason.cs" />
+    <Compile Include="Entity\ConditionScenario.cs" />
+    <Compile Include="Entity\ConditionStatus.cs" />
+    <Compile Include="Entity\ConditionType.cs" />
+    <Compile Include="Entity\ClaimMatchStatus.cs" />
+    <Compile Include="Entity\Event.cs" />
+    <Compile Include="Entity\EventBase.cs" />
+    <Compile Include="Entity\EventDetail.cs" />
+    <Compile Include="Entity\EventItem.cs" />
+    <Compile Include="Entity\EventProduct.cs" />
+    <Compile Include="Entity\EventType.cs" />
+    <Compile Include="Entity\MatchVisibility.cs" />
+    <Compile Include="Entity\NpdProduct.cs" />
+    <Compile Include="Entity\NpdProductAttribute.cs" />
+    <Compile Include="Entity\ProductParent.cs" />
+    <Compile Include="Entity\MasterProduct.cs" />
+    <Compile Include="Entity\DateRange.cs" />
+    <Compile Include="Entity\DynamicViewModel.cs" />
+    <Compile Include="Entity\MasterCustomer.cs" />
+    <Compile Include="Entity\ROBs\CommentType.cs" />
+    <Compile Include="Entity\ROBs\RobRecipient.cs" />
+    <Compile Include="Entity\SalesOrganisation.cs" />
+    <Compile Include="Entity\SalesOrgData.cs" />
+    <Compile Include="Entity\SaveMatchesResult.cs" />
+    <Compile Include="Entity\ScenarioCustomer.cs" />
+    <Compile Include="Entity\ScenarioData.cs" />
+    <Compile Include="Entity\ScenarioDataDetails.cs" />
+    <Compile Include="Entity\ScenarioProduct.cs" />
+    <Compile Include="Entity\ScenarioResult.cs" />
+    <Compile Include="Entity\ScenarioStatus.cs" />
+    <Compile Include="Entity\ScenarioType.cs" />
+    <Compile Include="Entity\SelectAllClaimMatchingStatus.cs" />
+    <Compile Include="Entity\SelectAllClaimStatus.cs" />
+    <Compile Include="Entity\SelectAllClaimValueRange.cs" />
+    <Compile Include="Entity\SelectAllConditionStatus.cs" />
+    <Compile Include="Entity\SelectAllEventStatus.cs" />
+    <Compile Include="Entity\SelectAllEventTypes.cs" />
+    <Compile Include="Entity\SettlementReasonCode.cs" />
+    <Compile Include="Entity\StagedMeasure.cs" />
+    <Compile Include="Entity\ROBs\Comment.cs" />
+    <Compile Include="Entity\ROBs\CustomerLevel.cs" />
+    <Compile Include="Entity\ROBs\Impact.cs" />
+    <Compile Include="Entity\ROBs\ProductLevel.cs" />
+    <Compile Include="Entity\ROBs\RobProduct.cs" />
+    <Compile Include="Entity\ROBs\Rob.cs" />
+    <Compile Include="Entity\ROBs\RobCustomer.cs" />
+    <Compile Include="Entity\ROBs\ROBSubType.cs" />
+    <Compile Include="Entity\ROBs\ROBType.cs" />
+    <Compile Include="Entity\Feature.cs" />
+    <Compile Include="Entity\Item.cs" />
+    <Compile Include="Entity\ItemCustomer.cs" />
+    <Compile Include="Entity\NonSideEffectingScope.cs" />
+    <Compile Include="Entity\ItemDetail.cs" />
+    <Compile Include="Entity\PhasingProfile.cs" />
+    <Compile Include="Entity\PricingProduct.cs" />
+    <Compile Include="Entity\PromoPhasing.cs" />
+    <Compile Include="Entity\ROBs\Status.cs" />
+    <Compile Include="Entity\Scenario.cs" />
+    <Compile Include="Entity\StagedPromotion.cs" />
+    <Compile Include="Entity\StorageBrush.cs" />
+    <Compile Include="Entity\Screen.cs" />
+    <Compile Include="Entity\Storage\Azure\Settings.cs" />
+    <Compile Include="Entity\UserData.cs" />
+    <Compile Include="Entity\UserSettings\Procedure.cs" />
+    <Compile Include="Entity\UserSettings\ScreenComboBoxItem.cs" />
+    <Compile Include="DTOs\PlanningFilterArgDTO.cs" />
+    <Compile Include="Entity\Customer.cs" />
+    <Compile Include="DataAccess\%40WebServiceProxy.cs" />
+    <Compile Include="DataAccess\Common.cs" />
+    <Compile Include="DataAccess\ExceedraDataException.cs" />
+    <Compile Include="DataAccess\InsightReportsAccess.cs" />
+    <Compile Include="DataAccess\LoginAccess.cs" />
+    <Compile Include="DataAccess\PlanningAccess.cs" />
+    <Compile Include="DataAccess\PromotionAccess.cs" />
+    <Compile Include="DTOs\PlanningPreferenceDTO.cs" />
+    <Compile Include="Entity\Group.cs" />
+    <Compile Include="Entity\Measure.cs" />
+    <Compile Include="Entity\PlanningData.cs" />
+    <Compile Include="Entity\PlanningDataItem.cs" />
+    <Compile Include="Entity\PlanningDataValue.cs" />
+    <Compile Include="Entity\PlanningDataValueChangedEventArgs.cs" />
+    <Compile Include="Entity\PlanningTimeRange.cs" />
+    <Compile Include="Entity\PlanningItem.cs" />
+    <Compile Include="ILookup.cs" />
+    <Compile Include="IndexedProperty.cs" />
+    <Compile Include="Properties\Annotations1.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Report.cs" />
+    <Compile Include="Entity\Role.cs" />
+    <Compile Include="DataAccess\StoredProcedure.cs" />
+    <Compile Include="Entity\User.cs" />
+    <Compile Include="Service References\ServiceReference1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\StagedProduct.cs" />
+    <Compile Include="Utilities\Converter.cs" />
+    <Compile Include="Utilities\DataProviderSettings.cs" />
+    <Compile Include="Utilities\OAuth.cs" />
+    <Compile Include="Utilities\Web.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ServiceReference1\WebService11.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ServiceReference1\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReference1\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReference1\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ServiceReference1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entity\EPOS\" />
+    <Folder Include="Entity\EventStatusV2\" />
+    <Folder Include="Entity\Insights\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Exceedra.Common\Exceedra.Common.csproj">
+      <Project>{dd2599c3-c76e-4614-b6ef-b759a8f31615}</Project>
+      <Name>Exceedra.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="BCrypt.Net, Version=0.1.5073.29922, Culture=neutral, PublicKeyToken=6bcd409ee6bc9292, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=3.11.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QFXModels, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\QFXModels.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QFXShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\QFXShared.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QFXSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\QFXSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QFXUtil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\QFXUtil.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Pivot.Core, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WPF Q2 2016\Binaries.NoXaml\WPF45\Telerik.Pivot.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WPF Q2 2016\Binaries.NoXaml\WPF45\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ScheduleView, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Telerik\UI for WPF Q2 2016\Binaries.NoXaml\WPF45\Telerik.Windows.Controls.ScheduleView.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LICENSE.txt" />
+    <None Include="Service References\ServiceReference1\WebService11.disco" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

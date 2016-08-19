@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 24.625" name="ExceedraDB">
+  <DataContextMoniker Name="/ExceedraDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="7a510263-999c-495d-8eda-b8b84f6d4998" absoluteBounds="3.5, 2, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Alert_Group" />
+      <nestedChildShapes>
+        <elementListCompartment Id="18553d57-6490-4ed8-bfa1-8ea7f955cf45" absoluteBounds="3.515, 2.46, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="82bc3314-384b-489e-abb3-87a074bf8d67" absoluteBounds="3.5, 3.875, 2, 1.193992513020834">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Scenario" />
+      <nestedChildShapes>
+        <elementListCompartment Id="10af0433-cfbc-49ad-9477-2ca9e3d16442" absoluteBounds="3.515, 4.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="28700f36-e6d1-4809-b2ea-63844592141f" absoluteBounds="3.5, 11.625, 2, 1.3862939453124987">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Analytic" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fbfc0776-4854-4b6a-aead-13d4c3b9565e" absoluteBounds="3.515, 12.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="3e3ca23e-5690-4535-a7d3-11145e55a735" absoluteBounds="3.5, 13.75, 2, 1.3862939453124987">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Canvas_Report" />
+      <nestedChildShapes>
+        <elementListCompartment Id="22d43361-c73a-4f0f-a2d6-021745a82e35" absoluteBounds="3.515, 14.21, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="b5ef6445-8615-4608-8c41-3b079dcfb6b5" absoluteBounds="3.5, 5.875, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Customer" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9c36c469-2194-449b-adfe-e10a9321ac3a" absoluteBounds="3.515, 6.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="db18c893-2276-4cdd-ac62-69875b5da019" absoluteBounds="3.5, 22.375, 2, 1.9631982421875023">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Login_Log" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f4a377ac-4261-4aa7-8416-9ea68587190d" absoluteBounds="3.515, 22.835, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="27e250b5-69da-4339-9221-47543af50ee8" absoluteBounds="3.5, 7.75, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Product" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7b96beaf-066e-42eb-acdb-20370fd9fda3" absoluteBounds="3.515, 8.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ad458f41-3721-4660-a82b-e2c7df03c7e1" absoluteBounds="3.5, 15.875, 2, 1.3862939453125005">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Promotion_Graph" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9b88bbff-caca-436b-967d-4d9dd9a373fa" absoluteBounds="3.515, 16.335, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f8663591-60ba-400a-ae9f-58300a00289c" absoluteBounds="3.5, 18.125, 2, 1.3862939453125023">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Report" />
+      <nestedChildShapes>
+        <elementListCompartment Id="149d6f7f-7a47-4a06-805b-c98b5851b588" absoluteBounds="3.515, 18.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9b48170f-2a83-421b-b095-0efb3e8b844c" absoluteBounds="3.5, 9.75, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_Role" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8aa521f8-1a70-43f1-a1f0-fd4af00decfa" absoluteBounds="3.515, 10.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="2c1ca7a1-0a42-45f6-a69f-da3864815587" absoluteBounds="3.5, 20.25, 2, 1.3862939453125023">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Fact_User_SalesOrg" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bdf59083-74ea-4d77-ae13-781da68a9b0a" absoluteBounds="3.515, 20.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="624de33a-5436-4a68-be0f-378369300fa1" absoluteBounds="0.75, 11.125, 2, 4.0785139973958344">
+      <DataClassMoniker Name="/ExceedraDBDataContext/Dim_User" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3c36512c-88a6-49e6-b347-1ffbfeaf2eea" absoluteBounds="0.765, 11.585, 1.9700000000000002, 3.518513997395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(1.617186875 : 11.125); (1.617186875 : 2.59699625651042); (3.5 : 2.59699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Alert_Group" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="7a510263-999c-495d-8eda-b8b84f6d4998" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.2812525 : 11.125); (2.2812525 : 4.47199625651042); (3.5 : 4.47199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Scenario" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="82bc3314-384b-489e-abb3-87a074bf8d67" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 12.3181469726562); (3.5 : 12.3181469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Analytic" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="28700f36-e6d1-4809-b2ea-63844592141f" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 14.4431469726562); (3.5 : 14.4431469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Canvas_Report" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="3e3ca23e-5690-4535-a7d3-11145e55a735" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.2187475 : 11.125); (1.2187475 : 6.47199625651042); (1.53385354166667 : 6.47199625651042 : JumpStart); (1.70052020833333 : 6.47199625651042 : JumpEnd); (2.19791916666667 : 6.47199625651042 : JumpStart); (2.36458583333333 : 6.47199625651042 : JumpEnd); (3.5 : 6.47199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Customer" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="b5ef6445-8615-4608-8c41-3b079dcfb6b5" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.75 : 15.2035139973958); (1.75 : 23.3565991210938); (3.5 : 23.3565991210938)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Login_Log" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="db18c893-2276-4cdd-ac62-69875b5da019" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.54687875 : 11.125); (2.54687875 : 8.34699625651042); (3.5 : 8.34699625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Product" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="27e250b5-69da-4339-9221-47543af50ee8" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.2812525 : 15.2035139973958); (2.2812525 : 16.5681469726563); (2.46354541666667 : 16.5681469726563 : JumpStart); (2.63021208333333 : 16.5681469726563 : JumpEnd); (3.5 : 16.5681469726563)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Promotion_Graph" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="ad458f41-3721-4660-a82b-e2c7df03c7e1" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.2187475 : 15.2035139973958); (1.2187475 : 18.8181469726563); (1.66666666666667 : 18.8181469726563 : JumpStart); (1.83333333333333 : 18.8181469726563 : JumpEnd); (2.46354541666667 : 18.8181469726563 : JumpStart); (2.63021208333333 : 18.8181469726563 : JumpEnd); (3.5 : 18.8181469726563)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Report" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="f8663591-60ba-400a-ae9f-58300a00289c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.01562625 : 11.125); (2.01562625 : 10.3469962565104); (2.19791916666667 : 10.3469962565104 : JumpStart); (2.36458583333333 : 10.3469962565104 : JumpEnd); (2.46354541666667 : 10.3469962565104 : JumpStart); (2.63021208333333 : 10.3469962565104 : JumpEnd); (3.5 : 10.3469962565104)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_Role" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="9b48170f-2a83-421b-b095-0efb3e8b844c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.54687875 : 15.2035139973958); (2.54687875 : 20.9431469726563); (3.5 : 20.9431469726563)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/ExceedraDBDataContext/Dim_User/Dim_User_Fact_User_SalesOrg" />
+      <nodes>
+        <classShapeMoniker Id="624de33a-5436-4a68-be0f-378369300fa1" />
+        <classShapeMoniker Id="2c1ca7a1-0a42-45f6-a69f-da3864815587" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="81736d80-447a-475c-a350-80fa3d0fd34b" absoluteBounds="8.25, 1.625, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/ExceedraDBDataContext/SYS_Config" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cdd4b169-dd7f-41cd-882c-e045c0c80fa4" absoluteBounds="8.265, 2.0850000000000009, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

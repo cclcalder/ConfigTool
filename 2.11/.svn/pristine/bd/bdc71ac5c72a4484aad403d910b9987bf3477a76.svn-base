@@ -1,0 +1,18 @@
+﻿<?xml version="1.0"?>
+<Project name="WPF" default="build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <FileToSign Include="wpf.xbap" />
+  </ItemGroup>
+  <PropertyGroup>
+    <Certificate>c:\Certificates\WPF_TemporaryKey.pfx</Certificate>
+  </PropertyGroup>
+  <Target Name="DeployApp"> 
+      <Message Text="Copying application files..." /> 
+	  <Exec Command="xcopy /E /Y C:\BuildAgent\work\d3594faa6541c827\WPF\bin\Debug\app.publish\*.* $(DestinationPath)" />
+    <SignFile
+        CertificateThumbprint="‎‎c6 fe 98 ce e6 7d e4 a7 66 bd 98 c4 07 d7 94 32 e9 87 fb 2a"
+           SigningTarget="@(FileToSign)" >
+      
+    </SignFile>
+  </Target>
+</Project>

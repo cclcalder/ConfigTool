@@ -1,0 +1,67 @@
+﻿<client>
+  <endpoint address="https://localhost:44337/Webservices/WebService.asmx" binding="basicHttpBinding"
+            bindingConfiguration="WebServiceSoap" contract="ServiceReference1.WebServiceSoap" name="WebServiceSoap" />
+  <endpoint address="http://exceedra-uat/ReportServer/ReportExecution2005.asmx" binding="basicHttpBinding"
+            bindingConfiguration="ReportExecutionServiceSoap" contract="AzureReportService.ReportExecutionServiceSoap"
+            name="ReportExecutionServiceSoap" />
+
+  <!--https://demo.exceedra-sp.com/ESP_Demo_PROD_UK_v10/web/Webservices/WebService.asmx-->
+  <!--https://demo.exceedra-sp.com/ESP_Demo_PROD_UK_v10_Premier/web/Webservices/WebService.asmx
+  https://demo.exceedra-sp.com/ESP_Demo_PROD_US_v10_Novamex/web/webservices/webservice.asmx-->
+  <!-- 
+  Logging config isActivce only needs to be set to true when you want elmah to be used while developing the app.
+  When app is deployed live the LogginConfig data needs to go into the Conlfig\Client.config file!
+  -->
+  <LoggingConfig  name="thecompanyname" 
+                  releaseLevel="Dev10" 
+                  isactive="0" 
+                  endpoint="https://exceedraapi.azurewebsites.net/error/log" />
+ 
+  <!-- name:  the name of the client/customer that is running this application -->
+  <!-- releaseLevel:  dev/qa/prod etc, just a label to allow on customer to have multiple versions of the app running in different environments -->
+  <!-- isactive: 1 = true (data will be sent to logger) 0 = false (it wont)-->
+  <!-- endpoint: the REST location for the logger -->
+
+
+  
+
+        <!-- Only needed is installation client is going to use AzureAD 
+  
+          Please note this data is NOT stored in the DB as it should not be transported across the net in anyway.
+   
+           The Client ID is used by the application to uniquely identify itself to Azure AD.
+           The Tenant is the name of the Azure AD tenant in which this application is registered.
+           The AAD Instance is the instance of Azure, for example public Azure or Azure China.
+           The Redirect URI is the URI where Azure AD will return OAuth responses.
+           The Authority is the sign-in URL of the tenant.
+           IsActive is so it can be turned off seperately
+          -->
+  
+  
+  <AzureAD  Tenant="craighogantiscalico.onmicrosoft.com"  
+            ClientId="b5dc6a2d-17d5-4977-ba3e-ecfc9a3c88cf"
+            RedirectUri="http://ToDoListApp"  
+            ResourceId="https://craighogantiscalico.onmicrosoft.com/TodoListService"
+            AADInstance="https://login.microsoftonline.com/{0}"
+            IsActive="1" />
+
+
+  <SiteConfig BaseURL="https://localhost:44337" UserPasswordReset="1" />
+  <!-- please no trailing '/' on BaseURL
+  
+  UserPasswordReset :
+  1 = users can use forgotton password system
+  0 - no they cant
+  -->
+
+
+  <StorageData
+    Provider="AzureProvider.AzureUploadProvider"
+    Key="SQrgwdBFE7mqy1mjRAdwkc8vkH7mvRlFVFadogd4nBKnkhXfmwUDdFljmEoH11FCPBPuXNIUWUP7Tmfg5Q1LPw=="
+    Account="demoexc"
+    Container="test1"
+    MaxFileSizeMb="10"
+    Path=""
+    />
+  
+</client> 

@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="Exceedra.SideMenu.MenuButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:sideMenu="clr-namespace:Exceedra.SideMenu"
+             xmlns:conv="clr-namespace:Exceedra.Converters" 
+             xmlns:conv2="clr-namespace:Coder.UI.WPF;assembly=Coder.UI.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="This"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             >
+
+    <UserControl.Resources>
+        <conv2:BoolToColor x:Key="BoolToColor"/>
+        <conv:BoolToVisibilityConverterInverted x:Key="BoolToVisibilityConverterInverted"/>
+        <Style x:Key="MyButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                            BorderThickness="0">
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=border}" Value="True">
+                                            <Setter Property="Background" Value="{Binding HoverBackground, ElementName=This}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=border}" Value="False">
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <SolidColorBrush x:Key="WhiteBrush"  Color="White" />
+
+    </UserControl.Resources>
+
+    <Grid x:Name="Grid">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="true">
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+
+        <Button Click="ButtonBase_OnClick" x:Name="FullSizeButton" Background="Transparent" Style="{StaticResource MyButtonStyle}" 
+                HorizontalContentAlignment="Left" Grid.Row="0" ToolTip="{Binding ElementName=This, Path=Tooltip}" >
+            <Grid x:Name="ButtonGrid" HorizontalAlignment="Stretch" Width="260">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition x:Name="TextSpace" Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!--Spacing to offset children-->
+                <Label Width="2" Background="{Binding ElementName=This, Path=IconColour}" BorderThickness="0" 
+                       Visibility="{Binding ElementName=This, Path=IsChild, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <!--Main icon-->
+                 <fa:FontAwesome Grid.Column="1" Foreground="{Binding ElementName=This, Path=IconColour}" HorizontalAlignment="Center"
+                                Icon="{Binding ElementName=This, Path=Image}"  VerticalAlignment="Center" FontSize="20"   
+                                 Visibility="{Binding ElementName=This, Path=ShowIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                <TextBlock Grid.Column="1" Foreground="{Binding ElementName=This, Path=IconColour}" HorizontalAlignment="Left" Padding="10,0,0,0" 
+                             Visibility="{Binding ElementName=This, Path=ShowIcon, Converter={StaticResource BoolToVisibilityConverterInverted}}"
+                              Text="{Binding ElementName=This, Path=Abbr}" x:Name="Abr"  VerticalAlignment="Center" FontSize="16"></TextBlock>
+                
+                <!--Screen Name and Chevron-->
+                <TextBlock Grid.Column="2" x:Name="NameArea" Width="210" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="0,8,0,0">
+                    <TextBlock x:Name="Txt" Text="{Binding ElementName=This, Path=Text}" VerticalAlignment="Center" FontSize="18" Width="170"/>
+                    
+                    <fa:FontAwesome x:Name="Chevron" Grid.Column="3" Width="20" Height="20" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                    FontSize="20" Foreground="WhiteSmoke" Icon="PlusCircle"  
+                                    Margin="5"
+                                    />
+                </TextBlock>
+
+            </Grid>
+        </Button>
+
+        <StackPanel x:Name="ChildStack" Grid.Row="1" Height="0" />
+
+    </Grid>
+
+
+</UserControl>

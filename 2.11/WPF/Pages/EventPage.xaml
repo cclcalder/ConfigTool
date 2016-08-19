@@ -1,0 +1,417 @@
+﻿<pages:PageBase x:Class="WPF.Pages.EventPage"
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ViewModels="clr-namespace:ViewModels"
+	  xmlns:UI="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF"
+	   xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+	  xmlns:wpf="clr-namespace:Coder.UI.WPF;assembly=Coder.UI.WPF"
+	  mc:Ignorable="d" 
+	  d:DesignHeight="600" d:DesignWidth="900"
+	Title="EventPage" Background="White"   
+      xmlns:lex="clr-namespace:WPF"
+      xmlns:pages="clr-namespace:WPF.Pages"
+      xmlns:controls="clr-namespace:Exceedra.Controls;assembly=Exceedra.Controls"
+      xmlns:userControls="clr-namespace:WPF.UserControls"
+      xmlns:controls1="clr-namespace:Exceedra.SingleSelectCombo.Controls;assembly=Exceedra.Controls"
+      xmlns:controls2="clr-namespace:Exceedra.MultiSelectCombo.Controls;assembly=Exceedra.Controls"
+      xmlns:controls3="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls"
+      xmlns:azure="clr-namespace:Exceedra.Controls.Storage.Azure;assembly=Exceedra.Controls"
+      xmlns:modal="clr-namespace:Exceedra.Controls.Modal;assembly=Exceedra.Controls">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+        <lex:InverseBooleanConverter x:Key="InverseConverter" ></lex:InverseBooleanConverter>
+        <ViewModels:EventViewModel x:Key="ViewModel" />
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="1" />
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="1" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="1" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="1" />
+        </Style>
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="FontWeight" Value="Normal" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="VisibilityStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
+    </Page.Resources>
+
+    <UI:ReadOnlyStateManager IsReadOnly="{Binding IsReadOnly}" d:DataContext="{StaticResource ViewModel}">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" Tag="banner" />
+                    <RowDefinition Height="3px" Tag="top-line" />
+                    <RowDefinition Height="Auto" Tag="what" />
+                    <RowDefinition Height="Auto" Tag="when" />
+                    <RowDefinition Height="Auto" Tag="where" />
+                    <RowDefinition Height="Auto" Tag="FileLocation" />
+                    <RowDefinition Height="0" Tag="impact" />
+                    <RowDefinition Height="*" Tag="commentary" />
+                </Grid.RowDefinitions>
+
+                <StackPanel  Grid.Row="0" Grid.Column="2"  Orientation="Horizontal"  Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Button Style="{StaticResource SecondaryBtn}" Width="100" Margin="4,0" Command="{Binding ReloadCommand}" Content="{lex:Loc Button_Reload, 'Reload'}" />
+                    <Button Style="{StaticResource SecondaryBtn}" Width="100" Margin="4,0" Command="{Binding CancelCommand}" Content="{lex:Loc Button_Cancel, 'Cancel'}"   />
+                </StackPanel>
+
+                <GroupBox   Grid.Column="2" Grid.Row="2" Grid.RowSpan="4"
+                        MaxHeight="400" >
+                    <GroupBox.Header>
+                        <TextBlock Text="{lex:Loc Label_Impacts, Impacts}" Style="{StaticResource GlobalGroupHeaderStyle}" />
+                    </GroupBox.Header>
+                    <telerik:RadGridView x:Name="impactGrid" 
+											 IsReadOnly="{Binding Path=IsReadOnly, Mode=OneTime}"
+											 Visibility="{Binding CanEditOptions,Converter={StaticResource boolToVis}}"
+										    Margin="6" AutoGenerateColumns="False"                                           
+											 RowIndicatorVisibility="Collapsed" IsSynchronizedWithCurrentItem="True"
+											 VerticalGridLinesBrush="#CCC" HorizontalGridLinesBrush="#CCC"
+											 CanUserInsertRows="False" CanUserResizeRows="False"
+											 telerik:StyleManager.Theme="Transparent"
+                                            CanUserDeleteRows="False"
+                                            ItemsSource="{Binding Impacts,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                            IsFilteringAllowed="False" ShowGroupPanel="False"
+                                             ScrollViewer.VerticalScrollBarVisibility="Auto"	>
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn Header="Name" DataMemberBinding="{Binding Path=Name}"
+															Width="3*"
+                                                        IsReadOnly="True" />
+
+                            <telerik:GridViewDataColumn Header="Option"
+                                                        IsReadOnly="{Binding Path=IsReadOnly, Mode=OneTime}">
+                                <telerik:GridViewDataColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Stretch">
+                                            <ComboBox ItemsSource="{Binding Options}"   HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+												      IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type telerik:RadGridView}},  Path=IsReadOnly,Converter={StaticResource InverseConverter}}"
+                                                  DisplayMemberPath="Name" SelectedItem="{Binding SelectedOption, Mode=TwoWay}"></ComboBox>
+                                        </StackPanel>
+                                    </DataTemplate>
+
+                                </telerik:GridViewDataColumn.CellTemplate>
+                            </telerik:GridViewDataColumn>
+
+                            <telerik:GridViewDataColumn Header="Amount"
+                                                        DataMemberBinding="{Binding Path=Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        Width="1*"  IsReadOnly="{Binding Path=IsReadOnly, Mode=OneTime}"	 />
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                </GroupBox>
+
+                <GridSplitter x:Name="splt1" ResizeDirection="Columns" Grid.Column="1" Width="3" Grid.RowSpan="5"
+                          Grid.Row="1"
+                          Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                          ResizeBehavior="BasedOnAlignment" Margin="3" />
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" FontSize="16px" Margin="4"
+                       HorizontalAlignment="Center" Text="{Binding PageTitle}" Style="{StaticResource VisibilityStyle}" />
+                <Border Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center" Height="1" BorderThickness="1"
+                    BorderBrush="Gray" />
+                <GroupBox Grid.Row="2" Grid.Column="0" >
+                    <GroupBox.Header>
+                        <TextBlock Text="{lex:Loc Label_What, What}" Style="{StaticResource GlobalGroupHeaderStyle}" />
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100px" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100px" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc Label_Description}" />
+                        <UI:ReadOnlyStateManager Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" IsReadOnly="False">
+                            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Name}" />
+                        </UI:ReadOnlyStateManager>
+                        <Label Grid.Row="1" Grid.Column="0" Content="{lex:Loc Label_Type}" />
+
+                        <controls1:SingleSelectComboBox DataSource="{Binding EventTypes}" 
+                                                        Grid.Row="1" Grid.Column="1"
+                                                        />
+
+                        <Label Grid.Row="1" Grid.Column="2" Content="{lex:Loc Label_SubType}" />
+
+                        <controls1:SingleSelectComboBox DataSource="{Binding EventSubTypes}" 
+                                                        Grid.Row="1" Grid.Column="3"
+                                                        />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="3" Grid.Column="0" >
+
+                    <GroupBox.Header>
+                        <TextBlock Text="{lex:Loc Label_When, When}" Style="{StaticResource GlobalGroupHeaderStyle}" />
+                    </GroupBox.Header>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100px" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100px" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{lex:Loc Label_Start}" />
+
+                        <DatePicker Grid.Column="1" SelectedDate="{Binding Start, Mode=TwoWay}" x:Name="d1" IsEnabled="{Binding IsEditable}" 
+                                    DisplayDateEnd="{Binding End}" LostFocus="StartDatePicker_OnLostFocus"  />
+                        <Label Grid.Column="2" Content="{lex:Loc Label_End}" />
+                        <DatePicker Grid.Column="3" SelectedDate="{Binding End, Mode=TwoWay}" x:Name="d2"
+                                    DisplayDateStart="{Binding Start}" IsEnabled="{Binding IsEditable}" LostFocus="EndDatePicker_OnLostFocus" />
+
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="4" Grid.Column="0"
+				  Header="{lex:Loc Label_Where}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100px" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100px" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="{lex:Loc Label_CustomerLevel}" />
+
+                        <controls1:SingleSelectComboBox DataSource="{Binding CustomerLevels}" 
+                                                        Grid.Row="0" Grid.Column="1"
+                                                        />
+
+                        <Label Grid.Row="0" Grid.Column="2" Content="{lex:Loc Label_ProductLevel}" />
+
+                        <controls1:SingleSelectComboBox DataSource="{Binding ProductLevels}" 
+                                                        Grid.Row="0" Grid.Column="3"
+                                                        />
+
+                        <Label Grid.Row="1" Grid.Column="0" Content="{lex:Loc Label_Selection}" />
+
+                        <controls2:MultiSelectComboBox Grid.Row="1" Grid.Column="1" DataSource="{Binding Customers, UpdateSourceTrigger=PropertyChanged}"
+                                                             IsSelectionEnabled="{Binding IsEditable, Mode=OneWay}"     
+                                                             Height="25"
+                                                             />
+
+                        <Label Grid.Row="1" Grid.Column="2" Content="{lex:Loc Label_Selection}" />
+
+                        <controls2:MultiSelectComboBox Grid.Row="1" Grid.Column="3" DataSource="{Binding Products, UpdateSourceTrigger=PropertyChanged}"
+                                                             IsSelectionEnabled="{Binding IsEditable, Mode=OneWay}"     
+                                                             Height="25"
+                                                             />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="6" Grid.Column="0" Visibility="Hidden"
+				  Header="Impact"
+				  Height="80">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100px" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="110px" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0"
+					   Content="{Binding Impacts[0].Name}"
+                           Visibility="{Binding Impacts[0].Visible, Converter={StaticResource boolToVis}}" />
+                        <ComboBox Grid.Row="0" Grid.Column="1"
+						  ItemsSource="{Binding Impacts[0].Options}"
+						  DisplayMemberPath="Name"
+						  SelectedItem="{Binding Impacts[0].SelectedOption}"
+                              Visibility="{Binding Impacts[0].Visible, Converter={StaticResource boolToVis}}" />
+                        <Label Grid.Row="1" Grid.Column="0"
+                           Visibility="{Binding Impacts[0].Visible, Converter={StaticResource boolToVis}}">
+                            Amount
+                        </Label>
+                        <TextBox Grid.Row="1" Grid.Column="1"
+						 Text="{Binding Impacts[0].Amount, Mode=TwoWay}"
+                             Visibility="{Binding Impacts[0].Visible, Converter={StaticResource boolToVis}}" />
+                        <Label Grid.Row="0" Grid.Column="2"
+					   Content="{Binding Impacts[1].Name}"
+                           Visibility="{Binding Impacts[1].Visible, Converter={StaticResource boolToVis}}" />
+                        <ComboBox Grid.Row="0" Grid.Column="3"
+						  ItemsSource="{Binding Impacts[1].Options}"
+						  DisplayMemberPath="Name"
+						  SelectedItem="{Binding Impacts[1].SelectedOption}"
+                              Visibility="{Binding Impacts[1].Visible, Converter={StaticResource boolToVis}}" />
+                        <Label Grid.Row="1" Grid.Column="2"
+                           Visibility="{Binding Impacts[1].Visible, Converter={StaticResource boolToVis}}">
+                            Amount
+                        </Label>
+                        <TextBox Grid.Row="1" Grid.Column="3"
+						 Text="{Binding Impacts[1].Amount, Mode=TwoWay}"
+                             Visibility="{Binding Impacts[1].Visible, Converter={StaticResource boolToVis}}" />
+                        <Label Grid.Row="0" Grid.Column="4"
+					   Content="{Binding Impacts[2].Name}"
+                           Visibility="{Binding Impacts[2].Visible, Converter={StaticResource boolToVis}}" />
+                        <ComboBox Grid.Row="0" Grid.Column="5"
+						  ItemsSource="{Binding Impacts[2].Options}"
+						  DisplayMemberPath="Name"
+						  SelectedItem="{Binding Impacts[2].SelectedOption}"
+                              Visibility="{Binding Impacts[2].Visible, Converter={StaticResource boolToVis}}" />
+                        <Label Grid.Row="1" Grid.Column="4"
+                           Visibility="{Binding Impacts[2].Visible, Converter={StaticResource boolToVis}}">
+                            Amount
+                        </Label>
+                        <TextBox Grid.Row="1" Grid.Column="5"
+						 Text="{Binding Impacts[2].Amount, Mode=TwoWay}"
+                             Visibility="{Binding Impacts[2].Visible, Converter={StaticResource boolToVis}}" />
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="5" Grid.Column="0" Visibility="{Binding FileSelectorVisibility}" >
+                    <GroupBox.Header>
+                        <TextBlock Text="{lex:Loc Label_FileSelector, 'File Selector'}" Style="{StaticResource GlobalGroupHeaderStyle}" />
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <controls:FileEntry x:Name="FileEntryControl" 
+                                            IsReadOnlyMode="{Binding IsReadOnly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Path="{Binding FileLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                        ></controls:FileEntry>
+
+                        <!--<Button Content="Files" Grid.Row="1" Click="Root_OnClick" ></Button>-->
+                    </Grid>
+
+                </GroupBox>
+              
+
+                    <telerik:RadTabControl x:Name="RadTabControl" HorizontalAlignment="Stretch"  
+                                    VerticalAlignment="Stretch" SelectedIndex="1"  Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="7" Margin="10,10,0,10"   >
+                    <telerik:RadTabItem Header="Information"  Visibility="{Binding HasRobInformation,Converter={StaticResource boolToVis}}" >
+                        <controls3:DynamicGridControl x:Name="G3" Margin="10"
+                            HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"                                         
+                            ItemDataSource="{Binding RobInformation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               />
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem Header="{lex:Loc Label_Notes, 'Notes'}">
+                        
+                            <userControls:CommentsPanel DataContext="{Binding CommentsViewModel, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="10"/>
+                       
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem Header="{lex:Loc FileStorage, 'File Storage'}" x:Name="UploadFileTab">
+                        <azure:UploadEntry Margin="10"  x:Name="UploadFile"></azure:UploadEntry>
+                    </telerik:RadTabItem>
+                </telerik:RadTabControl>
+
+                       
+                 
+                </Grid>
+            
+            <GridSplitter ResizeDirection="Rows" Grid.Row="1" Height="5" HorizontalAlignment="Stretch"
+                          Grid.Column="0"
+                          VerticalAlignment="Center" />
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="5">
+
+                <Label Content="{lex:Loc Label_Scenario}" />
+
+                <controls2:MultiSelectComboBox DataSource="{Binding Scenarios, UpdateSourceTrigger=PropertyChanged}"
+                                               IsSelectionEnabled="True"
+                                               Height="25" Width="200"
+                                               />
+
+
+                <StackPanel Visibility="{Binding IsRecipientActive,Converter={StaticResource boolToVis}}"
+                            Orientation="Horizontal">
+
+                    <Label Content="{lex:Loc Label_Recipient}" />
+
+                    <controls2:MultiSelectComboBox DataSource="{Binding Recipients, UpdateSourceTrigger=PropertyChanged}" Width="200"
+                                                   IsSelectionEnabled="True"/>
+
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal"  Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top">
+
+                <Label Content="{lex:Loc Label_Status}" />
+
+                <controls1:SingleSelectComboBox DataSource="{Binding Statuses}" Width="200" />
+
+                <Button Style="{StaticResource SecondaryBtn}" Width="100" Margin="4,0" Command="{Binding SaveCommand}" Content="{lex:Loc Button_Save, 'Save'}" />
+                <Button Style="{StaticResource SecondaryBtn}" Width="100" Margin="4,0" Command="{Binding SaveCloseCommand}" Content="{lex:Loc Button_SaveClose, 'Save &amp; Close'}" />
+
+            </StackPanel>
+            <!--<modal:ModalContentPresenter x:Name="ModalPresenter"  Visibility="Collapsed"
+                         Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
+                                     IsModal="True" >
+                <modal:ModalContentPresenter.ModalContent>
+                    <Border Height="600" >
+                    <Grid Width="900" Background="White" > 
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                        <StackPanel  Grid.Row="0" >
+                            <StackPanel  Style="{StaticResource GlobalStackPanelStyle}"   Margin="0,0,0,0" >
+                                <TextBlock Margin="10"  Text="{lex:Loc FileStorage, 'File Storage'}" TextWrapping="Wrap"></TextBlock>
+                            </StackPanel>
+                            <StackPanel  >
+                                <azure:UploadEntry  x:Name="UploadFile"></azure:UploadEntry>
+                            </StackPanel>
+                          
+                                
+                            </StackPanel>
+                            <Button Style="{StaticResource SecondaryBtn}" Margin="10" Grid.Row="1"  Height="25" Click="ButtonBase_OnClick" Content="{lex:Loc Login_Cancel,'Cancel'}"  MinWidth="100" HorizontalAlignment="Right"></Button>
+
+                        </Grid>
+                    </Border>
+                </modal:ModalContentPresenter.ModalContent>
+            </modal:ModalContentPresenter>-->
+        </Grid>
+    </UI:ReadOnlyStateManager>
+
+</pages:PageBase>

@@ -1,0 +1,132 @@
+﻿<UserControl x:Class="WPF.UserControls.CommentsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ViewModels="clr-namespace:WPF.UserControls"
+             xmlns:wpfControl="clr-namespace:Coder.UI.WPF;assembly=Coder.UI.WPF"
+             mc:Ignorable="d"  x:Name="CommentPanel"    
+             xmlns:lex="clr-namespace:WPF"         
+                    xmlns:controls4="clr-namespace:Exceedra.MultiSelectCombo.Controls;assembly=Exceedra.Controls"
+
+        d:DesignWidth="600"
+         >
+    <UserControl.Resources>
+        <ViewModels:CommentsViewModel x:Key="ViewModel"/>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="1"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="1"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="1"/>
+        </Style>
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="FontWeight" Value="Normal" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsEnabled}" Value="False">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+ 
+
+    </UserControl.Resources>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel  Grid.Row="0" Orientation="Horizontal" Grid.Column="0">
+            <TextBlock Text="{lex:Loc Label_FilterBy}" HorizontalAlignment="Left" Width="120" Margin="5,7,0,0"></TextBlock>
+
+            <controls4:MultiSelectComboBox DataSource="{Binding FilterCommentTypes}" Name="CommentTypeFilters"
+                                           IsSelectionEnabled="True" Width="200"
+                                           LostFocus="OnCommentTypeComboWithCheckboxesLostFocus"
+                                           HorizontalAlignment="Left"
+                                           Loaded="CommentTypeFilters_Loaded"
+                                           />
+        </StackPanel>
+ 
+        <DataGrid x:Name="DgComments" Grid.Row="1" AutoGenerateColumns="False" SelectedItem="{Binding SelectedComment,Mode=TwoWay}"
+                  IsSynchronizedWithCurrentItem="True" VerticalGridLinesBrush="#CCC" HorizontalGridLinesBrush="#CCC"
+                  CanUserAddRows="False" CanUserResizeRows="False" CanUserDeleteRows="False" EnableRowVirtualization="False"
+                  ItemsSource="{Binding Comments}"  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=ID}" IsReadOnly="True" Visibility="Collapsed" Width="90"></DataGridTextColumn>
+                <DataGridTextColumn Header="Timestamp" Binding="{Binding Path=TimeStamp}"
+                                Width="100" IsReadOnly="True" />
+                <DataGridTextColumn Header="User" Binding="{Binding Path=UserName}"
+                                Width="2*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Note Type" Binding="{Binding Path=CommentType}"
+                                Width="2*" IsReadOnly="True" />
+                <DataGridTextColumn Header="Note" Binding="{Binding Path=Value}"
+                                Width="4*" IsReadOnly="True" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Height" Value="Auto" />
+                           
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Header="Action" Width="100" IsReadOnly="True"
+                                    SortMemberPath="Timestamp">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="Delete" IsEnabled="{Binding CanDelete}" Height="25" VerticalAlignment="Top" Width="80" Content="Delete" Command="{Binding Path=DataContext.DeleteCommentCommand, ElementName=DgComments}" CommandParameter="{Binding}">
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+   
+        
+            <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"  Margin="10">
+                    <Label  Content="{lex:Loc Label_AddNote}" FontWeight="Bold"></Label>
+
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"   Content="{lex:Loc Label_Type}"></Label>
+                        <ComboBox Grid.Column="1"  HorizontalAlignment="Stretch"
+                              MinWidth="200"
+                              ItemsSource="{Binding CommentTypes}"
+                              SelectedItem="{Binding SelectedCommentType}"
+                              DisplayMemberPath="Name"  
+                              Text="Comment Types"/>
+                    </Grid>
+
+
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Label Grid.Column="0"  Content="{lex:Loc Label_Note}"></Label>
+                        <TextBox Grid.Column="1" Text="{Binding NewCommentText, UpdateSourceTrigger=PropertyChanged}" Margin="0" MaxLength="200" Height="50" HorizontalAlignment="Stretch"></TextBox>
+ 
+                   </Grid>
+                    
+                        <Button Style="{StaticResource SecondaryBtn}" Grid.Column="1" Grid.Row="3"  Content="{lex:Loc Button_Add}"  IsEnabled="{Binding CommentIsNotEmpty}" MinWidth="80" MinHeight="23" Command="{Binding AddCommentCommand}" HorizontalAlignment="Right"></Button>
+                    
+                    </StackPanel>
+         
+    </Grid>
+</UserControl>
+
+    

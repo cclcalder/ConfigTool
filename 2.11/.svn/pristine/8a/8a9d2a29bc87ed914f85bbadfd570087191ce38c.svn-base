@@ -1,0 +1,82 @@
+﻿<UserControl x:Name="ChangePasswordPanelControl"
+             x:Class="Exceedra.ChangePasswordPanel.ChangePasswordPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:utilities="clr-namespace:Exceedra.Common.Utilities;assembly=Exceedra.Common"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Content="{Binding NewPasswordLabel, ElementName=ChangePasswordPanelControl}" />
+
+        <TextBox Name="NewPasswordRevealed" Grid.Row="0" Grid.Column="1" Height="25" Padding="8,0,24,0" Visibility="Collapsed"/>
+        <PasswordBox Name="NewPassword" Grid.Row="0" Grid.Column="1" Height="25" Padding="8,0,24,0" PasswordChanged="NewPassword_OnPasswordChanged" />
+        <fa:ImageAwesome Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Width="16" Height="16" Margin="0,0,4,0"  Icon="Eye"
+                         PreviewMouseDown="RevealNewPassword_MouseDown" PreviewMouseUp="RevealNewPassword_MouseUp" MouseLeave="RevealNewPassword_MouseLeave" />
+
+        <Label Grid.Row="1" Grid.Column="0" Content="{Binding ConfirmNewPasswordLabel, ElementName=ChangePasswordPanelControl}" />
+
+        <TextBox Name="NewPassword2Revealed" Grid.Row="1" Grid.Column="1" Height="25" Padding="8,0,24,0" Visibility="Collapsed"/>
+        <PasswordBox Name="NewPassword2" Grid.Row="1" Grid.Column="1" Height="25" Padding="8,0,24,0" PasswordChanged="NewPassword2_OnPasswordChanged" />
+        <fa:ImageAwesome Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="16" Height="16" Margin="0,0,4,0"  Icon="Eye"
+                         PreviewMouseDown="RevealNewPassword2_MouseDown" PreviewMouseUp="RevealNewPassword2_MouseUp" MouseLeave="RevealNewPassword2_MouseLeave" />
+
+        <Grid Grid.Row="2" Grid.Column="1" x:Name="PasswordDontMatchWarning" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <fa:ImageAwesome Width="16" Height="16" Icon="ExclamationTriangle" Foreground="DarkOrange" />
+            <Label Grid.Column="1" Content="{Binding PasswordDoNotMatchLabel, ElementName=ChangePasswordPanelControl}" />
+        </Grid>
+
+        <DataGrid x:Name="PoliciesValidationGrid" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0" ItemsSource="{Binding PoliciesValidationResult, ElementName=ChangePasswordPanelControl}" 
+              AutoGenerateColumns="False" GridLinesVisibility="None" HeadersVisibility="None" BorderThickness="0" Margin="8,4,8,8" IsHitTestVisible="False" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="SizeToCells">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="utilities:PasswordPolicy">
+                            <fa:ImageAwesome Height="12" Width="12">
+                                <fa:ImageAwesome.Style>
+                                    <Style TargetType="fa:ImageAwesome">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsValid, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                                                <Setter Property="Icon" Value="CheckCircle"/>
+                                                <Setter Property="Foreground" Value="Green" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=IsValid, UpdateSourceTrigger=PropertyChanged}" Value="false">
+                                                <Setter Property="Icon" Value="TimesCircle"/>
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </fa:ImageAwesome.Style>
+                            </fa:ImageAwesome>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Path=Description}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Margin="10,6" Grid.Row="4" Grid.Column="0" Visibility="{Binding CancelButtonVisibility, ElementName=ChangePasswordPanelControl, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                Content="{Binding CancelLabel, ElementName=ChangePasswordPanelControl}" Height="25" MinWidth="100" Click="CancelButton_OnClick" HorizontalAlignment="Left" />
+        <Button x:Name="SavePasswordButton" Margin="10,6" Grid.Row="4" Grid.Column="1"
+                Content="{Binding SavePasswordLabel, ElementName=ChangePasswordPanelControl}" Height="25" MinWidth="100" Click="SavePasswordButton_OnClick" Command="{Binding SavePasswordCommand, ElementName=ChangePasswordPanelControl}" HorizontalAlignment="Right" />
+    </Grid>
+</UserControl>

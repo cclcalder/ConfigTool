@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script type="text/javascript">
+    $(window).load(function () {
+        // Animate loader off screen
+        $(".se-pre-con").fadeOut("slow");;
+    });
+</script>
+
+<style>
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(images/loader-64x/Preloader_2.gif) center no-repeat #fff;
+}
+</style>
+
+<div class="se-pre-con"></div>
+
+<div ng-controller="mvcCRUDCtrl" @*class="container-fluid"*@>
+    @*<div >
+        <div @*class="col-xs-12">*@
+
+    <p style="text-align:left;">
+        <div id="childTableCSS">
+            <!--Title-->
+            <center>
+                <h1 class="display-1">
+                    SYS_Config
+                    <small class="text-muted">Table</small>
+                </h1>
+                @*<div style="float:none;">
+                        <ul>
+                            <li>@Html.ActionLink("SYS_Config", "Index", "Home")</li>
+                            <li>@Html.ActionLink("SYS_Screens", "Index", "Home")</li>
+                            <li>@Html.ActionLink("SYS_ScreensTabs", "Index", "Manage")</li>
+                        </ul>
+                    </div>*@
+            </center>
+            <pre>About? SYS_Config blabla and related tables . . . . . . . . </pre>
+
+            <!--Connected tables-->
+
+        </div>
+        <!--Complete/next buttons, replaced with wizard?-->
+        <span style="float:right;">
+            <button type="button" class="btn btn-default">Complete <i class="fa fa-check" aria-hidden="true"></i></>
+                <button type="button" class="btn btn-default">Next  <i class="fa fa-space-shuttle" aria-hidden="true"></i></button>
+</span>
+    </p>
+
+    <!--Search box, replaced when do better table stuff-->
+    <form>
+        <div>
+            <p style="text-align:left;">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                    <input float="right" type="text" class="form-control" placeholder="Search" ng-model="searchConfig">
+                </div>
+            </p>
+        </div>
+    </form>
+
+    <!--SYS_Config div-->
+    <div ng-show="divSYS_Config" class="input-group">
+        <p class="divHead"></p>
+        <table class="table">
+            <tr>
+                <td>{{Action}} SYS_Config</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><b>OptionItem_Id</b></td>
+                <td>
+                    <input type="text" disabled="disabled" ng-model="SYS_ConfigId" />
+                </td>
+                <td><b>IsEditable</b></td>
+                <td>
+                    <input type="checkbox" ng-model="SYS_ConfigIsEditable" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>MenuItem_Code</b></td>
+                <td>
+                    <input type="text" ng-model="SYS_ConfigMenuItem_Code" />
+                    @*<select value="SYS_ConfigMenuItem_Code" ng-model="SYS_ConfigMenuItem_Code">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>*@
+                    @*</select>*@
+                </td>
+
+
+                <td><b>OptionItem</b></td>
+                <td>
+                    <input type="text" ng-model="SYS_ConfigOptionItem" />
+                </td>
+            </tr>
+            <tr>
+                <td><b>OptionItemDetail</b></td>
+                <td>
+                    <input type="text" ng-model="SYS_ConfigOptionItemDetail" />
+                </td>
+                <td><b>OptionItemDetail_Value</b></td>
+                <td>
+                    <input type="text" ng-model="SYS_ConfigOptionItemDetail_Value" />
+                </td>
+                <td></td>
+                <td>
+                    <input type="button" class="btn btn-default" value="Save" ng-click="AddUpdateSYS_Config()" />
+                    <input type="button" class="btn btn-danger" value="Cancel" ng-click="Cancel()" />
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!--Table content, both replaced with automation and c#-->
+    <div class="table">
+        <table ngtable="" class="table table-bordered table-hover table-condensed" show-filter="true">
+
+            <thead>
+                <tr>
+                    <th><b>OptionItem_ID</b></th>
+                    <th><b>Is_Editable</b></th>
+                    <th><b>MenuItem_Code</b></th>
+                    <th><b>OptionItem</b></th>
+                    <th><b>OptionItemDetail</b></th>
+                    <th><b>OptionItemDetail_Value</b></th>
+                    <th>
+                        <center>
+                            <span ng-click="AddSYS_ConfigDiv()" class="btn btn-info">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i> SYS_Config
+                            </span>
+                        </center>
+                    </th>
+                </tr>
+            </thead>
+            @*<tr ng-repeat="TableList in Tables>
+                    <td>
+                        {{TableList}}
+                    </td>
+                </tr>*@
+            <tbody>
+                <tr ng-repeat="SYS_Config in SYS_Configs  | orderBy:sortType:sortReverse | filter:searchConfig" ng-click="setSelected();">
+                    <td>
+                        {{SYS_Config.OptionItem_ID}} @*<a class="btn" href="#"><i class="fa fa-info-circle" aria-hidden="true"></i></a>*@
+
+                    </td>
+                    <td>
+                        {{SYS_Config.IsEditable}}
+                    </td>
+                    <td>
+                        {{SYS_Config.MenuItem_Code}}
+                    </td>
+                    <td>
+                        {{SYS_Config.OptionItem}}
+                    </td>
+                    <td>
+                        {{SYS_Config.OptionItemDetail}}
+                    </td>
+                    <td>
+                        {{SYS_Config.OptionItemDetail_Value}}
+                    </td>
+                    <td>
+                        <center>
+                            <span ng-click="editSYS_Config(SYS_Config)" class="btn btn-success" id="popup"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                            <span ng-click="deleteSYS_Config(SYS_Config)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
+                        </center>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <pagination total-items="totalItems" ng-model="currentPage"
+                max-size="5" boundary-links="true"
+                items-per-page="10" class="pagination ">
+    </pagination>
+
+
+    @*<table ng-table="tableParams" class="table" show-filter="true">
+            <tr ng-repeat="SYS_Config in SYS_Configs">
+                <td title="'OptionItem_ID'" filter="{ OptionItem_ID: 'text'}" sortable="'OptionItem_ID'">
+                    {{SYS_Config.OptionItem_ID}}
+                </td>
+                <td title="'IsEditable'" filter="{ IsEditable: 'text'}" sortable="'IsEditable'">
+                    {{SYS_Config.IsEditable}}
+                </td>
+                <td title="'MenuItem_Code'" filter="{ MenuItem_Code: 'text'}" sortable="'MenuItem_Code'">
+                    {{SYS_Config.MenuItem_Code}}
+                </td>
+                <td title="'OptionItem'" filter="{ OptionItem: 'text'}" sortable="'OptionItem'">
+                    {{SYS_Config.OptionItem}}
+                </td>
+                <td title="'OptionItemDetail'" filter="{ OptionItemDetail: 'text'}" sortable="'OptionItemDetail'">
+                    {{SYS_Config.OptionItemDetail}}
+                </td>
+                <td title="'OptionItemDetail_Value'" filter="{ OptionItemDetail_Value: 'text'}" sortable="'OptionItemDetail_Value'">
+                    {{SYS_Config.OptionItemDetail_Value}}
+                </td>
+            </tr>
+        </table>*@
+
+
+</div>
+@*</div>
+    </div>*@
+
+
+
+
+
+

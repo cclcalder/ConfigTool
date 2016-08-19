@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Button_Apply" xml:space="preserve">
+    <value>appliquer</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>annuler</value>
+  </data>
+  <data name="Button_Copy" xml:space="preserve">
+    <value>copie</value>
+  </data>
+  <data name="Button_New" xml:space="preserve">
+    <value>nouveau</value>
+  </data>
+  <data name="Button_Phasing" xml:space="preserve">
+    <value>phasing</value>
+  </data>
+  <data name="Button_Remove" xml:space="preserve">
+    <value>supprimer</value>
+  </data>
+  <data name="Button_Replace" xml:space="preserve">
+    <value>remplacer</value>
+  </data>
+  <data name="Button_SaveDefault" xml:space="preserve">
+    <value>Enregistrer par défaut</value>
+  </data>
+  <data name="Button_SaveFilters" xml:space="preserve">
+    <value>Enregistrer filtres</value>
+  </data>
+  <data name="Label_AddNewReport" xml:space="preserve">
+    <value>Ajouter un nouveau rapport</value>
+  </data>
+  <data name="Label_AppTrace" xml:space="preserve">
+    <value>App Trace</value>
+  </data>
+  <data name="Label_Attributes" xml:space="preserve">
+    <value>attributs</value>
+  </data>
+  <data name="Label_AvailableCubes" xml:space="preserve">
+    <value>Cubes disponibles</value>
+  </data>
+  <data name="Label_BaseProfileCustomer" xml:space="preserve">
+    <value>Profil base client</value>
+  </data>
+  <data name="Label_BaseSalesProduct" xml:space="preserve">
+    <value>BaseSalesProduct</value>
+  </data>
+  <data name="Label_Bindings_Date" xml:space="preserve">
+    <value>Fixations date</value>
+  </data>
+  <data name="Label_Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="Label_Code" xml:space="preserve">
+    <value>code</value>
+  </data>
+  <data name="Label_CodeBehind_Callback" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_CodeBehind_Format" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_CodeBehind_Resource" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_CodeBehind_ResourceFormat" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Label_Customer" xml:space="preserve">
+    <value>client</value>
+  </data>
+  <data name="Label_DataSources" xml:space="preserve">
+    <value>DataSourced</value>
+  </data>
+  <data name="Label_DeleteCurrentReport" xml:space="preserve">
+    <value>Supprimer le rapport actuel</value>
+  </data>
+  <data name="Label_Description" xml:space="preserve">
+    <value>description</value>
+  </data>
+  <data name="Label_EditCurrentReport" xml:space="preserve">
+    <value>Modifier le rapport actuel</value>
+  </data>
+  <data name="Label_End" xml:space="preserve">
+    <value>fin</value>
+  </data>
+  <data name="Label_Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Label_Filters" xml:space="preserve">
+    <value>filtres</value>
+  </data>
+  <data name="Label_Flag" xml:space="preserve">
+    <value>drapeau</value>
+  </data>
+  <data name="Label_Heirarchial" xml:space="preserve">
+    <value>Heirarchial</value>
+  </data>
+  <data name="Label_Interval" xml:space="preserve">
+    <value>intervalle</value>
+  </data>
+  <data name="Label_Language" xml:space="preserve">
+    <value>langauge</value>
+  </data>
+  <data name="Label_Leaf" xml:space="preserve">
+    <value>feuille</value>
+  </data>
+  <data name="Label_MeasureList" xml:space="preserve">
+    <value>MeasureList</value>
+  </data>
+  <data name="Label_NPDProducts" xml:space="preserve">
+    <value>NPD Produits</value>
+  </data>
+  <data name="Label_Predefined" xml:space="preserve">
+    <value>prédéfini</value>
+  </data>
+  <data name="Label_ProductParent" xml:space="preserve">
+    <value>Parent de produit</value>
+  </data>
+  <data name="Label_Products" xml:space="preserve">
+    <value>produits</value>
+  </data>
+  <data name="Label_QuickFilter" xml:space="preserve">
+    <value>Filtre rapide</value>
+  </data>
+  <data name="Label_Replace" xml:space="preserve">
+    <value>remplacer</value>
+  </data>
+  <data name="Label_ReplaceNPDProduct" xml:space="preserve">
+    <value>Remplacer NPD produit</value>
+  </data>
+  <data name="Label_SalesOrg" xml:space="preserve">
+    <value>Sales Org</value>
+  </data>
+  <data name="Label_Scenario" xml:space="preserve">
+    <value>scénario</value>
+  </data>
+  <data name="Label_SelectionSettings" xml:space="preserve">
+    <value>Paramètres de sélection</value>
+  </data>
+  <data name="Label_Single" xml:space="preserve">
+    <value>unique</value>
+  </data>
+  <data name="Label_Start" xml:space="preserve">
+    <value>Démarrer</value>
+  </data>
+  <data name="Label_Status" xml:space="preserve">
+    <value>statut</value>
+  </data>
+  <data name="Label_TimeSelection" xml:space="preserve">
+    <value>Sélection de temps</value>
+  </data>
+  <data name="Label_UpdateBudgets" xml:space="preserve">
+    <value>mise à jour des budgets</value>
+  </data>
+  <data name="Label_WithRealProduct" xml:space="preserve">
+    <value>Avec des produits réels</value>
+  </data>
+  <data name="Label_YourReports" xml:space="preserve">
+    <value>vos rapports</value>
+  </data>
+  <data name="Login_label_EmailSupport" xml:space="preserve">
+    <value>Pour de l'aide email help@exceedra.com</value>
+  </data>
+  <data name="Login_label_Password" xml:space="preserve">
+    <value>mot de passe</value>
+  </data>
+  <data name="Login_label_Remember" xml:space="preserve">
+    <value>souviens-toi de moi</value>
+  </data>
+  <data name="Login_label_Title" xml:space="preserve">
+    <value>Accès client</value>
+  </data>
+  <data name="Login_label_Username" xml:space="preserve">
+    <value>Nom d'utilisateur</value>
+  </data>
+  <data name="Login_label_WithAuthentication" xml:space="preserve">
+    <value>Connectez-vous en utilisant l'authentification</value>
+  </data>
+  <data name="Margin_Style" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Menu_Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Menu_Analytics" xml:space="preserve">
+    <value>analytique</value>
+  </data>
+  <data name="Menu_Claims" xml:space="preserve">
+    <value>Claims</value>
+  </data>
+  <data name="Menu_Conditions" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="Menu_Funds" xml:space="preserve">
+    <value>fonds</value>
+  </data>
+  <data name="Menu_Insights" xml:space="preserve">
+    <value>Insights</value>
+  </data>
+  <data name="Menu_LogOut" xml:space="preserve">
+    <value>Déconnexion</value>
+  </data>
+  <data name="Menu_NPD" xml:space="preserve">
+    <value>NPD</value>
+  </data>
+  <data name="Menu_Planning" xml:space="preserve">
+    <value>planification</value>
+  </data>
+  <data name="Menu_Pricing" xml:space="preserve">
+    <value>Pricing</value>
+  </data>
+  <data name="Menu_Promotions" xml:space="preserve">
+    <value>promotions</value>
+  </data>
+  <data name="Menu_Risks_Ops" xml:space="preserve">
+    <value>Risques &amp; amp; Ops</value>
+  </data>
+  <data name="Menu_Scenarios" xml:space="preserve">
+    <value>scénarios</value>
+  </data>
+  <data name="Menu_Schedule" xml:space="preserve">
+    <value>calendrier</value>
+  </data>
+  <data name="Menu_Sys" xml:space="preserve">
+    <value>Sys</value>
+  </data>
+  <data name="Menu_Terms" xml:space="preserve">
+    <value>termes</value>
+  </data>
+  <data name="Ribbon_Add" xml:space="preserve">
+    <value>ajouter</value>
+  </data>
+  <data name="Ribbon_Delete" xml:space="preserve">
+    <value>effacer</value>
+  </data>
+  <data name="Ribbon_Filters" xml:space="preserve">
+    <value>filtres</value>
+  </data>
+  <data name="Ribbon_SaveDefault" xml:space="preserve">
+    <value>Enregistrer par défaut</value>
+  </data>
+</root>

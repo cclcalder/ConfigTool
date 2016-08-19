@@ -1,0 +1,177 @@
+﻿<Page x:Class="WPF.Pages.EPOS.Home"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:controls="clr-namespace:Exceedra.SingleSelectCombo.Controls;assembly=Exceedra.Controls"
+      xmlns:wpf="clr-namespace:WPF"
+      xmlns:controls1="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls"
+      xmlns:controls2="clr-namespace:WPF.UserControls.Trees.Controls"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+      xmlns:views="clr-namespace:Exceedra.Views;assembly=Exceedra.Controls"
+      xmlns:cellsGrid="clr-namespace:Exceedra.CellsGrid;assembly=Exceedra.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="900" d:DesignWidth="1200"
+      x:Name="this"
+      Background="White"
+	Title="ProductMatching">
+
+    <Page.Resources>
+        <wpf:IsSelectedBoolToBackgroundConverter x:Key="IsSelectedBoolToBackgroundConverter"/>
+        <wpf:ImageUrlConverter x:Key="imageUrlConverter" />
+        <ControlTemplate x:Key="tplFlatButton" TargetType="{x:Type Button}">
+            <Border Width="{TemplateBinding Width}"
+				Height="{TemplateBinding Height}"
+				Background="{TemplateBinding Background}"
+				BorderBrush="{TemplateBinding BorderBrush}"
+				BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+					VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+					TextElement.Foreground="{TemplateBinding Foreground}"
+					TextElement.FontFamily="{TemplateBinding FontFamily}"
+					TextElement.FontSize="{TemplateBinding FontSize}"
+					TextElement.FontStretch="{TemplateBinding FontStretch}"
+					TextElement.FontWeight="{TemplateBinding FontWeight}"/>
+            </Border>
+        </ControlTemplate>
+
+        <Style x:Key="stlFlatButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template" Value="{StaticResource tplFlatButton}" />
+        </Style>
+
+    </Page.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" x:Name="MenuInsightsColumn"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+            <Grid Grid.Column="0">
+                <StackPanel  Style="{StaticResource GlobalStackPanelStyle}" >
+                    <Label Content="{wpf:Loc 'Label_EPOS', 'EPOS'}" FontSize="16"  />
+                </StackPanel>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1">
+                <StackPanel HorizontalAlignment="Stretch">
+                    <telerik:RadExpander x:Name="expo1"  VerticalContentAlignment="Top" Width="Auto" IsExpanded="True">
+                        <telerik:RadExpander.Header>
+                            <Label Content="Dashboards"  Style="{StaticResource GlobalHeaderLabelStyle}"/>
+                        </telerik:RadExpander.Header>
+
+                        <TextBlock  ><InlineUIContainer>
+										 
+								 <Button x:Name="button1" Content="Feeds" Background="LightGray" Width="200" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="20,2,2,2" BorderThickness="0" Click="Button_OnClick"  />
+												 
+									</InlineUIContainer></TextBlock>
+                    </telerik:RadExpander>
+                    <telerik:RadExpander x:Name="expo2"  VerticalContentAlignment="Top" Width="Auto" IsExpanded="True">
+                        <telerik:RadExpander.Header>
+                            <Label Content="Products"  Style="{StaticResource GlobalHeaderLabelStyle}"/>
+                        </telerik:RadExpander.Header>
+
+                        <TextBlock  ><InlineUIContainer>
+                            <StackPanel> 
+										<Button x:Name="button3" Content="Unmatched Products"  Width="200" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="20,2,2,2" BorderThickness="0" 
+										 Click="Button3_OnClick"
+												Background="{Binding IsSelected, Converter={StaticResource IsSelectedBoolToBackgroundConverter}}"/>
+                            
+                                        <Button x:Name="button2" Content="Matched Products"  Width="200" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="20,2,2,2" BorderThickness="0" 
+										 Click="Button2_OnClick"
+												Background="{Binding IsSelected, Converter={StaticResource IsSelectedBoolToBackgroundConverter}}"/>
+										</StackPanel>		 
+									</InlineUIContainer></TextBlock>
+                    </telerik:RadExpander>
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+        <GridSplitter x:Name="Splt1" 
+                      Grid.Column="0"
+                      ResizeDirection="Columns" 
+                      Width="3"
+			          Height="Auto"
+			          ResizeBehavior="BasedOnAlignment" />
+        <Grid x:Name="RightGrid" Grid.Column="2" Margin="0">
+            <telerik:RadTabControl x:Name="radTabControl" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" SelectedIndex="0" >
+                <telerik:RadTabItem x:Name="RadTabItem3" Header="Dashboard" Height="25">
+                    <Grid Background="Transparent">
+                        <cellsGrid:CellsGrid ViewModel="{Binding CellsGrid}"/>
+                    </Grid>
+                </telerik:RadTabItem>
+                
+                <telerik:RadTabItem x:Name="RadTabItem" Header="Unmatched Products" Height="25">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid x:Name="Resizers" Margin="0">
+                            <Grid x:Name="MenuInsightsResizers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2">
+                                <Button x:Name="btnMenuInsightsResize" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource stlFlatButton}">
+                                    <Image x:Name="imgMenuInsightsResize" Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='caret/left.gif'}" Stretch="None" StretchDirection="Both" VerticalAlignment="Top" MouseDown="insightsMenuBtnResize_MouseDown"/>
+                                </Button>
+                            </Grid>
+
+                        </Grid>
+                        <Grid Grid.Column="0" Grid.Row="1" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="180"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="250"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <controls2:TreeControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"  Margin="10" x:Name="unmatchedTree" VerticalAlignment="Stretch"
+                          TreeTitle="{wpf:Loc Label_UnmatchedItems, 'Unmatched Items'}" IsSingleSelect="True"  
+                            TreeSource="{Binding UnmatchedItems}"
+                          />
+
+                            <Button Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Height="30" Command="{Binding LinkedMatchedCommand}" Content="{wpf:Loc Label_LinkMatched, 'Link Matched'}" Margin="10"></Button>
+
+                            <Button Grid.Column="1" VerticalAlignment="Center" Height="30"   Command="{Binding LinkedPossibleMatchedCommand}" Content="{wpf:Loc Label_LinkMatched, 'Link Matched'}" />
+
+                            <StackPanel Grid.Row="0" Grid.Column="2" Margin="10">
+                             
+                                <controls2:TreeControl Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"  Margin="10" x:Name="possibleTree"  VerticalAlignment="Stretch" MinHeight="200"
+                          TreeTitle="{wpf:Loc Label_PossibleItems, 'Possible Matches'}" IsSingleSelect="True"  
+                            TreeSource="{Binding PossibleMatchedItems}"
+                          />
+
+                            </StackPanel>
+                            <controls2:TreeControl Grid.Row="2" Grid.Column="2"  Margin="10" VerticalAlignment="Stretch"
+                          TreeTitle="{wpf:Loc Label_Products, 'Existing Products'}" IsSingleSelect="True"  
+                            TreeSource="{Binding SpProducts}"   />
+
+                        </Grid>
+                    </Grid>
+                </telerik:RadTabItem>
+                <telerik:RadTabItem x:Name="RadTabItem2" Header="Existing Matches" Height="25">
+                    <Grid Background="Transparent">
+                        <controls1:DynamicGridControl Margin="10"  ItemDataSource="{Binding MatchesVM}" ></controls1:DynamicGridControl>
+                    </Grid>
+                </telerik:RadTabItem>
+            </telerik:RadTabControl>
+
+ 
+ </Grid>
+    </Grid>
+   
+</Page>

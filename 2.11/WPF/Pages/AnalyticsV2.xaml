@@ -1,0 +1,433 @@
+﻿<pages:PageBase 
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:pivot="http://schemas.telerik.com/2008/xaml/presentation/pivot"    
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"     
+      x:Class="WPF.AnalyticsV2" mc:Ignorable="d" d:DesignHeight="700" d:DesignWidth="1200"
+      Title="Analytics v2"
+      xmlns:lex="clr-namespace:WPF"
+      xmlns:pages="clr-namespace:WPF.Pages"
+      xmlns:controls="clr-namespace:Exceedra.MultiSelectCombo.Controls;assembly=Exceedra.Controls"
+      xmlns:controls1="clr-namespace:WPF.UserControls.Trees.Controls"
+      x:Name="Analytics">
+
+    <Page.Resources>
+        <lex:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <lex:InverseBooleanConverter x:Key="InvBool" />
+        <lex:ImageUrlConverter x:Key="imageUrlConverter" />
+
+        <Style TargetType="telerik:BarSeries" x:Key="barCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource BarSeriesStyle}">
+            <Setter Property="CombineMode" Value="{Binding ElementName=CombineMode, Path=SelectedItem, Mode=TwoWay}"/>
+            <Setter Property="LegendSettings">
+                <Setter.Value>
+                    <telerik:SeriesLegendSettings Title="{Binding Name}" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="telerik:AreaSeries" x:Key="areaCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource AreaSeriesStyle}">
+            <Setter Property="CombineMode" Value="{Binding ElementName=CombineMode, Path=SelectedItem, Mode=TwoWay}"/>
+            <Setter Property="LegendSettings">
+                <Setter.Value>
+                    <telerik:SeriesLegendSettings Title="{Binding Name}" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="telerik:LineSeries" x:Key="lineCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource LineSeriesStyle}">
+            <Setter Property="CombineMode" Value="{Binding ElementName=CombineMode, Path=SelectedItem, Mode=TwoWay}"/>
+            <Setter Property="LegendSettings">
+                <Setter.Value>
+                    <telerik:SeriesLegendSettings Title="{Binding Name}" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="ListItemsTemplate">
+            <TextBlock Text="{Binding ChartSeriesType}" />
+        </DataTemplate>
+
+
+        <pivot:QuickStyle x:Key="OrangeQuickStyle">
+            <pivot:QuickStyle.HeaderRow>
+                <pivot:ElementProperties Background="#FFDAA825" BorderThickness="0 2" BorderBrush="#F0DCA7" />
+            </pivot:QuickStyle.HeaderRow>
+            <pivot:QuickStyle.RowSubgroups>
+                <pivot:ElementProperties Background="#F0DCA7" FontWeight="Bold" />
+            </pivot:QuickStyle.RowSubgroups>
+            <pivot:QuickStyle.ColumnSubgroups>
+                <pivot:ElementProperties FontWeight="Bold" />
+            </pivot:QuickStyle.ColumnSubgroups>
+            <pivot:QuickStyle.SubtotalRows>
+                <pivot:ElementProperties FontWeight="Bold" />
+            </pivot:QuickStyle.SubtotalRows>
+            <pivot:QuickStyle.SubtotalColumns>
+                <pivot:ElementProperties FontWeight="Bold" />
+            </pivot:QuickStyle.SubtotalColumns>
+            <pivot:QuickStyle.GrandTotalColumn>
+                <pivot:ElementProperties FontWeight="Bold" />
+            </pivot:QuickStyle.GrandTotalColumn>
+            <pivot:QuickStyle.GrandTotalRow>
+                <pivot:ElementProperties Background="#F0DCA7"  BorderThickness="0 3 0 2" BorderBrush="#FFDAA825" />
+            </pivot:QuickStyle.GrandTotalRow>
+        </pivot:QuickStyle>
+
+    </Page.Resources>
+
+    <Grid x:Name="grd" Background="White">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" x:Name="leftCol" MaxWidth="600" />
+            <ColumnDefinition Width="3" />
+            <ColumnDefinition Width="*" x:Name="rightCol" />
+            <ColumnDefinition Width="3" />
+            <ColumnDefinition Width="300" x:Name="pivotCol" MaxWidth="600" />
+        </Grid.ColumnDefinitions>
+
+        <!--<Border>-->
+        <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">-->
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Style="{StaticResource GlobalStackPanelStyle}">
+                <Label Content="{lex:Loc Label_DataSources}" FontSize="16" />
+            </StackPanel>
+
+            <StackPanel Orientation="vertical" Margin="0,0,0,10" Grid.Row="1">
+
+                <StackPanel Margin="10,0,0,0">
+
+                    <!-- RadTreeView events http://docs.telerik.com/devtools/silverlight/controls/radtreeview/events/overview -->
+                    <telerik:RadTreeView                       
+        				telerik:AnimationManager.IsAnimationEnabled="False"
+        				SelectionMode="Single"
+                        IsTriStateMode="False" 
+                        MinHeight="300"
+        				x:Name="MainRadTreeViewNew"
+        				IsVirtualizing="True"        			 
+        				ItemsSource="{Binding  Path=ReportsTree.ListTree, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectionChanged="MainRadTreeViewNew_OnSelectionChanged"
+                        >
+
+
+                        <telerik:RadTreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Children, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   >
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock  Background="{Binding StringBackground, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Name}" >
+
+                                    </TextBlock>
+
+                                </StackPanel>
+
+                            </HierarchicalDataTemplate>
+                        </telerik:RadTreeView.ItemTemplate>
+
+                    </telerik:RadTreeView>
+
+                    <!--<controls1:TreeControl x:Name="RControl" TreeTitle="{lex:Loc Label_CubeReports, 'Reports'}"
+                                                  UseNewStyle="True" RightClickEnabled="False"
+                                                  IsSingleSelect="True"
+                                                  TreeSource="{Binding ReportsTree, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                   >
+                        <telerik:RadContextMenu.ContextMenu>
+                            <telerik:RadContextMenu ContextMenuService.Placement="Bottom">
+                                <telerik:RadMenuItem Header="Edit" Click="MenuItem_OnClick" />
+                            </telerik:RadContextMenu>
+                        </telerik:RadContextMenu.ContextMenu>
+                    </controls1:TreeControl>-->
+
+                </StackPanel>
+
+            </StackPanel>
+            <StackPanel Orientation="vertical" Margin="0,0,0,0" Grid.Row="2" x:Name="EditPanel" Visibility="{Binding HasSelectedReport, Converter={StaticResource BoolToVisibilityConverter}}" >
+                <StackPanel Style="{StaticResource GlobalStackPanelStyle}">
+                    <Label Content="{lex:Loc Label_EditCurrentReport}" FontSize="16" />
+                </StackPanel>
+                <StackPanel Margin="10,0,0,0">
+
+                    <StackPanel Orientation="Vertical" Margin="0,20,0,0">
+
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+
+                            <TextBlock Text="{lex:Loc Label_Name}" FontWeight="Bold" Margin="0,5" Width="50" />
+                            <TextBox Text="{Binding SelectedReport.Name, Mode=TwoWay}" Grid.Row="0" Grid.Column="1"
+                                             IsEnabled="{Binding SelectedReport.IsReadOnlyForUser, Converter={StaticResource InvBool}}"
+                                     Width="230" Height="25" />
+
+
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <TextBlock Text="{lex:Loc Label_Users}" FontWeight="Bold" Margin="0,5" Width="50" />
+
+                            <controls:MultiSelectComboBox DataSource="{Binding UsersData}" Width="230" Height="22" IsSelectionEnabled="{Binding SelectedReport.IsReadOnlyForUser, Converter={StaticResource InvBool}}" />
+
+                        </StackPanel>
+
+                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" Margin="0,5" Text="{lex:Loc Label_ReadOnly, Fallback='Read Only'}" />
+
+                            <CheckBox IsChecked="{Binding SelectedReport.IsReadOnlyChecked}" Margin="5,0" IsEnabled="{Binding SelectedReport.IsReadOnlyForUser, Converter={StaticResource InvBool}}" />
+                        </StackPanel>
+
+                        <Grid Width="260" Margin="10" HorizontalAlignment="Left">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                                    Content="{lex:Loc Button_Delete}" Command="{Binding DeleteReportCommand}"
+                                    IsEnabled="{Binding CanSave}"
+                                    Style="{StaticResource SecondaryBtn}"
+                                    HorizontalAlignment="Left" Height="25" Width="75" />
+
+                            <Button Grid.Column="1"
+                                    Content="{lex:Loc Button_Save}" HorizontalAlignment="Right" Click="RadButton_Click"
+                                    Style="{StaticResource SecondaryBtn}"
+                                    Width="75" Height="25" IsEnabled="{Binding CanSave}" />
+                        </Grid>                       
+
+
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical" Margin="0,20,0,0">
+                        <TextBlock Text="Copy selected report: " FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0" IsEnabled="{Binding CanAddNew}">
+                            <TextBox x:Name="newname" Text="{Binding NewReportName}" Width="250" Height="25" />
+                            <Button Content="+" Click="RadButton_Click_1" HorizontalAlignment="Right" Width="30"
+                                    Height="25" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+
+            <Grid Background="White" Margin="0,10,0,0" Grid.Row="3"  x:Name="ChartSelector">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding  ElementName=TabMainControl, Path=SelectedIndex}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Style="{StaticResource GlobalStackPanelStyle}">
+                    <Label Content="{lex:Loc Label_AnalyticsChartControls,'Chart Controls'}" FontSize="16" />
+                </StackPanel>
+                <StackPanel Margin="10,0,10,0" Grid.Row="1">
+                    <TextBlock Text="Generate Series From:"  Margin="0 8 0 2" />
+                    <telerik:RadComboBox x:Name="PivotAxis" SelectedItem="{Binding SelectedAxis, Mode=TwoWay}" ToolTipService.ToolTip="PivotAxis">
+                        <pivot:PivotAxis>Rows</pivot:PivotAxis>
+                        <pivot:PivotAxis>Columns</pivot:PivotAxis>
+                    </telerik:RadComboBox>
+
+                    <TextBlock Text="Series Type:"  Margin="0 8 0 2" />
+                    <ListBox x:Name="ChartType" SelectedIndex="0" SelectionChanged="ChartType_OnSelectionChanged" >
+                        <ListBox.Items>
+                            <ListBoxItem x:Name="Bar">Bar</ListBoxItem>
+                            <ListBoxItem x:Name="Area">Area</ListBoxItem>
+                            <ListBoxItem x:Name="Line">Line</ListBoxItem>
+                        </ListBox.Items>
+                    </ListBox>
+
+                    <TextBlock Text="CombineMode:" Margin="0 8 0 2"/>
+                    <ListBox x:Name="CombineMode" SelectedIndex="1" Margin="0,0,0,2">
+                        <telerik:ChartSeriesCombineMode>None</telerik:ChartSeriesCombineMode>
+                        <telerik:ChartSeriesCombineMode>Cluster</telerik:ChartSeriesCombineMode>
+                        <telerik:ChartSeriesCombineMode>Stack</telerik:ChartSeriesCombineMode>
+                        <telerik:ChartSeriesCombineMode>Stack100</telerik:ChartSeriesCombineMode>
+                    </ListBox>
+                </StackPanel>
+            </Grid>
+
+            <Grid Background="White" Margin="0,10,0,0" Grid.Row="3"  >
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+
+                            <DataTrigger Binding="{Binding  ElementName=TabMainControl, Path=SelectedIndex}" Value="1">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="1">
+                    <StackPanel Style="{StaticResource GlobalStackPanelStyle}">
+                        <Label Content="{lex:Loc Label_TotalsSettings, 'Totals Settings'}" FontSize="16" />
+                    </StackPanel>
+                    <StackPanel IsEnabled="{Binding IsAnyReportSelected, Mode=OneWay}" Margin="10">
+                        <CheckBox x:Name="ColumnGrand" IsChecked="{Binding SelectedReport.IsColumnGrandTotalChecked}" Content="Column Grand Total" />
+                        <CheckBox x:Name="ColumnSub" IsChecked="{Binding SelectedReport.IsColumnSubTotalChecked}" Content="Column Sub Total" />
+                        <CheckBox x:Name="RowGrand" IsChecked="{Binding SelectedReport.IsRowGrandTotalChecked}" Content="Row Grand Total" />
+                        <CheckBox x:Name="RowSub" IsChecked="{Binding SelectedReport.IsRowSubTotalChecked}" Content="Row Sub Total" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+        <!--</ScrollViewer>-->
+        <!--</Border>-->
+
+        <GridSplitter x:Name="splt1" ResizeDirection="Columns" Grid.Column="1" Width="5"
+                        HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                      ResizeBehavior="BasedOnAlignment"  />
+        <Grid Grid.Column="2" x:Name="AnalyticsMainGrid">
+            <Grid Margin="0,0,0,0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel x:Name="HideLeftMenuResizer" Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Cursor="Hand"
+                            Height="30" VerticalAlignment="Bottom">
+                    <Image x:Name="btnResize" MouseDown="btnResize_MouseDown" HorizontalAlignment="Left"
+                           Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='caret/left.gif'}"  Stretch="None" StretchDirection="Both"
+                         
+                           Margin="0,0,0,0" />
+                </StackPanel>
+
+                <telerik:RadTabControl Grid.Row="1" x:Name="TabMainControl"  HorizontalAlignment="Stretch" >
+                    <telerik:RadTabItem x:Name="RadTabItem" Header="{lex:Loc Label_CubePivot, 'Data View'}" Height="30">
+                        <!--The MaxWidth property is set for the grid below in this method: RadListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+                It's to force the pivot grid to show a scrollbar instead of extending its height over the screen without showing the scrollbar and therefore preventing the user to see part of the grid's content.-->
+                        <ScrollViewer x:Name="LegendScrollViewer2">
+                            <pivot:RadPivotGrid x:Name="radPivotGrid" QuickStyle="{StaticResource OrangeQuickStyle}" Margin="4">
+                                <pivot:RadPivotGrid.RowGroupsExpandBehavior>
+                                    <pivot:GroupsExpandBehavior Expanded="False" UpToLevel="2" />
+                                </pivot:RadPivotGrid.RowGroupsExpandBehavior>
+                                <pivot:RadPivotGrid.ColumnGroupsExpandBehavior>
+                                    <pivot:GroupsExpandBehavior Expanded="False" />
+                                </pivot:RadPivotGrid.ColumnGroupsExpandBehavior>
+                            </pivot:RadPivotGrid>
+                        </ScrollViewer>
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem x:Name="RadTabItem1" Header="{lex:Loc Label_CubeChart, 'Chart'}" Height="30">
+                        <Grid  >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" x:Name="LegendColumn"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ScrollViewer x:Name="LegendScrollViewer">
+                                <telerik:RadLegend x:Name="legend" Items="{Binding LegendItems, ElementName=AnalyticsChart, Mode=OneWay}"/>
+                            </ScrollViewer>
+                            <GridSplitter ResizeDirection="Columns" Width="3"/>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Cursor="Hand" Height="30">
+                                <Image x:Name="HideLegend" MouseDown="HideLegend_MouseDown" Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='caret/left.gif'}" Stretch="None" StretchDirection="Both"/>
+                            </StackPanel>
+
+                            <telerik:RadCartesianChart x:Name="AnalyticsChart" Grid.Column="2" Palette="Windows8">
+                                <telerik:RadCartesianChart.HorizontalAxis>
+                                    <telerik:CategoricalAxis LabelFitMode="Rotate" />
+                                </telerik:RadCartesianChart.HorizontalAxis>
+                                <telerik:RadCartesianChart.VerticalAxis>
+                                    <telerik:LinearAxis HorizontalAlignment="Right" />
+                                </telerik:RadCartesianChart.VerticalAxis>
+
+                                <telerik:RadCartesianChart.SeriesProvider>
+                                    <telerik:ChartSeriesProvider Source="{Binding SeriesSource}">
+                                        <telerik:ChartSeriesProvider.SeriesDescriptors>
+                                            <telerik:CategoricalSeriesDescriptor x:Name="seriesDescriptor"
+                                                                             ItemsSourcePath="Items" ValuePath="Value"
+                                                                             CategoryPath="NameX" />
+                                        </telerik:ChartSeriesProvider.SeriesDescriptors>
+                                    </telerik:ChartSeriesProvider>
+                                </telerik:RadCartesianChart.SeriesProvider>
+
+                                <telerik:RadCartesianChart.Behaviors>
+                                    <telerik:ChartTooltipBehavior Placement="Top"  />
+                                    <telerik:ChartPanAndZoomBehavior ZoomMode="Both" PanMode="Both" />
+                                </telerik:RadCartesianChart.Behaviors>
+                                <telerik:RadCartesianChart.TooltipTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Border HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="1" Background="White"
+                                            Padding="5" BorderThickness="2" BorderBrush="{telerik:Windows8Resource ResourceKey=AccentBrush}">
+                                                <StackPanel Orientation="Vertical" Margin="1">
+                                                    <TextBlock Text="{Binding DataItem.NameY}" FontSize="11" Foreground="{telerik:Windows8Resource ResourceKey=StrongBrush}"/>
+                                                    <TextBlock Text="{Binding DataItem.NameX}" FontSize="11" Foreground="{telerik:Windows8Resource ResourceKey=StrongBrush}"/>
+                                                    <TextBlock Text="{Binding DataItem.Value}" FontWeight="Bold" FontSize="11" Foreground="{telerik:Windows8Resource ResourceKey=MarkerBrush}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </telerik:RadCartesianChart.TooltipTemplate>
+
+                                <telerik:RadCartesianChart.EmptyContentTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text=""/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </telerik:RadCartesianChart.EmptyContentTemplate>
+
+                            </telerik:RadCartesianChart>
+                        </Grid>
+                    </telerik:RadTabItem>
+                </telerik:RadTabControl>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Right" Grid.Row="0" Cursor="Hand">
+
+                    <Image x:Name="btnResize2" MouseDown="btnResize_MouseDown2" HorizontalAlignment="Right"
+                           Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='caret/right.gif'}" Stretch="None" StretchDirection="Both"
+                           Margin="0,0,0,0" />
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
+        <GridSplitter x:Name="splt1_Copy" ResizeDirection="Columns" Grid.Column="3" Width="5"
+                      HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                      ResizeBehavior="BasedOnAlignment" />
+
+        <Grid Grid.Column="4" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Style="{StaticResource GlobalStackPanelStyle}" Grid.Row="0">
+                <Label Content="{lex:Loc Label_Filters, 'Filters'}"  FontSize="16" />
+            </StackPanel>
+
+            <pivot:RadPivotFieldList Grid.Row="1" Background="AliceBlue" x:Name="radPivotFieldList" IsEnabled="{Binding SelectedReport.IsReadOnlyForUser, Converter={StaticResource InvBool}}" />
+
+            <Button x:Name="btnExport" Grid.Row="2" IsEnabled="{Binding CanExport}" Click="btnExport_Click" 
+                        HorizontalAlignment="Left" Content="{lex:Loc Button_Export}" Height="25" Margin="10" Style="{StaticResource SecondaryBtn}" />
+
+            <Button  Grid.Row="2" HorizontalAlignment="Center" IsEnabled="{Binding CanAddNew}" Style="{StaticResource SecondaryBtn}"  Margin="4,0"  Click="ButtonBase_OnClick" Content="{lex:Loc Button_Reload, 'Reload'}" />
+
+            <Button Grid.Row="2" Content="{lex:Loc Button_SaveFilters}" HorizontalAlignment="Right" Click="RadButton_Click"
+                        Margin="10" Height="25" Width="100" IsEnabled="{Binding SelectedReport.IsReadOnlyForUser, Converter={StaticResource InvBool}}" Style="{StaticResource SecondaryBtn}" />
+
+        </Grid>
+
+    </Grid>
+
+</pages:PageBase>

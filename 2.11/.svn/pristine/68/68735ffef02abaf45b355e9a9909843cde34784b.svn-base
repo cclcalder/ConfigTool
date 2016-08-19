@@ -1,0 +1,32 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" x:Class="WPF.UserControls.navigationv2" 
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="900">
+
+    <telerik:RadMenu HorizontalAlignment="Left"  Margin="0,0,0,-70" VerticalAlignment="Top" Height="30" FontSize="14">
+    <telerik:RadMenuItem Header="Insights" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Analytics" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Planning" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Schedule" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Terms" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Funds" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Risk &amp; Ops" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Marketing" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Scenarios" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Conditions" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="NPD" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+    <telerik:RadMenuItem Header="Claims" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+        <telerik:RadMenuItem Header="Account" HorizontalAlignment="Left"  VerticalAlignment="Top" >
+            <telerik:RadMenuItem Header="Log Out" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+            <telerik:RadMenuItem Header="Security" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+            <telerik:RadMenuItem Header="Support" HorizontalAlignment="Left"  VerticalAlignment="Top" />
+        </telerik:RadMenuItem>
+
+
+    </telerik:RadMenu>
+
+</UserControl>

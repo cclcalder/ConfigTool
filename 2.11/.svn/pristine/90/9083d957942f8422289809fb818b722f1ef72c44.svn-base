@@ -1,0 +1,50 @@
+﻿<UserControl x:Name="ddwb" x:Class="WPF.UserControls.DropDownWithButtons"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:ei="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="30" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="30" />
+    </Grid.ColumnDefinitions>
+    <Button Grid.Column="0" Content="◄" FontFamily="Arial" Margin="5">
+      <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Click">
+          <i:Interaction.Behaviors>
+            <ei:ConditionBehavior>
+              <ei:ConditionalExpression>
+                <ei:ComparisonCondition LeftOperand="{Binding SelectedIndex, ElementName=ProductCombo}"
+                                        Operator="GreaterThan" RightOperand="0" />
+              </ei:ConditionalExpression>
+            </ei:ConditionBehavior>
+          </i:Interaction.Behaviors>
+          <ei:ChangePropertyAction TargetName="ProductCombo" PropertyName="SelectedIndex" Increment="True"
+                                   Value="-1" />
+        </i:EventTrigger>
+      </i:Interaction.Triggers>
+    </Button>
+    <ComboBox x:Name="ProductCombo" Grid.Column="1" Margin="5"
+              Style="{Binding ProductComboStyle, ElementName=ddwb}" />
+    <Button Grid.Column="2" Content="►" FontFamily="Arial" Margin="5">
+      <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Click">
+          <i:Interaction.Behaviors>
+            <ei:ConditionBehavior>
+              <ei:ConditionalExpression>
+                <ei:ComparisonCondition LeftOperand="{Binding SelectedIndex, ElementName=ProductCombo}"
+                                        Operator="LessThan" RightOperand="{Binding Items.Count, ElementName=ProductCombo}" />
+              </ei:ConditionalExpression>
+            </ei:ConditionBehavior>
+          </i:Interaction.Behaviors>
+          <ei:ChangePropertyAction TargetName="ProductCombo" PropertyName="SelectedIndex" Increment="True"
+                                   Value="1" />
+        </i:EventTrigger>
+      </i:Interaction.Triggers>
+    </Button>
+  </Grid>
+</UserControl>

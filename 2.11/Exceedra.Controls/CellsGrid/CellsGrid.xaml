@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="Exceedra.CellsGrid.CellsGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cellsGrid="clr-namespace:Exceedra.CellsGrid"
+             xmlns:charts="clr-namespace:Exceedra.Controls.Chart.Controls"
+             xmlns:dynamicGrid="clr-namespace:Exceedra.Controls.DynamicGrid.Controls"
+             xmlns:pivotGrid="clr-namespace:Exceedra.Pivot.Controls"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="CellsGridControl">
+
+    <UserControl.Resources>
+        <Style x:Key="link" TargetType="Button">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock TextDecorations="Underline" 
+					Text="{TemplateBinding Content}"
+					Background="{TemplateBinding Background}"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <cellsGrid:CellsGridTemplateSelector x:Key="CellsGridTemplateSelector">
+            <cellsGrid:CellsGridTemplateSelector.ChartTemplate>
+                <DataTemplate>
+                    <charts:ExceedraChartControl Margin="5" RecordSource="{Binding DataSourceViewModel}"/>
+                </DataTemplate>
+            </cellsGrid:CellsGridTemplateSelector.ChartTemplate>
+            <cellsGrid:CellsGridTemplateSelector.GridTemplate>
+                <DataTemplate>
+                    <dynamicGrid:DynamicGridControl Margin="5" CanShowDetails="True" CanGridExtendArea="True"  ItemDataSource="{Binding DataSourceViewModel}" IsEmptyMessage="{Binding NoDataMessage, ElementName=CellsGridControl}" />
+                </DataTemplate>
+            </cellsGrid:CellsGridTemplateSelector.GridTemplate>
+            <cellsGrid:CellsGridTemplateSelector.LabelTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding DataSourceViewModel.Text}" HorizontalAlignment="{Binding DataSourceViewModel.HorizontalAlignment}" VerticalAlignment="{Binding DataSourceViewModel.VerticalAlignment}"/>
+                </DataTemplate>
+            </cellsGrid:CellsGridTemplateSelector.LabelTemplate>
+            <cellsGrid:CellsGridTemplateSelector.NavigationTemplate>
+                <DataTemplate>
+                   
+                        <Button Click="NavigationLinkHandler" DataContext="{Binding DataSourceViewModel}"  Content="{Binding Path=Name}" Style="{StaticResource link}"></Button>
+                     
+                </DataTemplate>
+            </cellsGrid:CellsGridTemplateSelector.NavigationTemplate>
+            <cellsGrid:CellsGridTemplateSelector.PivotTemplate>
+                <DataTemplate>
+                    <pivotGrid:ExceedraRadPivotGrid Margin="5"  ViewModel="{Binding DataSourceViewModel}" IsEmptyMessage="{Binding NoDataMessage, ElementName=CellsGridControl}" />
+                </DataTemplate>
+            </cellsGrid:CellsGridTemplateSelector.PivotTemplate>
+        </cellsGrid:CellsGridTemplateSelector>
+    </UserControl.Resources>
+
+    <Grid Margin="2" DataContext="{Binding ViewModel, ElementName=CellsGridControl}">
+        <Grid x:Name="CellsContainer">
+            <ScrollViewer BorderThickness="0">
+                <ItemsControl x:Name="CellsGridItemsControl" ItemsSource="{Binding ControlsCollection}" ItemTemplateSelector="{StaticResource CellsGridTemplateSelector}" BorderThickness="0" BorderBrush="#FFD6D4D4">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+
+                            <!--When the vertical or horizontal scroll bar shows up (due to the too big grid's content) it takes some small additional space what causes the second scroll bar to show up.
+                                Grid's margin below is to prevent showing the second scrollbar.-->
+
+                            <!--ShowGridLines="True"-->
+                            <Grid 
+                                        Height="Auto" Width="Auto" Margin="0,0,-4,-4" x:Name="CellsGridPanel"
+                                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                        cellsGrid:GridColumns.NoColumns="{Binding NoHorizontalCells}" 
+                                        cellsGrid:GridColumns.CellsContainer="{Binding ElementName=CellsContainer}" 
+                                        cellsGrid:GridRows.NoRows="{Binding NoVerticalCells}" 
+                                        cellsGrid:GridRows.CellsContainer="{Binding ElementName=CellsContainer}"/>
+
+                            <!--GridColumns & GridRows rendered containers:
+                                          an indirect parent of the grid with cells
+                                          that is rendered before that grid      
+                                          so we can set the width and height for every cell beforehand-->
+
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Grid.Column" Value="{Binding ColumnIndex}" />
+                            <Setter Property="Grid.Row" Value="{Binding RowIndex}" />
+                            <Setter Property="Grid.ColumnSpan" Value="{Binding ColumnSpan}" />
+                            <Setter Property="Grid.RowSpan" Value="{Binding RowSpan}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>
+

@@ -1,0 +1,1384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2C425463-FCA6-4C37-BB88-D5D790F2F89B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WPF</RootNamespace>
+    <AssemblyName>WPF</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <EnableSecurityDebugging>true</EnableSecurityDebugging>
+    <StartAction>URL</StartAction>
+    <HostInBrowser>true</HostInBrowser>
+    <TargetZone>Internet</TargetZone>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>12.0.51020.0</ExpressionBlendVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <PublishUrl>C:\inetpub\wwwroot\exceedra\Publish\2.10.2.3 http\</PublishUrl>
+    <Install>false</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <PublisherName>Exceedra Software</PublisherName>
+    <SuiteName>SalesPlanner</SuiteName>
+    <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>2.10.2.3</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>false</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn>CS0168, CS0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Version>$(BUILD_NUMBER)</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Converters\BoolToToggleStateConverter.cs" />
+    <Compile Include="Converters\ButtonConverter.cs" />
+    <Compile Include="Converters\EnumBooleanConverter.cs" />
+    <Compile Include="Converters\DateConverter.cs" />
+    <Compile Include="Converters\DecimalToStringConverter.cs" />
+    <Compile Include="Converters\IsNullConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="DdMmYyyyToStringConverter.cs" />
+    <Compile Include="HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Canvas\dummy\Pivot1.xaml.cs">
+      <DependentUpon>Pivot1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Canvas\dummy\PivotViewModel.cs" />
+    <Compile Include="Pages\Canvas\GridRows.cs" />
+    <Compile Include="Pages\Canvas\GridColumns.cs" />
+    <Compile Include="Pages\Claims.xaml.cs">
+      <DependentUpon>Claims.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Combi\ReportWrapper.xaml.cs">
+      <DependentUpon>ReportWrapper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Demand\DemandControl.xaml.cs">
+      <DependentUpon>DemandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Demand\DPFcMgmt\DPFcMgmtEditor.xaml.cs">
+      <DependentUpon>DPFcMgmtEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Demand\DPFcMgmt\DPFcMgmtList.xaml.cs">
+      <DependentUpon>DPFcMgmtList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Demand\DPMain.xaml.cs">
+      <DependentUpon>DPMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Demand\Seasonals\SeasonalsConfiguration.xaml.cs">
+      <DependentUpon>SeasonalsConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Dev\ControlsTest.xaml.cs">
+      <DependentUpon>ControlsTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EPOS\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Funds\FundPage.xaml.cs">
+      <DependentUpon>FundPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LISTINGSMGMT\EditList.xaml.cs">
+      <DependentUpon>EditList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MyActionsDashboard\MyActionsDashboard.xaml.cs">
+      <DependentUpon>MyActionsDashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NPD\NPDList.xaml.cs">
+      <DependentUpon>NPDList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NPD\NPDPageV2.xaml.cs">
+      <DependentUpon>NPDPageV2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageBase.cs" />
+    <Compile Include="Pages\Phasings\PhasingProfile.xaml.cs">
+      <DependentUpon>PhasingProfile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Phasings\PromotionPhasing.xaml.cs">
+      <DependentUpon>PromotionPhasing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Pricing.xaml.cs">
+      <DependentUpon>Pricing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PromoPowerEditor\Page1.xaml.cs">
+      <DependentUpon>Page1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RobContracts\RobContractsEditorView.xaml.cs">
+      <DependentUpon>RobContractsEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RobGroups\GroupCreator.xaml.cs">
+      <DependentUpon>GroupCreator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\RobGroups\GroupEditor.xaml.cs">
+      <DependentUpon>GroupEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SchedulePageNewFilters.xaml.cs">
+      <DependentUpon>SchedulePageNewFilters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Supersession\Supersession.xaml.cs">
+      <DependentUpon>Supersession.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\Start.cs" />
+    <Compile Include="UserControls\Filters\Controls\FilterControl.xaml.cs">
+      <DependentUpon>FilterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Filters\ViewModels\FilterViewModel.cs" />
+    <Compile Include="Navigation\RedirectMe.cs" />
+    <Compile Include="Pages\Admin\Pattern1Control.xaml.cs">
+      <DependentUpon>Pattern1Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Admin\Pattern2Control.xaml.cs">
+      <DependentUpon>Pattern2Control.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Admin\SideMenu.xaml.cs">
+      <DependentUpon>SideMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ClaimPage.xaml.cs">
+      <DependentUpon>ClaimPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ConditionPage.xaml.cs">
+      <DependentUpon>ConditionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\ColorConverter.cs" />
+    <Compile Include="Converters\CountryToSymbolConverter.cs" />
+    <Compile Include="Converters\DateTimeToNextDayConverter.cs" />
+    <Compile Include="Converters\DistanceConverter.cs" />
+    <Compile Include="Converters\GrowthPercentageToBrushConverter.cs" />
+    <Compile Include="Converters\GrowthPercentageToScaleTransformConverter.cs" />
+    <Compile Include="Converters\HSLtoRGBConverter.cs" />
+    <Compile Include="Converters\ProductCategoryToBrushConverter.cs" />
+    <Compile Include="Pages\EventEditorPage.xaml.cs">
+      <DependentUpon>EventEditorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EventPage.xaml.cs">
+      <DependentUpon>EventPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EventsPage.xaml.cs">
+      <DependentUpon>EventsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AnalyticsV2.xaml.cs">
+      <DependentUpon>AnalyticsV2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Canvas\Canvas.xaml.cs">
+      <DependentUpon>Canvas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Phasing.xaml.cs">
+      <DependentUpon>Phasing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\NavigateMessage.cs" />
+    <Compile Include="Pages\Conditions.xaml.cs">
+      <DependentUpon>Conditions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Insights.xaml.cs">
+      <DependentUpon>Insights.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PromotionView.xaml.cs">
+      <DependentUpon>PromotionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Funds\FundsList.xaml.cs">
+      <DependentUpon>FundsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ScenarioPage.xaml.cs">
+      <DependentUpon>ScenarioPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ScenariosList.xaml.cs">
+      <DependentUpon>ScenariosList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\StagedPromotion.xaml.cs">
+      <DependentUpon>StagedPromotion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\Attributes.xaml.cs">
+      <DependentUpon>Attributes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\Customer.xaml.cs">
+      <DependentUpon>Customer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\Dates.xaml.cs">
+      <DependentUpon>Dates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\Financials.xaml.cs">
+      <DependentUpon>Financials.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\Finish.xaml.cs">
+      <DependentUpon>Finish.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\PLReview.xaml.cs">
+      <DependentUpon>PLReview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\Products.xaml.cs">
+      <DependentUpon>Products.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pages\Templates\UserControls\StatusBarControl.xaml.cs">
+      <DependentUpon>StatusBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\UserControls\WizardLeftMenu.xaml.cs">
+      <DependentUpon>WizardLeftMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Templates\TemplateFrame.xaml.cs">
+      <DependentUpon>TemplateFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserSettings\Default.xaml.cs">
+      <DependentUpon>Default.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\Attributes.xaml.cs">
+      <DependentUpon>Attributes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\Customer.xaml.cs">
+      <DependentUpon>Customer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\Dates.xaml.cs">
+      <DependentUpon>Dates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\Financials.xaml.cs">
+      <DependentUpon>Financials.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\Finish.xaml.cs">
+      <DependentUpon>Finish.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\PLReview.xaml.cs">
+      <DependentUpon>PLReview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\Products.xaml.cs">
+      <DependentUpon>Products.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\UserControls\StatusBarControl.xaml.cs">
+      <DependentUpon>StatusBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\UserControls\WizardLeftMenu.xaml.cs">
+      <DependentUpon>WizardLeftMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\Volumes.xaml.cs">
+      <DependentUpon>Volumes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Wizard\WizardFrame.xaml.cs">
+      <DependentUpon>WizardFrame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Service References\AzureReportService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="TelerikHelpers\HierarchyConverter.cs" />
+    <Compile Include="TelerikHelpers\LocalDataSourceSerializer.cs" />
+    <Compile Include="UserControls\ApplicationBase.cs" />
+    <Compile Include="UserControls\ApplicationBase_2.cs" />
+    <Compile Include="UserControls\ApplyPhasing.xaml.cs">
+      <DependentUpon>ApplyPhasing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CircularProgressBar.xaml.cs">
+      <DependentUpon>CircularProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CommentsPanel.xaml.cs">
+      <DependentUpon>CommentsPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CommentsViewModel.cs" />
+    <Compile Include="UserControls\DataGridNumericColumn.cs" />
+    <Compile Include="UserControls\DropDownWithButtons.xaml.cs">
+      <DependentUpon>DropDownWithButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FileEntry.xaml.cs">
+      <DependentUpon>FileEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\INotifyPropertyChange.cs" />
+    <Compile Include="UserControls\ItemsSourceChangedBehavior.cs" />
+    <Compile Include="UserControls\Listings\ListingsUserControl.xaml.cs">
+      <DependentUpon>ListingsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Listings\ListingsViewModel.cs" />
+    <Compile Include="UserControls\Listings\SingleSelectionDataTemplateSelector.cs" />
+    <Compile Include="UserControls\LoadingPanel.xaml.cs">
+      <DependentUpon>LoadingPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Login\ViewModels\AzureADViewModel.cs" />
+    <Compile Include="UserControls\Login\FileCache.cs" />
+    <Compile Include="UserControls\ManagePhasing.xaml.cs">
+      <DependentUpon>ManagePhasing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\navigationv2.xaml.cs">
+      <DependentUpon>navigationv2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\News\rss.xaml.cs">
+      <DependentUpon>rss.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tabs\Controls\TabControl.xaml.cs">
+      <DependentUpon>TabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tabs\Models\Tab.cs" />
+    <Compile Include="UserControls\Tabs\Models\TabButtonLoc.cs" />
+    <Compile Include="UserControls\Tabs\Models\TabButtonNav.cs" />
+    <Compile Include="UserControls\Tabs\Models\TabTemplateSelector.cs" />
+    <Compile Include="UserControls\Tabs\ViewModels\TabViewModel.cs" />
+    <Compile Include="UserControls\DataGridDimensionDictionary.cs" />
+    <Compile Include="UserControls\Trees\Extensions.cs" />
+    <Compile Include="UserControls\Trees\Controls\TreeControl.xaml.cs">
+      <DependentUpon>TreeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Trees\DataAccess\TreeAccess.cs" />
+    <Compile Include="UserControls\Trees\ViewModels\TreeViewModel.cs" />
+    <Compile Include="UserControls\version.xaml.cs">
+      <DependentUpon>version.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\StagedProductControl.xaml.cs">
+      <DependentUpon>StagedProductControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validations\PromotionDateFuture.cs" />
+    <Compile Include="ViewHelper\BindingProxy.cs" />
+    <Compile Include="ViewHelper\ConfigExtension.cs" />
+    <Compile Include="ViewHelper\Converters.cs" />
+    <Compile Include="ViewHelper\ITranslationProvider.cs" />
+    <Compile Include="ViewHelper\LanguageChangedEventManager.cs" />
+    <Compile Include="ViewHelper\LocExtension.cs" />
+    <Compile Include="ViewHelper\TranslationData.cs" />
+    <Compile Include="ViewHelper\TranslationManager.cs" />
+    <Compile Include="ViewHelper\TranslationProvider.cs" />
+    <Compile Include="ViewModels\Admin\MenuGroupViewModel.cs" />
+    <Compile Include="ViewModels\Admin\Pattern1ViewModel.cs" />
+    <Compile Include="ViewModels\Admin\Pattern2ListVM.cs" />
+    <Compile Include="ViewModels\Cache\Loader.cs" />
+    <Compile Include="ViewModels\Claims\ClaimEditorEventGridItemViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimEditorProductGridItemViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimEntryEventViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimEntryViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimGridItemViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimMatchingStatusViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimEditorPageViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimReturnedMatchesViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimStatusViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimsViewModel.cs" />
+    <Compile Include="ViewModels\Claims\ClaimValueRangeViewModel.cs" />
+    <Compile Include="ViewModels\Claims\EventEditorClaimGridItemViewModel.cs" />
+    <Compile Include="ViewModels\Claims\EventEditorPageViewModel.cs" />
+    <Compile Include="ViewModels\Claims\EventEditorProductGridItemViewModel.cs" />
+    <Compile Include="ViewModels\Claims\EventGridItemViewModel.cs" />
+    <Compile Include="ViewModels\Claims\EventStatusV2\EventStatusViewModel.cs" />
+    <Compile Include="ViewModels\Claims\EventTypeViewModel.cs" />
+    <Compile Include="ViewModels\Claims\MatchItemClaimViewModel.cs" />
+    <Compile Include="ViewModels\Claims\MatchItemEventViewModel.cs" />
+    <Compile Include="ViewModels\Claims\VisibleMatchDataViewModel.cs" />
+    <Compile Include="ViewModels\Conditions\ConditionDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Conditions\ConditionMeasures.cs" />
+    <Compile Include="ViewModels\Conditions\ConditionMeasureViewModel.cs" />
+    <Compile Include="ViewModels\Conditions\ConditionStatusViewModel.cs" />
+    <Compile Include="ViewModels\Conditions\ConditionsViewModel.cs" />
+    <Compile Include="ViewModels\Conditions\ConditionViewModel.cs" />
+    <Compile Include="ViewModels\Demand\DPFcMgmtEditorViewModel.cs" />
+    <Compile Include="ViewModels\Demand\DPFcMgmtViewModel.cs" />
+    <Compile Include="ViewModels\Demand\DPMainViewModel.cs" />
+    <Compile Include="ViewModels\Demand\Seasonals\SeasonalConfigViewModel.cs" />
+    <Compile Include="ViewModels\Demand\SupersessionViewModel.cs" />
+    <Compile Include="ViewModels\DesignTimeClientConfigurationAccess.cs" />
+    <Compile Include="ViewModels\EPOS\ProductMatchingViewModel.cs" />
+    <Compile Include="ViewModels\Events\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Events\EventsViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\Funds\FundListViewModel.cs" />
+    <Compile Include="ViewModels\Funds\FundViewModel.cs" />
+    <Compile Include="ViewModels\Events\StatusViewModel.cs" />
+    <Compile Include="ViewModels\Events\SelectAllStatus.cs" />
+    <Compile Include="ViewModels\Events\EventViewModel.cs" />
+    <Compile Include="ViewModels\Events\ImpactViewModel.cs" />
+    <Compile Include="ViewModels\Generic\ApplicationCache.cs" />
+    <Compile Include="ViewModels\Generic\DataGridViewModel.cs" />
+    <Compile Include="ViewModels\Generic\HierarchyReconstructor.cs" />
+    <Compile Include="ViewModels\GroupEditor\GroupEditorViewModel.cs" />
+    <Compile Include="ViewModels\Insights2\AnalyticsViewModel.cs" />
+    <Compile Include="ViewModels\Canvas\CanvasViewModel.cs" />
+    <Compile Include="ViewModels\LISTINGSMGMT\EditListViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\MyActionsDashboard\MyActionsDashboardViewModel.cs" />
+    <Compile Include="ViewModels\NPD\NPDListViewModel.cs" />
+    <Compile Include="ViewModels\NPD\NPDViewModel.cs" />
+    <Compile Include="ViewModels\Phasing\PhasingProfileViewModel.cs" />
+    <Compile Include="ViewModels\Phasing\PromotionPhasingViewModel.cs" />
+    <Compile Include="ViewModels\Planning\PlanningViewModel.cs" />
+    <Compile Include="ViewModels\Planning\PricingProductViewModel.cs" />
+    <Compile Include="ViewModels\Pricing\ItemDetailViewModel.cs" />
+    <Compile Include="ViewModels\Pricing\PricingViewModel.cs" />
+    <Compile Include="ViewModels\Pricing\PropertyChangedBase.cs" />
+    <Compile Include="ViewModels\PromotionsTemplate\PromoTemplates.cs" />
+    <Compile Include="ViewModels\PromotionsTemplate\PromotionTemplateViewModelBase.cs" />
+    <Compile Include="ViewModels\PromotionsTemplate\PromotionTemplateViewModel.cs" />
+    <Compile Include="ViewModels\PromotionsTemplate\TemplatePageViewModel.cs" />
+    <Compile Include="ViewModels\PromotionsTemplate\TemplateViewModelBase.cs" />
+    <Compile Include="ViewModels\Promotions\ApplyPhasingViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\ManagePhasingViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PhasingProfileViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PhasingViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PaymentWizardViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PromotionDateViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PromotionHierarchy.cs" />
+    <Compile Include="ViewModels\Promotions\PromotionPhasingViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PromotionPowerEditorViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PromotionWizardViewModel.cs" />
+    <Compile Include="Converters\ColumnConverter.cs" />
+    <Compile Include="ViewModels\Promotions\TemplateDateViewModel.cs" />
+    <Compile Include="ViewModels\RobContracts\RobContractsEditorViewModel.cs" />
+    <Compile Include="ViewModels\ROBGroups\GroupCreatorViewModel.cs" />
+    <Compile Include="ViewModels\Scenarios\ApplicableROBViewModel.cs" />
+    <Compile Include="ViewModels\Scenarios\SalesOrgDataViewModel.cs" />
+    <Compile Include="ViewModels\Scenarios\ScenarioDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Scenarios\ScenarioDataViewModel.cs" />
+    <Compile Include="ViewModels\Scenarios\ScenarioMainViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\StagedPromotionViewModel.cs" />
+    <Compile Include="ViewModels\ScheduleNewFilters\PromotionTimeLineViewModelV3.cs" />
+    <Compile Include="ViewModels\Shared\CommentTypeViewModel.cs" />
+    <Compile Include="ViewModels\Shared\CommentViewModel.cs" />
+    <Compile Include="ViewModels\Shared\GridValuesViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\StagedProductViewModel.cs" />
+    <Compile Include="ViewModels\UserSettings\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Wizard\WizardViewModelBase.cs" />
+    <Compile Include="ViewModels\Shared\Extentions.cs" />
+    <Compile Include="ViewHelper\ViewCommand.cs" />
+    <Compile Include="ViewModels\Shared\Common.cs" />
+    <Compile Include="ViewModels\Shared\IObserver.cs" />
+    <Compile Include="ViewModels\Insight\InsightsViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PromotionDataViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PromotionMainViewModel.cs" />
+    <Compile Include="ViewModels\Promotions\PromotionWizardViewModelBase.cs" />
+    <Compile Include="ViewModels\Shared\ViewModelBase.cs" />
+    <Compile Include="ViewModels\Wizard\WizardPageViewModel.cs" />
+    <Page Include="HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Admin\Pattern1Control.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Admin\Pattern2Control.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Admin\SideMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Canvas\dummy\Pivot1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ClaimPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Claims.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Combi\ReportWrapper.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ConditionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Demand\DemandControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Demand\DPFcMgmt\DPFcMgmtEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Demand\DPFcMgmt\DPFcMgmtList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Demand\DPMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Demand\Seasonals\SeasonalsConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Dev\ControlsTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EPOS\Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EventEditorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EventPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EventsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AnalyticsV2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Funds\FundPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Canvas\Canvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\LISTINGSMGMT\EditList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MyActionsDashboard\MyActionsDashboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\NPD\NPDList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\NPD\NPDPageV2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Phasing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Insights.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Phasings\PhasingProfile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Phasings\PromotionPhasing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Planning.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Pages\Planning.xaml.cs">
+      <DependentUpon>Planning.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Pages\Conditions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Pricing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\PromoPowerEditor\Page1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Promotions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PromotionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Funds\FundsList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\RobContracts\RobContractsEditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\RobGroups\GroupCreator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ScenarioPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ScenariosList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SchedulePageNewFilters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\StagedPromotion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Supersession\Supersession.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Templates\Attributes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Templates\Customer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Templates\Dates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Templates\Financials.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Templates\Finish.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Templates\PLReview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Templates\Products.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Templates\UserControls\StatusBarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Templates\UserControls\WizardLeftMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Templates\TemplateFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\RobGroups\GroupEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserSettings\Default.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Wizard\Attributes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\Customer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\Dates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\Financials.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\Finish.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\PLReview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\Products.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\UserControls\StatusBarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\UserControls\WizardLeftMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\Volumes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Wizard\WizardFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Exceedra.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ApplyPhasing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\CircularProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\CommentsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\DropDownWithButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FileEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Filters\Controls\FilterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Listings\ListingsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\LoadingPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ManagePhasing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\navigationv2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\News\rss.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Tabs\Controls\TabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\StagedProductControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Trees\Controls\TreeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\version.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Pages\Promotions.xaml.cs">
+      <DependentUpon>Promotions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Resource Include="LICENSE.txt" />
+    <None Include="app.build" />
+    <None Include="app.Debug.config">
+      <DependentUpon>app.config</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="app.Release.config">
+      <DependentUpon>app.config</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="app.ReleaseHttp.config">
+      <DependentUpon>app.config</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="app.htm" />
+    <Content Include="BindingsHttp.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\DataSources\WPF.Pages.ExecutiveDashboard.Service_References.AWDWDomainService.AdventureWorksDWAZ2008R2XLabsEntities.datasource" />
+    <None Include="wpf.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="WPF_1_TemporaryKey.pfx" />
+    <None Include="WPF_2_TemporaryKey.pfx" />
+    <None Include="WPF_3_TemporaryKey.pfx" />
+    <None Include="WPF_4_TemporaryKey.pfx" />
+    <None Include="WPF_TemporaryKey.pfx" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Bindings.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Client.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Properties\app.manifest" />
+    <AppDesigner Include="Properties\" />
+    <None Include="Service References\AzureReportService\reportexecution2005.wsdl" />
+    <None Include="Service References\AzureReportService\WPF.AzureReportService.DocumentMapNode.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AzureReportService\WPF.AzureReportService.ExecutionHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AzureReportService\WPF.AzureReportService.ExecutionInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AzureReportService\WPF.AzureReportService.ExecutionInfo2.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AzureReportService\WPF.AzureReportService.Extension.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AzureReportService\WPF.AzureReportService.ServerInfoHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\AzureReportService\WPF.AzureReportService.Warning.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AzureReportService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AzureReportService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\AzureReportService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="FuzzyString">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.AnalysisServices.AdomdClient">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Data.SqlServerCe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.Mvc">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.Razor">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.WebPages">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.WebPages.Deployment">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.WebPages.Razor">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elmah.Everywhere, Version=1.2.3000.37103, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elmah.Everywhere.1.2.3000.37103\lib\net40\Elmah.Everywhere.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.5.0.37524, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.5.0.8\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MathNet.Numerics, Version=3.11.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\MathNet.Numerics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.23.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.23.302261847\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.23.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.2.23.302261847\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="QFXModels, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\QFXModels.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QFXShared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\QFXShared.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QFXSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\QFXSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QFXUtil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QFXSharpPackage.1.0.0.37\lib\net40\QFXUtil.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Pivot.Core, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Pivot.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Pivot.DataProviders.Adomd, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Pivot.DataProviders.Adomd.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Pivot.DataProviders.Queryable, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Pivot.DataProviders.Queryable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Chart, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Chart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataVisualization, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Diagrams, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Diagrams.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Docking, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Docking.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Input.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Navigation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Pivot, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Pivot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.PivotFieldList, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.PivotFieldList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.ScheduleView, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.ScheduleView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Diagrams.Core, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Diagrams.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core, Version=2016.2.606.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow, Version=2016.2.606.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.Flow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet, Version=2016.2.606.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml, Version=2016.2.606.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Themes.Windows8, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Themes.Windows8.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip, Version=2016.2.606.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Coder.UI.WPF\Coder.UI.WPF.csproj">
+      <Project>{64f6a9bd-e74d-4255-9979-ec1251c64985}</Project>
+      <Name>Coder.UI.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Exceedra.Common\Exceedra.Common.csproj">
+      <Project>{dd2599c3-c76e-4614-b6ef-b759a8f31615}</Project>
+      <Name>Exceedra.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Exceedra.Controls\Exceedra.Controls.csproj">
+      <Project>{d61ccabd-6227-4fc9-83f6-49a048b55c1e}</Project>
+      <Name>Exceedra.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Exceedra.Documents\Exceedra.Documents.csproj">
+      <Project>{e8a6bf12-1322-4d48-9773-1c2a46976d8a}</Project>
+      <Name>Exceedra.Documents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{e083f69d-6507-4759-811b-113400f7642b}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <StartArguments />
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>WPF_4_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>A103B465FD024D4A5B61BD0EF0D293A31978BE18</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttps|AnyCPU'">
+    <OutputPath>bin\ReleaseHttps\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttps|x86'">
+    <OutputPath>bin\x86\ReleaseHttps\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttp|AnyCPU'">
+    <OutputPath>bin\ReleaseHttp\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttp|x86'">
+    <OutputPath>bin\x86\ReleaseHttp\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="AfterCompile" Condition="Exists('Bindings.$(Configuration).config')">
+    <!--Generate transformed app config in the intermediate directory-->
+    <TransformXml Source="Bindings.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="Bindings.$(Configuration).config" />
+    <!--Force build process to use the transformed configuration file from now on.-->
+    <ItemGroup>
+      <AppConfigWithTargetPath Remove="Bindings.config" />
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
+        <TargetPath>$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+  </Target>
+  <!--Override After Publish to support ClickOnce AfterPublish. Target replaces the untransformed config file copied to the deployment directory with the transformed one.-->
+  <Target Name="AfterPublish">
+    <PropertyGroup>
+      <DeployedConfig>$(_DeploymentApplicationDir)$(TargetName)$(TargetExt).config$(_DeploymentFileMappingExtension)</DeployedConfig>
+    </PropertyGroup>
+    <!--Publish copies the untransformed App.config to deployment directory so overwrite it-->
+    <Copy Condition="Exists('$(DeployedConfig)')" SourceFiles="$(IntermediateOutputPath)$(TargetFileName).config" DestinationFiles="$(DeployedConfig)" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Target Name="AfterCompile" Condition="Exists('app.$(Configuration).config')">
+    <!--Generate transformed app config in the intermediate directory-->
+    <TransformXml Source="app.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="app.$(Configuration).config" />
+    <!--Force build process to use the transformed configuration file from now on.-->
+    <ItemGroup>
+      <AppConfigWithTargetPath Remove="app.config" />
+      <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
+        <TargetPath>$(TargetFileName).config</TargetPath>
+      </AppConfigWithTargetPath>
+    </ItemGroup>
+  </Target>
+  <Target Name="VersionAssemblies">
+    <Attrib Files="@(AssemblyInfoFiles)" Normal="true" />
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyVersions*(s*&quot;.*&quot;s*)s*]" ReplacementText="AssemblyVersion(&quot;$(Version)&quot;)]" />
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersions*(s*&quot;.*&quot;s*)s*]" ReplacementText="AssemblyFileVersion(&quot;$(Version)&quot;)]" />
+  </Target>
+</Project>

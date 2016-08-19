@@ -1,0 +1,450 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ViewModels="clr-namespace:WPF.ViewModels"
+	  xmlns:popup="clr-namespace:WPF.UserControls"
+	  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"	  
+	  xmlns:lex="clr-namespace:WPF"
+	  xmlns:modal="clr-namespace:Exceedra.Controls.Modal;assembly=Exceedra.Controls"
+	  xmlns:TabControl="clr-namespace:Telerik.Windows.Controls.TabControl;assembly=Telerik.Windows.Controls.Navigation"
+	  xmlns:sideMenu="clr-namespace:Exceedra.SideMenu;assembly=Exceedra.Controls"
+      xmlns:screen="clr-namespace:Model.Entity;assembly=Model"
+	  x:Class="WPF.MainPage"
+	  mc:Ignorable="d" d:DesignHeight="376" d:DesignWidth="1260" 
+      x:Name="This"
+	   Title="Exceedra" Background="White" SizeChanged="Page_SizeChanged">
+    <Page.Resources>
+
+        <ViewModels:MainPageViewModel x:Key="ViewModel"/>
+
+        <Style x:Key="btnStyle1">
+            <Setter Property="Button.Padding" Value="5,2,5,2"></Setter>
+            <Setter Property="Button.Background" Value="#D6D6D6"></Setter>
+            <Setter Property="Button.Foreground" Value="#666666"></Setter>
+            <Setter Property="Border.BorderThickness" Value="0"></Setter>
+            <Setter Property="Button.Margin" Value="7,0,0,2"/>
+            <Style.Triggers>
+                <Trigger Property="Button.IsMouseOver" Value="True">
+                    <Setter Property="Button.Margin" Value="7,0,0,0" />
+                    <Setter Property="Button.Foreground" Value="#333333"></Setter>
+                    <Setter Property="Button.Background" Value="#ffffff"></Setter>
+                </Trigger>
+
+                <Trigger Property="Border.IsMouseOver" Value="True">
+                    <Setter Property="Button.Background" Value="#ffffff"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="btnStyle2">
+            <Setter Property="Button.Padding" Value="5,2,5,2"></Setter>
+            <Setter Property="Button.Background" Value="#FFFFFF"></Setter>
+            <Setter Property="Button.Foreground" Value="#000000"></Setter>
+            <Setter Property="Button.FontWeight" Value="Bold"></Setter>
+            <Setter Property="Border.BorderThickness" Value="0"></Setter>
+            <Setter Property="Button.Margin" Value="7,0,0,0" />
+        </Style>
+
+        <DataTemplate x:Key="paneHeader" >
+            <StackPanel Orientation="Horizontal"   >
+                <TextBlock Text="{Binding}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <ControlTemplate TargetType="{x:Type Button}" x:Key="NavigationButton">
+            <Button Style="{StaticResource btnStyle1}" 
+                    Command="{Binding ButtonClicked, Mode=OneWay, Source={StaticResource ViewModel}}" 
+					CommandParameter="{Binding Uri}" >
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+
+        </ControlTemplate>
+
+
+        <Style TargetType="Rectangle" x:Key="Rectangle1">
+            <Setter Property="StrokeThickness" Value="0" ></Setter>
+        </Style>
+
+        <ControlTemplate TargetType="{x:Type Button}" x:Key="NavigationButtonSelected">
+            <Button Style="{StaticResource btnStyle2}" >
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Button>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type Button}" x:Key="MenuScreenButton">
+            <Setter Property="MinWidth" Value="60" />
+            <Setter Property="Template" Value="{StaticResource NavigationButton}" />
+        </Style>
+
+        <DataTemplate x:Key="ScreenTemplate">
+            <Grid>
+                <Button x:Name="btn" 
+					Content="{Binding Label}" 
+					Style="{DynamicResource MenuScreenButton}" 
+					Template="{DynamicResource NavigationButton}"/>
+            </Grid>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="HiddenScreenTemplate">
+            <Grid>
+                <Button x:Name="btn" Width="150"
+				Content="{Binding Label}" 
+            	Command="{Binding ButtonClicked, Mode=OneWay, Source={StaticResource ViewModel}}" 
+				CommandParameter="{Binding Uri}"/>
+                <!--<Button Content="{Binding Header}" Command="{Binding ButtonClicked, Mode=OneWay, Source={StaticResource ViewModel}}" CommandParameter="{Binding Uri}" Padding="4"/>-->
+            </Grid>
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <Grid x:Name="maingrid" d:DataContext="{StaticResource ViewModel}" IsEnabled="{Binding IsEnabled}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+            <sideMenu:Menu HorizontalAlignment="Left" x:Name="Menu" Grid.Column="0" Grid.ColumnSpan="2"
+                           MenuWidth="300"
+                           State="Hidden"
+                             SizeChanged="Menu_OnSizeChanged"
+                           ButtonBackground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+                           ButtonHover="{telerik:Windows8Resource ResourceKey=StrongBrush}"
+                           MenuItems="{Binding Screens}"
+                           NavigateCommand="{Binding ButtonClicked, Mode=OneWay, Source={StaticResource ViewModel}}"
+                           DisplayName="{Binding ElementName=This, Path=DisplayName}"
+                           DisplayInitials="{Binding ElementName=This, Path=DisplayInitials}"
+                           LogoutCommand="{Binding ElementName=This, Path=Logout}"                       
+                           >
+            </sideMenu:Menu>
+
+
+        <telerik:RadDocking x:Name="Docking"  Grid.Column="1" Padding="0" BorderBrush="Transparent" BorderThickness="0" HasDocumentHost="False"  Unpin="Docking_Unpin" Margin="-1" >
+            <telerik:RadDocking.FlyoutBehavior>
+                <telerik:ClickFlyoutBehavior/>
+            </telerik:RadDocking.FlyoutBehavior>
+            <telerik:RadSplitContainer InitialPosition="DockedRight" BorderThickness="0"  Visibility="{Binding Diagnostics, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                <telerik:RadPaneGroup x:Name="pgroup" >
+                    <telerik:RadPane Header="{lex:Loc Menu_Sys, Sys}" CanUserClose="False" CanFloat="False" PreviewMouseDown="pane1_PreviewMouseDown" x:Name="pane1" IsPinned="False" Tag="A"                                  
+							telerik:RadDocking.SerializationTag="PaneRight1" HeaderTemplate="{StaticResource paneHeader}">
+
+                        <!--<telerik:RadPane.ContextMenuTemplate>
+                            <DataTemplate>
+                                <telerik:RadContextMenu>
+                                    <telerik:RadMenuItem Header="Floating"
+                                               Command="telerik:RadDockingCommands.Floating" />
+                                    <telerik:RadMenuItem Header="Dockable"
+                                               Command="telerik:RadDockingCommands.Dockable" />
+                                </telerik:RadContextMenu>
+                            </DataTemplate>
+                        </telerik:RadPane.ContextMenuTemplate>-->
+                        <Grid>
+                            <!--<Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0"  />
+                                <ColumnDefinition Width="0" />
+                                <ColumnDefinition Width="*"  />
+                                    <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>-->
+
+                            <Grid   x:Name="sysTab" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+
+                                <Grid   Background="#e5e5e5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="40"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Content="App Trace" Foreground="Black" FontSize="16"   Grid.Column="0"/>
+                                    <Button   HorizontalAlignment="Right" Click="Button_Click" Grid.Column="1" Background="Transparent" Width="20" Height="20" Margin="10,0" >
+                                        <Image Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='refresh.gif'}" />
+                                    </Button>
+                                    <Button HorizontalAlignment="Right" Click="Button_Click_1" Grid.Column="2" Background="Transparent"  Height="20"  Margin="10,0" >
+                                        <Image Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='trash.gif'}" />
+                                    </Button>
+
+                                </Grid>
+
+
+                                <telerik:RadGridView x:Name="outputgrid"  Grid.Row="1" RowHeight="40"  AutoGenerateColumns="False" 
+                                     EnableColumnVirtualization="True" EnableRowVirtualization="True" 
+                                     telerik:GridViewVirtualizingPanel.IsVirtualizing="True" 
+                                     
+                                     MouseRightButtonUp="Button_AppTraceGetSsmsTemplate_RightClick" >
+                                    <telerik:RadGridView.Resources>
+                                        <Style TargetType="{x:Type telerik:GridViewRow}"    BasedOn="{StaticResource GridViewRowStyle}">
+                                            <Setter Property="Background" Value="#ffffff" />
+                                            <Setter Property="Foreground" Value="#000000" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Error}" Value="true">
+                                                    <Setter Property="Background" Value="Red" />
+                                                    <Setter Property="Foreground" Value="#ffffff" />
+                                                    <Setter Property="FontSize" Value="14" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+
+
+
+                                    </telerik:RadGridView.Resources>
+                                    
+                                    <telerik:RadGridView.RowDetailsTemplate>
+                                        <DataTemplate>
+                                            <TextBox Background="#ffDDDDDD" Text="{Binding Response}" />
+                                        </DataTemplate>
+                                    </telerik:RadGridView.RowDetailsTemplate>
+                                    
+                                    <telerik:RadGridView.Columns>
+                                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Type}" Header="Type" Width="100" />
+                                        <telerik:GridViewDataColumn DataMemberBinding="{Binding Method}" x:Name="Method" Header="Method" Width="120" />
+                                        <telerik:GridViewToggleRowDetailsColumn/>
+                                        <telerik:GridViewDataColumn DataMemberBinding="{Binding ResponseShort}" Header="XML" Width="auto" MaxWidth="600" TextWrapping="Wrap" />
+                                        <telerik:GridViewDataColumn DataMemberBinding="{Binding DateStamp}" Header="DateStamp" Width="100" />
+                                    </telerik:RadGridView.Columns>
+
+                                    <telerik:RadGridView.GroupDescriptors>
+                                        <telerik:ColumnGroupDescriptor Column="{Binding Columns[\Method\], ElementName=outputgrid}" />
+                                    </telerik:RadGridView.GroupDescriptors>
+                                </telerik:RadGridView>
+
+                            </Grid>
+
+                        </Grid>
+                    </telerik:RadPane>
+                    <telerik:RadPane Header="{lex:Loc Account_Builds, Account Builds}" CanUserClose="False"     CanFloat="False"    x:Name="pane2" IsPinned="False" Tag="B" 
+							telerik:RadDocking.SerializationTag="PaneRight2"  HeaderTemplate="{StaticResource paneHeader}">
+                        <!--<telerik:RadPane.ContextMenuTemplate>
+                            <DataTemplate>
+                                <telerik:RadContextMenu>
+                                    <telerik:RadMenuItem Header="Floating"
+                                               Command="telerik:RadDockingCommands.Floating" />
+                                    <telerik:RadMenuItem Header="Dockable"
+                                               Command="telerik:RadDockingCommands.Dockable" />
+                                </telerik:RadContextMenu>
+                            </DataTemplate>
+                        </telerik:RadPane.ContextMenuTemplate>-->
+                        <Grid   x:Name="buildQueueTab" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Width="auto" Background="#e5e5e5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Content="Account Plan Builds" Foreground="Black" FontSize="16"   Grid.Column="0"/>
+                                <Button x:Name="update_Account_Build_List"  HorizontalAlignment="Right" Click="update_Account_Build_List_Click"
+                            Grid.Column="1" Background="Transparent" Width="20" Height="20" Margin="10,0" >
+                                    <Image Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='refresh.gif'}" />
+                                </Button>
+                                <Button x:Name="clear_Account_Build_List" HorizontalAlignment="Right" Click="clear_Account_Build_List_Click" Grid.Column="2" Background="Transparent"  Height="20"  Margin="10,0" >
+                                    <Image Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='trash.gif'}" />
+                                </Button>
+
+                            </Grid>
+
+                            <ScrollViewer Grid.Row="1"  Background="White"   Height="auto"  VerticalScrollBarVisibility="Auto">
+                                <DataGrid x:Name="buildQueueOutput" Margin="10"  FontSize="11" >
+                                    <!--TextWrapping="NoWrap"-->
+                                    <telerik:RadContextMenu.ContextMenu>
+                                        <telerik:RadContextMenu>
+                                            <telerik:RadMenuItem Header="Copy" Click="RadMenuItem_Click" />
+                                        </telerik:RadContextMenu>
+                                    </telerik:RadContextMenu.ContextMenu>
+
+                                </DataGrid>
+                            </ScrollViewer>
+
+                        </Grid>
+                    </telerik:RadPane>
+                    <telerik:RadPane Header="{lex:Loc Asynchronous_Tasks, Async Tasks}" CanUserClose="False"     CanFloat="False"  x:Name="pane3" IsPinned="False" Tag="C"
+                                     telerik:RadDocking.SerializationTag="PaneRight3"  HeaderTemplate="{StaticResource paneHeader}">
+                        <!--<telerik:RadPane.ContextMenuTemplate>
+                            <DataTemplate>
+                                <telerik:RadContextMenu>
+                                    <telerik:RadMenuItem Header="Floating"
+                                               Command="telerik:RadDockingCommands.Floating" />
+                                    <telerik:RadMenuItem Header="Dockable"
+                                               Command="telerik:RadDockingCommands.Dockable" />
+                                </telerik:RadContextMenu>
+                            </DataTemplate>
+                        </telerik:RadPane.ContextMenuTemplate>-->
+                        <Grid x:Name="asyncTasksTab" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Width="auto" Background="#e5e5e5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Content="Asynchronous Tasks" Foreground="Black" FontSize="16"   Grid.Column="0"/>
+                                <Button x:Name="update_Async_Tasks"  HorizontalAlignment="Right" Click="update_Async_Tasks_Click"
+                            Grid.Column="1" Background="Transparent" Width="20" Height="20" Margin="10,0" >
+                                    <Image Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='refresh.gif'}" />
+                                </Button>
+                                <Button x:Name="clear_Async_Tasks" HorizontalAlignment="Right" Click="clear_Async_Tasks_Click" Grid.Column="2" Background="Transparent"  Height="20"  Margin="10,0" >
+                                    <Image Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='trash.gif'}" />
+                                </Button>
+
+                            </Grid>
+
+                            <ScrollViewer Grid.Row="1"  Background="White"   Height="auto"  VerticalScrollBarVisibility="Auto">
+                                <DataGrid x:Name="asyncTasksOutput" Margin="10" FontSize="11" >
+
+                                    <telerik:RadContextMenu.ContextMenu>
+                                        <telerik:RadContextMenu>
+                                            <telerik:RadMenuItem Header="Copy" Click="RadMenuItem_Click" />
+                                        </telerik:RadContextMenu>
+                                    </telerik:RadContextMenu.ContextMenu>
+
+                                </DataGrid>
+                            </ScrollViewer>
+
+                        </Grid>
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+            <telerik:RadSplitContainer BorderThickness="0" InitialPosition="DockedLeft" Background="Transparent" BorderBrush="Transparent" Margin="-1">
+                <telerik:RadPaneGroup BorderThickness="0" Background="Transparent">
+                    <telerik:RadPane PaneHeaderVisibility="Collapsed"  Visibility="Collapsed" CanUserClose="False" BorderThickness="0" Background="Transparent" telerik:RadDocking.SerializationTag="PaneLeft1" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0" />
+                                <RowDefinition Height="0" x:Name="MiddleMenu" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <DockPanel>
+
+                                <DockPanel.Background>
+                                    <LinearGradientBrush>
+                                        <GradientStop Color="{Binding appBG, Source={x:Static Application.Current}}"   />
+                                    </LinearGradientBrush>
+
+                                </DockPanel.Background>
+
+                                <Grid Margin="0,10,0,0" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid SizeChanged="Page_SizeChanged" x:Name="SplitContainer" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto"/>
+
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal" x:Name="TopLevelNavigation">
+                                            <!---->
+                                            <ItemsControl x:Name="tabsMenu" ItemTemplate="{DynamicResource ScreenTemplate}" ItemsSource="{Binding Screens, NotifyOnSourceUpdated=True}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+
+                                            <Button x:Name="menu_middle_Copy" Command="{Binding GoToSettings}" Content="{lex:Loc Menu_Settings, 'Settings'}" Style="{DynamicResource MenuScreenButton}" Template="{DynamicResource NavigationButton}"></Button>
+                                        </StackPanel>
+
+                                        <Button x:Name="btnMore" Command="{Binding ShowMoreTabs}" Visibility="{Binding ExcessedScreensVisibility, Mode=OneWay}" Margin="5,0,5,0"  Click="btnMore_Click" Grid.Column="1" >
+                                            <Button.ContextMenu>
+                                                <ContextMenu ItemsSource="{Binding ExcessedScreens}" ItemTemplate="{DynamicResource HiddenScreenTemplate}" StaysOpen="False" Width="175">
+                                                    <ContextMenu.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Margin="-25,0,0,0" Background="White" />
+                                                        </ItemsPanelTemplate>
+                                                    </ContextMenu.ItemsPanel>
+                                                </ContextMenu>
+                                            </Button.ContextMenu>
+                                            <Image Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='hamburger.gif'}"  />
+                                        </Button>
+                                    </Grid>
+
+                                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Column="1" >
+                                        <TextBlock Margin="0,14,10,0" HorizontalAlignment="Right">
+                                                <InlineUIContainer>
+                    		                            <TextBlock Text="{Binding DisplayName}" x:Name="txtCurrentUserDescription" FontWeight="Bold" Margin="0,0,0,0" />
+                    	                        </InlineUIContainer><Run Text=" "/>
+                                            <Hyperlink Click="LogoutClick"><Run Text="Log out"/></Hyperlink>
+                                        </TextBlock>
+
+                                        <Image Margin="5,2,5,5" Stretch="Uniform"  Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='/ExceedraLogo_White.png'}"  />
+
+                                        <Button ToolTip="{lex:Loc Button_Comment, Send app log}" 
+                                                Visibility="{Binding Configuration.IsCommentsActive, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                Style="{StaticResource Comment}" Click="ButtonBase_OnClick2" Height="15"  HorizontalAlignment="Right" Margin="10,0,10,0"/>
+
+                                    </StackPanel>
+
+                                </Grid>
+
+
+
+                            </DockPanel>
+
+
+
+                            <Grid  Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" x:Name="maincol" />
+
+                                </Grid.ColumnDefinitions>
+                                <Frame x:Name="frmMain"  Margin="2" />
+
+
+                            </Grid>
+                        </Grid>
+                    </telerik:RadPane>
+                </telerik:RadPaneGroup>
+            </telerik:RadSplitContainer>
+
+        </telerik:RadDocking>
+
+        <modal:ModalContentPresenter x:Name="ProductDataModalPresenter" Visibility="Hidden" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                                    Grid.RowSpan="2"  IsModal="True">
+            <modal:ModalContentPresenter.ModalContent>
+                <StackPanel   Width="450" Height="250" Background="White">
+                    <StackPanel Style="{StaticResource GlobalStackPanelStyle}"  Margin="0,0,0,0" >
+                        <TextBlock Margin="10" FontSize="16" FontWeight="Bold"  Text="Send Feedback" TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <TextBox  Grid.Row="1" Height="150" Width="400" x:Name="tfeedback" Margin="0,10,0,10"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button  Height="30" Grid.Column="1"  Width="120"    Content="{lex:Loc Button_SendFeedback, Send Feedback}"  Click="ButtonBase_OnClick" />
+
+                        <Button  Height="30"  Width="120"  Grid.Column="0" Content="{lex:Loc Button_Cancel, Cancel}" Click="ButtonBase_OnClick3" />
+                    </Grid>
+                </StackPanel>
+
+            </modal:ModalContentPresenter.ModalContent>
+        </modal:ModalContentPresenter>
+    </Grid>
+
+
+</Page>

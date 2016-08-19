@@ -1,0 +1,123 @@
+﻿<Page x:Class="WPF.PromoTemplates.TemplateFinancials" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:wizard="clr-namespace:WPF.PromoTemplates"
+      xmlns:UI="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF"
+      xmlns:Controls="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls" 
+      xmlns:VerticalControls="clr-namespace:Exceedra.Controls.DynamicRow.Controls;assembly=Exceedra.Controls"
+      mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="1000" Title="Financials"   xmlns:lex="clr-namespace:WPF"
+      xmlns:converter="clr-namespace:WPF"
+        
+        >
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
+        <converter:InverseBooleanConverter x:Key="InverseConverter"></converter:InverseBooleanConverter>
+    </Page.Resources>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Background="LightGray">
+                <wizard:TemplateWizardLeftMenu />
+            </Grid>
+            <GridSplitter x:Name="splt1"  ResizeDirection="Columns" Grid.Column="1" Width="3"
+			Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeBehavior="BasedOnAlignment" Margin="0" />
+            <UI:ReadOnlyStateManager Grid.Column="2" IsEnabled="{Binding IsEnabled, UpdateSourceTrigger=PropertyChanged}">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{lex:Loc Label_Variables,'Financials'}" FontSize="16" Margin="10" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="0"  HorizontalAlignment="Right" >
+                        <Button Name="CancelReload" Content="{lex:Loc Button_Reload, 'Reload'}" Width="80" 
+                            Margin="8"
+                                  IsEnabled="{Binding IsEditable}"
+                                Command="{Binding ReloadCommand}" />
+                        <Button   Name="CancelNext" Content="{lex:Loc Button_Cancel, 'Cancel'}" Width="80" 
+                            HorizontalAlignment="Right" Margin="8"
+                                Command="{Binding CancelCommand}" />
+                    </StackPanel>
+                    <ScrollViewer  Grid.Row="1"  Name="ScrollViewer1" VerticalScrollBarVisibility="Auto" 
+                                       HorizontalScrollBarVisibility="Disabled" CanContentScroll="False" >
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="3"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="3"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        
+                        <VerticalControls:DynamicRowControl Name="dynamicPromoMeasures" Margin="6" Grid.Row="1" 
+                                                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                            IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}"
+                                                            ItemDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.G1PromoFinancialMeasures, Mode=TwoWay}"
+                                                            />
+                    
+                        <GridSplitter x:Name="Vertsplt1" Grid.Row="2" Height="3"
+                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0" />
+                         
+                            <Controls:DynamicGridControl Grid.Row="3" x:Name="dynamicParentProductMeasures" Margin="6" 
+                                    CanSort="False"                                 
+                                    IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}"
+                                    IsReadOnly="{Binding IsReadOnly, UpdateSourceTrigger=PropertyChanged}"
+                                    HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"
+                                    ItemDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.G2ParentProductFinancialMeasures, Mode=TwoWay}"
+                               />
+                    
+                        <GridSplitter x:Name="Vertsplt2" Grid.Row="4" Height="3"
+                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0" />
+
+
+                                <Controls:DynamicGridControl  Grid.Row="5"  x:Name="dynamicProductMeasures" Margin="6"
+                                    CanSort="False"
+                                    IsEnabled="{Binding IsEditable, UpdateSourceTrigger=PropertyChanged}"
+                                    IsReadOnly="{Binding IsReadOnly, UpdateSourceTrigger=PropertyChanged}"
+                                    HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"
+                                    ItemDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.G3FinancialScreenPlanningSkuMeasure, Mode=TwoWay}" Grid.RowSpan="2"
+                               />
+                  
+                    </Grid>
+
+                        </ScrollViewer>
+                    <Grid Grid.Row="2" Margin="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="4" VerticalAlignment="Center"
+                                   Text="{lex:Loc Label_Status}" />
+                        <TextBlock Grid.Column="2" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="{Binding SelectedStatus.Name}" />
+                        <Button Grid.Column="3" Name="btnCancel" Content="{lex:Loc Button_Back, 'Back'}" Width="80"
+                                Command="{Binding BackCommand}" />
+                        <Button Grid.Column="4" Name="btnNext" Content="{lex:Loc Button_Next, 'Next'}" Width="80" Margin="4,0"
+                                Command="{Binding NextCommand}" />
+
+                    </Grid>
+
+                </Grid>
+            </UI:ReadOnlyStateManager>
+
+        </Grid>
+        <wizard:StatusBarControl Grid.Row="1" />
+    </Grid>
+</Page>

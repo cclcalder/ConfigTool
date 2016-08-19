@@ -1,0 +1,22 @@
+<Results>
+  <ConfigItem>
+    <Section>ActiveFeatures</Section>
+    <Key>Insights</Key>
+    <Value>0</Value>
+  </ConfigItem>
+  <ConfigItem>
+    <Section>ActiveFeatures</Section>
+    <Key>Pricing</Key>
+    <Value>1</Value>
+  </ConfigItem>
+  <ConfigItem>
+    <Section>ActiveFeatures</Section>
+    <Key>Promotions</Key>
+    <Value>1</Value>
+  </ConfigItem>
+  <ConfigItem>
+    <Section>StartScreen</Section>
+    <Key>StartScreen</Key>
+    <Value>Promotions</Value>
+  </ConfigItem>
+</Results>

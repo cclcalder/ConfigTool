@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <WebPublishMethod>MSDeploy</WebPublishMethod>
+    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedPlatform>Any CPU</LastUsedPlatform>
+    <SiteUrlToLaunchAfterPublish>http://exceedra-rand.azurewebsites.net</SiteUrlToLaunchAfterPublish>
+    <LaunchSiteAfterPublish>True</LaunchSiteAfterPublish>
+    <ExcludeApp_Data>False</ExcludeApp_Data>
+    <MSDeployServiceURL>exceedra-rand.scm.azurewebsites.net:443</MSDeployServiceURL>
+    <DeployIisAppPath>exceedra-rand</DeployIisAppPath>
+    <RemoteSitePhysicalPath />
+    <SkipExtraFilesOnServer>True</SkipExtraFilesOnServer>
+    <MSDeployPublishMethod>WMSVC</MSDeployPublishMethod>
+    <EnableMSDeployBackup>True</EnableMSDeployBackup>
+    <UserName>$exceedra-rand</UserName>
+    <_SavePWD>True</_SavePWD>
+    <PublishDatabaseSettings>
+      <Objects xmlns="">
+        <ObjectGroup Name="ExceedraConn_v2_0" Order="3" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbDacFx">
+            <PreSource Path="Data Source=exceedracom.cloudapp.net,10315;Initial Catalog=ESP_Demo_Dev_FoodDrink_v2_0;User ID=WebApp;Password=ExceedraLondon1!" includeData="False" />
+            <Source Path="$(IntermediateOutputPath)AutoScripts\ExceedraConn_v2_0_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
+          </Object>
+          <UpdateFrom Type="Web.Config">
+            <Source MatchValue="data source=exceedracom.cloudapp.net,10315;initial catalog=ESP_Demo_Dev_FoodDrink_v2_0;user id=WebApp;password=ExceedraLondon1!" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
+          </UpdateFrom>
+        </ObjectGroup>
+        <ObjectGroup Name="ExceedraConn_v2_1" Order="4" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbDacFx">
+            <PreSource Path="Data Source=exceedracom.cloudapp.net,10315;Initial Catalog=ESP_Demo_Dev_FoodDrink_v2_1;User ID=WebApp;Password=ExceedraLondon1!" includeData="False" />
+            <Source Path="$(IntermediateOutputPath)AutoScripts\ExceedraConn_v2_1_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
+          </Object>
+          <UpdateFrom Type="Web.Config">
+            <Source MatchValue="data source=exceedracom.cloudapp.net,10315;initial catalog=ESP_Demo_Dev_FoodDrink_v2_1;user id=WebApp;password=ExceedraLondon1!" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
+          </UpdateFrom>
+        </ObjectGroup>
+        <ObjectGroup Name="ExceedraConn_v2_2" Order="5" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbDacFx">
+            <PreSource Path="Data Source=exceedracom.cloudapp.net,10315;Initial Catalog=ESP_Demo_Dev_FoodDrink_v2_2;User ID=WebApp;Password=ExceedraLondon1!" includeData="False" />
+            <Source Path="$(IntermediateOutputPath)AutoScripts\ExceedraConn_v2_2_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
+          </Object>
+          <UpdateFrom Type="Web.Config">
+            <Source MatchValue="data source=exceedracom.cloudapp.net,10315;initial catalog=ESP_Demo_Dev_FoodDrink_v2_2;user id=WebApp;password=ExceedraLondon1!" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
+          </UpdateFrom>
+        </ObjectGroup>
+        <ObjectGroup Name="ExceedraConn_v2_3" Order="6" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbDacFx">
+            <PreSource Path="Data Source=exceedracom.cloudapp.net,10315;Initial Catalog=ESP_Demo_Dev_FoodDrink_v2_3;User ID=WebApp;Password=ExceedraLondon1!" includeData="False" />
+            <Source Path="$(IntermediateOutputPath)AutoScripts\ExceedraConn_v2_3_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
+          </Object>
+          <UpdateFrom Type="Web.Config">
+            <Source MatchValue="data source=exceedracom.cloudapp.net,10315;initial catalog=ESP_Demo_Dev_FoodDrink_v2_3;user id=WebApp;password=ExceedraLondon1!" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
+          </UpdateFrom>
+        </ObjectGroup>
+        <ObjectGroup Name="ExceedraConn_v2_4" Order="7" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbDacFx">
+            <PreSource Path="Data Source=exceedracom.cloudapp.net,10315;Initial Catalog=ESP_Demo_Dev_FoodDrink_v2_4;User ID=WebApp;Password=ExceedraLondon1!" includeData="False" />
+            <Source Path="$(IntermediateOutputPath)AutoScripts\ExceedraConn_v2_4_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
+          </Object>
+          <UpdateFrom Type="Web.Config">
+            <Source MatchValue="data source=exceedracom.cloudapp.net,10315;initial catalog=ESP_Demo_Dev_FoodDrink_v2_4;user id=WebApp;password=ExceedraLondon1!" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
+          </UpdateFrom>
+        </ObjectGroup>
+        <ObjectGroup Name="ExceedraConn_v2_7" Order="9" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbDacFx">
+            <PreSource Path="Data Source=tcp:exceedra-uk-rd.database.windows.net,1433;Initial Catalog=ESP_Demo_DEV_FoodDrink_v2_7;User ID=WebApp;Password=ExceedraLondon1!;Connect Timeout=60;Encrypt=True" includeData="False" />
+            <Source Path="$(IntermediateOutputPath)AutoScripts\ExceedraConn_v2_7_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
+          </Object>
+          <UpdateFrom Type="Web.Config">
+            <Source MatchValue="data source=tcp:exceedra-uk-rd.database.windows.net,1433;initial catalog=ESP_Demo_DEV_FoodDrink_v2_7;user id=WebApp;password=ExceedraLondon1!;Encrypt=yes;Connection timeout=60" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
+          </UpdateFrom>
+        </ObjectGroup>
+        <ObjectGroup Name="ExceedraConn_v2_6" Order="10" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbDacFx">
+            <PreSource Path="Data Source=tcp:exceedra-uk-rd.database.windows.net,1433;Initial Catalog=ESP_Demo_DEV_FoodDrink_v2_6;User ID=WebApp;Password=ExceedraLondon1!;Connect Timeout=60;Encrypt=True" includeData="False" />
+            <Source Path="$(IntermediateOutputPath)AutoScripts\ExceedraConn_v2_6_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
+          </Object>
+          <UpdateFrom Type="Web.Config">
+            <Source MatchValue="data source=tcp:exceedra-uk-rd.database.windows.net,1433;initial catalog=ESP_Demo_DEV_FoodDrink_v2_6;user id=WebApp;password=ExceedraLondon1!;Encrypt=yes;Connection timeout=60" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
+          </UpdateFrom>
+        </ObjectGroup>
+        <ObjectGroup Name="ExceedraConn_v2_8" Order="11" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbDacFx">
+            <PreSource Path="Data Source=tcp:exceedra-uk-rd.database.windows.net,1433;Initial Catalog=ESP_Demo_DEV_FoodDrink_v2_8;User ID=WebApp;Password=ExceedraLondon1!;Connect Timeout=60;Encrypt=True" includeData="False" />
+            <Source Path="$(IntermediateOutputPath)AutoScripts\ExceedraConn_v2_8_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
+          </Object>
+          <UpdateFrom Type="Web.Config">
+            <Source MatchValue="data source=tcp:exceedra-uk-rd.database.windows.net,1433;initial catalog=ESP_Demo_DEV_FoodDrink_v2_8;user id=WebApp;password=ExceedraLondon1!;Encrypt=yes;Connection timeout=60" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
+          </UpdateFrom>
+        </ObjectGroup>
+        <ObjectGroup Name="ExceedraConn_v2_9" Order="12" Enabled="False">
+          <Destination Path="" />
+          <Object Type="DbDacFx">
+            <PreSource Path="Data Source=tcp:exceedra-uk-rd.database.windows.net,1433;Initial Catalog=ESP_Demo_DEV_FoodDrink_v2_9;User ID=WebApp;Password=ExceedraLondon1!;Connect Timeout=60;Encrypt=True" includeData="False" />
+            <Source Path="$(IntermediateOutputPath)AutoScripts\ExceedraConn_v2_9_IncrementalSchemaOnly.dacpac" dacpacAction="Deploy" />
+          </Object>
+          <UpdateFrom Type="Web.Config">
+            <Source MatchValue="data source=tcp:exceedra-uk-rd.database.windows.net,1433;initial catalog=ESP_Demo_DEV_FoodDrink_v2_9;user id=WebApp;password=ExceedraLondon1!;Encrypt=yes;Connection timeout=60" MatchAttributes="$(UpdateFromConnectionStringAttributes)" />
+          </UpdateFrom>
+        </ObjectGroup>
+      </Objects>
+    </PublishDatabaseSettings>
+    <_DestinationType>AzureWebSite</_DestinationType>
+  </PropertyGroup>
+  <ItemGroup>
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)ExceedraConn_v2_0-Web.config Connection String">
+      <UpdateDestWebConfig>False</UpdateDestWebConfig>
+    </MSDeployParameterValue>
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)ExceedraConn_v2_1-Web.config Connection String">
+      <UpdateDestWebConfig>False</UpdateDestWebConfig>
+    </MSDeployParameterValue>
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)ExceedraConn_v2_2-Web.config Connection String">
+      <UpdateDestWebConfig>False</UpdateDestWebConfig>
+    </MSDeployParameterValue>
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)ExceedraConn_v2_3-Web.config Connection String">
+      <UpdateDestWebConfig>False</UpdateDestWebConfig>
+    </MSDeployParameterValue>
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)ExceedraConn_v2_4-Web.config Connection String">
+      <UpdateDestWebConfig>False</UpdateDestWebConfig>
+    </MSDeployParameterValue>
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)ExceedraConn_v2_6-Web.config Connection String" />
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)ExceedraConn_v2_7-Web.config Connection String">
+      <UpdateDestWebConfig>False</UpdateDestWebConfig>
+    </MSDeployParameterValue>
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)ExceedraConn_v2_8-Web.config Connection String" />
+    <MSDeployParameterValue Include="$(DeployParameterPrefix)ExceedraConn_v2_9-Web.config Connection String" />
+  </ItemGroup>
+</Project>

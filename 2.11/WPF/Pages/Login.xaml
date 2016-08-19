@@ -1,0 +1,232 @@
+﻿<pages:PageBase x:Class="WPF.Login" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800"
+      Title="Login" PreviewKeyDown="PagePreviewKeyDown"
+           xmlns:popup="clr-namespace:WPF.UserControls"
+        xmlns:lex="clr-namespace:WPF"
+ 
+       xmlns:modal="clr-namespace:Exceedra.Controls.Modal;assembly=Exceedra.Controls"
+       xmlns:pages="clr-namespace:WPF.Pages"
+       xmlns:changePasswordPanel="clr-namespace:Exceedra.ChangePasswordPanel;assembly=Exceedra.Controls">
+
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <lex:ImageUrlConverter x:Key="imageUrlConverter" />
+    </Page.Resources>
+    
+    <Grid x:Name="Grid1" >
+ 
+        <Grid.Background>
+ 
+            <ImageBrush ImageSource="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='login.gif'}" Stretch="None" AlignmentX="Left" AlignmentY="Bottom"  />
+            <!--"http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2014/09/dog-alone-pier.jpg"-->
+        </Grid.Background>
+ 
+        <!--<Grid.Background>
+            <ImageBrush ImageSource= "http://walldes-download.com/wp-content/uploads/2015/04/Funny-Background-38.jpg" Stretch="UniformToFill"  />
+            --><!--""--><!--
+        </Grid.Background>-->
+ 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+
+            <DockPanel.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="{Binding Path=appBG, Source={x:Static Application.Current}}"   />
+                </LinearGradientBrush>
+
+            </DockPanel.Background>
+            <Image Margin="5,2,5,5" Stretch="Uniform" HorizontalAlignment="Left" Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='ExceedraLogo_White.png'}"   >
+
+                </Image>
+    </DockPanel>
+
+        <Grid Grid.Row="1" Height="220" Width="600" x:Name="LoginBorder">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                 
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <GroupBox    BorderBrush="Gray" BorderThickness="1"   Margin="0,0,10,0"
+              Padding="0,0,0,0">
+                <GroupBox.Background>
+                    <SolidColorBrush Color="White" Opacity=".9"></SolidColorBrush>
+                </GroupBox.Background>
+                <GroupBox.Header>
+                    <TextBlock Text="{lex:Loc Label_ExceedraLogin, 'Exceedra login'}" Style="{StaticResource GlobalGroupHeaderStyleLogin}" />
+                </GroupBox.Header>
+                <Grid>
+                  
+                    <Grid.RowDefinitions>
+                      
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+              
+
+                    <StackPanel Margin="10">
+                        <Grid>
+ 
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" Margin="10,0">
+                            <TextBlock Text="{lex:Loc Login_label_Username,'Username'}" Margin="0,0,14,0" Width="90" />
+                            <TextBox x:Name="txtUserName" Width="230" Text="" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10">
+                            <TextBlock Text="{lex:Loc Login_label_Password,'Password'}" Margin="0,0,14,0" Width="90" />
+                            <PasswordBox x:Name="txtPassword" Width="230" PasswordChar="*" Password="" />
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name="chkRememberMe" Content="{lex:Loc Login_label_Remember,'Remember me'}" Margin="10,6,0,0" />
+                            <CheckBox Name="chkAutomatic" Content="{lex:Loc Login_label_AutomaticLogin,'Automatic login'}" Margin="20,6,0,0" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,20,10,10">
+                            <Button Style="{StaticResource SecondaryBtn}" x:Name="btnLogin" Content="Login" Width="100" Margin="0,0,5,0" Click="btnLogin_Click" />
+                        </StackPanel>
+                       
+
+
+                    </StackPanel>
+ 
+                </Grid>
+ 
+            </GroupBox>
+
+            <GroupBox x:Name="LoginBorder2" Grid.Column="1" Grid.Row="0"  BorderBrush="Gray" BorderThickness="1"  
+              Padding="0,0,0,0">
+                <GroupBox.Background>
+                    <SolidColorBrush Color="White" Opacity=".9"></SolidColorBrush>
+                </GroupBox.Background>
+                <GroupBox.Header>
+                    <TextBlock Text="{lex:Loc Label_External, 'External'}" Style="{StaticResource GlobalGroupHeaderStyleLogin}" />
+                </GroupBox.Header>
+
+
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                <TextBlock Margin="10,8,4,0" ><Hyperlink Click="Hyperlink_OnClick"><TextBlock  Text="{lex:Loc Login_label_WithAuthentication, 'With Authentication'}"></TextBlock></Hyperlink></TextBlock>
+                    <TextBlock Margin="10,8,4,0" Visibility="{Binding IsAzureADActive,  Converter={StaticResource BoolToVisConverter}}" ><Hyperlink x:Name="azurelogin" Click="Azurelogin_OnClick"><TextBlock  Text="{lex:Loc Login_label_WithAzureAD, 'Login using AzureAD'}"></TextBlock></Hyperlink></TextBlock>
+                    <TextBlock Margin="10,8,4,0" Visibility="{Binding LoginWithTwitter, Converter={StaticResource BoolToVisConverter}}" ><Hyperlink x:Name="twitterlogin" Click="Twitterlogin_OnClick"><TextBlock  Text="{lex:Loc Login_label_WithTwitter, 'Login using Twitter'}"></TextBlock></Hyperlink></TextBlock>
+                </StackPanel>
+                </GroupBox>
+
+            <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="12,5,0,0" >
+                <Grid.Background>
+                    <SolidColorBrush Color="White" Opacity=".9"></SolidColorBrush>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"    ></ColumnDefinition>
+                    <ColumnDefinition Width="*"    ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="0" >
+
+                    <TextBlock Margin="10,4,0,0"  > 
+                            <Hyperlink Click="Hyperlink2_OnClick"  >
+                                <TextBlock  Text="{lex:Loc Login_label_ForgotPassword, 'Forgotten password?'}"></TextBlock>
+                            </Hyperlink>
+                        </TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <TextBlock Margin="0,4,10,0"   TextWrapping="Wrap"
+                      Text="{lex:Loc Login_label_EmailSupport,'For help, please email: support@exceedra.com'}" />
+                </StackPanel>
+
+            </Grid>
+        </Grid>
+
+      
+        
+        <!--<news:rss Grid.RowSpan="2" ></news:rss>-->
+        
+        <DockPanel Grid.Row="2">
+
+            <DockPanel.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="{Binding Path=appBG, Source={x:Static Application.Current}}"   />
+                </LinearGradientBrush>
+
+            </DockPanel.Background>
+            <popup:version x:Name="version"    HorizontalAlignment="Right" Height="40" VerticalAlignment="Top" />
+        </DockPanel>
+        <!--Visibility="{Binding PasswordModalPresenterVis, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"-->
+        <modal:ModalContentPresenter x:Name="PasswordModalPresenter"  Visibility="{Binding PasswordModalPresenterVis, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     Grid.Row="0" Grid.Column="0"
+                                     Grid.RowSpan="3"  IsModal="True" >
+        <modal:ModalContentPresenter.ModalContent>
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center"   >
+
+                    <Border BorderBrush="Black" BorderThickness="1" Background="White"  Width="400"   >
+
+                        <Grid   Width="400" Background="White"   >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+ 
+                            <StackPanel Style="{StaticResource GlobalStackPanelStyle}"  Margin="0,0,0,0" Grid.Row="0" Grid.ColumnSpan="3" >
+                                <TextBlock Margin="10" FontSize="16" FontWeight="Bold"  Text="{lex:Loc Label_PasswordReset, 'Password Reset' }" TextWrapping="Wrap"/>
+                            </StackPanel>
+                            <Grid Grid.Row="1" Width="380" Margin="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" FontWeight="Bold" Content="{lex:Loc Login_ResetStep1,'Step 1'}" ></Label>
+                                <Label Grid.Row="1" Content="{lex:Loc Login_label_Username,'Username'}" ></Label>
+                                <TextBox Grid.Row="1" Grid.Column="1" Height="25" Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                                <Button Style="{StaticResource SecondaryBtn}" Grid.Row="2" Grid.Column="1" Height="25" Content="{lex:Loc Login_Label_SendEmailReset,'Send reset'}" Command="{Binding ResetPasswordRequestCommand}" HorizontalAlignment="Right"></Button>
+
+                                <Label Grid.Row="4" FontWeight="Bold" Content="{lex:Loc Login_ResetStep2,'Step 2'}" ></Label>
+                                <Label Grid.Row="5" Content="{lex:Loc Login_label_ResetCode,'Reset Code'}" ></Label>
+                                <TextBox Grid.Row="5" Grid.Column="1" Height="25" Text="{Binding ResetCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                                
+                                <changePasswordPanel:ChangePasswordPanel x:Name="ChangePasswordPanel"  Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
+                                                                         Password="{Binding NewPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                         ConfirmPassword="{Binding NewPassword2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                         PasswordValidator="{Binding PasswordValidator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                         SavePasswordCommand="{Binding SavePasswordCommand}"
+                                                                         CancelButtonVisibility="Visible"
+                                                                         CancelClick="ButtonBase2_OnClick"
+                                                                         NewPasswordLabel="{lex:Loc Login_label_NewPassword,'New Password'}"
+                                                                         ConfirmNewPasswordLabel="{lex:Loc Login_label_ConfirmPassword,'Confirm Password'}"
+                                                                         PasswordDoNotMatchLabel="{lex:Loc Login_label_PasswordsDoNotMatch,'Passwords do not match'}"
+                                                                         CancelLabel="{lex:Loc Login_label_Cancel,'Cancel'}"
+                                                                         SavePasswordLabel="{lex:Loc Login_label_SavePassword,'Save Password'}"
+                                                                         />
+                            </Grid>
+                        </Grid>             
+                      
+                        </Border>
+                    
+                    </Grid>
+        </modal:ModalContentPresenter.ModalContent>
+    </modal:ModalContentPresenter>
+        <modal:ModalContentPresenter Visibility="Hidden" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" IsModal="True" Name="OAuthPresenter">
+            <modal:ModalContentPresenter.ModalContent>
+                <WebBrowser Name="OAuthBrowser" Navigated="OAuthBrowser_OnNavigated" Navigating="OAuthBrowser_OnNavigating"></WebBrowser>
+            </modal:ModalContentPresenter.ModalContent>
+        </modal:ModalContentPresenter>
+    </Grid>
+</pages:PageBase>
+    

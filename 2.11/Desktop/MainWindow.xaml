@@ -1,0 +1,8 @@
+﻿<Window x:Class="Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Exceedra - Desktop" Height="350" Width="525">
+    <Grid>
+        <WebBrowser x:Name="wb" ></WebBrowser>
+    </Grid>
+</Window>

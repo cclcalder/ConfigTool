@@ -1,0 +1,127 @@
+﻿<pages:PageBase
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:local="clr-namespace:WPF.Pages.Admin"
+	  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+	  xmlns:WPF="clr-namespace:WPF"
+	  xmlns:pages="clr-namespace:WPF.Pages"
+	  x:Class="WPF.Pages.Admin.SideMenu"
+	  mc:Ignorable="d" d:DesignWidth="647" d:DesignHeight ="600"
+	Title="SideMenu" Height="auto">
+
+    <Page.Resources>
+    	<WPF:IsSelectedBoolToBackgroundConverter x:Key="IsSelectedBoolToBackgroundConverter"/>
+        <BooleanToVisibilityConverter x:Key="boolVis"/>
+    </Page.Resources>
+
+
+	<Grid   Background="White">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="250" x:Name="rowFilter" />
+			<ColumnDefinition Width="5" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="0" x:Name="promoEdit" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<StackPanel  Style="{StaticResource GlobalStackPanelStyle}" >
+			<Label Content="Admin Tools" FontSize="16"  />
+		</StackPanel>
+
+
+
+		<GridSplitter x:Name="splt1"  ResizeDirection="Columns" Grid.Column="1" Width="3" Grid.RowSpan="2"
+			Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeBehavior="BasedOnAlignment" Margin="0" />
+
+		<ScrollViewer Grid.Row="1"   >
+			<StackPanel HorizontalAlignment="Stretch" >
+
+				<ItemsControl   ItemsSource="{Binding CollectionOfMenuGroups}" Height="auto" >
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+
+							<telerik:RadExpander x:Name="expo1"  VerticalContentAlignment="Top" Width="Auto">
+								<telerik:RadExpander.Header>
+									<Label Content="{Binding MenuGroupName}"  Style="{StaticResource GlobalHeaderLabelStyle}"/>
+								</telerik:RadExpander.Header>
+
+								<TextBlock  ><InlineUIContainer>
+										<ItemsControl ItemsSource="{Binding .}" >
+											<ItemsControl.ItemTemplate>
+												<DataTemplate>
+													<Button x:Name="button" Content="{Binding MenuItemName}" MinWidth="200" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="20,2,2,2" BorderThickness="0" 
+														Command="{Binding DataContext.MenuItemSelection, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}" CommandParameter="{Binding .}"
+														Background="{Binding IsSelected, Converter={StaticResource IsSelectedBoolToBackgroundConverter}}" Style="{StaticResource NoStyle}"/>
+												</DataTemplate>
+											</ItemsControl.ItemTemplate>
+										</ItemsControl>
+									</InlineUIContainer></TextBlock>
+							</telerik:RadExpander>
+
+
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+
+			</StackPanel>
+		</ScrollViewer>
+
+		<Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"  Width="auto" x:Name="mainHolder">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="20"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="30"/>
+				<RowDefinition Height="0"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="auto"/>
+			</Grid.RowDefinitions>
+
+			<StackPanel Orientation="Horizontal" Margin="10,0,0,0" Grid.ColumnSpan="3">
+				<TextBlock TextWrapping="Wrap" Text="{Binding BreadCrumbSection}"  Margin="5,10,0,0"  />
+				<TextBlock TextWrapping="Wrap" Text=" &gt; " Margin="5,10,0,0"  />
+				<Label Content="{Binding MenuTitle}" FontSize="16" Margin="5,0,0,0" />
+			</StackPanel>
+
+            <Label Grid.Column="0" Grid.Row="1" Content="{Binding Pattern2LeftListHeader}" Visibility="Collapsed" x:Name="LeftTreeTitle" />
+            <Label Grid.Column="2" Grid.Row="1" Content="{Binding Pattern2RightListHeader}" Visibility="Collapsed" x:Name="RightTreeTitle"/>
+
+			<local:Pattern1Control  Margin="10" x:Name="Pattern1Ctrl" Grid.Row="2"  
+                                    Grid.ColumnSpan="3" LeftTreeTitle="{Binding ElementName=LeftTreeTitle, Path=Content}"
+                                    DataSource="{Binding Pattern1VM, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"  
+                                    Visibility="{Binding GUI1Vis, Converter={StaticResource boolVis}}"
+                                    />
+					
+		  
+			<local:Pattern2Control Margin="10" Grid.Row="2"
+                                   Grid.ColumnSpan="3" LeftTreeTitle="{Binding Pattern2LeftListHeader}" RightTreeTitle="{Binding Pattern2RightListHeader}"
+                                   DataSource="{Binding Pattern2VM, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
+                                   Visibility="{Binding GUI2Vis, Converter={StaticResource boolVis}}"
+                                   x:Name="Pattern2ControlForEventConsumer" />
+
+			<Border CornerRadius="10" BorderBrush="#cccccc" Margin="10" BorderThickness="1" Visibility="{Binding HasNotes, Converter={StaticResource boolVis}}"  Grid.Row="3" Grid.ColumnSpan="3"  >
+				
+				<StackPanel Orientation="Horizontal">
+					<ContentControl Margin="10" Height="15" Content="{StaticResource info}"  />
+
+					<TextBlock   Text="{Binding Pattern2Description}"  HorizontalAlignment="Left"   Grid.ColumnSpan="3" Margin="0,10,0,0" TextWrapping="Wrap" />
+				</StackPanel>
+				
+			</Border>
+		   
+		</Grid>
+	</Grid>
+
+
+</pages:PageBase>

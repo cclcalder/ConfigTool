@@ -1,0 +1,44 @@
+﻿@model Exceedra.Controls.DynamicRow.ViewModels.RowViewModel
+
+<div class="table-responsive">
+    <table class="table table-condensed table-borderless">
+        @{
+            if (Model != null && Model.Records != null && Model.Records[0] != null)
+            {
+                @Html.HiddenFor(x => x.Records[0].Item_Type)
+                @Html.HiddenFor(x => x.Records[0].Item_Idx)
+
+                for (int i = 0; i < Model.Records[0].Properties.Count(); i++)
+                {
+                    @Html.HiddenFor(model => model.Records[0].Properties[i].ColumnCode)
+                    @Html.HiddenFor(model => model.Records[0].Properties[i].ControlType)
+                    @Html.HiddenFor(model => model.Records[0].Properties[i].IsRequired)
+
+                    if (Model.Records[0].Properties[i].IsDisplayed)
+                    {
+                        <tr>
+                            <td>
+                                @Html.Label(Model.Records[0].Properties[i].HeaderText)
+
+                                <!-- Adding an asterisk if the property is required -->
+                                @if (Model.Records[0].Properties[i].IsRequired)
+                                {
+                                    @:*
+                                }
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => Model.Records[0].Properties[i], "_Property")
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(model => model.Records[0].Properties[i].Value)
+                    }
+                }
+            }
+        }
+    </table>
+</div>
+
+@Html.ValidationSummary()

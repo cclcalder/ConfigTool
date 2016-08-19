@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Exceedra.TelerikGrid.Controls.TelerikGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:local="clr-namespace:Exceedra.TelerikGrid.Controls"
+             mc:Ignorable="d" 
+             x:Name="ThisControl"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid>
+        <telerik:RadGridView x:Name="Grid" GroupRenderMode="Flat" 
+                             RowHeight="20" ColumnWidth="80" 
+                             ScrollMode="RealTime" GridLinesVisibility="Horizontal"
+                             RowIndicatorVisibility="Collapsed"
+                             ShowGroupPanel="False"
+                             CanUserResizeColumns="False"
+                             CanUserFreezeColumns="False"
+                             AutoGenerateColumns="False"
+                             EnableRowVirtualization="True"
+                             EnableColumnVirtualization="True"
+                             ItemsSource="{Binding ElementName=ThisControl, Path=VisibleRecords, Mode=OneWay}"
+                             IsSynchronizedWithCurrentItem="True"
+                             />
+    </Grid>
+</UserControl>

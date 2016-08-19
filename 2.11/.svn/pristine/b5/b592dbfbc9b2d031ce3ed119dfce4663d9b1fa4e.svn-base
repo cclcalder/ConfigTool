@@ -1,0 +1,59 @@
+﻿<pages:PageBase x:Class="WPF.Planning"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:local="clr-namespace:WPF"
+                xmlns:UserControls="clr-namespace:WPF.UserControls" mc:Ignorable="d" Title="Planning" MinHeight="492"
+                d:DesignHeight="500" d:DesignWidth="900"   xmlns:lex="clr-namespace:WPF"
+                xmlns:filter="clr-namespace:WPF.UserControls.Filters.Controls"
+                xmlns:listings="clr-namespace:WPF.UserControls.Listings"
+                xmlns:pages="clr-namespace:WPF.Pages"
+                xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+                xmlns:controls="clr-namespace:WPF.UserControls.Trees.Controls"
+                xmlns:controls1="clr-namespace:Exceedra.Controls.Chart.Controls;assembly=Exceedra.Controls"
+                xmlns:controls2="clr-namespace:Exceedra.MultiSelectCombo.Controls;assembly=Exceedra.Controls"
+                xmlns:treeGrid="clr-namespace:Exceedra.TreeGrid.Controls;assembly=Exceedra.Controls"
+                xmlns:singledd="clr-namespace:Exceedra.SingleSelectCombo.Controls;assembly=Exceedra.Controls"
+                xmlns:caret="clr-namespace:Exceedra.Controls.Caret;assembly=Exceedra.Controls"
+                x:Name="This"
+                >
+
+    <Grid  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" x:Name="rowFilter" />
+            <RowDefinition Height="6" />
+            <RowDefinition Height="*" x:Name="rowGrid" />
+        </Grid.RowDefinitions>
+
+        <filter:FilterControl Grid.Row="0" SingleTreeTitle="Measures" CaretRowSource="{Binding ElementName=rowFilter}" FilterSource="{Binding ElementName=This, Path=ViewModel.FiltersVM}" ButtonsVisibility="Visible" />
+
+        <GridSplitter ResizeDirection="Rows" Grid.Row="1" Width="Auto" Height="5" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Center" ResizeBehavior="BasedOnAlignment" />
+
+        <telerik:RadTabControl Grid.Row="2" Margin="0,5,0,0"  x:Name="RadTabControl" SelectedIndex="{Binding ElementName=This, Path=ViewModel.SelectedTabIndex}" HorizontalAlignment="Stretch"   VerticalAlignment="Stretch">
+           
+            <telerik:RadTabItem x:Name="New" Header="{lex:Loc Label_ProductHierarchy,'Product Hierarchy'}"  Height="25">
+                <treeGrid:TreeGrid CanAddComments="true" DataSource="{Binding ElementName=This, Path=ViewModel.NewTreeGrid}" ShowChartByDefault="True"  />
+            </telerik:RadTabItem>
+            <telerik:RadTabItem Header="{lex:Loc Label_CustomerHierarchy, 'Customer Hierarchy'}"  Height="25">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="2">
+                        <Label Content="Products: " Width="100" />
+                        <singledd:SingleSelectComboBox DataSource="{Binding ElementName=This, Path=ViewModel.SkuGridDropDownVM, Mode=OneWay}" MinWidth="200" IsEditable="false" />
+                    </StackPanel>
+                    <treeGrid:TreeGrid Grid.Row="1" DataSource="{Binding ElementName=This, Path=ViewModel.NewCustomerTreeGrid}" ShowChartByDefault="True" CanAddComments="true" />
+
+                </Grid>
+
+            </telerik:RadTabItem>
+        </telerik:RadTabControl>
+
+    </Grid>
+
+</pages:PageBase>

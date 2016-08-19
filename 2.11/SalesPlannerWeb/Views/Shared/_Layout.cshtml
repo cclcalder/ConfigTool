@@ -1,0 +1,37 @@
+﻿@using StackExchange.Profiling;
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Index</title>
+
+    <!-- This is to make javascript work on this page when it's run in the WebBrowser control in WPF. http://stackoverflow.com/questions/4612255/will-the-ie9-webbrowser-control-support-all-of-ie9s-features-including-svg -->
+    <meta http-equiv="X-UA-Compatible" content="IE=11">
+
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/dynamicGridStyle.css" rel="stylesheet" />
+
+    <script src="~/scripts/jquery-2.2.3.min.js"></script>
+    <script src="~/scripts/jquery-ui-1.11.4.min.js"></script>
+    <script src="~/scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <script src="~/scripts/dynamicGridScripts.js"></script>
+
+    <!-- for listing trees -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <!-- /for listing trees -->
+</head>
+<body>
+    <div class="container-fluid">
+        @RenderBody()
+
+        @MiniProfiler.RenderIncludes()
+    </div>
+</body>
+</html>

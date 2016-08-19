@@ -1,0 +1,448 @@
+﻿<pages:PageBase
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:wpf="clr-namespace:WPF"
+      xmlns:listings="clr-namespace:WPF.UserControls.Listings"
+      xmlns:UI="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF"
+      xmlns:controls="clr-namespace:Exceedra.Controls.DynamicRow.Controls;assembly=Exceedra.Controls"
+      xmlns:controls1="clr-namespace:WPF.UserControls.Trees.Controls"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+      xmlns:controls2="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls"
+      xmlns:wpf1="clr-namespace:Coder.UI.WPF;assembly=Coder.UI.WPF"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      xmlns:pages="clr-namespace:WPF.Pages"
+      xmlns:Converters="clr-namespace:Exceedra.Converters;assembly=Exceedra.Controls" x:Class="WPF.Pages.PromoPowerEditor.Page1"
+      mc:Ignorable="d"
+      d:DesignHeight="768" d:DesignWidth="1024"
+      Title="Page1">
+
+    <pages:PageBase.Resources>
+    	<Converters:BoolToVisibilityConverterInverted x:Key="BoolToVisibilityConverterInverted"/>
+    	<Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    	<BooleanToVisibilityConverter x:Key="BoolToVis" />
+    	<wpf:InverseBooleanConverter x:Key="InvBool" />
+
+    	<Style x:Key="VisibilityStyle" TargetType="{x:Type Label}">
+    		<Style.Triggers>
+    			<Trigger Property="Content" Value="">
+    				<Setter Property="Visibility" Value="Collapsed" />
+    			</Trigger>
+    			<Trigger Property="Content" Value="{x:Null}">
+    				<Setter Property="Visibility" Value="Collapsed" />
+    			</Trigger>
+    		</Style.Triggers>
+    	</Style>
+
+    	<Style x:Key="ButtonColourStyle" TargetType="{x:Type Button}">
+    		<Style.Triggers>
+    			<Trigger Property="IsEnabled" Value="True">
+    				<Setter Property="Background" Value="{telerik:Windows8Resource ResourceKey=AccentBrush}" />
+    			</Trigger>
+    		</Style.Triggers>
+    	</Style>
+
+    	<Style TargetType="{x:Type ComboBoxItem}">
+    		<Setter Property="FontWeight" Value="Normal" />
+    		<Style.Triggers>
+    			<DataTrigger Binding="{Binding IsSelected}" Value="True">
+    				<Setter Property="FontWeight" Value="Bold" />
+    			</DataTrigger>
+    			<DataTrigger Binding="{Binding IsEnabled}" Value="False">
+    				<Setter Property="IsEnabled" Value="False" />
+    			</DataTrigger>
+    		</Style.Triggers>
+    	</Style>
+    </pages:PageBase.Resources>
+
+
+	<Grid Background="White" Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" /><!--Promo Name-->
+			<RowDefinition Height="*" /><!--Tab Control-->
+		</Grid.RowDefinitions>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+			 
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<Label Content="{wpf:Loc Label_Code, Code}" FontSize="16" FontWeight="Bold" Grid.Row="0" Grid.Column="0"
+				Margin="5,2,2,2" VerticalAlignment="Center"
+				Visibility="{Binding Visibility, ElementName=PromoCode}" />
+			<Label Content="{wpf:Loc Label_Name, Name}" FontSize="16" FontWeight="Bold" Grid.Row="0" Grid.Column="1"
+				Margin="5,2,2,2" VerticalAlignment="Center" Width="Auto" />
+
+			<Label Grid.Column="0" Grid.Row="0" Margin="2" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"
+				Style="{StaticResource VisibilityStyle}"
+				Content="{Binding Code, UpdateSourceTrigger=PropertyChanged}" x:Name="PromoCode" />
+			<TextBox  Grid.Column="1" Margin="2" VerticalAlignment="Center" FontSize="16"
+				HorizontalAlignment="Left"
+				Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="400" 
+				Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVisibilityConverterInverted}}" />
+			<TextBlock  Grid.Column="1" Margin="2" VerticalAlignment="Center" FontSize="16"
+				HorizontalAlignment="Left" 
+				Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="400" 
+				Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+			<StackPanel Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5">
+				<Button Content="{wpf:Loc Button_Cancel, Cancel}" Command="{Binding CancelCommand}" Width="80"
+					Height="25"
+					Margin="5,0,5,0" />
+				<Button Content="{wpf:Loc Button_Reload, Reload}" Command="{Binding ReloadCommand}" Width="80"
+					Height="25"
+					Margin="5,0,5,0" />
+			</StackPanel>
+		</Grid>
+
+
+		<telerik:RadTabControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+			SelectedIndex="{Binding SelectedPageIdx, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+			<telerik:RadTabItem x:Name="PromoPowerPage1TabItem" Header="Page 1"
+				PreviewMouseLeftButtonDown="PromoPowerPage1TabItem_OnPreviewMouseLeftButtonDown">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="10" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<Grid Grid.Row="0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="30" />
+						</Grid.RowDefinitions>
+
+                        <GroupBox Grid.Column="0">
+                            <GroupBox.Header>
+                                <TextBlock
+											Text="{wpf:Loc Label_Dates, 'Dates'}"
+											Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+											FontWeight="Bold" />
+                            </GroupBox.Header>
+
+                            <StackPanel Orientation="Vertical"  >
+                             
+                            <DataGrid Margin="6" AutoGenerateColumns="False" SelectionUnit="Cell"
+                                    RowHeaderWidth="0"   IsSynchronizedWithCurrentItem="True"
+										VerticalGridLinesBrush="#CCC" HorizontalGridLinesBrush="#CCC"
+										CanUserAddRows="False" CanUserResizeRows="False"
+										CanUserDeleteRows="False" ItemsSource="{Binding DateList}"
+										RowHeight="25"
+										IsEnabled="{Binding IsReadOnly, Converter={StaticResource InvBool}}"
+                                              >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Description"
+												Binding="{Binding Description}"
+												MaxWidth="80" IsReadOnly="True" />
+                                    <DataGridTemplateColumn Header="Start Date" Width="100">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DatePicker x:Name="datePicker" DisplayDateStart="{Binding EarliestStartDate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" DisplayDateEnd="{Binding EarliestEndDate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <DatePicker.SelectedDate>
+                                                        <Binding Path="StartDate" Mode="TwoWay"
+																	UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding.ValidationRules>
+                                                                <wpf:NormalDateViladation />
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </DatePicker.SelectedDate>
+                                                </DatePicker>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger
+																Binding="{Binding IsReadOnly, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UI:ReadOnlyStateManager}}}"
+																Value="True">
+                                                        <Setter TargetName="datePicker" Value="False"
+																	Property="IsEnabled" />
+                                                    </DataTrigger>
+                                                    <DataTrigger
+																Binding="{Binding IsEditable}"
+																Value="False">
+                                                        <Setter TargetName="datePicker" Value="False"
+																	Property="IsEnabled" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="End Date" Width="100">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <DatePicker x:Name="datePicker2" DisplayDateStart="{Binding StartDate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                                    <DatePicker.SelectedDate>
+                                                        <Binding Path="EndDate" Mode="TwoWay"
+																	UpdateSourceTrigger="PropertyChanged">
+                                                            <Binding.ValidationRules>
+                                                                <wpf:NormalDateViladation />
+                                                            </Binding.ValidationRules>
+                                                        </Binding>
+                                                    </DatePicker.SelectedDate>
+                                                </DatePicker>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger
+																Binding="{Binding IsReadOnly, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UI:ReadOnlyStateManager}}}"
+																Value="True">
+                                                        <Setter TargetName="datePicker2" Value="False"
+																	Property="IsEnabled" />
+                                                    </DataTrigger>
+                                                    <DataTrigger
+																Binding="{Binding IsEditable}"
+																Value="False">
+                                                        <Setter TargetName="datePicker2" Value="False"
+																	Property="IsEnabled" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+										Visibility="{Binding Configuration.IsPromotionDatePeriodsActive, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="{wpf:Loc Label_Period}" Margin="6" />
+                                <ComboBox x:Name="ComboBox" ItemsSource="{Binding Periods}"
+											DisplayMemberPath="Name" SelectedValuePath="ID"
+											SelectedItem="{Binding SelectedPeriod, Mode=TwoWay}" MinWidth="200"
+											MaxWidth="800" 
+											IsEnabled="{Binding IsReadOnly, Converter={StaticResource InvBool}}"
+                                                  />
+                            </StackPanel>
+                        </StackPanel>
+                        </GroupBox>
+                        
+                        <listings:ListingsUserControl Grid.Column="1"  x:Name="ListingsUserControl"  
+							ListingsSource="{Binding DataContext.ListingsVM, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+							ReadOnly="{Binding IsReadOnly}"
+                                                    />
+
+
+                        <GroupBox Grid.Column="2">
+                            <GroupBox.Header>
+                                <TextBlock
+											Text="{wpf:Loc Label_Attributes, Attributes}"
+											Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"
+											FontWeight="Bold" />
+                            </GroupBox.Header>
+
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock><InlineUIContainer>
+												<Button ToolTip="Refresh Attributes" VerticalAlignment="Stretch" x:Name="RefreshAttibutes"
+													HorizontalAlignment="Left" Margin="4"
+													Style="{StaticResource ButtonColourStyle}"
+													Command="{Binding RefreshAttributesCommand}">
+													<Image Source="/images/refresh.png" Stretch="Uniform" />
+												</Button>
+											</InlineUIContainer><Run Text=" "/><InlineUIContainer>
+												<Label Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVis}, ElementName=RefreshAttibutes}"
+													VerticalAlignment="Center"
+                                                   >
+													<TextBlock><Run>Please Refresh</Run><Run Text=" "/><InlineUIContainer>
+															<TextBlock Text="{wpf:Loc Label_Attributes, Attributes}" />
+														</InlineUIContainer></TextBlock>
+												</Label> 
+ 
+											</InlineUIContainer></TextBlock>
+										<TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
+											VerticalAlignment="Center"><InlineUIContainer>
+												<CheckBox Margin="0,0,0,0" IsChecked="{Binding AutoRefresh, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+													<TextBlock Text="Auto Refresh" />
+												</CheckBox>
+											</InlineUIContainer></TextBlock>
+
+
+										<ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
+											HorizontalScrollBarVisibility="Auto"
+											VerticalScrollBarVisibility="Auto" CanContentScroll="False">
+											<controls:DynamicRowControl Margin="0" HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch"
+												ItemDataSource="{Binding AttributesRVM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+												x:Name="Pattern1verticalControl" IsEnabled="{Binding IsEnabled}" />
+										</ScrollViewer>
+									</Grid>
+
+								</GroupBox>
+
+                        <!--<StackPanel Grid.Row="0" Grid.Column="1">
+							<Label x:Name="TreeName" Content="{wpf:Loc Label_SubCustomers, Sub Customers}"
+								Visibility="Collapsed" />
+							<Button Visibility="Collapsed" Command="{Binding ReloadSubCustomersCommand}" />
+							<controls1:TreeControl Height="{Binding Height, ElementName=ListingsUserControl}"
+								TreeTitle="{Binding Content, ElementName=TreeName}"
+								TreeSource="{Binding DataContext.SubCustomersTreeInput, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Page}}, UpdateSourceTrigger=PropertyChanged}"
+                                                   />
+						</StackPanel>-->
+						<!--<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+							<Button Command="{Binding UploadSubCustomersViaCsvCommand}"
+								CommandParameter="{Binding HaveVisibleSubCustomers}"
+								Content="{wpf:Loc Button_LoadFromCsv, Load from csv}"
+								Style="{StaticResource Standard}" 
+								IsEnabled="{Binding IsReadOnly, Converter={StaticResource InvBool}}"/>
+						</StackPanel>-->
+
+					</Grid>
+					<!--<GridSplitter Grid.Row="1" ResizeDirection="Rows" Height="5" Width="Auto"
+						HorizontalAlignment="Stretch" />-->
+
+					<Grid Grid.Row="2">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="30" />
+						</Grid.RowDefinitions>
+
+						<Grid Grid.Row="0">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+							
+
+			
+							</Grid>
+						</Grid>
+
+						<Grid Grid.Row="1">
+
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+								<Button x:Name="Page1_SaveBtn" Content="{wpf:Loc Button_Save, Save}"
+									Command="{Binding SavePage1Command}" Width="80" HorizontalAlignment="Left"
+									Margin="5,0,5,0" />
+								<Button x:Name="btnNext" Content="{wpf:Loc Button_Next, Next}" Width="80"
+									Command="{Binding GoToPage2Command}" HorizontalAlignment="Right" />
+							</StackPanel>
+
+
+						</Grid>
+					</Grid>
+				</Grid>
+			</telerik:RadTabItem>
+			<telerik:RadTabItem x:Name="PromoPowerPage2TabItem" Header="Page 2"
+				IsEnabled="{Binding IsEnabled, ElementName=btnNext}"
+				PreviewMouseLeftButtonDown="PromoPowerPage2TabItem_OnPreviewMouseLeftButtonDown">
+
+	 
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        <RowDefinition Height="30" />
+                        </Grid.RowDefinitions>
+
+                        
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                        <controls:DynamicRowControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+						ItemDataSource="{Binding FinancialsRowVM}"/>
+
+                        <controls2:DynamicGridControl  Grid.Column="1"  
+						ItemDataSource="{Binding TopRightRecordVM}" CanGridExtendArea="True" />
+
+                    </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                        <controls2:DynamicGridControl  Grid.Column="0"  
+						ItemDataSource="{Binding MiddleLeftRecordVM}" CanGridExtendArea="True" />
+
+                        <controls2:DynamicGridControl  Grid.Column="1"  
+						ItemDataSource="{Binding MiddleCentreRecordVM}" CanGridExtendArea="True" />
+
+                        <controls2:DynamicGridControl  Grid.Column="2"  
+						ItemDataSource="{Binding BottomRightRecordVM}" CanGridExtendArea="True" />
+
+                    </Grid>
+                        <Grid Grid.Row="2">
+
+                        <controls2:DynamicGridControl Grid.Row="0" Grid.Column="0" 
+						ItemDataSource="{Binding PAndLRecordVM}" CanGridExtendArea="True" />
+
+                    </Grid>
+
+
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" /> 
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel  Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left"
+						Margin="5">
+                        <TextBlock Text="{wpf:Loc Label_Status}" Width="Auto" Margin="5,0,0,0"
+							VerticalAlignment="Center" />
+                        <ComboBox MaxDropDownHeight="66" Width="140" ItemsSource="{Binding Statuses}"
+							DisplayMemberPath="Name" SelectedValuePath="ID"
+							SelectedItem="{Binding SelectedStatus, Mode=TwoWay}" VerticalAlignment="Center"
+                                  
+                                  />
+                        <TextBlock Text="{wpf:Loc Label_Scenario}" Width="Auto" Margin="5,0,0,0"
+							VerticalAlignment="Center" />
+                        <!--<wpf1:ComboWithCheckboxes Width="140" ItemsSource="{Binding PromotionScenarios}"
+							VerticalAlignment="Center"
+							DisplayMemberPath="Name" SelectedItems="{Binding SelectedScenarios}"
+							IsEnabled="{Binding IsReadOnly, Converter={StaticResource InvBool}}"
+                                                  />-->
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right"
+						Margin="5">
+                        <Button x:Name="BtnBack" Content="{wpf:Loc Button_Back, Back}" Width="80"
+							Command="{Binding GoToPage1Command}" HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							Margin="5,0,5,0" />
+                        <Button x:Name="Page2SaveBtn" Content="{wpf:Loc Button_Save, Save}"
+							Command="{Binding SavePage2Command}" Width="80" HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							Margin="5,0,5,0" />
+                        <Button x:Name="Page2SaveCloseBtn" Content="{wpf:Loc Button_SaveClose, Save &amp; Close}"
+							Command="{Binding SaveClosePage2Command}" Width="80" HorizontalAlignment="Left"
+							VerticalAlignment="Center"
+							Margin="5,0,5,0" />
+                    </StackPanel>
+
+                </Grid>
+
+
+                </Grid>
+
+
+ 
+
+            </telerik:RadTabItem>
+		</telerik:RadTabControl>
+
+	</Grid>
+
+</pages:PageBase>

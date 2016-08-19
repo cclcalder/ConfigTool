@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="Exceedra.MultiSelectCombo.Controls.MultiSelectComboBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:converter="clr-namespace:Exceedra.MultiSelectCombo.Converters"
+             xmlns:behaviour="clr-namespace:Exceedra.MultiSelectCombo.Behaviour"
+             mc:Ignorable="d" 
+             x:Name="MultiSelect"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <converter:BoolToBrushConverter x:Key="boolToBrushConverter"/>
+
+        <Style TargetType="telerik:RadComboBoxItem" x:Key="RadComboBoxItemContainerStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border BorderBrush="{Binding Colour}" BorderThickness="1">
+                            <Grid x:Name="Grid" Height="24" Margin="1">
+                                <!--Highlighting items when mouse over them-->
+                                <Grid.Style>
+                                    <Style TargetType="{x:Type Grid}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=Grid}" Value="True">
+                                                <Setter Property="Background" Value="#FFEBEBEB" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=Grid}" Value="False">
+                                                <Setter Property="Background" Value="{x:Null}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <CheckBox x:Name="checkBox" IsChecked="{Binding IsSelected,Mode=TwoWay}"
+                                          Checked="checkBox_Checked"
+                                          Unchecked="checkBox_Checked"
+                                      IsHitTestVisible="{Binding IsSelectionEnabled, ElementName=MultiSelect}"
+                                      Foreground="{Binding IsSelectionEnabled, Converter={StaticResource boolToBrushConverter}, ElementName=MultiSelect}"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,0,0,0"
+                                      IsEnabled="{Binding IsEnabled}"                                      
+                                      >
+                                    <CheckBox.Content>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </CheckBox.Content>
+                                </CheckBox>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type TextBox}" x:Key="MultiSelectTextBoxStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=MultiSelect, Path=IsSelectionEnabled}" Value="False">
+                    <Setter Property="Foreground" Value="Gray" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsDropDownOpen, ElementName=RadComboBox}" Value="False">
+                    <Setter Property="Text" Value="{Binding DataSource.SelectedItemsText, ElementName=MultiSelect, Mode=OneWay}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <telerik:RadComboBox x:Name="RadComboBox"
+            ItemsSource="{Binding DataSource.Items, ElementName=MultiSelect, Mode=TwoWay}"
+            ItemContainerStyle="{StaticResource RadComboBoxItemContainerStyle}"
+            TextBoxStyle="{StaticResource MultiSelectTextBoxStyle}"
+            DropDownWidth="{Binding Width, ElementName=RadComboBox}"
+            IsEditable="True"
+            IsFilteringEnabled="True"
+            OpenDropDownOnFocus="True"
+            SelectAllTextEvent="GotFocus"
+            StaysOpenOnEdit="True"
+            UpdateTextOnLostFocus="False"
+            DisplayMemberPath="Name"
+            DropDownClosed="RadComboBox_OnDropdownClosed"
+            LostFocus="RadComboBox_OnLostFocus"
+            >
+            <telerik:RadComboBox.FilteringBehavior>
+                <behaviour:FilteringBehaviour />
+            </telerik:RadComboBox.FilteringBehavior>
+            <telerik:RadComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </telerik:RadComboBox.ItemsPanel>
+        </telerik:RadComboBox>
+    </Grid>
+</UserControl>

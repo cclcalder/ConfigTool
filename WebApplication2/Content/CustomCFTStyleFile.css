@@ -1,0 +1,6 @@
+﻿/*fixed parameters for tables*/
+td {
+    word-wrap: break-word;
+    max-width: 200px;
+}
+

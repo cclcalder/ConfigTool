@@ -1,0 +1,38 @@
+﻿#overlay {
+    background: #000000;
+    
+    display: none;
+
+    -ms-opacity: 0.80;
+    opacity: 0.80;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 10;
+}
+
+#itemEditorPanel {
+    display: none;
+
+    position: absolute;
+    right: 20px;
+    top: 8px;
+
+    z-index: 20;
+}
+
+.table-borderless tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
+    border: none;
+}
+
+.row-margin-top {
+    padding-top: 12px;
+}
+
+.row-margin-bottom {
+    padding-bottom: 12px;
+}

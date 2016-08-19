@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ESP_Demo_DEV_FoodDrink_v2_8" Class="ExceedraDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=tcp:exceedra-uk-rd.database.windows.net,1433;Initial Catalog=ESP_Demo_DEV_FoodDrink_v2_8;User ID=WebApp;Connect Timeout=60;Encrypt=True" SettingsObjectName="Exceedra.DB.Properties.Settings" SettingsPropertyName="ESP_Demo_DEV_FoodDrink_v2_8ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="app.Fact_User_Alert_Group" Member="Fact_User_Alert_Groups">
+    <Type Name="Fact_User_Alert_Group">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Alert_Group_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Alert_Group" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_Scenario" Member="Fact_User_Scenarios">
+    <Type Name="Fact_User_Scenario">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Scen_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Scenario" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_Analytics" Member="Fact_User_Analytics">
+    <Type Name="Fact_User_Analytic">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AnalyticsReport_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Report_IsDefault" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Analytic" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_Canvas_Report" Member="Fact_User_Canvas_Reports">
+    <Type Name="Fact_User_Canvas_Report">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Canvas_Report_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Report_Is_Default" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Canvas_Report" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_Customers" Member="Fact_User_Customers">
+    <Type Name="Fact_User_Customer">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Cust_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Customer" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_Login_Log" Member="Fact_User_Login_Logs">
+    <Type Name="Fact_User_Login_Log">
+      <Column Name="Login_Log_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="User_ADName" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="DateTimeStamp" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Login_Success" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SUser_SName" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Login_Log" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_Product" Member="Fact_User_Products">
+    <Type Name="Fact_User_Product">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Sku_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Product" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_Promotion_Graph" Member="Fact_User_Promotion_Graphs">
+    <Type Name="Fact_User_Promotion_Graph">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Promotion_Graph_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsDefault" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Promotion_Graph" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_Reports" Member="Fact_User_Reports">
+    <Type Name="Fact_User_Report">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Report_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Report_IsDefault" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Report" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_Roles" Member="Fact_User_Roles">
+    <Type Name="Fact_User_Role">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Role_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Dim_User_Fact_User_Role" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Fact_User_SalesOrg" Member="Fact_User_SalesOrgs">
+    <Type Name="Fact_User_SalesOrg">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SalesOrg_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsDefault" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Dim_User_Fact_User_SalesOrg" Member="Dim_User" ThisKey="User_Idx" OtherKey="User_Idx" Type="Dim_User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Users" Member="Dim_Users">
+    <Type Name="Dim_User">
+      <Column Name="User_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_FirstName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="User_LastName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="User_DisplayName" Type="System.String" DbType="VarChar(202) NOT NULL" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="User_Email" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="User_LoginName" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="User_LoginPassword" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="User_Hash" Type="System.String" DbType="Char(100)" CanBeNull="true" />
+      <Column Name="User_SaltedPassword" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="User_UniqueCode" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="User_ExcludeFromEmail_Workflow" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="User_AD_Name" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="IsEnabled" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsUserProfile" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="AssignedProfile_Idx" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="User_Language" Type="System.String" DbType="Char(5) NOT NULL" CanBeNull="false" />
+      <Column Name="SessionID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="Dim_User_Fact_User_Alert_Group" Member="Fact_User_Alert_Groups" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Alert_Group" />
+      <Association Name="Dim_User_Fact_User_Scenario" Member="Fact_User_Scenarios" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Scenario" />
+      <Association Name="Dim_User_Fact_User_Analytic" Member="Fact_User_Analytics" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Analytic" />
+      <Association Name="Dim_User_Fact_User_Canvas_Report" Member="Fact_User_Canvas_Reports" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Canvas_Report" />
+      <Association Name="Dim_User_Fact_User_Customer" Member="Fact_User_Customers" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Customer" />
+      <Association Name="Dim_User_Fact_User_Login_Log" Member="Fact_User_Login_Logs" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Login_Log" />
+      <Association Name="Dim_User_Fact_User_Product" Member="Fact_User_Products" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Product" />
+      <Association Name="Dim_User_Fact_User_Promotion_Graph" Member="Fact_User_Promotion_Graphs" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Promotion_Graph" />
+      <Association Name="Dim_User_Fact_User_Report" Member="Fact_User_Reports" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Report" />
+      <Association Name="Dim_User_Fact_User_Role" Member="Fact_User_Roles" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_Role" />
+      <Association Name="Dim_User_Fact_User_SalesOrg" Member="Fact_User_SalesOrgs" ThisKey="User_Idx" OtherKey="User_Idx" Type="Fact_User_SalesOrg" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Config" Member="SYS_Configs">
+    <Type Name="SYS_Config">
+      <Column Name="OptionItem_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="OptionItem" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="OptionItemDetail" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="OptionItemDetail_Value" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="IsEditable" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="MenuItem_Code" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="app.Procast_SP_DUMMY_GetHorizontalGrid" Method="Procast_SP_DUMMY_GetHorizontalGrid" >
+    <Parameter Name="XML_In" Parameter="xML_In" Type="System.Xml.Linq.XElement" DbType="Xml" />
+    <Parameter Name="DEBUG_MODE" Parameter="dEBUG_MODE" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UNIT_TEST_MODE" Parameter="uNIT_TEST_MODE" Type="System.Boolean" DbType="Bit" />
+  </Function>
+  <Function Name="app.Procast_SP_UserLanguage" Method="Procast_SP_UserLanguage">
+    <Parameter Name="XML_In" Parameter="xML_In" Type="System.Xml.Linq.XElement" DbType="Xml" />
+    <Parameter Name="DEBUG_MODE" Parameter="dEBUG_MODE" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UNIT_TEST_MODE" Parameter="uNIT_TEST_MODE" Type="System.Boolean" DbType="Bit" />
+  </Function>
+  <Function Name="app.Procast_SP_UserPref_Save" Method="Procast_SP_UserPref_Save">
+    <Parameter Name="XML_In" Parameter="xML_In" Type="System.Xml.Linq.XElement" DbType="Xml" />
+    <Parameter Name="DEBUG_MODE" Parameter="dEBUG_MODE" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UNIT_TEST_MODE" Parameter="uNIT_TEST_MODE" Type="System.Boolean" DbType="Bit" />
+  </Function>
+  <Function Name="app.Procast_SP_LOGIN_User_Login" Method="Procast_SP_LOGIN_User_Login">
+    <Parameter Name="XML_In" Parameter="xML_In" Type="System.Xml.Linq.XElement" DbType="Xml" />
+    <Parameter Name="DEBUG_MODE" Parameter="dEBUG_MODE" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UNIT_TEST_MODE" Parameter="uNIT_TEST_MODE" Type="System.Boolean" DbType="Bit" />
+  </Function>
+  <Function Name="app.Procast_SP_LOGIN_GetSysConfig" Method="Procast_SP_LOGIN_GetSysConfig">
+    <Parameter Name="XML_In" Parameter="xML_In" Type="System.Xml.Linq.XElement" DbType="Xml" />
+    <Parameter Name="DEBUG_MODE" Parameter="dEBUG_MODE" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UNIT_TEST_MODE" Parameter="uNIT_TEST_MODE" Type="System.Boolean" DbType="Bit" />
+  </Function>
+</Database>

@@ -1,0 +1,81 @@
+﻿<UserControl
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:WPF="clr-namespace:Coder.UI.WPF;assembly=Coder.UI.WPF"
+			xmlns:my="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF"
+			  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" x:Name="Pattern2"
+			xmlns:TelerikConverter="clr-namespace:WPF.TelerikHelpers"
+            xmlns:Converters="clr-namespace:WPF.Converters"
+			xmlns:local="clr-namespace:WPF.ViewModels.Admin"
+			xmlns:controls="clr-namespace:WPF.UserControls.Trees.Controls"
+			x:Class="WPF.Pages.Admin.Pattern2Control" 
+			 mc:Ignorable="d" d:DesignWidth="542.553" d:DesignHeight="432.979"
+			 Background="White" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  >
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="boolVis"/>
+            <Converters:BoolToToggleStateConverter x:Key="boolToToggleStateConv" />
+            <Style x:Key="ItemContainerStyle" TargetType="{x:Type telerik:RadTreeViewItem}"  BasedOn="{StaticResource RadTreeViewItemStyle}">
+                <Setter Property="IsExpanded" Value="True"></Setter>
+
+                <!--<Setter Property="IsChecked" Value="{Binding Path=IsSelectedBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />-->
+                <Setter Property="CheckState" Value="{Binding IsSelectedBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToToggleStateConv}}"  />
+            </Style>
+
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+
+    <Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   >
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" MinHeight="30"/>
+        </Grid.RowDefinitions>
+
+        <controls:TreeControl x:Name="LeftTree"
+                              Grid.Row="1" Grid.Column="0" UseNewStyle="True" 
+                              TreeSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.Pattern2LeftTree, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              />
+
+
+        <controls:TreeControl x:Name="RightTree"
+                              Grid.Row="1" Grid.Column="2" UseNewStyle="True" 
+                              TreeSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.Pattern2RightTree, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              />
+
+
+        <Button Content="Apply" HorizontalAlignment="Left"  VerticalAlignment="Stretch" Width="75" 
+                Style="{StaticResource SecondaryBtn}"
+                Command="{Binding Apply_Pattern2}" 
+				Grid.Row="2" Margin="2,5"/>
+
+        <Button Content="Save" Grid.Row="2" HorizontalAlignment="Right" Grid.Column="2" Width="75" Command="{Binding Save_Pattern2}"
+				 Margin="2,5" 
+                Style="{StaticResource SecondaryBtn}"/>
+        <!--<Button Content="Delete" HorizontalAlignment="Center"  VerticalAlignment="Stretch" Width="75"  Command="{Binding Delete_Pattern2}" Visibility="Hidden"
+        	Grid.Row="2" Margin="0,10,0,0" Grid.RowSpan="2" Grid.Column="2"/>-->
+        <Button Content="Cancel" HorizontalAlignment="Left" Width="75" Grid.Column="2" Grid.Row="2"
+				Command="{Binding Cancel_Pattern2}" 
+                Style="{StaticResource SecondaryBtn}"/>
+
+
+
+
+
+    </Grid>
+
+</UserControl>

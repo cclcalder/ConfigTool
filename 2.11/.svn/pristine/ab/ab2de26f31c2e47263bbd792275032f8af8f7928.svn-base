@@ -1,0 +1,192 @@
+﻿<UserControl x:Class="WPF.Wizard.WizardLeftMenu" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:controls="clr-namespace:Exceedra.Controls;assembly=Exceedra.Controls"
+             xmlns:ui="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF" mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="440"
+             xmlns:converters="clr-namespace:WPF.Converters"
+             xmlns:lex="clr-namespace:WPF"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        
+             >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+        <converters:ToggleStateToIconFilenameConverter x:Key="IconConverter"/>
+    </UserControl.Resources>
+    <Grid Background="White">
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBlock}" x:Key="LinkTextStyle">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontWeight" Value="Normal" />
+                <Setter Property="Foreground" Value="#777" />
+                <Setter Property="TextDecorations" Value="None" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled}" Value="True">
+                        <Setter Property="Foreground" Value="#000" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type ListBoxItem}">
+                <Style.Triggers>
+                    <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                        <Setter Property="Background" Value="#19f39611"></Setter>
+                    </Trigger>
+                    <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                        <Setter Property="Background" Value="#E6E6E6"></Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="ToolTip">
+                <Style.Triggers>
+                    <Trigger Property="Content" Value="{x:Static sys:String.Empty}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Trigger>
+                    <Trigger Property="Content" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+
+
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="0" Grid.Row="0" >
+            <StackPanel  Style="{StaticResource GlobalStackPanelStyle}"   Margin="0,0,0,0" >
+                <TextBlock Margin="10"  Text="{Binding CodeAndName}" TextWrapping="Wrap"></TextBlock>
+            </StackPanel>
+            <StackPanel Margin="0,0,0,10" >
+                <ItemsControl ItemsSource="{Binding PageList}" IsEnabled="{Binding IsEnabled}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Margin="5,5,0,0" Padding="5" Grid.Column="0" ToolTip="{Binding LastSavedDate}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsCurrent}" Value="True">
+                                                    <Setter Property="Background" Value="#eeeeee" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                  <Hyperlink Command="{Binding GoToCommand}">
+                                    <TextBlock Text="{Binding Title}" Style="{StaticResource LinkTextStyle}" />
+                                  </Hyperlink>
+                                   
+                                </TextBlock>
+                                <StackPanel  Grid.Column="1" Orientation="Horizontal" >
+                                    <!--<TextBlock Text="{Binding HasChanges}" />-->
+
+                                    <Image Width="16" Height="16" Margin="5,0">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding State}" Value="On">
+                                                        <Setter Property="Source" Value="{StaticResource TickImage}"/>
+                                                        <Setter Property="ToolTip" Value="Page valid"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding State}" Value="Off">
+                                                        <Setter Property="Source" Value="{StaticResource WarningImage}"/>
+                                                        <Setter Property="ToolTip" Value="Page has errors"></Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding State}" Value="Indeterminate">
+                                                        <Setter Property="Source" Value="{StaticResource FlagImage}"/>
+                                                        <Setter Property="ToolTip" Value="Page needs reviewing"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </StackPanel>
+
+                            </Grid>
+
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+            <!--<Separator Height="4" Margin="10" />-->
+        </StackPanel>
+        <telerik:RadTabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White" Grid.Row="1">
+            <telerik:RadTabItem x:Name="RadTabItem" Header="{lex:Loc Label_Comments,'Comments'}"  Height="25">
+                <Grid Height="Auto" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0" />
+                        <RowDefinition Height="*" MinHeight="50"/>
+                        <RowDefinition Height="22" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <!--<TextBlock Grid.Row="0" Text="{lex:Loc Label_Comments,'Comments'}"  Margin="10,0,0,0" />-->
+                    <controls:AutoScrollingListView  x:Name="lstComments" Grid.Row="1" Height="auto" Margin="10, 4" AlternationCount="2"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding CommentList}"               
+               MouseDoubleClick="ListBox_MouseDoubleClick">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ToolTip="{Binding Value}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding Header}" FontSize="11" TextWrapping="Wrap"
+                         FontWeight="Bold" />
+                                    <TextBlock Grid.Row="1" Text="{Binding Value}" FontSize="12" TextWrapping="Wrap" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </controls:AutoScrollingListView>
+                    <TextBlock Grid.Row="2" Text="{lex:Loc Label_AddComment}"  Margin="10,4" />
+                    <ui:ReadOnlyStateManager Grid.Row="3" IsReadOnly="False">
+                        <TextBox IsEnabled="True" Text="{Binding NewComment, Mode=TwoWay}" Margin="10,0" AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" MaxLength="200" />
+                    </ui:ReadOnlyStateManager>
+                    <CheckBox Visibility="Hidden" IsChecked="{Binding CurrentPromotion.IsEditable, Mode=TwoWay}" Content="IsEditable" Grid.Row="4" HorizontalAlignment="Left"  ></CheckBox>
+                    <CheckBox Visibility="Hidden" IsChecked="{Binding CurrentPromotion.IsReadOnly}" Grid.Row="4" HorizontalAlignment="Center" Content="IsReadOnlyMode"  ></CheckBox>
+                    <Button   Grid.Row="4" Command="{Binding AddCommentCommand}" Content="{lex:Loc Button_Add_Comment,'Add Comment'}" 
+              HorizontalAlignment="Right" Margin="10,8" Width="140" />
+                </Grid>
+            </telerik:RadTabItem>
+            <telerik:RadTabItem x:Name="RadTabItem2" Header="{lex:Loc Label_Viewers,'Viewers'}"  Height="25">
+                <controls:AutoScrollingListView  x:Name="lstViewers"   Height="auto" Margin="10, 4" AlternationCount="2"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Viewers}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                    <TextBlock Text="{lex:Loc Label_UserName,'Name'}"></TextBlock>
+                                    <TextBlock Text="{Binding Name}" FontSize="11" Margin="20,0,0,0" TextWrapping="Wrap"
+                         FontWeight="Bold" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                    <TextBlock Text="{lex:Loc Label_LastSeen,'Last seen'}"></TextBlock>
+                                    <TextBlock Grid.Row="1" Text="{Binding LastSeen}" Margin="20,0,0,0"  FontSize="10" TextWrapping="Wrap" />
+                                </StackPanel>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </controls:AutoScrollingListView>
+            </telerik:RadTabItem>
+        </telerik:RadTabControl>
+
+
+    </Grid>
+</UserControl>

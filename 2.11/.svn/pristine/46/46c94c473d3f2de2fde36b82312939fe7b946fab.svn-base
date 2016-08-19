@@ -1,0 +1,162 @@
+﻿<Page xmlns:Controls="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls"
+      x:Class="WPF.Wizard.Volumes" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:wizard="clr-namespace:WPF.Wizard"
+       xmlns:UI="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF"
+      xmlns:converter="clr-namespace:WPF"
+      mc:Ignorable="d" d:DesignHeight="296" d:DesignWidth="1280" Title="Volumes" xmlns:lex="clr-namespace:WPF">
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVis" />
+        <converter:InverseBooleanConverter x:Key="InverseConverter" />
+        <lex:ImageUrlConverter x:Key="imageUrlConverter" />
+    </Page.Resources>
+    <!--<Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>-->
+
+    <Grid Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Background="LightGray">
+                <wizard:WizardLeftMenu />
+            </Grid>
+            <GridSplitter x:Name="splt1" ResizeDirection="Columns" Grid.Column="1" Width="3"
+                          Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                          ResizeBehavior="BasedOnAlignment" Margin="0" />
+            <UI:ReadOnlyStateManager Grid.Row="0" Grid.Column="2" IsReadOnly="{Binding CurrentPromotion.IsReadOnly}">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{lex:Loc Label_VolumeAdjust,'Volumes'}" FontSize="16" Margin="10" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right">
+                        <Button Name="CancelReload" Content="{lex:Loc Button_Reload, 'Reload'}" Width="80"
+                                Margin="8" IsEnabled="{Binding CurrentPromotion.IsEditable}"
+                                Command="{Binding ReloadCommand}" Style="{StaticResource SecondaryBtn}"
+                                />
+                        <Button Name="CancelNext" Content="{lex:Loc Button_Cancel, 'Cancel'}" Width="80"
+                                HorizontalAlignment="Right" Margin="8"
+                                Command="{Binding CancelCommand}" Style="{StaticResource SecondaryBtn}"/>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1" Margin="10">
+
+                        <ScrollViewer Name="ScrollViewer1" VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled" CanContentScroll="False"
+                                      >
+
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="60" />
+                                            <ColumnDefinition Width="170" />
+                                        </Grid.ColumnDefinitions>
+                                        <!--IsReadOnly="{Binding CurrentPromotion.IsEditable, Converter={StaticResource InverseConverter}}"-->
+                                        <Controls:DynamicGridControl x:Name="dynamicDisplay" Margin="6,6,1,6"
+                                                              CanAddRow="False"
+                                                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                             ItemDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.DisplayVolumesRVM, Mode=TwoWay}" />
+
+
+                                        <Button Grid.Row="0" Grid.Column="1" Margin="0,6,6,6" Click="Button_Click"
+                                                Height="25" VerticalAlignment="Bottom" x:Name="displayGrid"
+                                                IsEnabled="{Binding CurrentPromotion.IsEditable}"
+                                                Style="{StaticResource SecondaryBtn}">
+                                            <Image Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='refresh.gif'}" Stretch="Uniform" />
+                                        </Button>
+
+                                        <StackPanel Grid.Row="0" Height="Auto" Margin="0,6" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Right" Orientation="Vertical">
+                                            <Button Content="{lex:Loc Button_DailyVolumes}" Width="150" Height="30"
+                                                    Margin="10,0" Command="{Binding DailyPromotionCommand}"
+                                                    Visibility="{Binding Configuration.IsDailyVolumePhasingActive, Converter={StaticResource boolToVis}}"
+                                                    Style="{StaticResource SecondaryBtn}"
+                                                    />
+                                            <Button Content="{lex:Loc Button_WeeklyVolumes}" Width="150" Height="30"
+                                                    Margin="10,0" Command="{Binding WeeklyPromotionCommand}"
+                                                    Visibility="{Binding Configuration.IsWeeklyVolumePhasingActive, Converter={StaticResource boolToVis}}" 
+                                                    Style="{StaticResource SecondaryBtn}"
+                                                    />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <GridSplitter ResizeDirection="Rows" Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+
+                                <!--IsReadOnly="{Binding CurrentPromotion.IsReadOnly}"-->
+                                <Controls:DynamicGridControl x:Name="dynamicVolumes" Margin="6"
+                                                            
+                                                             Grid.Row="2" 
+                                                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                             ItemDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.VolumesRVM, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <GridSplitter ResizeDirection="Rows" Grid.Row="3" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+
+                                <!--IsReadOnly="{Binding CurrentPromotion.IsReadOnly}"-->
+                                <Controls:DynamicGridControl x:Name="dynamicSteals" Margin="6"
+
+                                                             
+                                                             Grid.Row="4" 
+                                                            
+                                                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                                             ItemDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.StealVolumesRVM, Mode=TwoWay}" />
+
+                            </Grid>
+
+                        </ScrollViewer>
+
+                    </Grid>
+
+                    <Grid Grid.Row="2" Margin="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="4" VerticalAlignment="Center"
+                                   Text="{lex:Loc Label_Status}" />
+                        <TextBlock Grid.Column="2" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="{Binding SelectedStatus.Name}" />
+                        <Button Grid.Column="3" Name="btnCancel" Content="{lex:Loc Button_Back, 'Back'}" Width="80"
+                                Command="{Binding BackCommand}" 
+                                Style="{StaticResource SecondaryBtn}"
+                                />
+                        <Button Grid.Column="4" Name="btnNext" Content="{lex:Loc Button_Next, 'Next'}" Width="80"
+                                Margin="4,0"
+                                Command="{Binding NextCommand}" 
+                                Style="{StaticResource SecondaryBtn}"
+                                />
+
+                    </Grid>
+
+                </Grid>
+
+            </UI:ReadOnlyStateManager>
+        </Grid>
+        <!--<wizard:StatusBarControl Grid.Row="1" />-->
+
+    <!--</Grid>-->
+</Page>

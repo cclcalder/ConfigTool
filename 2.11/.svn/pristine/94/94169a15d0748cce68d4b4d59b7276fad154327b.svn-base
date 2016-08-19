@@ -1,0 +1,105 @@
+﻿<UserControl
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Controls="clr-namespace:Exceedra.Controls.DynamicRow.Controls;assembly=Exceedra.Controls" 
+      xmlns:my="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF"
+      xmlns:WPF="clr-namespace:WPF"
+      x:Class="WPF.Pages.Admin.Pattern1Control"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="700" x:Name="pattern1"
+	 Background="White" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  >
+
+
+    <UserControl.Resources>
+    	<WPF:IsSelectedBoolToBackgroundConverter x:Key="IsSelectedBoolToBackgroundConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+		<Style TargetType="{x:Type Grid}" x:Key="HighlightableGrid" >
+			<Setter Property="Background" Value="{Binding IsSelectedBool, Converter={StaticResource IsSelectedBoolToBackgroundConverter}}" />
+		</Style>
+        <DataTemplate x:Key="pattern1ListTemplate">
+        	<Grid Style="{StaticResource HighlightableGrid}">
+        		<TextBlock Text="{Binding name}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="4,0,0,0"/>
+        	</Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+	<Grid  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"   >
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="20" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+        <GroupBox BorderThickness="1" BorderBrush="Gray" Padding="2" Grid.Column="0" Grid.Row="0"  
+                  Visibility="{Binding ShowPattern1LeftList, Converter={StaticResource BoolToVisConverter}}"            >
+            <GroupBox.Header>
+                <TextBlock x:Name="Pattern1LeftHandListTitle" Style="{StaticResource GlobalGroupHeaderStyle}"  />
+            </GroupBox.Header>
+
+                <ListBox   HorizontalAlignment="Stretch"  Margin="0" BorderBrush="White"  x:Name="Pattern1LeftHandList" VerticalAlignment="Stretch"
+				ItemsSource="{Binding CurrentPattern1List}" 
+				SelectedItem="{Binding Selected}"
+				Visibility="{Binding ShowPattern1LeftList, Converter={StaticResource BoolToVisConverter}}" ItemTemplate="{DynamicResource pattern1ListTemplate}"
+                 />
+            <!--<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="6" Name="border2" Padding="2" Grid.Column="0" Grid.Row="0" 
+                Visibility="{Binding ShowPattern1LeftTreeView, Converter={StaticResource BoolToVisConverter}}">-->
+        </GroupBox>
+        <my:SearchableTreeView RootNodes="{Binding Pattern1LeftTreeView}" Grid.Column="0" Grid.Row="0"
+			Margin="0,0,0,0" SelectedNodes="{Binding LeftPattern1TreeNode, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"
+			Visibility="{Binding ShowPattern1LeftTreeView, Converter={StaticResource BoolToVisConverter}}" x:Name="Pattern1LeftHandTree"
+                                   />
+
+		<Border BorderThickness="1" BorderBrush="Gray" CornerRadius="6" x:Name="border1" Padding="2" Grid.Column="2"  Grid.Row="0"  >
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="False">
+                <Controls:DynamicRowControl   Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+					ItemDataSource="{Binding GridRVM, Mode=TwoWay}" Visibility="{Binding HasData, Converter={StaticResource BoolToVisConverter}}" 
+					x:Name="Pattern1verticalControl"/>
+            </ScrollViewer>
+        </Border>
+        
+        
+		<Grid Grid.Row="1" Margin="2,5" >
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Button Content="Load Selected" Command="{Binding Apply_Load}"  
+				    Style="{StaticResource SecondaryBtn}" Width="85" HorizontalAlignment="Left"/>
+
+			<Button Content="New" Command="{Binding Apply_NewItem}" Visibility="{Binding CanCreateNew, Converter={StaticResource BoolToVisConverter}}" 
+                    Grid.Column="1" Width="75" HorizontalAlignment="Center"
+                    Style="{StaticResource SecondaryBtn}"/>
+
+			<Button Content="Copy" Command="{Binding Copy}" Visibility="{Binding CanCopy, Converter={StaticResource BoolToVisConverter}}" 
+                    Grid.Column="2" Width="75" HorizontalAlignment="Center"
+                    Style="{StaticResource SecondaryBtn}"
+                    />
+        
+			<Button Content="Delete"  Command="{Binding Apply_Delete}" Visibility="{Binding DeleteButtonVisibility}" 
+				    Grid.Column="3" Width="75" HorizontalAlignment="Right"
+                    Style="{StaticResource SecondaryBtn}"
+                    />
+		</Grid>
+        
+		<Button Content="Save" Grid.Row="1" HorizontalAlignment="Right" 
+                Grid.Column="2" Width="75" Command="{Binding Save}"
+                Style="{StaticResource SecondaryBtn}"
+                Margin="2,5"/>
+        <Button Style="{StaticResource SecondaryBtn}" 
+                Content="Cancel" HorizontalAlignment="Left" 
+                Width="75" Grid.Column="2" 
+                Margin="2,5" Grid.Row="1"
+			    Command="{Binding Cancel}"
+                />
+        
+	</Grid>
+</UserControl>

@@ -1,0 +1,140 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:wizard="clr-namespace:WPF.PromoTemplates" 
+     
+      xmlns:lex="clr-namespace:WPF"  
+        xmlns:Controls="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls" 
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:viewModels="clr-namespace:WPF.ViewModels"
+        xmlns:azure="clr-namespace:Exceedra.Controls.Storage.Azure;assembly=Exceedra.Controls"
+        x:Class="WPF.PromoTemplates.TemplatePLReview"
+      mc:Ignorable="d"
+      d:DesignHeight="345" d:DesignWidth="852" Title="PLReview"    
+      d:DataContext="{d:DesignInstance viewModels:PromotionTemplateViewModelBase}"
+        
+        >
+
+    <Page.Resources>
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="FontWeight" Value="Normal" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Background="LightGray">
+                <wizard:TemplateWizardLeftMenu />
+            </Grid>
+
+            <GridSplitter x:Name="splt1"  ResizeDirection="Columns" Grid.Column="1" Width="3"
+				Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeBehavior="BasedOnAlignment" Margin="0" />
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" FontSize="16" Margin="4" Content="{lex:Loc Label_Reviews,'Review'}" ></Label>
+                <StackPanel Orientation="Horizontal" Grid.Row="0"  HorizontalAlignment="Right" >
+                    <Button Name="CancelReload" Content="{lex:Loc Button_Reload, 'Reload'}" Width="80" 
+                            Margin="8"                             
+                                Command="{Binding ReloadCommand}" />
+                    <Button   Name="CancelNext" Content="{lex:Loc Button_Cancel, 'Cancel'}" Width="80" 
+                            HorizontalAlignment="Right" Margin="8"
+                                Command="{Binding CancelCommand}" />
+                </StackPanel>
+
+                <Grid Grid.Row="2" Panel.ZIndex="101">
+                    <StackPanel Orientation="Horizontal" Margin="6" HorizontalAlignment="Left">
+                        <Border HorizontalAlignment="Left" BorderBrush="Silver" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal" Margin="8,0,4,0" VerticalAlignment="Center">
+                                <TextBlock Text="{lex:Loc Label_Status}" Width="40" />
+                                <ComboBox MaxDropDownHeight="66" Width="140" ItemsSource="{Binding PromotionStatuses}"
+									DisplayMemberPath="Name" SelectedValuePath="ID" SelectedItem="{Binding SelectedStatus, Mode=TwoWay}"
+									IsEnabled="{Binding CurrentTemplate.StatusIsEditable}" />
+                            </StackPanel>
+                        </Border>
+                    
+                      
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="6" HorizontalAlignment="Right">
+
+                        <Button Grid.Column="1" x:Name="btnSave" Content="{lex:Loc Button_Save}" Width="80" Margin="2" 
+							Command="{Binding SaveCommand}" />
+                        <Button x:Name="btnBack" Content="{lex:Loc Button_Back, Back}" Width="80" Margin="2" Command="{Binding BackCommand}" 
+							Click="btnBack_Click" />
+                        <Button x:Name="btnFinish" Content="{lex:Loc Button_SaveClose, Save &amp; Close}" Width="80" Margin="2"
+							Command="{Binding PLReviewNextCommand}" />
+                    </StackPanel>
+                </Grid>
+                <telerik:RadTabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White" Grid.Row="1">
+                    <telerik:RadTabItem x:Name="RadTabItem" Header="{lex:Loc Label_Review_Dashboard,'Dashboard'}" Height="25">
+ <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False">
+                            <Grid   Margin="5">
+
+                                <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="5"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="5"></RowDefinition>
+                                <RowDefinition Height="auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                                <Controls:DynamicGridControl x:Name="DashboardData" Margin="6"  IsReadOnly="{Binding IsReadOnly, UpdateSourceTrigger=PropertyChanged}"  
+                                                          CanSort="False"
+                                                            HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"
+                               ItemDataSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.DashboardRVM, UpdateSourceTrigger=PropertyChanged}"  />
+
+                            <GridSplitter Height="3" Grid.Row="1"     Width="auto" HorizontalAlignment="Stretch"></GridSplitter>
+                            
+                            <Controls:DynamicGridControl x:Name="DashboardData2" Margin="6"  IsReadOnly="{Binding CurrentPromotion.IsReadOnly}"  
+                                                          CanSort="False"
+                                                            HorizontalAlignment="Stretch"   VerticalAlignment="Stretch" Grid.Row="2"
+                               ItemDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.DashboardRVM2, UpdateSourceTrigger=PropertyChanged}"  />
+
+                            
+                        </Grid>
+						 </ScrollViewer>
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem x:Name="RadTabItem2" Header="{lex:Loc Label_Review_Report,'Detail'}" Height="25"  Visibility="Hidden" >
+                        <Grid   Margin="5">
+                            <Frame Panel.ZIndex="0" Grid.Row="0" Margin="10, 10,10,60" Source="{Binding PLReviewUrl}" NavigationFailed="Frame_NavigationFailed" Navigating="Frame_Navigating"  />
+                        </Grid>
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem Header="{lex:Loc FileStorage, 'File Storage'}" Visibility="{lex:Config UploadFilesTabTemplate}">
+                        <azure:UploadEntry Margin="10"  x:Name="UploadFile"></azure:UploadEntry>
+                    </telerik:RadTabItem>
+                </telerik:RadTabControl>
+            </Grid>
+
+
+        </Grid>
+
+        <wizard:StatusBarControl Grid.Row="1" />
+
+    </Grid>
+
+</Page>

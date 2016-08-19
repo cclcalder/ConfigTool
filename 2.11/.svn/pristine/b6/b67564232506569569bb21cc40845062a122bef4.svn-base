@@ -1,0 +1,454 @@
+﻿<UserControl x:Class="Exceedra.Controls.Chart.Controls.ExceedraChartControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:converters="clr-namespace:Exceedra.DynamicGrid.Converters"
+             xmlns:userInterface="clr-namespace:Exceedra.Controls.UserInterface"
+             mc:Ignorable="d"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             d:DesignHeight="300" d:DesignWidth="300"
+             x:Name="ExceedraChartControl1">
+
+
+    <UserControl.Resources>
+        <converters:To95PercentSizeConverter x:Key="To95PercentageConverter"/>
+
+        <!--<Style TargetType="telerik:RangeBarSeries" x:Key="RangeStyle">
+            <Setter Property="Background" Value="YellowGreen"/>
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>-->
+
+        <telerik:ChartPalette x:Key="customPalette">
+            <telerik:ChartPalette.GlobalEntries>
+                <telerik:PaletteEntry Fill="Gray" Stroke="White"/>
+                <telerik:PaletteEntry Fill="Green" Stroke="White"/>
+                <telerik:PaletteEntry Fill="Red" Stroke="White"/>
+                <telerik:PaletteEntry Fill="Gray" Stroke="White"/>
+            </telerik:ChartPalette.GlobalEntries>
+        </telerik:ChartPalette>
+
+        <Style TargetType="telerik:PanZoomBar">
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+
+        <Style x:Key="VisibilityStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <Style TargetType="Path" x:Key="LabelConnectorStyle">
+            <Setter Property="Stroke" Value="Black" />
+        </Style>
+
+        <DataTemplate x:Key="TooltipTemp">
+            <Grid>
+                <Border HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="1" Background="White"
+                        Padding="5" BorderThickness="2" BorderBrush="{Binding DataItem.Color}">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding DataItem.Header1}" Foreground="Black" FontSize="18" Style="{StaticResource VisibilityStyle}"/>
+                        <TextBlock Text="{Binding DataItem.Header2}" Foreground="Gray" FontSize="16" Style="{StaticResource VisibilityStyle}"/>
+                        <TextBlock Text="{Binding DataItem.Header3}" Foreground="Gray" FontSize="14" Style="{StaticResource VisibilityStyle}"/>
+                        <TextBlock Visibility="{Binding DataItem.DisplayXandYTooltip}" Foreground="Gray" FontSize="10">
+                            <Run Text="X" />
+                            <Run Text="=" />
+                            <Run Text="{Binding DataItem.X}" />
+                        </TextBlock>
+                        <TextBlock Visibility="{Binding DataItem.DisplayXandYTooltip}" Foreground="Gray" FontSize="10">
+                            <Run Text="Y" />
+                            <Run Text="=" />
+                            <Run Text="{Binding DataItem.Y}" />
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </DataTemplate>
+
+        <Style TargetType="telerik:BarSeries" x:Key="BarCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource BarSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="PointTemplate" Value="{Binding PointTemplate, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:AreaSeries" x:Key="AreaCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource AreaSeriesStyle}" >
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Fill" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:LineSeries" x:Key="LineCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource LineSeriesStyle}" >
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Stroke" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:SplineSeries" x:Key="SplineCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource SplineSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Stroke" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:SplineAreaSeries" x:Key="SplineAreaCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource SplineSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Fill" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:StepLineSeries" x:Key="StepLineCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource StepLineSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Stroke" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:StepAreaSeries" x:Key="StepAreaCategoricalSeriesDescriptorStyle" BasedOn="{StaticResource StepAreaSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Fill" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:ScatterPointSeries" x:Key="PointScatterSeriesDescriptorStyle" BasedOn="{StaticResource ScatterPointSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="PointTemplate" Value="{Binding PointTemplate, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:ScatterLineSeries" x:Key="LineScatterSeriesDescriptorStyle" BasedOn="{StaticResource ScatterLineSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Stroke" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+
+        </Style>
+        <Style TargetType="telerik:ScatterSplineSeries" x:Key="SplineScatterSeriesDescriptorStyle" BasedOn="{StaticResource ScatterSplineSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Stroke" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:ScatterAreaSeries" x:Key="AreaScatterSeriesDescriptorStyle" BasedOn="{StaticResource ScatterAreaSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Fill" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+        </Style>
+        <Style TargetType="telerik:ScatterSplineAreaSeries" x:Key="SplineAreaScatterSeriesDescriptorStyle" BasedOn="{StaticResource ScatterSplineAreaSeriesStyle}">
+            <Setter Property="VerticalAxis" Value="{Binding IndividualAxis, Mode=TwoWay}"/>
+            <Setter Property="Fill" Value="{Binding SeriesBrush, Mode=TwoWay}"/>
+        </Style>
+
+        <telerik:RadMenuItem x:Key="LinearMenu" Header="Linear" Name="LinearSeries">
+            <telerik:RadMenuItem Header="Point" Click="SeriesSelectItem_Click"
+                                         Name="PointScatterSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Line" Click="SeriesSelectItem_Click"
+                                         Name="LineScatterSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Spline" Click="SeriesSelectItem_Click"
+                                         Name="SplineScatterSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Area" Click="SeriesSelectItem_Click"
+                                         Name="AreaScatterSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Spline Area" Click="SeriesSelectItem_Click"
+                                         Name="SplineAreaScatterSeriesDescriptorStyle" />
+        </telerik:RadMenuItem>
+        <telerik:RadMenuItem x:Key="CategoricalMenu" Header="Categorical" Name="CategoricalSeries">
+            <telerik:RadMenuItem Header="Bar" Click="SeriesSelectItem_Click"
+                                         Name="BarCategoricalSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Line" Click="SeriesSelectItem_Click"
+                                         Name="LineCategoricalSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Spline" Click="SeriesSelectItem_Click"
+                                         Name="SplineCategoricalSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Area" Click="SeriesSelectItem_Click"
+                                         Name="AreaCategoricalSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Step Line" Click="SeriesSelectItem_Click"
+                                         Name="StepLineCategoricalSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Step Area" Click="SeriesSelectItem_Click"
+                                         Name="StepAreaCategoricalSeriesDescriptorStyle" />
+        </telerik:RadMenuItem>
+        <telerik:RadMenuItem x:Key="RadarMenu" Header="Radar" Name="RadarSeries">
+            <telerik:RadMenuItem Header="Point" Click="SeriesSelectItem_Click"
+                                         Name="RadarPointSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Line" Click="SeriesSelectItem_Click"
+                                         Name="RadarLineSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Area" Click="SeriesSelectItem_Click"
+                                         Name="RadarAreaSeriesDescriptorStyle" />
+        </telerik:RadMenuItem>
+        <telerik:RadMenuItem x:Key="PolarMenu" Header="Polar" Name="PolarSeries" Visibility="{Binding Chart.IsPolarEnabled, Converter={StaticResource BoolToVisConverter}}">
+            <telerik:RadMenuItem Header="Point" Click="SeriesSelectItem_Click"
+                                         Name="PolarPointSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Line" Click="SeriesSelectItem_Click"
+                                         Name="PolarLineSeriesDescriptorStyle" />
+            <telerik:RadMenuItem Header="Area" Click="SeriesSelectItem_Click"
+                                         Name="PolarAreaSeriesDescriptorStyle" />
+        </telerik:RadMenuItem>
+
+    </UserControl.Resources>
+
+    <Grid x:Name="BaseGrid" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <telerik:RadContextMenu.ContextMenu>
+            <telerik:RadContextMenu x:Name="ChartContextMenu">
+                <telerik:RadMenuItem x:Name="SeriesMenu" Header="Series"/>
+
+                <telerik:RadMenuItem Header="Export">
+                    <telerik:RadMenuItem Header="PNG" Click="SaveMenuItem_Click" />
+                    <telerik:RadMenuItem Header="PDF" Click="SaveMenuItem_Click" />
+                    <telerik:RadMenuItem Header="EXCEL" Click="SaveMenuItem_Click" />
+                    <telerik:RadMenuItem Header="WORD" Click="SaveMenuItem_Click" />
+                </telerik:RadMenuItem>
+
+                <telerik:RadMenuItem Header="Legend (Toggle)" Click="ToggleLegend" >
+                    <telerik:RadMenuItem.Icon>
+                        <fa:FontAwesome HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="LegendVisibilityIcon" Icon="Check" Foreground="#000000" FontSize="10" />
+                    </telerik:RadMenuItem.Icon>
+                </telerik:RadMenuItem>
+            </telerik:RadContextMenu>
+        </telerik:RadContextMenu.ContextMenu>
+
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="1" Grid.RowSpan="3" Grid.ColumnSpan="2" Style="{StaticResource RectangleOverlayStyle}"
+                       Visibility="{Binding ElementName=ExceedraChartControl1, Path=RecordSource.NoData, Converter={StaticResource BoolToVisConverter}}"
+                       />
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1" Text="No Data" Background="Transparent" FontSize="30" Grid.RowSpan="3" Grid.ColumnSpan="2"
+                   Visibility="{Binding ElementName=ExceedraChartControl1, Path=RecordSource.NoDataMessage, Converter={StaticResource BoolToVisConverter}, FallbackValue=Collapsed}"
+                       />
+        <userInterface:CircularProgressBar HorizontalAlignment="Center" VerticalAlignment="Center" Height="45" Panel.ZIndex="2" Margin="-90,0,0,0" Grid.RowSpan="3" Grid.ColumnSpan="2"
+                                               Visibility="{Binding ElementName=ExceedraChartControl1, Path=RecordSource.IsLoading, Converter={StaticResource BoolToVisConverter}}"                                           
+                                               />
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="2" Text="Loading..." Background="Transparent" FontSize="30" Margin="90,0,0,0" Grid.RowSpan="3" Grid.ColumnSpan="2"
+                       Visibility="{Binding ElementName=ExceedraChartControl1, Path=RecordSource.IsLoading, Converter={StaticResource BoolToVisConverter}}"
+                       />
+        
+
+        <Label Grid.Row="0" Grid.Column="0" Height="auto" x:Name="ChartTile" FontSize="15" Content="{Binding ElementName=ExceedraChartControl1, Path=RecordSource.Chart.Title}" />
+
+        <!--"{Binding Chart.IsLegendEnabled, Converter={StaticResource BoolToVisConverter}}"-->
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" MaxHeight="{Binding ElementName=ExceedraChartControl1, Path=ActualHeight, Converter={StaticResource To95PercentageConverter} }" Grid.Row="1">
+            <telerik:RadLegend Background="White" Visibility="Visible"
+                               BorderBrush="Black" 
+                               BorderThickness="1" 
+                               Items="{Binding ElementName=ExceedraChartControl1, Path=LegendItems, Mode=OneWay}"                           
+                               x:Name="CartesianLegend" MouseLeftButtonDown="LegendItem_MouseLeftButtonDown2"
+                               >
+                <telerik:RadLegend.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Path Fill="{Binding MarkerFill}" Width="12" Height="12">
+                                <Path.Data>
+                                    <Binding Path="ActualMarkerGeometry" RelativeSource="{RelativeSource AncestorType=telerik:LegendItemControl}"></Binding>
+                                </Path.Data>
+                            </Path>
+                            <TextBlock Margin="2" MaxWidth="300" TextWrapping="WrapWithOverflow" Text="{Binding Title}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </telerik:RadLegend.ItemTemplate>
+            </telerik:RadLegend>
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" 
+                      VerticalScrollBarVisibility="Disabled"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <Grid>
+
+                <telerik:RadCartesianChart  x:Name="CartesianChart" Palette="Windows8" TooltipTemplate="{StaticResource TooltipTemp}" Visibility="Collapsed">
+
+
+                    <telerik:RadCartesianChart.Grid>
+                        <telerik:CartesianChartGrid MajorLinesVisibility="XY" StripLinesVisibility="XY">
+                            <telerik:CartesianChartGrid.YStripeBrushes>
+                                <SolidColorBrush Color="#FFD7D7D7" Opacity="0.3" />
+                                <SolidColorBrush Color="Transparent" />
+                            </telerik:CartesianChartGrid.YStripeBrushes>
+                            <telerik:CartesianChartGrid.XStripeBrushes>
+                                <SolidColorBrush Color="#FFD7D7D7" Opacity="0.3" />
+                                <SolidColorBrush Color="Transparent" />
+                            </telerik:CartesianChartGrid.XStripeBrushes>
+                        </telerik:CartesianChartGrid>
+                    </telerik:RadCartesianChart.Grid>
+
+                    <telerik:RadCartesianChart.SeriesProvider>
+                        <telerik:ChartSeriesProvider x:Name="CartesianChartSeriesProvider" Source="{Binding ElementName=ExceedraChartControl1, Path=RecordSource.Chart.Series}"/>
+                    </telerik:RadCartesianChart.SeriesProvider>
+
+                    <telerik:RadCartesianChart.Behaviors>
+                        <telerik:ChartTooltipBehavior Placement="Top" />
+                        <telerik:ChartSelectionBehavior DataPointSelectionMode="Single"
+                                                SelectionChanged="ChartSelectionBehavior_SelectionChanged"
+                                                x:Name="dataPointSelect" />
+                        <telerik:ChartPanAndZoomBehavior ZoomMode="Both" PanMode="Both">
+                            <telerik:ChartPanAndZoomBehavior.DragToPanKeyCombinations>
+                                <telerik:ChartKeyCombination>
+                                    <telerik:ChartKeyCombination.MouseButtons>
+                                        <MouseButton>Left</MouseButton>
+                                    </telerik:ChartKeyCombination.MouseButtons>
+                                </telerik:ChartKeyCombination>
+                            </telerik:ChartPanAndZoomBehavior.DragToPanKeyCombinations>
+                            <telerik:ChartPanAndZoomBehavior.DragToZoomKeyCombinations>
+                                <telerik:ChartKeyCombination>
+                                    <telerik:ChartKeyCombination.MouseButtons>
+                                        <MouseButton>Middle</MouseButton>
+                                    </telerik:ChartKeyCombination.MouseButtons>
+                                </telerik:ChartKeyCombination>
+                            </telerik:ChartPanAndZoomBehavior.DragToZoomKeyCombinations>
+                        </telerik:ChartPanAndZoomBehavior>
+                    </telerik:RadCartesianChart.Behaviors>
+
+                    <telerik:RadCartesianChart.Annotations>
+                        <telerik:CartesianGridLineAnnotation
+                            Axis="{Binding ElementName=CartesianChart, Path=VerticalAxis}"
+                            Value="0" DashArray="7 7" Label=""
+                            StrokeThickness="1" Stroke="Black" Visibility="Visible" />
+                        <telerik:CartesianGridLineAnnotation
+                            Axis="{Binding ElementName=CartesianChart, Path=HorizontalAxis}"
+                            Value="0" DashArray="7 7" Label=""
+                            StrokeThickness="1" Stroke="Black" Visibility="Visible" />
+                    </telerik:RadCartesianChart.Annotations>
+
+                </telerik:RadCartesianChart>
+
+                <telerik:RadPieChart  x:Name="PieChart" Visibility="Collapsed" Palette="Windows8">
+                    <telerik:RadPieChart.SmartLabelsStrategy>
+                        <telerik:PieChartSmartLabelsStrategy DisplayMode="SpiderAlignedOutwards" />
+                    </telerik:RadPieChart.SmartLabelsStrategy>
+                    <telerik:PieSeries ValueBinding="Y" ItemsSource="{Binding ElementName=ExceedraChartControl1, Path=RecordSource.Chart.Series[0].Datapoints}">
+                        <!--The label (header) template-->
+                        <telerik:PieSeries.LabelDefinitions>
+                            <telerik:ChartSeriesLabelDefinition Margin="-10,0,0,0" >
+                                <telerik:ChartSeriesLabelDefinition.Template>
+                                    <DataTemplate>
+                                        <TextBlock Foreground="Black">
+                                            <Run Text="{Binding DataItem.Name}"/>
+                                            <Run Text=" ("/>
+                                            <Run Text="{Binding DataItem.Y}"/>
+                                            <Run Text=") "/>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </telerik:ChartSeriesLabelDefinition.Template>
+                            </telerik:ChartSeriesLabelDefinition>
+                        </telerik:PieSeries.LabelDefinitions>
+                        <!--stroke between a slice and a label style-->
+                        <telerik:PieSeries.LabelConnectorsSettings>
+                            <telerik:ChartSeriesLabelConnectorsSettings>
+                                <telerik:ChartSeriesLabelConnectorsSettings.Style>
+                                    <Style TargetType="Path">
+                                        <Setter Property="Stroke" Value="Black" />
+                                    </Style>
+                                </telerik:ChartSeriesLabelConnectorsSettings.Style>
+                            </telerik:ChartSeriesLabelConnectorsSettings>
+                        </telerik:PieSeries.LabelConnectorsSettings>
+                        <!--The color of the slice-->
+                        <!--<telerik:PieSeries.DefaultSliceStyle>
+                            <Style TargetType="Path">
+                                <Setter Property="Fill" Value="{Binding Path=DataItem.Color}"/>
+                            </Style>
+                        </telerik:PieSeries.DefaultSliceStyle>-->
+                        <telerik:PieSeries.AngleRange>
+                            <telerik:AngleRange StartAngle="-90" SweepAngle="360" />
+                        </telerik:PieSeries.AngleRange>
+                    </telerik:PieSeries>
+                </telerik:RadPieChart>
+
+                <telerik:RadPolarChart  x:Name="PolarChart" Visibility="Collapsed">
+                    <telerik:RadPolarChart.Behaviors>
+                        <telerik:ChartTooltipBehavior Placement="Top" HorizontalOffset="-2" VerticalOffset="1" />
+                    </telerik:RadPolarChart.Behaviors>
+                    <telerik:RadPolarChart.TooltipTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Path Data="M-1236,-441 L-1180,-441 -1180,-424 -1228,-424 -1230.5,-420 -1233,-424 -1236,-424 z"
+                              Stretch="Fill" Fill="{Binding Path=Parent.Presenter.Stroke}" />
+                                <TextBlock Text="{Binding Value, StringFormat='AVG {0:N2}'}" Margin="4,3,4,9"
+                                   Foreground="White" FontFamily="Segoe UI" />
+                            </Grid>
+                        </DataTemplate>
+                    </telerik:RadPolarChart.TooltipTemplate>
+                    <telerik:RadPolarChart.Grid>
+                        <telerik:PolarChartGrid GridLineVisibility="Both" />
+                    </telerik:RadPolarChart.Grid>
+                    <telerik:RadPolarChart.RadialAxis>
+                        <telerik:NumericRadialAxis />
+                    </telerik:RadPolarChart.RadialAxis>
+                    <telerik:RadPolarChart.PolarAxis>
+                        <telerik:PolarAxis />
+                    </telerik:RadPolarChart.PolarAxis>
+                    <telerik:RadPolarChart.SeriesProvider>
+                        <telerik:ChartSeriesProvider x:Name="PolarChartSeriesProvider" Source="{Binding ElementName=ExceedraChartControl1, Path=RecordSource.Chart.Series}" />
+                    </telerik:RadPolarChart.SeriesProvider>
+
+                </telerik:RadPolarChart>
+
+                <telerik:RadPolarChart  x:Name="RadarChart" Visibility="Collapsed">
+                    <telerik:RadPolarChart.Behaviors>
+                        <telerik:ChartTooltipBehavior Placement="Top" HorizontalOffset="-2" VerticalOffset="1" />
+                    </telerik:RadPolarChart.Behaviors>
+                    <telerik:RadPolarChart.TooltipTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Path Data="M-1236,-441 L-1180,-441 -1180,-424 -1228,-424 -1230.5,-420 -1233,-424 -1236,-424 z"
+                              Stretch="Fill" Fill="{Binding Path=Parent.Presenter.Stroke}" />
+                                <TextBlock Text="{Binding Value, StringFormat='AVG {0:N2}'}" Margin="4,3,4,9"
+                                   Foreground="White" FontFamily="Segoe UI" />
+                            </Grid>
+                        </DataTemplate>
+                    </telerik:RadPolarChart.TooltipTemplate>
+                    <telerik:RadPolarChart.Grid>
+                        <telerik:PolarChartGrid GridLineVisibility="Both" />
+                    </telerik:RadPolarChart.Grid>
+                    <telerik:RadPolarChart.RadialAxis>
+                        <telerik:CategoricalRadialAxis />
+                    </telerik:RadPolarChart.RadialAxis>
+                    <telerik:RadPolarChart.PolarAxis>
+                        <telerik:PolarAxis />
+                    </telerik:RadPolarChart.PolarAxis>
+                    <telerik:RadPolarChart.SeriesProvider>
+                        <telerik:ChartSeriesProvider x:Name="RadarChartSeriesProvider" Source="{Binding ElementName=ExceedraChartControl1, Path=RecordSource.Chart.Series}" />
+                    </telerik:RadPolarChart.SeriesProvider>
+
+                </telerik:RadPolarChart>
+
+                <!-- Range Bar Chart -->
+                <telerik:RadCartesianChart  x:Name="RangeBarChart" Palette="{StaticResource customPalette}" TooltipTemplate="{StaticResource TooltipTemp}" Visibility="Collapsed">
+
+                    <telerik:RadCartesianChart.HorizontalAxis>
+                        <telerik:CategoricalAxis/>
+                        <!--<telerik:DateTimeCategoricalAxis LabelFormat="yyyyMMdd"/>-->
+                    </telerik:RadCartesianChart.HorizontalAxis>
+                    <telerik:RadCartesianChart.VerticalAxis>
+                        <telerik:LinearAxis/>
+                    </telerik:RadCartesianChart.VerticalAxis>
+
+                    <telerik:RadCartesianChart.Grid>
+                        <telerik:CartesianChartGrid MajorLinesVisibility="XY" StripLinesVisibility="XY">
+                            <telerik:CartesianChartGrid.YStripeBrushes>
+                                <SolidColorBrush Color="#FFD7D7D7" Opacity="0.3" />
+                                <SolidColorBrush Color="Transparent" />
+                            </telerik:CartesianChartGrid.YStripeBrushes>
+                            <telerik:CartesianChartGrid.XStripeBrushes>
+                                <SolidColorBrush Color="#FFD7D7D7" Opacity="0.3" />
+                                <SolidColorBrush Color="Transparent" />
+                            </telerik:CartesianChartGrid.XStripeBrushes>
+                        </telerik:CartesianChartGrid>
+                    </telerik:RadCartesianChart.Grid>
+
+                    <telerik:RadCartesianChart.Behaviors>
+                        <telerik:ChartTooltipBehavior Placement="Top" />
+                        <telerik:ChartPanAndZoomBehavior ZoomMode="Both" PanMode="Both">
+                            <telerik:ChartPanAndZoomBehavior.DragToPanKeyCombinations>
+                                <telerik:ChartKeyCombination>
+                                    <telerik:ChartKeyCombination.MouseButtons>
+                                        <MouseButton>Left</MouseButton>
+                                    </telerik:ChartKeyCombination.MouseButtons>
+                                </telerik:ChartKeyCombination>
+                            </telerik:ChartPanAndZoomBehavior.DragToPanKeyCombinations>
+                            <telerik:ChartPanAndZoomBehavior.DragToZoomKeyCombinations>
+                                <telerik:ChartKeyCombination>
+                                    <telerik:ChartKeyCombination.MouseButtons>
+                                        <MouseButton>Middle</MouseButton>
+                                    </telerik:ChartKeyCombination.MouseButtons>
+                                </telerik:ChartKeyCombination>
+                            </telerik:ChartPanAndZoomBehavior.DragToZoomKeyCombinations>
+                        </telerik:ChartPanAndZoomBehavior>
+                    </telerik:RadCartesianChart.Behaviors>
+
+                </telerik:RadCartesianChart>
+
+            </Grid>
+
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

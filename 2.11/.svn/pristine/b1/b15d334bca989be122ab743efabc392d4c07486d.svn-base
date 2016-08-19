@@ -1,0 +1,61 @@
+﻿<Results>
+  <Item>
+    <Idx>-1</Idx>
+    <Name>Suggestions</Name>
+    <IsSelected>0</IsSelected>
+  </Item>
+  <Item>
+    <Idx>15119</Idx>
+    <Name>Carton 230ml Super Fizz Diet</Name>
+    <IsSelected>0</IsSelected>
+    <ParentIdx>-1</ParentIdx>
+  </Item>
+  <Item>
+    <Idx>15134</Idx>
+    <Name>Carton 230ml Mixers Soda</Name>
+    <IsSelected>0</IsSelected>
+    <ParentIdx>-1</ParentIdx>
+  </Item>
+  <Item>
+    <Idx>15135</Idx>
+    <Name>2 Litre Bottle Super Fizz Diet</Name>
+    <IsSelected>0</IsSelected>
+    <ParentIdx>-1</ParentIdx>
+  </Item>
+  <Item>
+    <Idx>15138</Idx>
+    <Name>1 Litre Bottle Super Fizz Diet</Name>
+    <IsSelected>0</IsSelected>
+    <ParentIdx>-1</ParentIdx>
+  </Item>
+  <Item>
+    <Idx>15233</Idx>
+    <Name>2 Litre Bottle Mixers Soda</Name>
+    <IsSelected>0</IsSelected>
+    <ParentIdx>-1</ParentIdx>
+  </Item>
+  <Item>
+    <Idx>15377</Idx>
+    <Name>Carton 230ml Mixers Tonic</Name>
+    <IsSelected>0</IsSelected>
+    <ParentIdx>-1</ParentIdx>
+  </Item>
+  <Item>
+    <Idx>15382</Idx>
+    <Name>1 Litre Bottle Mixers Soda</Name>
+    <IsSelected>0</IsSelected>
+    <ParentIdx>-1</ParentIdx>
+  </Item>
+  <Item>
+    <Idx>15393</Idx>
+    <Name>Can 330ml Super Fizz Diet</Name>
+    <IsSelected>0</IsSelected>
+    <ParentIdx>-1</ParentIdx>
+  </Item>
+  <Item>
+    <Idx>15129</Idx>
+    <Name>Carton 230ml Super Fizz Cherry</Name>
+    <IsSelected>0</IsSelected>
+    <ParentIdx>-1</ParentIdx>
+  </Item>
+</Results>

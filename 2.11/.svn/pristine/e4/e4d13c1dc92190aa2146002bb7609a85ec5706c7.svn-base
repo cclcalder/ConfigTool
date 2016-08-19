@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Exceedra.Controls.Caret.FilterCaretBtn"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conv="clr-namespace:Exceedra.Caret"
+             x:Name="This"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="100" Background="White">
+    <UserControl.Resources>
+        <conv:ImageUrlConverter x:Key="imageUrlConverter" />
+
+    </UserControl.Resources>
+    <StackPanel Width="auto" Orientation="Horizontal" Margin="0" HorizontalAlignment="Right" Height="25" MouseUp="UIElement_OnMouseUp"  Cursor="Hand">
+        <Label x:Name="lblResize" Content="{Binding ElementName=This, Path=Text}" Style="{StaticResource GlobalFilterLabelStyle}" Padding="4" ></Label>
+        <Image x:Name="btnResize" HorizontalAlignment="Right" Height="24" 
+				Source="{Binding Converter={StaticResource imageUrlConverter}, ConverterParameter='caret/up.gif'}" Stretch="Fill" StretchDirection="Both" Margin="5,-1,2,0" VerticalAlignment="Top"  >
+            
+        </Image>
+    </StackPanel>
+</UserControl>

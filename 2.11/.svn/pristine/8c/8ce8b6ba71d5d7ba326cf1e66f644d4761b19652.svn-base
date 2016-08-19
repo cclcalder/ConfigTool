@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Exceedra.Test.EditableTextBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Exceedra.Test"
+             xmlns:converters="clr-namespace:Exceedra.Converters"
+             mc:Ignorable="d" 
+             x:Name="mainControl"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Focusable" Value="true"/>
+            <Setter Property="Cursor" Value="Hand"></Setter>
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+        <converters:BoolToVisibilityConverterInverted x:Key="InvBoolToVis" />
+    </UserControl.Resources>
+    <Grid GotFocus="ToEditMode">
+        <TextBox x:Name="txtBox" KeyDown="TextBox_KeyDown" Loaded="TextBox_Loaded" LostFocus="TextBox_LostFocus"
+                 HorizontalContentAlignment="{Binding ElementName=mainControl, Path=Alignment}"
+                 Text="{Binding ElementName=mainControl, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+                 Background="{Binding ElementName=mainControl, Path=CellBackground, UpdateSourceTrigger=PropertyChanged}"
+                 Padding="4,-3,-1,1" BorderThickness="0" Height="20"
+                 Visibility="{Binding ElementName=mainControl, Path=IsInEditMode, Converter={StaticResource BoolToVisConverter}}"
+                 IsInactiveSelectionHighlightEnabled="False"
+                 />
+
+        <TextBlock x:Name="txtBlock" 
+                   Visibility="{Binding ElementName=mainControl, Path=IsInEditMode, Converter={StaticResource InvBoolToVis}}" 
+                   TextAlignment="{Binding ElementName=mainControl, Path=TextAlignment}"
+                   Text="{Binding ElementName=mainControl, Path=Text, UpdateSourceTrigger=PropertyChanged}" 
+                   Background="{Binding ElementName=mainControl, Path=CellBackground, UpdateSourceTrigger=PropertyChanged}"                   
+                   >
+            <TextBlock.InputBindings>
+                <MouseBinding Command="{Binding ElementName=mainControl, Path=ClickCommand}"  MouseAction="LeftClick" />
+            </TextBlock.InputBindings>
+        </TextBlock>
+    </Grid>
+</UserControl>

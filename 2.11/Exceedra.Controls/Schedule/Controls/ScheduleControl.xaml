@@ -1,0 +1,225 @@
+﻿<UserControl x:Class="Exceedra.Schedule.Controls.ScheduleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800"
+             x:Name="Schedule"
+             >
+
+    <UserControl.Resources>
+        <Style TargetType="telerik:TimelineItemGroupControl" BasedOn="{StaticResource TimelineItemGroupControlStyle}">
+            <Setter Property="IsExpanded" Value="True" />
+        </Style>
+        <DataTemplate x:Key="DetailsTemplate">
+            <Border  BorderBrush="#e5e5e5" BorderThickness="1,1,1,1" Margin="0,1,0,0" Padding="0">
+
+                <Border Background="White" BorderBrush="{Binding DataItem.Colour}" BorderThickness="8,2,2,2" Margin="0,0,0,0" Padding="0">
+                    <telerik:RadContextMenu.ContextMenu>
+                        <telerik:RadContextMenu>
+                            <telerik:RadMenuItem Header="Copy" Tag="C" Click="RadMenuItem_OnClick"  />
+                            <telerik:RadMenuItem Header="Quick Edit" Tag="QE" Click="RadMenuItem_OnClick" />
+                            <telerik:RadContextMenu />
+                            <telerik:RadMenuItem Header="Edit/Review" Tag="E" Click="RadMenuItem_OnClick" />
+                            <!--<telerik:RadMenuItem Header="Copy forwards" Tag="CF" Click="RadMenuItem_OnClick"  />-->
+                            <!--<telerik:RadContextMenu />
+                                <telerik:RadMenuItem Header="Select" Tag="S"  Click="RadMenuItem_OnClick"  IsChecked="{Binding DataItem.IsSelected}"/>-->
+                        </telerik:RadContextMenu>
+                    </telerik:RadContextMenu.ContextMenu>
+
+                    <StackPanel Orientation="Vertical">
+                        <!--MouseLeftButtonDown="UIElement_OnMouseDown" 
+                                MouseRightButtonUp="UIElement_OnRightMouseDown"-->
+
+                        <Grid Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="0" >
+                                <TextBlock Text="{Binding DataItem.Name}" FontSize="12" />
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding DataItem.StartDate, StringFormat=d}" FontSize="10" Foreground="Gray" />
+                                    <TextBlock Text=" - " FontSize="10" Foreground="Gray" />
+                                    <TextBlock Text="{Binding DataItem.EndDate, StringFormat=d}" FontSize="10" Foreground="Gray" />
+                                </StackPanel>
+                                <!--<CheckBox IsChecked="{Binding DataItem.IsSelected}" ></CheckBox>-->
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Border>
+        </DataTemplate>
+
+        <Style x:Key="VisibilityStyle" TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="Text" Value="">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+                <Trigger Property="Text" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <DataTemplate x:Key="DetailsTemplate2">
+            <Border  BorderBrush="#e5e5e5"
+        		BorderThickness="1,1,1,1" Margin="0,1,0,0" Padding="0">
+                <Border    Background="White" 
+        			BorderBrush="{Binding DataItem.BackBrush}"  
+        			BorderThickness="8,2,2,2" Margin="0,0,0,0" Padding="0">
+                    <StackPanel Orientation="Vertical">
+                        <telerik:RadContextMenu.ContextMenu>
+                            <telerik:RadContextMenu/>
+                        </telerik:RadContextMenu.ContextMenu>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid >
+
+                                <TextBlock Text="{Binding DataItem.ShortType}"
+        							FontSize="15" 
+        							ToolTip="{Binding DataItem.Type}"
+        							Background="{Binding DataItem.BackBrush}"
+        							Padding="5"
+        							FontWeight="{Binding DataItem.LabelBrush}"
+        							Foreground="Black"/>
+                            </Grid>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="1" >
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding DataItem.Name}" 
+								 
+        								FontSize="12" 
+        								Foreground="Black"
+									
+        								TextAlignment="Left" 
+        								Margin="2,-1,2,1" />
+
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock Text="{Binding DataItem.sStartDate}"  
+        								FontSize="10"  
+        								Foreground="Black" 
+        								TextAlignment="Left" 
+        								Margin="2,-1,2,1" />
+
+                                    <TextBlock Text=" - "  
+        								FontSize="10" 
+        								Foreground="Black"
+										  
+        								TextAlignment="Left" 
+        								Margin="2,-1,2,1" />
+                                    <TextBlock Text="{Binding DataItem.sEndDate}"  
+        								FontSize="10"  
+        								TextAlignment="Left" 
+        								Margin="2,-1,2,1" />
+
+                                </StackPanel>
+
+                            </StackPanel>
+
+                            <Button  Grid.Column="2"  Style="{StaticResource Cog}" ToolTip="Edit promotion" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0"
+        						CommandParameter="{Binding DataItem.PromotionID}"
+        						Command="{Binding DataContext.EditPromotionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}" 
+        						Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisConverter}, ElementName=cLinks}"/>
+
+                        </Grid>
+
+
+                    </StackPanel>
+                </Border>
+            </Border>
+
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid   Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label Width="Auto" Content="{Binding Title}" Grid.Column="0" />
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" x:Name="filterControl">
+                <TextBlock Text="Display Filters:"></TextBlock>
+
+                <ComboBox   x:Name="switchItems" Margin="10,0,0,5">
+                    <ComboBoxItem Content="All" ></ComboBoxItem>
+                    <ComboBoxItem Content="Buy In only" IsSelected="True"></ComboBoxItem>
+                    <ComboBoxItem Content="Sell Out only"></ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+
+
+        <telerik:RadTimeline x:Name="Timeline" Grid.Row="1"
+                             PeriodStart="{Binding ElementName=Schedule, Path=ViewModel.StartDate}"
+                             PeriodEnd="{Binding ElementName=Schedule, Path=ViewModel.EndDate}"
+                             VisiblePeriodStart="{Binding ElementName=Schedule, Path=ViewModel.StartDate}"
+							 VisiblePeriodEnd="{Binding ElementName=Schedule, Path=ViewModel.VisibleDateTo}"
+                             StartPath="StartDate" 
+                             GroupPath="Category"
+                             GroupExpandMode="Multiple"
+                             TimelineItemTemplate="{StaticResource DetailsTemplate}"
+                             Height="auto"                                  
+                             DurationPath="Duration"
+                             ItemsSource="{Binding ElementName=Schedule, Path=ViewModel.VisibleTimelineItems}"
+                             ScrollMode="ScrollAndZoom"
+                             BorderThickness="1" 
+                             VerticalScrollBarVisibility="Auto"
+                             >
+
+
+            <telerik:RadTimeline.Intervals>
+                <telerik:YearInterval />
+                <telerik:QuarterInterval />
+                <telerik:MonthInterval />
+                <telerik:WeekInterval />
+                <telerik:DayInterval />
+            </telerik:RadTimeline.Intervals>
+
+
+            <telerik:RadTimeline.ToolTipTemplate>
+                <DataTemplate>
+                    <Grid MinWidth="170" MinHeight="60">
+                        <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="1" Background="White" BorderBrush="{Binding Colour}" Padding="5" >
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="18" />
+                                <TextBlock Text="{Binding ScheduleType}" Foreground="Gray" Style="{StaticResource VisibilityStyle}" FontSize="16" />
+                                <TextBlock Text="{Binding TooltipContent1}" Foreground="Gray" Style="{StaticResource VisibilityStyle}" FontSize="14" />
+                                <TextBlock Text="{Binding TooltipContent2}" Foreground="Gray" Style="{StaticResource VisibilityStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding TooltipContent3}" Foreground="Gray" Style="{StaticResource VisibilityStyle}" FontSize="10" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding StartDate, StringFormat=d}" FontSize="10" Foreground="Gray" />
+                                    <TextBlock Text=" - " FontSize="10" Foreground="Gray" />
+                                    <TextBlock Text="{Binding EndDate, StringFormat=d}" FontSize="10" Foreground="Gray" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding DurationString}" FontSize="10" Foreground="Gray"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </telerik:RadTimeline.ToolTipTemplate>
+
+
+        </telerik:RadTimeline>
+    </Grid>
+</UserControl>

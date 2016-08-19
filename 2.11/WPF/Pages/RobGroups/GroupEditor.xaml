@@ -1,0 +1,193 @@
+﻿<pages:PageBase
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Controls1="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls"
+       xmlns:controls4="clr-namespace:Exceedra.MultiSelectCombo.Controls;assembly=Exceedra.Controls"
+
+      xmlns:wpf="clr-namespace:WPF"
+      xmlns:wpf1="clr-namespace:Coder.UI.WPF;assembly=Coder.UI.WPF"
+      xmlns:ui="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF"
+      xmlns:dataDriven="clr-namespace:Exceedra.Controls.UserInterface.DataDriven;assembly=Exceedra.Controls"
+      xmlns:controls="clr-namespace:Exceedra.Controls;assembly=Exceedra.Controls"
+      xmlns:pages="clr-namespace:WPF.Pages"
+
+      x:Class="WPF.Pages.Terms.GroupEditor" 
+      mc:Ignorable="d" 
+      d:DesignHeight="780" d:DesignWidth="1024"
+	Title="GroupEditor" Background="White">
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="3"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0"  Text="{wpf:Loc Label_GroupName, 'Group Name'}" VerticalAlignment="Center"></TextBlock>
+            <TextBox Grid.Column="1" Text="{Binding Detail.Name, Mode=TwoWay}" Width="250"  HorizontalAlignment="Left"></TextBox>
+
+        </Grid>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal"  HorizontalAlignment="Right">
+
+            <Button Content="{wpf:Loc Label_Reload, 'Reload'}" HorizontalAlignment="Right" Click="Button_Click" Width="80" Margin="10,0" />
+
+
+
+            <!--<TextBlock><Run Text="Tab control"/></TextBlock>
+
+        <Controls:DynamicTabControl x:Name="TabControl"  />-->
+
+
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Controls1:DynamicGridControl x:Name="DynamicGridControl" CanAddRow="True" ItemDataSource="{Binding RVM, Mode=TwoWay}" CanShowDetails="True" />
+            <Button Grid.Row="1" Content="{wpf:Loc Button_AddGroup, 'Add'}" HorizontalAlignment="Right"   Command="{Binding AddGroupCommand}" MinWidth="80" Margin="5" Height="25" />
+
+        </Grid>
+
+        <GridSplitter Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" ></GridSplitter>
+
+        <Grid Grid.Row="3" >
+            <GroupBox     VerticalAlignment="Stretch" BorderBrush="Gray"
+                   Margin="0,10,0,10"  >
+                <GroupBox.Header>
+                    <TextBlock Text="{wpf:Loc Label_Notes, 'Notes'}"  Style="{StaticResource GlobalGroupHeaderStyle}" />
+                </GroupBox.Header>
+                <Grid Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="*" MinHeight="50"/>
+
+                    </Grid.RowDefinitions>
+                    <!--<TextBlock Grid.Row="0" Text="{lex:Loc Label_Comments,'Comments'}"  Margin="10,0,0,0" />-->
+                    <controls:AutoScrollingListView  x:Name="lstComments" Grid.Row="0" Grid.Column="0" Height="auto" Margin="0,7,10,1" AlternationCount="2"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Notes}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ToolTip="{Binding Value}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding Header}" FontSize="11" TextWrapping="Wrap"
+                         FontWeight="Bold" />
+                                    <TextBlock Grid.Row="1" Text="{Binding Value}" FontSize="12" TextWrapping="Wrap" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </controls:AutoScrollingListView>
+
+                    <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical" >
+                        <TextBlock  Text="{wpf:Loc Label_AddComment, 'Add Comment'}"  Margin="10,4" />
+                        <ui:ReadOnlyStateManager  IsReadOnly="False">
+                            <TextBox  Text="{Binding NewComment, Mode=TwoWay}" Margin="0,7,10,1"   AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" MaxLength="200"  />
+                            <!--IsEnabled="{Binding ElementName=AddCommentButton, Path=IsEnabled}"-->
+                        </ui:ReadOnlyStateManager>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,7,10,1" >
+                            <CheckBox Visibility="Hidden" IsChecked="{Binding IsEditable, Mode=TwoWay}" Content="IsEditable"   HorizontalAlignment="Left"  ></CheckBox>
+                            <CheckBox Visibility="Hidden" IsChecked="{Binding IsReadOnly}"  HorizontalAlignment="Center" Content="IsReadOnlyMode"  ></CheckBox>
+                            <Button x:Name="AddCommentButton"   Command="{Binding AddCommentCommand}" Content="{wpf:Loc Button_Add_Comment,'Add Comment'}"  HorizontalAlignment="Right"  Width="140" />
+                        </StackPanel>
+                    </StackPanel>
+
+
+
+                </Grid>
+            </GroupBox>
+
+        </Grid>
+
+        <Grid Grid.Row="4" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="{wpf:Loc Label_Scenario}"></Label>
+
+            <controls4:MultiSelectComboBox DataSource="{Binding Scenarios}" 
+                                               IsSelectionEnabled="True"
+                                               Grid.Column="1" MinWidth="200"/>
+
+            <Label Grid.Column="5" Content="{wpf:Loc Label_Status}"></Label>
+            <ui:ReadOnlyStateManager Grid.Column="6" IsReadOnly="False">
+                <ComboBox ItemsSource="{Binding Statuses, Mode=TwoWay}" Width="150" HorizontalAlignment="Left"                                             
+                            		SelectedItem="{Binding SelectedStatus}" >
+
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ComboBoxItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+
+                    <ComboBox.ItemTemplateSelector>
+                        <dataDriven:ComboBoxItemTemplateSelector>
+
+                            <dataDriven:ComboBoxItemTemplateSelector.ItemTemplate>
+                                <HierarchicalDataTemplate>
+
+                                    <Border VerticalAlignment="Center" 
+                            							HorizontalAlignment="Stretch" 
+                            							BorderBrush="{Binding Colour, Mode=OneTime}" 
+                            							BorderThickness="5,1,1,1" Padding="5,0,0,0"
+                            							Width="auto"  >
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                    </Border>
+
+                                </HierarchicalDataTemplate>
+
+                            </dataDriven:ComboBoxItemTemplateSelector.ItemTemplate>
+                            <dataDriven:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </dataDriven:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                        </dataDriven:ComboBoxItemTemplateSelector>
+                    </ComboBox.ItemTemplateSelector>
+
+                </ComboBox>
+            </ui:ReadOnlyStateManager>
+        </Grid>
+
+        <StackPanel Grid.Row="5" 
+					Orientation="Horizontal"
+					HorizontalAlignment="Right"
+					Margin="0 4">
+            <Button Width="80" Margin="5,5,0,5"  Command="{Binding CancelCommand}" Content="{wpf:Loc Button_Cancel, 'Cancel'}"></Button>
+            <Button Width="80" Margin="10,5,0,5"  Command="{Binding SaveCommand}" Content="{wpf:Loc Button_Save}"></Button>
+        </StackPanel>
+
+    </Grid>
+
+
+</pages:PageBase>

@@ -1,0 +1,276 @@
+﻿<Page x:Class="WPF.Wizard.Products" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:my="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:wizard="clr-namespace:WPF.Wizard"
+      mc:Ignorable="d" d:DesignHeight="348" d:DesignWidth="737"
+      Title="Products"   xmlns:lex="clr-namespace:WPF"
+      xmlns:tree="clr-namespace:WPF.UserControls.Trees.Controls"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"   
+      xmlns:Converters="clr-namespace:WPF.Converters"
+      xmlns:converter="clr-namespace:WPF"
+      xmlns:ContenPresenter="clr-namespace:Exceedra.Controls.Modal;assembly=Exceedra.Controls"
+      xmlns:controls="clr-namespace:Exceedra.Controls.DynamicGrid.Controls;assembly=Exceedra.Controls"
+      x:Name="ProductsPage" >
+
+    <Page.Resources>
+        <lex:ImageUrlConverter x:Key="imageUrlConverter" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+        <converter:InverseBooleanConverter x:Key="InverseConverter"></converter:InverseBooleanConverter>
+        <Converters:BoolToToggleStateConverter x:Key="boolToToggleStateConv" />
+        <Style x:Key="ItemContainerStyle" TargetType="{x:Type telerik:RadTreeViewItem}"  BasedOn="{StaticResource RadTreeViewItemStyle}">
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected2}" Value="True">
+                    <Setter Property="Foreground" Value="OrangeRed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsSelected2}" Value="False">
+                    <Setter Property="Foreground" Value="Black" />
+                </DataTrigger>
+            </Style.Triggers>
+
+            <Style.Resources>
+
+                <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBoxStyle}">
+                    <Setter Property="IsHitTestVisible" Value="{Binding Path=DataContext.CurrentPromotion.IsReadOnly,Converter={StaticResource InverseConverter}, ElementName=ProductsPage}" />
+                </Style>
+            </Style.Resources>
+
+
+            <Setter Property="Background" Value="White" ></Setter>
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            <Setter Property="CheckState" Value="{Binding IsSelectedBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource boolToToggleStateConv}}"  />
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+            <Setter Property="Tag" Value="{Binding ID}" />
+            <Setter Property="AutomationProperties.Name" Value="{Binding UserName}"/>
+        </Style>
+
+        <Style x:Key="ModalListBoxItem" >
+            <Style.Resources>
+                <!-- Background of selected item when focussed -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
+                                                    Color="White"/>
+                <!-- Background of selected item when not focussed -->
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" 
+                                                    Color="White" />
+            </Style.Resources>
+        </Style>
+
+        <!--<Setter Property="IsHitTestVisible" Value="{Binding ElementName=ropanel, Path=IsReadOnly,Converter={StaticResource InverseConverter}}"></Setter>-->
+    </Page.Resources>
+    <!--<Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>-->
+    <Grid Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Background="LightGray">
+                <wizard:WizardLeftMenu />
+            </Grid>
+
+            <GridSplitter x:Name="splt1"  ResizeDirection="Columns" Grid.Column="1" Width="3"
+			Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeBehavior="BasedOnAlignment" Margin="0" />
+            <my:ReadOnlyStateManager Grid.Column="2" x:Name="ropanel" IsReadOnly="{Binding CurrentPromotion.IsReadOnly}">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{lex:Loc Label_Products,'Products'}" FontSize="16" Margin="10" Grid.Row="0" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="0"  HorizontalAlignment="Right" >
+                        <Button Name="CancelReload" Content="{lex:Loc Button_Reload, 'Reload'}" Width="80" Margin="8" 
+                                IsEnabled="{Binding CurrentPromotion.IsEditable}"
+                                Command="{Binding ReloadCommand}" 
+                                Style="{StaticResource SecondaryBtn}"
+                                />
+                        <Button Name="CancelNext" Content="{lex:Loc Button_Cancel, 'Cancel'}" Width="80" 
+                                HorizontalAlignment="Right" Margin="8"
+                                Command="{Binding CancelCommand}" 
+                                Style="{StaticResource SecondaryBtn}"
+                                />
+                    </StackPanel>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <tree:TreeControl TreeSource="{Binding RootProducts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                          RightClickEnabled="True" Padding="2" Margin="2" Grid.Row="0"
+                                          TreeTitle="Products"
+                                          />
+
+                        <DataGrid Grid.Row="1" Name="dgProducts" Margin="6" AutoGenerateColumns="False"
+                                  SelectionUnit="Cell" RowHeaderWidth="30" IsSynchronizedWithCurrentItem="True" VerticalGridLinesBrush="#CCC"
+                                  HorizontalGridLinesBrush="#CCC" CanUserAddRows="False" CanUserResizeRows="False" CanUserDeleteRows="False"
+                                  ItemsSource="{Binding ProductPricesList}" RowHeight="25" LoadingRow="dgProducts_LoadingRow" Loaded="dgProducts_Loaded">
+
+                            <DataGrid.Resources>
+                                <!--
+                            SINGLE CLICK EDITING
+                         -->
+                                <!--<Style TargetType="{x:Type DataGridCell}">
+                                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown"></EventSetter>
+                                </Style>-->
+                            </DataGrid.Resources>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" Width="120*"  IsReadOnly="True" />
+                                <DataGridCheckBoxColumn Header="FOC/LS" Binding="{Binding IsFOC}" Visibility="{Binding  Path=ShowFOC, Converter={StaticResource BoolToVisConverter} }" />
+                                <DataGridCheckBoxColumn IsReadOnly="True" Header="Display" MinWidth="50" Binding="{Binding IsDisplay}" Visibility="{Binding Path=ShowDisplay, Converter={StaticResource BoolToVisConverter} }" />
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Grid Grid.Row="2" Margin="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Margin="4" VerticalAlignment="Center"
+                                   Text="{lex:Loc Label_Status}" />
+                        <TextBlock Grid.Column="2" Margin="4" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Text="{Binding SelectedStatus.Name}" />
+                        <Button Grid.Column="3" Name="btnViewProductData" Content="{lex:Loc Modal_Viewer_Control, 'Product Data'}" Command="{Binding SetModalVis}"
+                                Margin="0,0,4,0" Visibility="{Binding Configuration.IsPromotionProductsRefDataEnabled, Converter={StaticResource BoolToVisConverter}}" 
+                                IsEnabled="{Binding CurrentPromotion.IsEditable}"
+                                Style="{StaticResource SecondaryBtn}"
+                                />
+                        <Button Grid.Column="4" Name="btnCancel" Content="{lex:Loc Button_Back, 'Back'}" Width="80"
+                                Command="{Binding BackCommand}" 
+                                Style="{StaticResource SecondaryBtn}"
+                                />
+                        <Button Grid.Column="5" Name="btnNext" Content="{lex:Loc Button_Next, 'Next'}" Width="80" Margin="4,0"
+                                Command="{Binding NextCommand, UpdateSourceTrigger=PropertyChanged}" 
+                                Style="{StaticResource SecondaryBtn}"
+                                />
+
+                    </Grid>
+
+                </Grid>
+            </my:ReadOnlyStateManager>
+            <!--Visibility="{Binding  ModalContentPresenterVis, Converter={StaticResource BoolToVisConverter} }"-->
+
+            <!--<ContenPresenter:ModalContentPresenter Name="ProductDataModalPresenter" Visibility="{Binding ModalContentPresenterVis, Converter={StaticResource BoolToVisConverter}}" 
+                                                   Grid.ColumnSpan="3" IsModal="True">
+                <ContenPresenter:ModalContentPresenter.ModalContent>
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Height="auto" Width="auto" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="60" />
+                        </Grid.RowDefinitions>
+
+                        <ListBox Name="ModalListBox" Grid.Column="0" ItemsSource="{Binding ModalProductList}" SelectionMode="Single" SelectedItem="{Binding ModalSelectedProduct, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ListBoxItem Content="{Binding DisplayName}" IsHitTestVisible="False"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Button Grid.Column="1" Grid.Row="1" Content="{lex:Loc Button_Cancel, 'Cancel'}" Command="{Binding SetModalVis}" />
+                        
+                        <Button Content="{lex:Loc Button_Cancel, 'Cancel'}" />
+                    </Grid>
+                </ContenPresenter:ModalContentPresenter.ModalContent>
+        </ContenPresenter:ModalContentPresenter>-->
+
+            <ContenPresenter:ModalContentPresenter Name="ProductDataModalPresenter" Visibility="{Binding  ModalContentPresenterVis, Converter={StaticResource BoolToVisConverter} }" 
+                                                   IsModal="True" Grid.ColumnSpan="3" OpacityMask="Gray">
+                <ContenPresenter:ModalContentPresenter.ModalContent>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                MaxHeight="{Binding ActualHeight,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}">
+                        <Border BorderBrush="Black" BorderThickness="1" Background="White"  Width="auto" MaxWidth="1000" CornerRadius="6" 
+                               MaxHeight="{Binding ActualHeight,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}">
+                            <Grid VerticalAlignment="Top" HorizontalAlignment="Center" Width="1000" MaxHeight="{Binding ActualHeight,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}"
+                                  MaxWidth="{Binding ActualWidth,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="30" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="{lex:Loc Label_Promotion_Constraints_Header, 'Constraints'}" Grid.Column="0" Grid.Row="0" Margin="7,7,0,0"/>
+                                <TextBlock Text="{lex:Loc Label_Promotion_Constraints_DynamicGrid, 'Values'}" Grid.Column="2" Grid.Row="0" Visibility="{Binding  EditProductGridVis, Converter={StaticResource BoolToVisConverter} }" 
+                                       Margin="0,7,7,0"/>
+
+                                <ListBox Name="ModalListBox" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding ModalProductList}" SelectionMode="Single" Margin="7,10,0,0" HorizontalContentAlignment="Stretch"
+                                 SelectedItem="{Binding ModalSelectedProduct, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Auto" ItemContainerStyle="{StaticResource ModalListBoxItem}" >
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="16"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding .DisplayName}" IsHitTestVisible="False" Grid.Column="0"/>
+                                                <Image Width="16" Height="16" Grid.Column="1" HorizontalAlignment="Center">
+                                                    <Image.Style>
+                                                        <Style TargetType="{x:Type Image}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding CompleteDataEnum}" Value="On">
+                                                                    <Setter Property="Source" Value="{StaticResource TickImage}"/>
+                                                                    <Setter Property="ToolTip" Value="Page valid"></Setter>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CompleteDataEnum}" Value="Off">
+                                                                    <Setter Property="Source" Value="{StaticResource WarningImage}"/>
+                                                                    <Setter Property="ToolTip" Value="Page has errors"></Setter>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="False" Grid.Column="2" Grid.Row="1" Margin="0,0,7,0" >
+                                    <controls:DynamicGridControl Name="ProductDataDynamicGrid" CanSort="False" 
+                                            Visibility="{Binding  EditProductGridVis, Converter={StaticResource BoolToVisConverter} }"
+                                            HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                                            ItemDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.EditProductDataGrid, Mode=TwoWay}"
+                                                                IsEnabled="{Binding CurrentPromotion.IsEditable}"/>
+                                </ScrollViewer>
+
+                                <Button Grid.Column="2" Grid.Row="2" Content="{lex:Loc Button_Cancel, 'Cancel'}" Command="{Binding SetModalVis}" HorizontalAlignment="Right" 
+                                VerticalAlignment="Bottom" Width="80" Margin="0,0,7,7"/>
+
+                                <Button Grid.Column="2" Grid.Row="2" Content="{lex:Loc Button_Save, 'Save'}" Command="{Binding SaveModalProductData}" HorizontalAlignment="Right" 
+                            VerticalAlignment="Bottom" Width="80" Margin="0,0,92,7" IsEnabled="{Binding CurrentPromotion.IsEditable}"/>
+
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </ContenPresenter:ModalContentPresenter.ModalContent>
+            </ContenPresenter:ModalContentPresenter>
+
+        </Grid>
+        <!--<wizard:StatusBarControl Grid.Row="1" />-->
+
+
+    <!--</Grid>-->
+</Page>

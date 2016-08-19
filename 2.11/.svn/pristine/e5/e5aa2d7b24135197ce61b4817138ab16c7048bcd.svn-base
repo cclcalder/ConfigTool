@@ -1,0 +1,283 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	  xmlns:lex="clr-namespace:WPF"
+      xmlns:controls="clr-namespace:WPF.UserControls.Trees.Controls"
+      xmlns:controls1="clr-namespace:Exceedra.Controls.DynamicTab.Controls;assembly=Exceedra.Controls"
+      xmlns:controls2="clr-namespace:Exceedra.Controls.DynamicRow.Controls;assembly=Exceedra.Controls"
+      xmlns:wpf="clr-namespace:Coder.UI.WPF;assembly=Coder.UI.WPF"
+      xmlns:converters1="clr-namespace:Exceedra.Converters;assembly=Exceedra.Controls"
+      xmlns:controls3="clr-namespace:WPF.UserControls.Tabs.Controls"
+      xmlns:controls4="clr-namespace:Exceedra.MultiSelectCombo.Controls;assembly=Exceedra.Controls"
+      xmlns:ui="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF"
+      xmlns:controls5="clr-namespace:Exceedra.Controls;assembly=Exceedra.Controls"
+      xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+      xmlns:azure="clr-namespace:Exceedra.Controls.Storage.Azure;assembly=Exceedra.Controls"
+      x:Class="WPF.Pages.RobContracts.RobContractsEditorView"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" d:DesignWidth="1024"
+	Title="RobContractsEditor"
+    x:Name="RobContractsEditor" Background="White">
+
+    <Page.Resources>
+        <converters1:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <Style TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="FontWeight" Value="Normal" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                    <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="140*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Label Content="{lex:Loc Label_ContractEditor, Contract Editor}" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
+            </Grid>
+            <!--<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Content="{lex:Loc Label_Cancel, 'Cancel'}" Command="{Binding ElementName=RobContractsEditor, Path=ViewModel.CancelCommand}" Margin="0,0,5,0" Grid.Column="1" Width="100" />
+                <Button Content="{lex:Loc Label_Reload, Reload}"  
+				Command="{Binding ElementName=RobContractsEditor, Path=ViewModel.ReloadCommand}" Width="100"  />
+            </StackPanel>-->
+            <StackPanel  Grid.Row="0"  Grid.Column="1"  Orientation="Horizontal"  Margin="2" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Button Style="{StaticResource SecondaryBtn}" Width="100" Command="{Binding ElementName=RobContractsEditor, Path=ViewModel.ReloadCommand}" Content="{lex:Loc Button_Reload, 'Reload'}" Margin="0,0,5,0" />
+                <Button Style="{StaticResource SecondaryBtn}" Width="100" Command="{Binding ElementName=RobContractsEditor, Path=ViewModel.CancelCommand}" Content="{lex:Loc Button_Cancel, 'Cancel'}"   />
+            </StackPanel>
+
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <GroupBox x:Name="ContractDetails"  Margin="8,0,4,4" Padding="10" BorderBrush="Gray" >
+
+                <GroupBox.Header>
+                    <TextBlock Text="{lex:Loc Label_ContractDetails, Contracts}"  Style="{StaticResource GlobalGroupHeaderStyle}" />
+                </GroupBox.Header>
+
+                <!--<ScrollViewer VerticalScrollBarVisibility="Disabled" BorderBrush="{x:Null}">-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <!--<ScrollViewer Margin="0,0,16,0" BorderBrush="{x:Null}" >-->
+                            <controls2:DynamicRowControl ItemDataSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.ContractDetails, Mode=TwoWay}" MaxWidth="300" />
+                        <!--</ScrollViewer>-->
+                        <Grid Grid.Column="1">
+
+                            <!-- SelectionChanged handles (if there is any term added) asking for the confirmation if a user wants to change the customers selection and in result remove all the terms from the contract -->
+                            <!--
+                            
+                                ReadOnly is set in the code behind as I was not able to make it working here
+                                ReadOnly="{Binding IsContractAmendable, Converter={StaticResource InverseBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
+                            
+                            -->
+                            <controls:TreeControl x:Name="CustomerTree"
+							    RightClickEnabled="True"
+							    Margin="5,0,0,0"
+							    TreeTitle="{lex:Loc Label_Customers}" 
+                                TreeSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.Customers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+							    UseNewStyle="True"
+                                UnsafeCheck="TreeControl_OnUnsafeCheck"
+							/>
+
+                        </Grid>
+
+                    </Grid>
+                <!--</ScrollViewer>-->
+            </GroupBox>
+            <GroupBox x:Name="AddTerms"  BorderBrush="Gray"  Margin="4,0,8,4" Padding="10" Grid.Column="1">
+                <GroupBox.Header>
+                    <TextBlock Text="{lex:Loc Label_AddTerms, Add terms}" Style="{StaticResource GlobalGroupHeaderStyle}" />
+                </GroupBox.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <!--<ScrollViewer Margin="0,0,0,16" VerticalScrollBarVisibility="Disabled" BorderBrush="{x:Null}">-->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <!--<ScrollViewer Margin="0,0,16,0" BorderBrush="{x:Null}" >-->
+                                <controls2:DynamicRowControl ItemDataSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.NewTermDetails, Mode=TwoWay}" MaxWidth="300" />
+                            <!--</ScrollViewer>-->
+                            <Grid Grid.Column="1">
+
+                                <!--
+                            
+                                    ReadOnly is set in the code behind as I was not able to make it working here
+                                    ReadOnly="{Binding IsContractAmendable, Converter={StaticResource InverseBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
+                            
+                                -->
+
+                                <controls:TreeControl
+                                	RightClickEnabled="True"
+                                	Margin="5,0,0,0"
+                                	TreeTitle="{lex:Loc Label_Products}" 
+                                	TreeSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.Products, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                	UseNewStyle="True"
+									/>
+
+                            </Grid>
+                        </Grid>
+                    <!--</ScrollViewer>-->
+                    <Grid Grid.Row="2">
+                        <Button x:Name="AddTermButton" Style="{StaticResource SecondaryBtn}"
+						Content="{lex:Loc Label_Add, Add}" 
+						HorizontalAlignment="Right" 
+						Width="75"
+						Command="{Binding ElementName=RobContractsEditor, Path=ViewModel.AddTermCommand}" 
+						MinWidth="80" 
+						Padding="4,1"
+						IsEnabled="{Binding ElementName=RobContractsEditor, Path=ViewModel.IsContractAmendable}"
+						/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <GridSplitter Height="5" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Center"/>
+
+        <!--<controls1:DynamicTabControl ItemDataSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.ContractTerms, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+        <!--<controls3:TabControl Grid.Row="3" Margin="0,10,0,0" TabDataSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.TermsTabs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
+
+        <Grid Grid.Row="3" Margin="0,10,0,0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+
+            <telerik:RadTabControl   Grid.Column="0" VerticalAlignment="Stretch"
+               Margin="10,0,10,10" >
+                <telerik:RadTabItem Header="{lex:Loc Label_Notes, 'Notes'}">
+
+
+                    <Grid Height="Auto">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0" />
+                            <RowDefinition Height="*" MinHeight="50"/>
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <!--<TextBlock Grid.Row="0" Text="{lex:Loc Label_Comments,'Comments'}"  Margin="10,0,0,0" />-->
+                        <controls5:AutoScrollingListView  x:Name="lstComments" Grid.Row="1" Height="auto" Margin="10,7,10,1" AlternationCount="2"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.Notes}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ToolTip="{Binding Value}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding Header}" FontSize="11" TextWrapping="Wrap"
+                         FontWeight="Bold" />
+
+                                        <TextBlock Grid.Row="1" Text="{Binding Value}" FontSize="12" TextWrapping="Wrap" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </controls5:AutoScrollingListView>
+                        <TextBlock Grid.Row="2" Text="{lex:Loc Label_AddComment, 'Add Comment'}"  Margin="10,4" />
+                        <ui:ReadOnlyStateManager Grid.Row="3" >
+                            <TextBox Text="{Binding  ElementName=RobContractsEditor, Path=ViewModel.NewComment, Mode=TwoWay}" Margin="10,7,10,1"  AcceptsReturn="True" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.CanAddCommentBool, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                 VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" MaxLength="200"  />
+                        </ui:ReadOnlyStateManager>
+                        <CheckBox Visibility="Hidden" IsChecked="{Binding IsEditable, Mode=OneWay}" Content="IsEditable" Grid.Row="4" HorizontalAlignment="Left"  ></CheckBox>
+                        <CheckBox Visibility="Hidden" IsChecked="{Binding IsReadOnly, Mode=OneWay}" Grid.Row="4" HorizontalAlignment="Center" Content="IsReadOnly"  ></CheckBox>
+                        <Button x:Name="AddCommentButton"  Grid.Row="4" Command="{Binding ElementName=RobContractsEditor, Path=ViewModel.AddCommentCommand}" Content="{lex:Loc Button_Add_Comment,'Add Comment'}" 
+              HorizontalAlignment="Right" Margin="10,8" Width="140" />
+                    </Grid>
+
+                </telerik:RadTabItem>
+                <telerik:RadTabItem Header="{lex:Loc FileStorage, 'File Storage'}" x:Name="UploadFileTab">
+                    <azure:UploadEntry Margin="10"  x:Name="UploadFile"></azure:UploadEntry>
+                </telerik:RadTabItem>
+            </telerik:RadTabControl>
+         
+
+            <controls3:TabControl Margin="0,0,10,10" Grid.Column="1" TabDataSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.TermsTabs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        </Grid>
+
+
+        <Grid Grid.Row="4" Margin="4,0,4,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="8,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="{lex:Loc Label_Scenarios, Scenarios}" Margin="0,0,4,0"/>
+                <controls4:MultiSelectComboBox DataSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.AvailableScenarios}" 
+                                               IsSelectionEnabled="True"
+                                               Grid.Column="1" Width="140"/>
+            </Grid>
+            <Grid Margin="32,0,0,0" Grid.Column="1" Visibility="{Binding ElementName=RobContractsEditor, Path=ViewModel.AreRecipientsVisible}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="{lex:Loc Label_Recipient, Recipient}" Margin="0,0,4,0"/>
+                <controls4:MultiSelectComboBox                    
+				DataSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.AvailableRecipients}" 
+                IsSelectionEnabled="True"
+				Grid.Column="1" Width="140"/>
+            </Grid>
+            <Grid Grid.Column="2" Margin="32,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="{lex:Loc Label_Status, Status}" Margin="0,0,4,0"/>
+                <ComboBox
+				ItemsSource="{Binding ElementName=RobContractsEditor, Path=ViewModel.AvailableContractStatuses}" 
+				DisplayMemberPath="Name" 
+				SelectedItem="{Binding ElementName=RobContractsEditor, Path=ViewModel.SelectedContractStatus}" 
+				Grid.Column="1" Width="140"/>
+            </Grid>
+            <Grid Grid.Column="3" Margin="0,0,8,4" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Style="{StaticResource SecondaryBtn}" Content="{lex:Loc Label_Save, 'Save'}" Command="{Binding ElementName=RobContractsEditor, Path=ViewModel.SaveCommand}" Margin="0,0,4,0" Grid.Column="1" MinWidth="80" Padding="4,1"/>
+                <Button Style="{StaticResource SecondaryBtn}" Content="{lex:Loc Label_SaveAndClose, Save and close}" Command="{Binding ElementName=RobContractsEditor, Path=ViewModel.SaveAndCloseCommand}" Grid.Column="2" MinWidth="80" Padding="4,1"/>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Page>

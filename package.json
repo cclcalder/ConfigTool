@@ -1,0 +1,12 @@
+{
+  "name": "configtoolnpm",
+  "version": "1.0.0",
+  "description": "config tool package.json",
+  "main": "controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "cosima calder",
+  "license": "ISC",
+  "keywords": []
+}

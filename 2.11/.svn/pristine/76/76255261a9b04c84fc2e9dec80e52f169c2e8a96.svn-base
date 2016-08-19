@@ -1,0 +1,565 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D61CCABD-6227-4FC9-83F6-49A048B55C1E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Exceedra</RootNamespace>
+    <AssemblyName>Exceedra.Controls</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+    <ExpressionBlendVersion>12.0.51020.0</ExpressionBlendVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttps|AnyCPU'">
+    <OutputPath>bin\ReleaseHttps\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttps|x86'">
+    <OutputPath>bin\x86\ReleaseHttps\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttp|AnyCPU'">
+    <OutputPath>bin\ReleaseHttp\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseHttp|x86'">
+    <OutputPath>bin\x86\ReleaseHttp\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AutoScrollingListView.cs" />
+    <Compile Include="Buttons\CrossButton.cs" />
+    <Compile Include="Caret\FIlterCaret.cs" />
+    <Compile Include="Caret\FilterCaretBtn.xaml.cs">
+      <DependentUpon>FilterCaretBtn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Caret\ImageUrlConverter.cs" />
+    <Compile Include="CellsGrid\CellsGrid.xaml.cs">
+      <DependentUpon>CellsGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CellsGrid\CellsGridTemplateSelector.cs" />
+    <Compile Include="CellsGrid\CellsGridViewModel.cs" />
+    <Compile Include="CellsGrid\GridColumns.cs" />
+    <Compile Include="CellsGrid\GridRows.cs" />
+    <Compile Include="CellsGrid\ICanvasErrorReportable.cs" />
+    <Compile Include="ChangePasswordPanel\ChangePasswordPanel.xaml.cs">
+      <DependentUpon>ChangePasswordPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Chart\Controls\ExceedraChartControl.xaml.cs">
+      <DependentUpon>ExceedraChartControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Chart\Converters\GridToChart.cs" />
+    <Compile Include="Chart\Converters\TypeSwitch.cs" />
+    <Compile Include="Chart\Converters\XmlToDatapoints.cs" />
+    <Compile Include="Chart\Model\CategoricalDatapoint.cs" />
+    <Compile Include="Chart\Model\Chart.cs" />
+    <Compile Include="Chart\Model\Datapoint.cs" />
+    <Compile Include="Chart\Model\LinearDatapoint.cs" />
+    <Compile Include="Chart\Model\RangeDatapoint.cs" />
+    <Compile Include="Chart\Model\Record.cs" />
+    <Compile Include="Chart\Model\SingleSeries.cs" />
+    <Compile Include="Chart\ViewModels\RecordViewModel.cs" />
+    <Compile Include="Converters\BoolToColourConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\ControlsTestConverter.cs" />
+    <Compile Include="Converters\GridLengthConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\NullToBoolConverter.cs" />
+    <Compile Include="DynamicGrid\Behaviours\PixelBasedScrollingBehaviour.cs" />
+    <Compile Include="DynamicGrid\Converters\Class1.cs" />
+    <Compile Include="DynamicGrid\Converters\DateTimeConverter.cs" />
+    <Compile Include="DynamicGrid\Converters\DynamicGridModelConverter.cs" />
+    <Compile Include="DynamicGrid\Converters\RowDetailsTemplateSelector.cs" />
+    <Compile Include="DynamicGrid\Converters\RowTemplateSelector.cs" />
+    <Compile Include="DynamicGrid\Converters\ToPercentageConverter.cs" />
+    <Compile Include="DynamicGrid\Models\ContextMenuItem.cs" />
+    <Compile Include="DynamicGrid\Models\GridCellSelector.cs" />
+    <Compile Include="DynamicGrid\Models\Option.cs" />
+    <Compile Include="DynamicGrid\Models\PropertyBase.cs" />
+    <Compile Include="DynamicGrid\Models\Record.cs" />
+    <Compile Include="DynamicGrid\Models\RecordBase.cs" />
+    <Compile Include="DynamicGrid\Models\RowRecord.cs" />
+    <Compile Include="DynamicGrid\Models\RowSum.cs" />
+    <Compile Include="DynamicGrid\Models\SharedMethods.cs" />
+    <Compile Include="DynamicGrid\Models\Validation\MaxDateValidationRule.cs" />
+    <Compile Include="DynamicGrid\Models\Validation\MinDateValidationRule.cs" />
+    <Compile Include="DynamicGrid\Models\Validation\ValidationRule.cs" />
+    <Compile Include="DynamicGrid\Models\Validation\ValidationRuleFactory.cs" />
+    <Compile Include="DynamicTab\Controls\DynamicTabControl.xaml.cs">
+      <DependentUpon>DynamicTabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicTab\Controls\TabControlTemplateSelector.cs" />
+    <Compile Include="DynamicTab\Converters\IntToColourConverter.cs" />
+    <Compile Include="DynamicTab\ViewModels\TabbedViewModel.cs" />
+    <Compile Include="General\FileEntry.xaml.cs">
+      <DependentUpon>FileEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ProportionallyStretchingPanel.cs" />
+    <Compile Include="DynamicGrid\Controls\DynamicGridControl.xaml.cs">
+      <DependentUpon>DynamicGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicGrid\Controls\DynamicRowControl.xaml.cs">
+      <DependentUpon>DynamicRowControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicGrid\Controls\HeaderOperationControl.xaml.cs">
+      <DependentUpon>HeaderOperationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicGrid\Controls\SingleRow.xaml.cs">
+      <DependentUpon>SingleRow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicGrid\Converters\DataitemTemplateSelector.cs" />
+    <Compile Include="DynamicGrid\Models\GridColumns.cs" />
+    <Compile Include="DynamicGrid\Models\HeaderRow.cs" />
+    <Compile Include="DynamicGrid\Models\Property.cs" />
+    <Compile Include="DynamicGrid\Models\RowProperty.cs" />
+    <Compile Include="DynamicGrid\Models\RowDataSourceInput.cs" />
+    <Compile Include="DynamicGrid\Models\SimpleList.cs" />
+    <Compile Include="DynamicGrid\ViewModels\RecordViewModel.cs" />
+    <Compile Include="DynamicGrid\ViewModels\RowViewModel.cs" />
+    <Compile Include="Helpers\xml.cs" />
+    <Compile Include="LabelControl\LabelViewModel.cs" />
+    <Compile Include="Modal\Messages\CustomMessageBox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modal\Messages\CustomMessageBoxWindow.xaml.cs">
+      <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modal\Messages\Util.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modal\ModalContentPresenter.cs" />
+    <Compile Include="MultiSelectCombo\Behaviour\FilteringBehaviour.cs" />
+    <Compile Include="MultiSelectCombo\Converters\BoolToBrushConverter.cs" />
+    <Compile Include="MultiSelectCombo\Controls\MultiSelectComboBox.xaml.cs">
+      <DependentUpon>MultiSelectComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MultiSelectCombo\ViewModel\MultiSelectViewModel.cs" />
+    <Compile Include="Pivot\Behaviors\PivotItemsBehavior.cs" />
+    <Compile Include="Pivot\Controls\ExceedraRadPivotGrid.xaml.cs">
+      <DependentUpon>ExceedraRadPivotGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pivot\Converters\CellTemplateSelector.cs" />
+    <Compile Include="Pivot\Converters\HeaderTemplateSelector.cs" />
+    <Compile Include="Pivot\ViewModels\ExceedraRadPivotGridViewModel.cs" />
+    <Compile Include="Pivot\ViewModels\PivotCalculatedField.cs" />
+    <Compile Include="Pivot\ViewModels\Property.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecordContainer.cs" />
+    <Compile Include="Schedule\Controls\ScheduleControl.xaml.cs">
+      <DependentUpon>ScheduleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedule\Model\ScheduleItem.cs" />
+    <Compile Include="Schedule\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="SideMenu\Enums.cs" />
+    <Compile Include="SideMenu\Menu.xaml.cs">
+      <DependentUpon>Menu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SideMenu\MenuButton.xaml.cs">
+      <DependentUpon>MenuButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SingleSelectCombo\Controls\SingleSelectComboBox.xaml.cs">
+      <DependentUpon>SingleSelectComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SingleSelectCombo\ViewModel\SingleSelectViewModel.cs" />
+    <Compile Include="SlimGrid\Converters\CellToTooltipVisibilityConverter.cs" />
+    <Compile Include="SlimGrid\SlimGrid.xaml.cs">
+      <DependentUpon>SlimGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Storage\Azure\Provider\AzureUploadProvider.BlocksSyncContext.cs" />
+    <Compile Include="Storage\Azure\Provider\AzureUploadProvider.cs" />
+    <Compile Include="Storage\Azure\Provider\AzureUploadSettings.cs" />
+    <Compile Include="Storage\Azure\Provider\AzureUtilities.cs" />
+    <Compile Include="Storage\Azure\UploadEntry.xaml.cs">
+      <DependentUpon>UploadEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TelerikGrid\Controls\TelerikGridControl.xaml.cs">
+      <DependentUpon>TelerikGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Test\EditableTextBlock.xaml.cs">
+      <DependentUpon>EditableTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TreeGrid\Controls\TextBlockWithIcon.xaml.cs">
+      <DependentUpon>TextBlockWithIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TreeGrid\Controls\TreeGrid.xaml.cs">
+      <DependentUpon>TreeGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TreeGrid\Extensions\TreGridExtensions.cs" />
+    <Compile Include="TreeGrid\Models\TreeGridNode.cs" />
+    <Compile Include="TreeGrid\ViewModels\TreeGridViewModel.cs" />
+    <Compile Include="UserInterface\CircularProgressBar.xaml.cs">
+      <DependentUpon>CircularProgressBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\DataDriven\ComboBoxItemTemplateSelector.cs" />
+    <Compile Include="UserInterface\DelayedExecutionService.cs" />
+    <Compile Include="UserInterface\CommandManagerHelper.cs" />
+    <Compile Include="UserInterface\DelegateCommand.cs" />
+    <Compile Include="UserInterface\Loader.xaml.cs">
+      <DependentUpon>Loader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Base.cs" />
+    <Compile Include="Views\GrMenu.xaml.cs">
+      <DependentUpon>GrMenu.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Caret\FilterCaretBtn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CellsGrid\CellsGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChangePasswordPanel\ChangePasswordPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Chart\Controls\ExceedraChartControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DynamicGrid\Controls\DynamicGridControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DynamicGrid\Controls\DynamicRowControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DynamicGrid\Controls\HeaderOperationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DynamicGrid\Controls\SingleRow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DynamicTab\Controls\DynamicTabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="General\FileEntry.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modal\Messages\CustomMessageBoxWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MultiSelectCombo\Controls\MultiSelectComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pivot\Controls\ExceedraRadPivotGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Schedule\Controls\ScheduleControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SideMenu\Menu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SideMenu\MenuButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SingleSelectCombo\Controls\SingleSelectComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SlimGrid\SlimGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Storage\Azure\UploadEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TelerikGrid\Controls\TelerikGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Test\EditableTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TreeGrid\Controls\TextBlockWithIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TreeGrid\Controls\TreeGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserInterface\CircularProgressBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserInterface\Loader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GrMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Modal\Messages\blankicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DynamicTab\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.5.0.37524, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.5.0.8\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="info.lundin.math, Version=1.1.5306.15231, Culture=neutral, PublicKeyToken=2f7fe9ec5efab85f, processorArchitecture=MSIL">
+      <HintPath>..\packages\info.lundin.math.dll.1.1\lib\net40\info.lundin.math.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.7.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Classic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Primitives, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net40\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Pivot.Core, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Pivot.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Cloud, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Cloud.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Cloud.Controls, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Cloud.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Chart, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Chart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataVisualization, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Input.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Navigation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Pivot, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Controls.Pivot.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Core, Version=2016.2.606.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.Flow, Version=2016.2.606.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.Flow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.FormatProviders.OpenXml, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.FormatProviders.OpenXml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Documents.FormatProviders.Pdf, Version=2016.2.613.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Documents.FormatProviders.Pdf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Zip, Version=2016.2.606.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWPF\2016.2.613.45.NoXaml\Telerik.Windows.Zip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Coder.UI.WPF\Coder.UI.WPF.csproj">
+      <Project>{64f6a9bd-e74d-4255-9979-ec1251c64985}</Project>
+      <Name>Coder.UI.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Exceedra.Common\Exceedra.Common.csproj">
+      <Project>{dd2599c3-c76e-4614-b6ef-b759a8f31615}</Project>
+      <Name>Exceedra.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{e083f69d-6507-4759-811b-113400f7642b}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

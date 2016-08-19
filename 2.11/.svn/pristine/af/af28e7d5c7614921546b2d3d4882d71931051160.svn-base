@@ -1,0 +1,111 @@
+﻿@model SalesPlannerWeb.Models.Listing
+
+@using (Ajax.BeginForm("Save", "ListingsMgmt", new AjaxOptions { OnSuccess = "listingActionCompleted" }))
+{
+    <div class="row">
+        <fieldset>
+            <legend>Details</legend>
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.Details, "_VerticalGrid")
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="row">
+        <fieldset>
+            <legend>Customer & Products</legend>
+
+            <div class="row row-margin-bottom">
+
+                <div class="col-md-3">
+                    @Html.Label("Customer")
+                </div>
+
+                <div class="col-md-9">
+
+                    @{
+    var dropdownItems = new List<SelectListItem>
+        (@Model.Customers.Items.Select(value => new SelectListItem()
+        {
+            Value = value.Idx,
+            Text = value.Name,
+            Selected = value.IsSelected,
+            Disabled = !value.IsEnabled
+        }));
+                    }
+
+                    @if (!@Model.Customers.Items.Any(x => x.IsEnabled))
+                    {
+                        @Html.HiddenFor(model => model.Customers.SelectedItem.Idx)                        
+                    }
+                        
+                    @Html.HiddenFor(model => model.Customers.SelectedItem.IsSelected)
+
+                    @Html.DropDownListFor(model => model.Customers.SelectedItem.Idx, dropdownItems)
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Label("Products")
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        @Html.EditorFor(model => model.ProductsRoot, "_Tree")
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+
+    <div class="row row-margin-top">
+        <div class="col-md-12" id="warningMessage"></div>
+    </div>
+
+    <div class="row row-margin-top">
+        <div class="btn-group">
+            @if (!string.IsNullOrEmpty(@ViewBag.ListingIdx))
+            {
+                <input type="button" class="btn btn-default" value="Remove" onclick="confirmListingRemoval();" />
+            }
+        </div>
+        <div class="btn-group pull-right">
+            <input type="button" class="btn btn-default" value="Cancel" onclick="closeListingEditor();" />
+            <input type="submit" class="btn btn-default" value="Save" />
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    function confirmListingRemoval() {
+
+        var isConfirmed = confirm('Are you sure you want to remove this listing?');
+        if (isConfirmed) {
+
+            $.ajax({
+                url: '@Url.Action("Remove", "ListingsMgmt", new {listingIdx = @ViewBag.ListingIdx})',
+                data: window.responseMessage,
+                success: listingActionCompleted
+            });
+        }
+    }
+
+    function listingActionCompleted(result) {
+
+        if (result.Type === 0) {
+
+            $("#warningMessage").load("/Message/Show", { message: result }, null);
+        } else if (result.Type === 1) {
+            // redirecting to the Index action
+            window.location.href = "@Url.Action("Index", "ListingsMgmt")";
+        }
+    }
+
+</script>

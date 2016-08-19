@@ -1,0 +1,398 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Exceedra.Buttons">
+    <Style TargetType="{x:Type local:CrossButton}">
+        
+        <!-- Brushes we use for the control. -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="NormalBackgroundBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalBorderBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalForegroundBrush" Color="#FFc13535" />
+
+            <SolidColorBrush x:Key="HoverBackgroundBrush" Color="#FFc13535" />
+            <SolidColorBrush x:Key="HoverForegroundBrush" Color="#FFf9ebeb" />
+
+            <SolidColorBrush x:Key="PressedBackgroundBrush" Color="#FF431e20" />
+            <SolidColorBrush x:Key="PressedBorderBrush" Color="#FF110033" />
+            <SolidColorBrush x:Key="PressedForegroundBrush" Color="#FFf9ebeb" />
+        </Style.Resources>
+        
+        <!-- Simple properties that we set. -->
+        <Setter Property="SnapsToDevicePixels" Value="false" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        
+        <!-- The control template. -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Background="Transparent">
+                        
+                        <!-- The background of the button, as an ellipse. -->
+                        <Ellipse x:Name="backgroundEllipse" Fill="{StaticResource NormalBackgroundBrush}" />
+                        
+                        <!-- A path that renders a cross. -->
+                        <Path x:Name="ButtonPath"
+                              Margin="3"
+                              Stroke="{StaticResource NormalForegroundBrush}"
+                              StrokeThickness="1.5"
+                              StrokeStartLineCap="Square"
+                              StrokeEndLineCap="Square"
+                              Stretch="Uniform"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="0,0">
+                                            <LineSegment Point="25,25"/>
+                                        </PathFigure>
+                                        <PathFigure StartPoint="0,25">
+                                            <LineSegment Point="25,0"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </Grid>
+                    
+                    <!-- The triggers. -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource HoverBackgroundBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Stroke" 
+                                    Value="{StaticResource HoverForegroundBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource PressedBackgroundBrush}" />
+                            <Setter TargetName="backgroundEllipse" Property="Stroke"
+                                    Value="{StaticResource PressedBorderBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Stroke" 
+                                    Value="{StaticResource PressedForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:ArrowButton}">
+
+        <!-- Brushes we use for the control. -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="NormalBackgroundBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalBorderBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalForegroundBrush" Color="#FF35C135" />
+
+            <SolidColorBrush x:Key="HoverBackgroundBrush" Color="#FF35C135" />
+            <SolidColorBrush x:Key="HoverForegroundBrush" Color="#FFf9ebeb" />
+
+            <SolidColorBrush x:Key="PressedBackgroundBrush" Color="#FF431e20" />
+            <SolidColorBrush x:Key="PressedBorderBrush" Color="#FF110033" />
+            <SolidColorBrush x:Key="PressedForegroundBrush" Color="#FFf9ebeb" />
+        </Style.Resources>
+
+        <!-- Simple properties that we set. -->
+        <Setter Property="SnapsToDevicePixels" Value="false" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+
+        <!-- The control template. -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Background="Transparent">
+
+                        <!-- The background of the button, as an ellipse. -->
+                        <Rectangle x:Name="backgroundEllipse" />
+
+                        <!-- A path that renders a cross. -->
+                        <Path x:Name="ButtonPath"
+                              Margin="3"
+                              Stroke="{StaticResource NormalForegroundBrush}"
+                              StrokeThickness="1.5"
+                              StrokeStartLineCap="Square"
+                              StrokeEndLineCap="Square"
+                              Stretch="Uniform"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="0,0">
+                                            <LineSegment Point="25,12.5"/>
+                                        </PathFigure>
+                                        <PathFigure StartPoint="0,25">
+                                            <LineSegment Point="25,12.5"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </Grid>
+
+                    <!-- The triggers. -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource HoverBackgroundBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Stroke" 
+                                    Value="{StaticResource HoverForegroundBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource PressedBackgroundBrush}" />
+                            <Setter TargetName="backgroundEllipse" Property="Stroke"
+                                    Value="{StaticResource PressedBorderBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Stroke" 
+                                    Value="{StaticResource PressedForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:LeftArrowButton}">
+
+         <!--Brushes we use for the control.--> 
+        <Style.Resources>
+            <SolidColorBrush x:Key="NormalBackgroundBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalBorderBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalForegroundBrush" Color="#FF35C135" />
+
+            <SolidColorBrush x:Key="HoverBackgroundBrush" Color="#FF35C135" />
+            <SolidColorBrush x:Key="HoverForegroundBrush" Color="#FFf9ebeb" />
+
+            <SolidColorBrush x:Key="PressedBackgroundBrush" Color="#FF431e20" />
+            <SolidColorBrush x:Key="PressedBorderBrush" Color="#FF110033" />
+            <SolidColorBrush x:Key="PressedForegroundBrush" Color="#FFf9ebeb" />
+        </Style.Resources>
+
+         <!--Simple properties that we set.--> 
+        <Setter Property="SnapsToDevicePixels" Value="false" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+
+         <!--The control template.--> 
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Background="Transparent">
+
+                         <!--The background of the button, as an ellipse.--> 
+                        <Rectangle x:Name="backgroundEllipse" />
+
+                         <!--A path that renders a cross.--> 
+                        <Path x:Name="ButtonPath"
+                              Margin="3"
+                              Stroke="{StaticResource NormalForegroundBrush}"
+                              StrokeThickness="1.5"
+                              StrokeStartLineCap="Square"
+                              StrokeEndLineCap="Square"
+                              Stretch="Uniform"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="25,0">
+                                            <LineSegment Point="0,12.5"/>
+                                        </PathFigure>
+                                        <PathFigure StartPoint="25,25">
+                                            <LineSegment Point="0,12.5"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </Grid>
+
+                     <!--The triggers.--> 
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource HoverBackgroundBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Stroke" 
+                                    Value="{StaticResource HoverForegroundBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource PressedBackgroundBrush}" />
+                            <Setter TargetName="backgroundEllipse" Property="Stroke"
+                                    Value="{StaticResource PressedBorderBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Stroke" 
+                                    Value="{StaticResource PressedForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:PlusButton}">
+
+        <!-- Brushes we use for the control. -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="NormalBackgroundBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalBorderBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalForegroundBrush" Color="#FF35C135" />
+
+            <SolidColorBrush x:Key="HoverBackgroundBrush" Color="#FF35C135" />
+            <SolidColorBrush x:Key="HoverForegroundBrush" Color="#FFf9ebeb" />
+
+            <SolidColorBrush x:Key="PressedBackgroundBrush" Color="#FF431e20" />
+            <SolidColorBrush x:Key="PressedBorderBrush" Color="#FF110033" />
+            <SolidColorBrush x:Key="PressedForegroundBrush" Color="#FFf9ebeb" />
+        </Style.Resources>
+
+        <!-- Simple properties that we set. -->
+        <Setter Property="SnapsToDevicePixels" Value="false" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+
+        <!-- The control template. -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Background="Transparent">
+
+                        <!-- The background of the button, as an ellipse. -->
+                        <Ellipse x:Name="backgroundEllipse" Fill="{StaticResource NormalBackgroundBrush}" />
+
+                        <!-- A path that renders a cross. -->
+                        <Path x:Name="ButtonPath"
+                              Margin="3"
+                              Stroke="{StaticResource NormalForegroundBrush}"
+                              StrokeThickness="1.5"
+                              StrokeStartLineCap="Square"
+                              StrokeEndLineCap="Square"
+                              Stretch="Uniform"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathGeometry.Figures>
+                                        <PathFigure StartPoint="0,12.5">
+                                            <LineSegment Point="25,12.5"/>
+                                        </PathFigure>
+                                        <PathFigure StartPoint="12.5,0">
+                                            <LineSegment Point="12.5,25"/>
+                                        </PathFigure>
+                                    </PathGeometry.Figures>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </Grid>
+
+                    <!-- The triggers. -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource HoverBackgroundBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Stroke" 
+                                    Value="{StaticResource HoverForegroundBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource PressedBackgroundBrush}" />
+                            <Setter TargetName="backgroundEllipse" Property="Stroke"
+                                    Value="{StaticResource PressedBorderBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Stroke" 
+                                    Value="{StaticResource PressedForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:SearchButton}">
+
+        <!-- Brushes we use for the control. -->
+        <Style.Resources>
+            <SolidColorBrush x:Key="NormalBackgroundBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalBorderBrush" Color="transparent" />
+            <SolidColorBrush x:Key="NormalForegroundBrush" Color="#FF3535C1" />
+
+            <SolidColorBrush x:Key="HoverBackgroundBrush" Color="#FF3535C1" />
+            <SolidColorBrush x:Key="HoverForegroundBrush" Color="#FFf9ebeb" />
+
+            <SolidColorBrush x:Key="PressedBackgroundBrush" Color="#FF431e20" />
+            <SolidColorBrush x:Key="PressedBorderBrush" Color="#FF110033" />
+            <SolidColorBrush x:Key="PressedForegroundBrush" Color="#FFf9ebeb" />
+        </Style.Resources>
+
+        <!-- Simple properties that we set. -->
+        <Setter Property="SnapsToDevicePixels" Value="false" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+
+        <!-- The control template. -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid Background="Transparent">
+
+                        <!-- The background of the button, as an ellipse. -->
+                        <Ellipse x:Name="backgroundEllipse" Fill="{StaticResource NormalBackgroundBrush}" />
+
+                        <!-- A path that renders a cross. -->
+                        <Path x:Name="ButtonPath"
+                              Margin="1.5"
+                              Fill="{StaticResource NormalForegroundBrush}"
+                              StrokeThickness="1"
+                              StrokeStartLineCap="Square"
+                              StrokeEndLineCap="Square"
+                              Stretch="Uniform"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Data="M28.0625,14.272 C20.172836,14.272 13.777,20.450695 13.777,28.0725 13.777,35.694305 20.172836,41.873001 28.0625,41.873001 35.952164,41.873001 42.348,35.694305 42.348,28.0725 42.348,20.450695 35.952164,14.272 28.0625,14.272 z M27.94208,0.5 C43.097923,0.50000018 55.384159,12.702931 55.384159,27.75601 55.384159,33.16571 53.797386,38.207313 51.060898,42.446724 L50.702473,42.987575 71.932999,62.156726 63.432583,71.444 41.374043,51.527237 41.022602,51.722366 C37.134247,53.820327 32.67828,55.01202 27.94208,55.01202 12.786238,55.01202 0.5,42.809089 0.5,27.75601 0.5,12.702931 12.786238,0.50000018 27.94208,0.5 z">
+
+                        </Path>
+
+
+                    </Grid>
+
+                    <!-- The triggers. -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource HoverBackgroundBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Fill" 
+                                    Value="{StaticResource HoverForegroundBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource PressedBackgroundBrush}" />
+                            <Setter TargetName="backgroundEllipse" Property="Fill"
+                                    Value="{StaticResource PressedBorderBrush}" />
+                            <Setter TargetName="ButtonPath" Property="Stroke" 
+                                    Value="{StaticResource PressedForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

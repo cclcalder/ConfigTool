@@ -1,0 +1,74 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:pivot="http://schemas.telerik.com/2008/xaml/presentation/pivot"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:behaviors="clr-namespace:Exceedra.Pivot.Behaviors"
+	xmlns:userInterface="clr-namespace:Exceedra.Controls.UserInterface"
+	xmlns:Converters="clr-namespace:Exceedra.Converters"
+	xmlns:converters="clr-namespace:Exceedra.Pivot.Converters"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+	x:Name="ExceedraRadPivotGridUserControl"
+            xmlns:ctr="clr-namespace:Exceedra.Controls.UserInterface"
+	mc:Ignorable="d"
+	x:Class="Exceedra.Pivot.Controls.ExceedraRadPivotGrid">
+
+    <UserControl.Resources>
+        <Converters:BoolToVisibilityConverterInverted x:Key="BoolToVisibilityConverterInverted"/>
+        <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:HeaderTemplateSelector x:Key="HeaderTemplateSelector">
+            <converters:HeaderTemplateSelector.HiddenHeaderTemplate>
+                <DataTemplate>
+                    <Grid Visibility="Collapsed" />
+                </DataTemplate>
+            </converters:HeaderTemplateSelector.HiddenHeaderTemplate>
+        </converters:HeaderTemplateSelector>
+        <converters:CellTemplateSelector x:Key="CellTemplateSelector">
+            <converters:CellTemplateSelector.HiddenCellTemplate>
+                <DataTemplate>
+                    <Grid Visibility="Collapsed" />
+                </DataTemplate>
+            </converters:CellTemplateSelector.HiddenCellTemplate>
+        </converters:CellTemplateSelector>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" DataContext="{Binding ElementName=ExceedraRadPivotGridUserControl}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- 
+        The columns below were added just to prevent the rad pivot grid 
+        from leaving the blank space between itself
+        and the vertical scroll bar on the right hand side of it
+        -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="{Binding ViewModel.Title, Mode=TwoWay}" Grid.Row="0" Grid.Column="0" FontSize="15" />
+        <Grid Grid.Row="1" Grid.Column="0" Visibility="{Binding ViewModel.IsEmpty, Converter={StaticResource BoolToVisibilityConverterInverted}}">
+        <!--
+        The MaxWidth property was set to let the horizontal scroll bar appear
+        in case when the rad pivot grid's width will exceed the width of the whole control (layout root)
+        -->
+            <pivot:RadPivotGrid x:Name="PivotGrid" Grid.Row="1" Grid.Column="0" MaxWidth="{Binding ActualWidth, ElementName=LayoutRoot}" Visibility="{Binding ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverterInverted}}"
+                            ColumnHeaderTemplateSelector="{StaticResource HeaderTemplateSelector}"
+                            RowHeaderTemplateSelector="{StaticResource HeaderTemplateSelector}"
+                            CellTemplateSelector="{StaticResource CellTemplateSelector}">
+                <i:Interaction.Behaviors>
+                    <behaviors:PivotItemsBehavior ViewModel="{Binding ViewModel, Mode=TwoWay}" />
+                </i:Interaction.Behaviors>
+            </pivot:RadPivotGrid>
+            <ctr:Loader Grid.Row="0" x:Name="LoadingPanel" CloseVisible="False" Complete="True" Message="Loading..." Panel.ZIndex="1"
+				SubMessage="Please Wait" IsLoading="{Binding ViewModel.IsLoading, ElementName=ExceedraRadPivotGridUserControl}"
+                        />
+        </Grid>
+        <!-- FallbackValue added because ViewModel is created after the view so during the first load ViewModel is null and the binding is broken so we must provide a value other way -->
+        <Grid Grid.Row="1" Grid.Column="0" Visibility="{Binding ViewModel.IsEmpty, Converter={StaticResource BoolToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, FallbackValue=Collapsed}" Grid.ColumnSpan="2">
+            <telerik:Label Content="{Binding IsEmptyMessage, ElementName=ExceedraRadPivotGridUserControl}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+    </Grid>
+</UserControl>

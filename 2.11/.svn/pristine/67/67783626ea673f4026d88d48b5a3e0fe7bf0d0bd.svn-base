@@ -1,0 +1,227 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fileEntry="clr-namespace:Exceedra.Controls"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:converters="clr-namespace:Exceedra.Converters" x:Class="Exceedra.Controls.DynamicGrid.Controls.SingleRow" 
+             xmlns:selector="clr-namespace:Exceedra.DynamicGrid.Converters"
+             xmlns:multiCombo="clr-namespace:Exceedra.MultiSelectCombo.Controls"
+			 mc:Ignorable="d" 
+			 x:Name="RowControl"
+             d:DesignHeight="30" d:DesignWidth="520" Background="transparent">  
+
+	<UserControl.Resources>
+		<converters:GridLengthConverter x:Key="GridLengthConverter"/>
+
+        <DataTemplate x:Key="RadComboBoxItemTemplate">
+            <CheckBox Content="{Binding Path=Item_Name}"
+                      IsChecked="{Binding Path=IsSelected,Mode=TwoWay}"
+                      Height="16" HorizontalAlignment="Left" Margin="2" VerticalAlignment="Top" />
+        </DataTemplate>
+        <DataTemplate x:Key="SelectionBoxTemplate">
+            <TextBlock Text="{Binding CurrentProperty.SelectedItemsText, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="Checkbox" >
+        <CheckBox Height="28"
+                  x:Name="cb"  Width="{Binding Width, ElementName=col2}" VerticalContentAlignment="Center"
+                  IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                  Visibility="{Binding CurrentProperty.IsCheckbox, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                  IsChecked="{Binding CurrentProperty.IsChecked, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="Combobox">
+            <telerik:RadComboBox  Grid.Column="1" IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+			x:Name="cmb"  Width="{Binding Width, ElementName=col2}"
+			Visibility="{Binding CurrentProperty.IsCombo, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			ItemsSource="{Binding CurrentProperty.Values, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			DisplayMemberPath="Item_Name"
+			SelectedValuePath="Item_Idx" VerticalContentAlignment="Center"
+			SelectedItem="{Binding CurrentProperty.SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  
+			Height="28"
+			CanAutocompleteSelectItems="True" CanKeyboardNavigationSelectItems="True"
+			IsEditable="True" OpenDropDownOnFocus="True" IsFilteringEnabled="True"
+			TextSearchMode="Contains"
+                              />
+        </DataTemplate>
+        
+        <DataTemplate x:Key="Textbox">
+            <TextBox  Grid.Column="1" 
+			IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			x:Name="txt"   Width="{Binding Width, ElementName=col2}" Height="28"  VerticalContentAlignment="Center"
+			Visibility="{Binding CurrentProperty.IsText, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			Text="{Binding CurrentProperty.Value, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			KeyUp="UIElement_OnKeyUp" LostFocus="UIElement_OnLostFocus"
+                  />
+
+        </DataTemplate>
+        
+        <DataTemplate x:Key="DatePicker">
+            <DatePicker Grid.Column="1" 
+			IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			x:Name="dp"   Width="{Binding Width, ElementName=col2}"  Height="28" VerticalContentAlignment="Center"
+			Visibility="{Binding CurrentProperty.IsDatePicker, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			SelectedDate="{Binding CurrentProperty.Value, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			SelectedDateChanged="Ccb_OnSelected"
+                    />
+        </DataTemplate>
+        
+        <DataTemplate x:Key="FileSelector">
+            <fileEntry:FileEntry Grid.Column="1"  Height="28" VerticalContentAlignment="Center"
+                   
+			x:Name="fe"   Width="{Binding Width, ElementName=col2}" 
+			IsReadOnlyMode="{Binding CurrentProperty.IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+			Path="{Binding CurrentProperty.Value, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+			Visibility="{Binding CurrentProperty.IsFolderPicker, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                  />
+        </DataTemplate>
+        
+        <DataTemplate x:Key="MultiSelect">
+            <multiCombo:MultiSelectComboBox Grid.Column="1" DataSource="{Binding CurrentProperty.Items, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        Visibility="{Binding CurrentProperty.IsMultiSelect, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        IsSelectionEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        Height="28"
+                                        />
+
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="Label">
+            <Label Grid.Column="1" 
+			x:Name="hyp"   Width="{Binding Width, ElementName=col2}"
+			Visibility="{Binding CurrentProperty.IsLink, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			Content="{Binding CurrentProperty.ControlType, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+
+        </DataTemplate>
+        
+        <selector:RowTemplateSelector x:Key="TemplateSelector"
+                                      CheckboxTemplate="{StaticResource Checkbox}"
+                                      SingleSelectComboboxTemplate="{StaticResource Combobox}"
+                                      TextboxTemplate="{StaticResource Textbox}"
+                                      DatePickerTemplate="{StaticResource DatePicker}"
+                                      FileSelectorTemplate="{StaticResource FileSelector}"
+                                      MultiSelectComboboxTemplate="{StaticResource MultiSelect}"
+                                      LabelTemplate="{StaticResource Label}"
+                                      />
+    </UserControl.Resources>
+
+	<Grid  Margin="5"   >
+		<Grid.Resources>
+			<BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+
+		</Grid.Resources>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition MinWidth="50" Width="{Binding CurrentProperty.LabelWidth, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+			<ColumnDefinition  x:Name="col2" MaxWidth="400" Width="{Binding CurrentProperty.ValueWidth, Converter={StaticResource GridLengthConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+			<ColumnDefinition Width="Auto"/>
+
+		</Grid.ColumnDefinitions>
+
+
+		<Grid>
+            
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<TextBlock x:Name="TextBlock22" Grid.Column="0" Text="{Binding CurrentProperty.HeaderText, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+				Padding="4,4,4,4" 
+				TextWrapping="Wrap"
+				HorizontalAlignment="Left" 
+				VerticalAlignment="Center"              
+				FontWeight="Bold"   TextAlignment="Left" FontSize="12"/>
+
+			<TextBlock Text="*" Grid.Column="1" Visibility="{Binding CurrentProperty.IsRequired, Converter={StaticResource BoolToVisConverter}, ElementName=RowControl}"/>
+
+		</Grid>
+
+        
+		<!--<CheckBox Grid.Column="1"  Height="28"
+			x:Name="cb"  Width="{Binding Width, ElementName=col2}" VerticalContentAlignment="Center"
+			IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+			Visibility="{Binding CurrentProperty.IsCheckbox, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			IsChecked="{Binding CurrentProperty.IsChecked, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+
+		<telerik:RadComboBox  Grid.Column="1" IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+			x:Name="cmb"  Width="{Binding Width, ElementName=col2}"
+			Visibility="{Binding CurrentProperty.IsCombo, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			ItemsSource="{Binding CurrentProperty.Values, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			DisplayMemberPath="Item_Name"
+			SelectedValuePath="Item_Idx" VerticalContentAlignment="Center"
+			SelectedItem="{Binding CurrentProperty.SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  
+			Height="28"
+			CanAutocompleteSelectItems="True" CanKeyboardNavigationSelectItems="True"
+			IsEditable="True" OpenDropDownOnFocus="True" IsFilteringEnabled="True"
+			TextSearchMode="Contains"
+                              />-->
+
+		<!--<TextBox  Grid.Column="1" 
+			IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			x:Name="txt"   Width="{Binding Width, ElementName=col2}" Height="28"  VerticalContentAlignment="Center"
+			Visibility="{Binding CurrentProperty.IsText, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			Text="{Binding CurrentProperty.Value, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			KeyUp="UIElement_OnKeyUp" LostFocus="UIElement_OnLostFocus"
+                  />-->
+
+
+		<!--<DatePicker Grid.Column="1" 
+			IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			x:Name="dp"   Width="{Binding Width, ElementName=col2}"  Height="28" VerticalContentAlignment="Center"
+			Visibility="{Binding CurrentProperty.IsDatePicker, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			SelectedDate="{Binding CurrentProperty.Value, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			SelectedDateChanged="Ccb_OnSelected"
+                    />-->
+
+		<!--<fileEntry:FileEntry Grid.Column="1"  Height="28" VerticalContentAlignment="Center"
+                   
+			x:Name="fe"   Width="{Binding Width, ElementName=col2}" 
+			IsReadOnlyMode="{Binding CurrentProperty.IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+			Path="{Binding CurrentProperty.Value, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+			Visibility="{Binding CurrentProperty.IsFolderPicker, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                  />-->
+
+		<!--<wpf:ComboCheckBoxesWithSelectAll  Grid.Column="1"
+			IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			x:Name="ccb"    Width="{Binding Width, ElementName=col2}"
+			ItemsSource="{Binding CurrentProperty.Values, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			DisplayMemberPath="Item_Name"   RaiseSelectionChange="True"
+			Selected="Ccb_OnSelected"        
+			SelectedItems="{Binding CurrentProperty.SelectedItems, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  
+			DisplaySeparator=";"  Height="28" VerticalContentAlignment="Center"
+			Visibility="{Binding CurrentProperty.IsMultiSelect, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                />-->
+
+        <!--<telerik:RadComboBox x:Name="RadComboBox" Grid.Column="1" 
+                             IsEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                             Height="28" 
+                             ItemsSource="{Binding CurrentProperty.Values, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                             ItemTemplate="{StaticResource RadComboBoxItemTemplate}"
+                             
+                             SelectionBoxTemplate="{StaticResource SelectionBoxTemplate}"
+                             Visibility="{Binding CurrentProperty.IsMultiSelect, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                             />-->
+
+        <!--<multiCombo:MultiSelectComboBox Grid.Column="1" DataSource="{Binding CurrentProperty.Items, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        Visibility="{Binding CurrentProperty.IsMultiSelect, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        IsSelectionEnabled="{Binding CurrentProperty.IsEditable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        Height="28"
+                                        />
+
+        <Label Grid.Column="1" 
+			x:Name="hyp"   Width="{Binding Width, ElementName=col2}"
+			Visibility="{Binding CurrentProperty.IsLink, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			Content="{Binding CurrentProperty.ControlType, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>-->
+
+
+		<CheckBox Grid.Column="2"  Margin="20,2,2,2"  Visibility="{Binding CurrentProperty.ShowCheckBoxColumn, Converter={StaticResource BoolToVisConverter}, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			IsChecked="{Binding CurrentProperty.TemplateEditableCheckbox, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+			Content="Make read only in promotions"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center"
+                   />
+
+	</Grid>
+
+</UserControl>

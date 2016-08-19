@@ -1,0 +1,254 @@
+﻿<pages:PageBase 
+	  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+                 xmlns:caret="clr-namespace:Exceedra.Controls.Caret;assembly=Exceedra.Controls"
+
+	   xmlns:Converters="clr-namespace:WPF.Converters"
+			 xmlns:lex="clr-namespace:WPF"
+                                  xmlns:pages="clr-namespace:WPF.Pages"
+                                  xmlns:listings="clr-namespace:WPF.UserControls.Listings" xmlns:Controls="clr-namespace:Exceedra.Controls.DynamicRow.Controls;assembly=Exceedra.Controls"
+    xmlns:userControls="clr-namespace:WPF.UserControls"
+    xmlns:tabControls="clr-namespace:WPF.UserControls.Tabs.Controls"
+    x:Class="WPF.Pages.SchedulePageNewFilters"
+	   mc:Ignorable="d"
+			 d:DesignHeight="600" d:DesignWidth="1200"
+	Title="Schedule">
+
+    <pages:PageBase.Resources>
+
+        <lex:InverseBooleanConverter x:Key="InverseConverter"/>
+
+        <Converters:BoolToToggleStateConverter x:Key="boolToToggleStateConv" />
+        <Style x:Key="ItemContainerStyle" TargetType="{x:Type telerik:RadTreeViewItem}" BasedOn="{StaticResource RadTreeViewItemStyle}">
+
+            <!--<Setter Property="IsHitTestVisible" Value="{Binding ElementName=ropanel, Path=IsReadOnly,Converter={StaticResource InverseConverter}}"></Setter>-->
+
+            <Setter Property="Background" Value="White" />
+
+            <Setter Property="CheckState" Value="{Binding IsSelectedBool, Converter={StaticResource boolToToggleStateConv}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  />
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected2}" Value="True">
+                    <Setter Property="Foreground" Value="OrangeRed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsSelected2}" Value="False">
+                    <Setter Property="Foreground" Value="Black" />
+                </DataTrigger>
+            </Style.Triggers>
+
+        </Style>
+
+        <Style x:Key="ItemContainerStyle2" TargetType="{x:Type TreeViewItem}">
+            <Setter Property="IsExpanded" Value="True"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="-5,2,2,2"/>
+
+        </Style>
+
+
+        <Style TargetType="{x:Type telerik:TimelineItemGroupControl}"  BasedOn="{StaticResource TimelineItemGroupControlStyle}"  >
+            <Setter Property="IsExpanded" Value="True" />
+            <!--<Setter Property="ExpandMode" Value="{Binding GroupExpandMode, RelativeSource={RelativeSource AncestorType={x:Type telerik:RadTimeline}, Mode=FindAncestor}}" />-->
+
+        </Style>
+
+        <DataTemplate x:Key="ItemTemplate">
+            <Border VerticalAlignment="Center"  BorderBrush="{Binding Colour, Mode=OneTime}" BorderThickness="5,1,1,1" Padding="5,0,0,0" Width="auto" HorizontalAlignment="Stretch" >
+                <CheckBox Content="{Binding Name}" 
+        			MinWidth="200"
+        			Width="auto"
+        			MaxWidth="300"
+        			Margin="2,2,10,2"
+        			Tag="{Binding Tag}" 
+        			CommandParameter="{Binding ID}"
+        			IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        			Click="CheckBoxClick"
+						  />
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="TreeHeadTemplate">
+            <Label Content="{Binding}"  FontSize="13"  />
+        </DataTemplate>
+
+    </pages:PageBase.Resources>
+
+    <Grid   Background="White" Margin="0" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="0" x:Name="promoEdit" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" x:Name="rowFilter"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Margin="10,2,0,0" VerticalAlignment="Center"  Text="{Binding PageTitle}" Style="{StaticResource GlobalGroupHeaderStyleLogin}" />
+
+        <caret:FilterCaretBtn x:Name="FilterCaretBtn" Grid.Row="0" HorizontalAlignment="Right" />
+
+
+        <Grid Grid.Row="1" Grid.Column="0" Margin="0,0,0,10" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="230"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <GroupBox x:Name="Statuses" Grid.RowSpan="2" Grid.Column="0" Visibility="{Binding HasDataFinishedLoading, Converter={StaticResource BoolToVisConverter}}" BorderBrush="Gray" Margin="0,0,4,0">
+                <GroupBox.Header>
+                    <TextBlock Text="{lex:Loc Label_Statuses, Statuses}" FontWeight="Bold" Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"/>
+                </GroupBox.Header>
+
+
+                <TreeView ItemsSource="{Binding AllStatuses}"
+						HorizontalAlignment="Stretch"
+						BorderThickness="0"
+						BorderBrush="Transparent"
+						HorizontalContentAlignment="Left"
+										  >
+                    <!-- This is to disable annoying border around tree view -->
+                    <TreeView.Template>
+                        <ControlTemplate TargetType="{x:Type TreeView}">
+                            <ScrollViewer Focusable="False"
+									CanContentScroll="True"
+									BorderThickness="0"
+									Padding="4,0,0,0">
+                                <!-- Dock panel is here to enable smooth scrolling - DON'T REMOVE! -->
+                                <DockPanel>
+                                    <ItemsPresenter />
+                                </DockPanel>
+                                <!-- //Dock panel is here to enable smooth scrolling - DON'T REMOVE! -->
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </TreeView.Template>
+                    <!-- //This is to disable annoying border around tree view -->
+                    <TreeView.ItemTemplate>
+                        <DataTemplate>
+                            <TreeViewItem Header="{Binding Name}" HeaderTemplate="{StaticResource TreeHeadTemplate}" Margin="-20,0,0,0">
+                                <TreeView Grid.Row="2" telerik:AnimationManager.IsAnimationEnabled="False" 
+										x:Name="radTreeView2" 
+										Margin="-50,0,0,0"  
+										BorderThickness="0"
+										Tag="{Binding ID}"       
+										MinWidth="250"                                                      
+										ItemTemplate="{StaticResource ItemTemplate}"
+										ItemsSource="{Binding Statuses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                             
+										ItemContainerStyle="{StaticResource ItemContainerStyle2}"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Left" >
+                                    <!-- This is to disable annoying border around tree view -->
+                                    <TreeView.Template>
+                                        <ControlTemplate TargetType="{x:Type TreeView}">
+                                            <ItemsPresenter />
+                                        </ControlTemplate>
+                                    </TreeView.Template>
+                                    <!-- //This is to disable annoying border around tree view -->
+                                </TreeView>
+                            </TreeViewItem>
+                        </DataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </GroupBox>
+
+            <listings:ListingsUserControl Grid.Row="0" Grid.RowSpan="2"  x:Name="ListingsControl" Grid.Column="1" Margin="0,-25,0,0"
+					ListingsSource="{Binding DataContext.ListingsVM, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+					/>
+
+            <GroupBox x:Name="Dates" Grid.Row="0" Grid.Column="2"
+                      Visibility="{Binding HasDataFinishedLoading, Converter={StaticResource BoolToVisConverter}}" BorderBrush="Gray"
+                      Margin="4,0,4,0">
+                <GroupBox.Header>
+                    <TextBlock Text="{lex:Loc Label_Dates, Dates}" FontWeight="Bold" Foreground="{telerik:Windows8Resource ResourceKey=AccentBrush}"/>
+                </GroupBox.Header>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="{lex:Loc Label_Start}" VerticalAlignment="Center" />
+                    <DatePicker Grid.Row="0" Height="24" Width="100" HorizontalAlignment="Right"
+							SelectedDate="{Binding DateFrom}" />
+
+                    <TextBlock Grid.Row="1" Text="{lex:Loc Label_End}" VerticalAlignment="Center" />
+                    <DatePicker Grid.Row="1" Height="24" Width="100" HorizontalAlignment="Right" Margin="0,0,0,6"
+							SelectedDate="{Binding DateTo}" />
+
+                    <TextBlock Text="{lex:Loc Label_StartAfterEndError}" TextWrapping="Wrap" Width="280" Margin="10"  
+							VerticalAlignment="Center" Grid.Row="3"
+							Visibility="{Binding IsEndDateBeforeStart, Converter={StaticResource BoolToVisConverter}}" Height="30"  />
+
+
+
+                </Grid>
+            </GroupBox>
+
+            <StackPanel Grid.Row="1" Grid.Column="2">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                    <Button Command="{Binding SaveAsDefaultCommand}" Content="{lex:Loc Button_SaveDefault}"
+							Height="24" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5" />
+                    <Button Command="{Binding ApplyFilterCommand, ConverterParameter=true}"
+							Content="{lex:Loc Button_Apply}" Height="24" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <GridSplitter ResizeDirection="Rows" Grid.Row="2" Grid.Column="0" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,1"  />
+
+        <tabControls:TabControl Grid.Row="3" Grid.Column="0" TabDataSource="{Binding RelativeSource={RelativeSource AncestorType=Page}, Path=DataContext.TabData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <GridSplitter x:Name="split1"  ResizeDirection="Columns" Grid.Column="1" Width="3" Grid.RowSpan="4" Grid.Row="0"
+			Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Stretch" ResizeBehavior="BasedOnAlignment" Margin="0" />
+
+        <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="4">
+            <StackPanel  Style="{StaticResource GlobalStackPanelStyle}"   Orientation="Horizontal">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                    <TextBlock x:Name="SelectedPromoID" FontSize="16" Text="{Binding Operation}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical">
+                <Controls:DynamicRowControl x:Name="editGrid" HorizontalAlignment="Left" ItemDataSource="{Binding EditableGrid, Mode=TwoWay}" MinHeight="300"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <!--<Button Margin="10" Grid.Column="0" Content="{lex:Loc Button_Copy,'Copy'}" MaxWidth="100"  Command="{Binding CopySingleItemCommand}"></Button>-->
+                    <Button Margin="10" Grid.Column="0" Content="{lex:Loc Button_Delete,'Delete'}" MaxWidth="100" Command="{Binding DeleteSingleItemCommand}"></Button>
+                    <Button Margin="10" Grid.Column="2" Content="{lex:Loc Button_Save,'Save'}" MaxWidth="100" Command="{Binding SaveSingleItemCommand}"></Button>
+                </Grid>
+
+
+
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Bottom">
+                <Button Content="Cancel" Click="Button_Click_1" Width="80" HorizontalAlignment="Right"  Margin="10" />
+            </StackPanel>
+
+
+        </StackPanel>
+    </Grid>
+</pages:PageBase>

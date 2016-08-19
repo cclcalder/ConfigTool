@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Promotions";
+   
+}
+
+
+@model Exceedra.Web.Areas.app.Models.PromotionsListModel
+
+@functions {
+    private string ConvertBoolToDisplay(bool isDisplayed)
+    {
+        return isDisplayed ? "" : "display: none;";
+    }
+
+    private string ConvertWidth(string w)
+    {
+        return w != "" ? "width:" + w + "px;" : "";
+    }
+
+}
+ 
+
+<h2>@ViewBag.Title - </h2>
+  
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            @foreach (var col in Model.GridXML.Records[0].Properties)
+            {
+                <th style="@ConvertBoolToDisplay(@col.IsDisplayed)
+                    @ConvertWidth(@col.Width)" title="@col.Type">@col.HeaderText</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model.GridXML.Records)
+        {
+            <tr>
+                @foreach (var cell in row.Properties)
+                {
+                    switch (cell.ControlType)
+                    {
+
+                        case "Checkbox":
+                            <td style="@ConvertBoolToDisplay(@cell.IsDisplayed);border: solid 3px 1px 1px 1px @cell.BorderColour ; background-color: @cell.BackgroundColour ; color: @cell.ForeColour "> @Html.CheckBoxFor(m => cell.IsChecked) </td>
+                            break;
+
+                        case "Hyperlink":
+                            <td style="@ConvertBoolToDisplay(@cell.IsDisplayed); border: solid 3px 1px 1px 1px @cell.BorderColour; background-color: @cell.BackgroundColour; color: @cell.ForeColour"> <a href="/app/Promotion/Details/@cell.IDX">@cell.Value</a></td>
+                            break;
+
+                        default:
+                            <td style="@ConvertBoolToDisplay(@cell.IsDisplayed);border:solid 3px 1px 1px 1px @cell.BorderColour ; background-color: @cell.BackgroundColour; color: @cell.ForeColour">@cell.Value</td>
+                            break;
+
+                    }
+
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+

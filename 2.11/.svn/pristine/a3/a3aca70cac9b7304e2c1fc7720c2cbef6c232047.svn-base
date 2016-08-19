@@ -1,0 +1,281 @@
+﻿using System;
+using System.Drawing;
+using System.Globalization;
+using System.Management.Instrumentation;
+using System.Security.AccessControl;
+using System.Windows;
+using System.Windows.Media;
+using Model.DataAccess;
+using Model.Language;
+using Model.Translate;
+using Color = System.Drawing.Color;
+
+namespace Exceedra.Controls.Messages
+{
+    /// <summary>
+    /// Interaction logic for ModalDialog.xaml
+    /// </summary>
+    internal partial class CustomMessageBoxWindow : Window
+    {
+
+       
+
+        internal string Caption
+        {
+            get
+            {
+                return Title;
+            }
+            set
+            {
+                //Title = value;
+                TextBlock_Title.Text = value;
+
+
+            }
+        }
+
+        internal string Message
+        {
+            get
+            {
+                return TextBlock_Message.Text;
+            }
+            set
+            {
+                TextBlock_Message.Text = value;
+
+                var code = value.Replace(" ", "_").Left(100).Replace("<", "").Replace(">", "");
+
+                if (CultureInfo.CurrentCulture.IetfLanguageTag.ToLower() != "en-gb")
+                {
+
+                    //if not logged in then pass message back (should only happen to login failures
+                    if (Model.User.CurrentUser.CurrentLanguage == null)
+                        return;
+
+                    if (!Model.User.CurrentUser.CurrentLanguage.Contains(code))
+                    {
+                        var translated = new Translator().Translate(value, CultureInfo.CurrentCulture.IetfLanguageTag);
+
+                        LanguageAccess.SaveActiveMessages(CultureInfo.CurrentCulture.IetfLanguageTag, code, translated);
+                        TextBlock_Message.Text = translated;
+
+                        Model.User.CurrentUser.CurrentLanguage.AppLabels.Add(new LanguageSet(code, translated));
+                    }
+                    else
+                    {
+                        TextBlock_Message.Text = Model.User.CurrentUser.CurrentLanguage.GetValue(code);
+                    }
+                }
+                else
+                {
+                    LanguageAccess.SaveActiveMessages(CultureInfo.CurrentCulture.IetfLanguageTag, code, value);
+                }
+
+                this.BorderThickness = new Thickness(0);
+                Background = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 255,255,255));
+                this.VerticalAlignment = VerticalAlignment.Center;
+                HorizontalAlignment = HorizontalAlignment.Center;
+
+                this.Width = 400;
+            }
+        }
+
+        internal string OkButtonText
+        {
+            get
+            {
+                return Label_Ok.Content.ToString();
+            }
+            set
+            {
+                Label_Ok.Content = value.TryAddKeyboardAccellerator();
+            }
+        }
+
+        internal string CancelButtonText
+        {
+            get
+            {
+                return Label_Cancel.Content.ToString();
+            }
+            set
+            {
+                Label_Cancel.Content = value.TryAddKeyboardAccellerator();
+            }
+        }
+
+        internal string YesButtonText
+        {
+            get
+            {
+                return Label_Yes.Content.ToString();
+            }
+            set
+            {
+                Label_Yes.Content = value.TryAddKeyboardAccellerator();
+            }
+        }
+
+        internal string NoButtonText
+        {
+            get
+            {
+                return Label_No.Content.ToString();
+            }
+            set
+            {
+                Label_No.Content = value.TryAddKeyboardAccellerator();
+            }
+        }
+
+        public MessageBoxResult Result { get; set; }
+
+        internal CustomMessageBoxWindow(string message)
+        {
+            InitializeComponent();
+
+            Message = message;
+            Image_MessageBox.Visibility = System.Windows.Visibility.Collapsed;
+            DisplayButtons(MessageBoxButton.OK);
+        }
+
+        internal CustomMessageBoxWindow(string message, string caption)
+        {
+            InitializeComponent();
+
+            Message = message;
+            Caption = caption;
+            Image_MessageBox.Visibility = System.Windows.Visibility.Collapsed;
+            DisplayButtons(MessageBoxButton.OK);
+        }
+
+        internal CustomMessageBoxWindow(string message, string caption, MessageBoxButton button)
+        {
+            InitializeComponent();
+
+            Message = message;
+            Caption = caption;
+            Image_MessageBox.Visibility = System.Windows.Visibility.Collapsed;
+
+            DisplayButtons(button);
+        }
+
+        internal CustomMessageBoxWindow(string message, string caption, MessageBoxImage image)
+        {
+            InitializeComponent();
+
+            Message = message;
+            Caption = caption;
+            DisplayImage(image);
+            DisplayButtons(MessageBoxButton.OK);
+        }
+
+        internal CustomMessageBoxWindow(string message, string caption, MessageBoxButton button, MessageBoxImage image)
+        {
+            InitializeComponent();
+
+            Message = message;
+            Caption = caption;
+            Image_MessageBox.Visibility = System.Windows.Visibility.Collapsed;
+            
+            DisplayButtons(button);
+            DisplayImage(image);
+        }
+
+        private void DisplayButtons(MessageBoxButton button)
+        {
+            switch (button)
+            {
+                case MessageBoxButton.OKCancel:
+                    // Hide all but OK, Cancel
+                    Button_OK.Visibility = System.Windows.Visibility.Visible;
+                    Button_OK.Focus();
+                    Button_Cancel.Visibility = System.Windows.Visibility.Visible;
+
+                    Button_Yes.Visibility = System.Windows.Visibility.Collapsed;
+                    Button_No.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+                case MessageBoxButton.YesNo:
+                    // Hide all but Yes, No
+                    Button_Yes.Visibility = System.Windows.Visibility.Visible;
+                    Button_Yes.Focus();
+                    Button_No.Visibility = System.Windows.Visibility.Visible;
+
+                    Button_OK.Visibility = System.Windows.Visibility.Collapsed;
+                    Button_Cancel.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+                case MessageBoxButton.YesNoCancel:
+                    // Hide only OK
+                    Button_Yes.Visibility = System.Windows.Visibility.Visible;
+                    Button_Yes.Focus();
+                    Button_No.Visibility = System.Windows.Visibility.Visible;
+                    Button_Cancel.Visibility = System.Windows.Visibility.Visible;
+
+                    Button_OK.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+                default:
+                    // Hide all but OK
+                    Button_OK.Visibility = System.Windows.Visibility.Visible;
+                    Button_OK.Focus();
+
+                    Button_Yes.Visibility = System.Windows.Visibility.Collapsed;
+                    Button_No.Visibility = System.Windows.Visibility.Collapsed;
+                    Button_Cancel.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+            }
+        }
+
+        private void DisplayImage(MessageBoxImage image)
+        {
+            Icon icon;
+
+            switch (image)
+            {
+                case MessageBoxImage.Exclamation:       // Enumeration value 48 - also covers "Warning"
+                    icon = SystemIcons.Exclamation;
+                    break;
+                case MessageBoxImage.Error:             // Enumeration value 16, also covers "Hand" and "Stop"
+                    icon = SystemIcons.Hand;
+                    break;
+                case MessageBoxImage.Information:       // Enumeration value 64 - also covers "Asterisk"
+                    icon = SystemIcons.Information;
+                    break;
+                case MessageBoxImage.Question:
+                    icon = SystemIcons.Question;
+                    break;
+                default:
+                    icon = SystemIcons.Information;
+                    break;
+            }
+
+            Image_MessageBox.Source = icon.ToImageSource();
+            Image_MessageBox.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void Button_OK_Click(object sender, RoutedEventArgs e)
+        {
+            Result = MessageBoxResult.OK;
+            Close();
+        }
+
+        private void Button_Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Result = MessageBoxResult.Cancel;
+            Close();
+        }
+
+        private void Button_Yes_Click(object sender, RoutedEventArgs e)
+        {
+            Result = MessageBoxResult.Yes;
+            Close();
+        }
+
+        private void Button_No_Click(object sender, RoutedEventArgs e)
+        {
+            Result = MessageBoxResult.No;
+            Close();
+        }        
+    }
+}

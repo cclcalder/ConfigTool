@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Coder.WPF.UI.ClearableTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Name="me"
+             d:DesignHeight="30" d:DesignWidth="300">
+    <UserControl.Resources>
+        <BitmapImage x:Key="Search" UriSource="/Coder.UI.WPF;component/Images/search.png" />
+        <BitmapImage x:Key="Eraser" UriSource="/Coder.UI.WPF;component/Images/eraser.png" />
+    </UserControl.Resources>
+    <Grid >
+        <TextBox BorderThickness="0" Text="{Binding ElementName=me, Path=Text, UpdateSourceTrigger=PropertyChanged}" Name="txtSearch" />
+        <Image HorizontalAlignment="Right" Width="16" Height="16" Stretch="None" Margin="0,2,4,0" MouseDown="Image_MouseDown" ToolTip="Clear search filter" >
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Setter Property="Source" Value="{StaticResource Eraser}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=me, Path=HasText}" Value="true">
+                            <Setter Property="Source" Value="{StaticResource Eraser}" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+        <TextBox BorderThickness="0" Text="{Binding Text, ElementName=me, UpdateSourceTrigger=PropertyChanged}" x:Name="txtSearch_Copy" />
+        <Image HorizontalAlignment="Right" Width="16" Height="16" Stretch="None" Margin="0,8,4,6" MouseDown="Image_MouseDown" ToolTip="Clear search filter" >
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Setter Property="Source" Value="{StaticResource Eraser}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasText, ElementName=me}" Value="true">
+                            <Setter Property="Source" Value="{StaticResource Eraser}" />
+                            <Setter Property="Cursor" Value="Hand" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+
+    </Grid>
+</UserControl>

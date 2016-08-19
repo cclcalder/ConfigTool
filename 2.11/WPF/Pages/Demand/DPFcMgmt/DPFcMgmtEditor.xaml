@@ -1,0 +1,39 @@
+﻿<pages:PageBase x:Class="WPF.Pages.Demand.DPFcMgmt.DPFcMgmtEditor"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:controls="clr-namespace:WPF.UserControls.Filters.Controls"
+      xmlns:pages="clr-namespace:WPF.Pages"
+      xmlns:wpf="clr-namespace:WPF"
+      xmlns:controls2="clr-namespace:Exceedra.SingleSelectCombo.Controls;assembly=Exceedra.Controls"
+      xmlns:controls3="clr-namespace:WPF.UserControls.Tabs.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="900" d:DesignWidth="1200"
+                x:Name="ThisPage"
+	Title="DPFcMgmtEditor">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" x:Name="FilterRow"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <controls:FilterControl Grid.Row="0" FilterSource="{Binding ElementName=ThisPage, Path=ViewModel.DesignVM}" MaxHeight="400"
+                                SingleTreeTitle="Users" OtherGridTitle="Details" ExpanderTitle="Design Properties" CaretRowSource="{Binding ElementName=FilterRow}" 
+                                ButtonsVisibility="Collapsed" Order="3,1,0" AreGroupsVisible="False" />
+
+        <GridSplitter ResizeDirection="Rows" Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+
+        <controls3:TabControl x:Name="Tabs" Grid.Row="2" TabDataSource="{Binding ElementName=ThisPage, Path=ViewModel.TabData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <StackPanel Grid.Row="3" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5" >
+
+            <Button Style="{StaticResource SecondaryBtn}" Command="{Binding ElementName=ThisPage, Path=ViewModel.SaveCommand}" Content="{wpf:Loc Button_Save, Save}"  />
+            <Button Style="{StaticResource SecondaryBtn}" Command="{Binding ElementName=ThisPage, Path=ViewModel.SaveAndCloseCommand}" Content="{wpf:Loc Button_SaveAndClose, Save &amp; Close}" />
+            <Button Style="{StaticResource SecondaryBtn}" Command="{Binding ElementName=ThisPage, Path=ViewModel.CancelCommand}" Content="{wpf:Loc Button_Close, Cancel}"/>
+        </StackPanel>
+
+    </Grid>
+</pages:PageBase>

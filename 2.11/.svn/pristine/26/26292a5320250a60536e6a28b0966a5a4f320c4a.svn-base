@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="Exceedra.Controls.FileEntry"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="clr-namespace:Coder.WPF.UI;assembly=Coder.UI.WPF"
+             xmlns:converters="clr-namespace:Exceedra.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="100">
+	<UserControl.Resources>
+		<BitmapImage x:Key="OpenFolder" UriSource="/Coder.UI.WPF;component/Images/Folder-Open-icon.png" />
+        <BitmapImage x:Key="ShowFolder" UriSource="/Coder.UI.WPF;component/Images/search.png" />
+        <converters:InverseBooleanConverter x:Key="InverseConverter"/>
+    </UserControl.Resources>
+	<DockPanel>
+        <Button DockPanel.Dock="Right" Click="Button_Click">
+            <StackPanel>
+                <Image HorizontalAlignment="Right" Width="16" Height="16">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Source" Value="{StaticResource ShowFolder}" />
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Button>
+        <Button Margin="0" Padding="0" DockPanel.Dock="Right" Width="20" Click="BrowseFile" 
+                IsEnabled="{Binding IsReadOnlyMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource InverseConverter}}">
+            <StackPanel>
+                <Image HorizontalAlignment="Right" Width="16" Height="16" >
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Setter Property="Source" Value="{StaticResource OpenFolder}" />
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Button>
+        <TextBox Height="Auto" HorizontalAlignment="Stretch" DockPanel.Dock="Right" 
+                     x:Name="tp" 
+                    IsReadOnly="{Binding IsReadOnlyMode, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+               Text="{Binding Path, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" TextChanged="TextBox_TextChanged" LostFocus="TextBox_LostFocus"/>
+	</DockPanel>
+</UserControl>

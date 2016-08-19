@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="WPF.UserControls.News.rss"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="dnt" 
+                     Source="http://feeds.bbci.co.uk/news/rss.xml?edition=uk" 
+                     XPath="/rss/channel" />
+    </UserControl.Resources>
+    
+        <StackPanel DataContext="{Binding Source={StaticResource dnt}}">
+            <StackPanel>
+                <TextBlock Text="Title : " />
+                <Label Content="{Binding XPath=title}"/>
+                <TextBlock Text="Description : "/>
+                <Label Content="{Binding XPath=description}"/>
+            </StackPanel>
+            <ListBox    IsSynchronizedWithCurrentItem="True" 
+                    ItemsSource="{Binding XPath=item}"
+                    MaxHeight="500" 
+                    ScrollViewer.CanContentScroll="False">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding XPath=title}" FontSize="30" />
+                            <TextBlock Text="{Binding XPath=link}" FontSize="12" />
+                            <Expander Header="Read..">
+                                <TextBlock Text="{Binding XPath=./description}" 
+				TextWrapping="Wrap" TextTrimming="WordEllipsis" 
+				MaxWidth="520"/>
+                            </Expander>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+  
+</UserControl>
