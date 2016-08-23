@@ -67,7 +67,7 @@
     <div id="st-container" class="st-container">
         <nav class="st-menu st-effect-2" id="menu-2">
             <h2 class="icon icon-stack">Config Tasks</h2>
-            <ul>
+            <ul class="menu">
                 @*This will be filled with data from wizard upload*@
                 <li><a class="icon icon-data" href="@Url.Action("Home", "Home")">Home</a></li>
                 @*The rest of these need dropdowns*@
@@ -77,11 +77,22 @@
                 <li><a class="icon icon-photo" href="#">Promotions Configuration</a></li>
                 <li><a class="icon icon-wallet" href="#">Terms Configuration</a></li>
                 <li><a class="icon icon-wallet" href="#">Management Adjustment Configuration</a></li>
-                <li><a class="icon icon-wallet" href="#">Risk And Ops Configuration</a></li>
-                <li><a class="icon icon-wallet" href="#">Funds</a></li>
+                <li><a class="icon icon-wallet" href="#">Risk And Ops Configuration</a>
+                    <ul class="menu">
+                        <li><a>Subitem 1</a></li>
+                        <li><a>Subitem 2</a></li>
+                    </ul></li>
+                <li>
+                    <a class="icon icon-wallet" href="#">Funds</a>
+                    <ul class="menu">
+                        <li><a>Subitem 1</a></li>
+                        <li><a>Subitem 2</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
-       
+      
     <!-- push wrapper -->
         <div class="st-pusher">
             <div class="st-content">

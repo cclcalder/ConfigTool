@@ -23,9 +23,7 @@
 
 <div class="se-pre-con"></div>
 
-<div ng-controller="mvcCRUDCtrl" @*class="container-fluid"*@>
-    @*<div >
-        <div @*class="col-xs-12">*@
+<div ng-controller="mvcCRUDCtrl">
 
     <p style="text-align:left;">
         <div id="childTableCSS">
@@ -35,24 +33,15 @@
                     SYS_Config
                     <small class="text-muted">Table</small>
                 </h1>
-                @*<div style="float:none;">
-                        <ul>
-                            <li>@Html.ActionLink("SYS_Config", "Index", "Home")</li>
-                            <li>@Html.ActionLink("SYS_Screens", "Index", "Home")</li>
-                            <li>@Html.ActionLink("SYS_ScreensTabs", "Index", "Manage")</li>
-                        </ul>
-                    </div>*@
             </center>
-            <pre>About? SYS_Config blabla and related tables . . . . . . . . </pre>
-
-            <!--Connected tables-->
-
+            @*<pre>About? SYS_Config blabla and related tables . . . . . . . . </pre>*@
         </div>
+
         <!--Complete/next buttons, replaced with wizard?-->
         <span style="float:right;">
-            <button type="button" class="btn btn-default">Complete <i class="fa fa-check" aria-hidden="true"></i></>
-                <button type="button" class="btn btn-default">Next  <i class="fa fa-space-shuttle" aria-hidden="true"></i></button>
-</span>
+            <button type="button" class="btn btn-default">Complete <i class="fa fa-check" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-default">Next  <i class="fa fa-space-shuttle" aria-hidden="true"></i></button>
+        </span>
     </p>
 
     <!--Search box, replaced when do better table stuff-->
@@ -179,40 +168,12 @@
             </tbody>
         </table>
     </div>
+    
     <pagination total-items="totalItems" ng-model="currentPage"
                 max-size="5" boundary-links="true"
                 items-per-page="10" class="pagination ">
     </pagination>
-
-
-    @*<table ng-table="tableParams" class="table" show-filter="true">
-            <tr ng-repeat="SYS_Config in SYS_Configs">
-                <td title="'OptionItem_ID'" filter="{ OptionItem_ID: 'text'}" sortable="'OptionItem_ID'">
-                    {{SYS_Config.OptionItem_ID}}
-                </td>
-                <td title="'IsEditable'" filter="{ IsEditable: 'text'}" sortable="'IsEditable'">
-                    {{SYS_Config.IsEditable}}
-                </td>
-                <td title="'MenuItem_Code'" filter="{ MenuItem_Code: 'text'}" sortable="'MenuItem_Code'">
-                    {{SYS_Config.MenuItem_Code}}
-                </td>
-                <td title="'OptionItem'" filter="{ OptionItem: 'text'}" sortable="'OptionItem'">
-                    {{SYS_Config.OptionItem}}
-                </td>
-                <td title="'OptionItemDetail'" filter="{ OptionItemDetail: 'text'}" sortable="'OptionItemDetail'">
-                    {{SYS_Config.OptionItemDetail}}
-                </td>
-                <td title="'OptionItemDetail_Value'" filter="{ OptionItemDetail_Value: 'text'}" sortable="'OptionItemDetail_Value'">
-                    {{SYS_Config.OptionItemDetail_Value}}
-                </td>
-            </tr>
-        </table>*@
-
-
 </div>
-@*</div>
-    </div>*@
-
 
 
 

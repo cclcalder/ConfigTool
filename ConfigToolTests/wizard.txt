@@ -1,4 +1,19 @@
-﻿        •	General Setup
+﻿		1. General Setup
+        1.1. Setup Sales Orgs and Customer Hierarchy / Levels
+        1.1.1. Review setup.ETL_UK_Load_Customers
+        1.2. Setup Product Hierarchy / Levels
+        1.2.1. Review setup. ETL_UK_Load_Products
+        1.3. Setup Measures and Attributes
+        1.3.1. app.Dim_Product_Cust_Measures
+        1.3.2. app.Dim_Product_Sku_Measures
+        1.3.3. app.Dim_Product_Sku_Cust_Measures
+        1.3.4. app.Dim_Product_Cust_Attributes
+        1.3.5. app.Dim_Product_Sku_Attributes
+        1.3.6. app.Dim_Product_Sku_Cust_Attributes
+
+
+
+		        •	General Setup
         •	Planning Screen Configuration
         •	Promotions Configuration
         •	Promotion Templates Configuration
@@ -7,17 +22,7 @@
         •	Risk And Ops Configuration
         •	Funds
 
-        •	1. Setup Sales Orgs and Customer Hierarchy / Levels
-        a. Review setup.ETL_UK_Load_Customers
-        2. Setup Product Hierarchy / Levels
-        a. Review setup. ETL_UK_Load_Products
-        3. Setup Measures and Attributes
-        a. app.Dim_Product_Cust_Measures
-        b. app.Dim_Product_Sku_Measures
-        c. app.Dim_Product_Sku_Cust_Measures
-        d. app.Dim_Product_Cust_Attributes
-        e. app.Dim_Product_Sku_Attributes
-        f. app.Dim_Product_Sku_Cust_Attributes
+
 
         •	Set Base Unit Of Measure
         a. app.SYS_Config
