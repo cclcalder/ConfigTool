@@ -77,7 +77,18 @@ namespace WebApplication2.Controllers
             public List<string> parents;                            // key constraints
         }
 
-        // GET: All table names in DataContext
+        public void CheckRequiredTables(List<string> tableNames)        // GET: All table names in DataContext
+        {
+            var tablesRequired = ConfigTool.ParseWizard.TablesPresent();
+            var tablesInDb = GetAllTableNames();
+            foreach (string table in tablesRequired)
+            {
+                if (!tablesInDb.Contains(table))
+                {
+                    throw new Exception("Table " + table + "Does Not Exist In Database.");
+                }
+            }
+        }
         public List<string> GetAllTableNames()
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())

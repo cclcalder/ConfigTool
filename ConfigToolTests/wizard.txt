@@ -1,214 +1,214 @@
-﻿		1. General Setup
-        1.1. Setup Sales Orgs and Customer Hierarchy / Levels
-        1.1.1. Review setup.ETL_UK_Load_Customers
-        1.2. Setup Product Hierarchy / Levels
-        1.2.1. Review setup. ETL_UK_Load_Products
-        1.3. Setup Measures and Attributes
-        1.3.1. app.Dim_Product_Cust_Measures
-        1.3.2. app.Dim_Product_Sku_Measures
-        1.3.3. app.Dim_Product_Sku_Cust_Measures
-        1.3.4. app.Dim_Product_Cust_Attributes
-        1.3.5. app.Dim_Product_Sku_Attributes
-        1.3.6. app.Dim_Product_Sku_Cust_Attributes
+﻿1. Master Data Setup
+1.1. Setup Sales Orgs and Customer Hierarchy / Levels
+1.1.1. Review setup.ETL_UK_Load_Customers
+1.2. Setup Product Hierarchy / Levels
+1.2.1. Review setup. ETL_UK_Load_Products
+1.3. Setup Measures and Attributes
+1.3.1. app.Dim_Product_Cust_Measures
+1.3.2. app.Dim_Product_Sku_Measures
+1.3.3. app.Dim_Product_Sku_Cust_Measures
+1.3.4. app.Dim_Product_Cust_Attributes
+1.3.5. app.Dim_Product_Sku_Attributes
+1.3.6. app.Dim_Product_Sku_Cust_Attributes
+
+
+•	Master Data Setup
+•	General Setup
+•	Planning Screen Configuration
+•	Promotions Configuration
+•	Promotion Templates Configuration
+•	Terms Configuration
+•	Management Adjustment Configuration
+•	Risk And Ops Configuration
+•	Funds
 
 
 
-		        •	General Setup
-        •	Planning Screen Configuration
-        •	Promotions Configuration
-        •	Promotion Templates Configuration
-        •	Terms Configuration
-        •	Management Adjustment Configuration
-        •	Risk And Ops Configuration
-        •	Funds
+•	Set Base Unit Of Measure
+a. app.SYS_Config
+2. Set Deleting Policy
+a. app.SYS_Config
+3. Set Password Policy
+a. app.SYS_Config
+4. Config clnt Calendar View
+a. clnt.vw_Dim_Calendar
+5. Review References to “Demo”
+a. SYS Config
+6. Remove any screens and tabs not in scope
+a. app.SYS_Screens
+b. app.SYS_ScreenTabs
+c. app.Fact_Screen_ScreenGroup
+7. Update languages settings for any renaming of screens, tabs and controls
+a.  app.Dim_Language_AppLabels
+----------------------------------
+•	Setup Master Data
+a) Review and modify as appropriate app.Dim_Planning_Volume_MeasureGroups
+b) Review and modify as appropriate app.Dim_Planning_Volume_Measures
+c) Review and modify as appropriate app.Dim_Planning_Time_Range
+d) Review and modify as appropriate app.Dim_Planning_Time_Levels
+2) Test
+a) Check volume saves and reloads, and unit of measure correctly set
+
+•	1. Overall Promotions Behaviour
+a. Review Sys Config Settings
+i. Phasing
+ii. PostPromo
+iii. PromotionScenario
+iv. EnablePromotionProductsReferenceData
+v. EnableTemplateConstraints
+vi. Scenario_IsExportActive
+vii. PromoPowerEditor
+viii. Promotion_FileSelector
+ix. ListingsProductSelectedByDefault       CanEditPromoFinancialScreenProductData
+x. Phasing.Daily
+xi. Phasing.Post
+xii. TriggerPromoOrProduct
+xiii. TriggerUnitOrDeal
+xiv. PromoPhasing_PostPromo
+xv. AllowOverlappingPromotions
+xvi. PostPromoNumDays
+xvii. PromoUseRRpc
+2. List Page
+a. Configure columns required to be shown on the dynamic grid
+3. Graph Page
+a. Configure if displayed
+b. Configure additional graphs to be shown
+i. app.Dim_Promotion_Graph
+ii. Fact_User_Promotion_Graph
+4. Schedule Page
+a. Configure if displayed or not (IsPromoShowSchedule)
+5. Customer
+a. Review Sys Config  (PromotionsSubCustomer)
+6. Dates
+a. Review Sys Config
+i. PromotionDatePeriods
+ii. StopPromotionDatePeriodsDropdownReset
+iii. AllowBuyInStartAfterSellOutEnd
+iv. AllowBuyInStartAfterSellOutStart
+v. AllowBuyInEndAfterSellOutEnd
+vi. AllowBuyInEndAfterSellOutStart
+b. Setup Date Master Data
+i. app.Dim_Promotion_DateGroup
+ii. app.Dim_Promotion_Dates
+iii. app.Dim_Promotion_DatePeriod
+iv. app.Fact_Promotion_DatePeriod_Dates
+7. Products
+a. Review Sys Config
+i. Promotion_Show_Display
+ii. Promotion_Show_FOC
+b. Configure columns appearing in the Product Price Grid.
+i. app.Dim Promotion Measures
+8. Attributes
+a. Configure Mechanic List:
+i. app.Dim_Promotion_Mechanic_Group
+ii. app.Dim_Promotion_Mechanic
+iii. app.Fact_Promotion_MechanicToGroup
+iv. app.Fact_Promotion_Measures_Mechanics
+v. app.Dim_Promotion_Mechanic_L1
+b. Configure Attribute List
+i. app.Dim_Promotion_AttributeGroup
+ii. app.Dim_Promotion_Attribute
+iii. app.Fact_Promotion_Attributes_Parents
+9. Volumes
+a. Review Sys Config
+i. PromoTotalSalesOutVolFromSalesIn
+ii. PromoBaseSalesOutVolFromSalesIn
+iii. Cannibalisation
+iv. InPromoPhasing.Daily
+v. InPromoPhasing.Weekly
+b. Configure Dynamic Grids
+i. app.Dim_Promotion_Measures
+c. Test
+i. Parent Planning Mode grids correctly configured and saves correctly
+ii. Display Unit Mode grids correctly configured and saves correctly
+iii. Normal SKU Mode grids correctly configured and saves correctly
+iv. Uplift Mode grids correctly configured and saves correctly
+v. Cannibalisation Grid grids correctly configured and saves correctly
+vi. Promo Phasing (daily/weekly) where configured saves correctly
+vii. Post Promo Dip where configured saves correctly
+10. Financials
+a. Configure Dynamic Grids
+i. Parent Planning Mode grids correctly configured and saves correctly
+ii. Normal SKU Mode grids correctly configured and saves correctly
+11. Review Page configured as part of Calculation Demo.
+12. Statuses
+a) Configure Statuses
+i) a) app.Dim_Promotion_Statuses
+b) Workflow configured after Roles setup, so set app.Dim_Promotion_Workflow_Template to allow every Promotion Status to go to every other Promotion Status for every role.
+
+•	List Page
+a) Configure list page dynamic grid
+2) Customers
+a) Review SYS Config (Show Sub-Customer Tree)
+3) Dates
+a) No standard configuration. Review
+i) app.Dim_Promotion_DateGroup
+ii) app.Dim_Promotion_Dates
+4) Products
+a) Configure what columns appear in the Products Grid using app.Dim_Promotion_Measure
+5) Attributes
+a) No standard configuration. Just needs test.
+6) Financials
+a) No standard configuration. Just needs test.
+7) Review
+a) Setup Grids
+8) Setup Template Constraints
+a) app.Dim_Promotion_Template_ConstraintTypes
+b) app.Dim_Promotion_Template_Constraints
+c) app.Fact_Promotion_Template_Constraint
+d) Clnt Procedure where necessary to implement
+
+•	Confirm which tabs are required. Disable tabs not required.
+a)  app.SYS_ScreenTabs
+2) Setup Master Data
+a) app.Dim_ROB_AppType
+i) app.Dim_ROB_Statuses
+ii) app.Dim_ROB_Type
+iii) app.Dim_ROB_SubType
+iv) app.Dim_ROB_Impact
+v) app.Dim_ROB_ImpactOption
+vi) Workflow configured after Roles setup, so set app.Dim_ROB_Workflow_Template to allow every ROB Status to go to every other ROB Status for every role.
+3) List Page
+a) Configure dynamic grid
+4) Confirm if ROB Recipient Required, and what sub-customer levels should be shown there
+
+•	Confirm which tabs are required. Disable tabs not required.
+a)  app.SYS_ScreenTabs
+2) Setup Master Data
+a) app.Dim_ROB_AppType
+i) app.Dim_ROB_Statuses
+ii) app.Dim_ROB_Type
+iii) app.Dim_ROB_SubType
+iv) app.Dim_ROB_Impact
+v) app.Dim_ROB_ImpactOption
+vi) Workflow configured after Roles setup, so set app.Dim_ROB_Workflow_Template to allow every ROB Status to go to every other ROB Status for every role.
+3) List Page
+a) Configure dynamic grid
+4) Confirm if ROB Recipient Required, and what sub-customer levels should be shown there
+
+•	Confirm which tabs are required. Disable tabs not required.
+a)  app.SYS_ScreenTabs
+2) Setup Master Data
+a) app.Dim_ROB_AppType
+i) app.Dim_ROB_Statuses
+ii) app.Dim_ROB_Type
+iii) app.Dim_ROB_SubType
+iv) app.Dim_ROB_Impact
+v) app.Dim_ROB_ImpactOption
+vi) Workflow configured after Roles setup, so set app.Dim_ROB_Workflow_Template to allow every ROB Status to go to every other ROB Status for every role.
+3) List Page
+a) Configure dynamic grid
+4) Confirm if ROB Recipient Required, and what sub-customer levels should be shown there
 
 
-
-        •	Set Base Unit Of Measure
-        a. app.SYS_Config
-        2. Set Deleting Policy
-        a. app.SYS_Config
-        3. Set Password Policy
-        a. app.SYS_Config
-        4. Config clnt Calendar View
-        a. clnt.vw_Dim_Calendar
-        5. Review References to “Demo”
-        a. SYS Config
-        6. Remove any screens and tabs not in scope
-        a. app.SYS_Screens
-        b. app.SYS_ScreenTabs
-        c. app.Fact_Screen_ScreenGroup
-        7. Update languages settings for any renaming of screens, tabs and controls
-        a.  app.Dim_Language_AppLabels
-    --------------------------------------
-        •	Setup Master Data
-        a) Review and modify as appropriate app.Dim_Planning_Volume_MeasureGroups
-        b) Review and modify as appropriate app.Dim_Planning_Volume_Measures
-        c) Review and modify as appropriate app.Dim_Planning_Time_Range
-        d) Review and modify as appropriate app.Dim_Planning_Time_Levels
-        2) Test
-        a) Check volume saves and reloads, and unit of measure correctly set
-
-        •	1. Overall Promotions Behaviour
-        a. Review Sys Config Settings
-        i. Phasing
-        ii. PostPromo
-        iii. PromotionScenario
-        iv. EnablePromotionProductsReferenceData
-        v. EnableTemplateConstraints
-        vi. Scenario_IsExportActive
-        vii. PromoPowerEditor
-        viii. Promotion_FileSelector
-        ix. ListingsProductSelectedByDefault       CanEditPromoFinancialScreenProductData
-        x. Phasing.Daily
-        xi. Phasing.Post
-        xii. TriggerPromoOrProduct
-        xiii. TriggerUnitOrDeal
-        xiv. PromoPhasing_PostPromo
-        xv. AllowOverlappingPromotions
-        xvi. PostPromoNumDays
-        xvii. PromoUseRRpc
-        2. List Page
-        a. Configure columns required to be shown on the dynamic grid
-        3. Graph Page
-        a. Configure if displayed
-        b. Configure additional graphs to be shown
-        i. app.Dim_Promotion_Graph
-        ii. Fact_User_Promotion_Graph
-        4. Schedule Page
-        a. Configure if displayed or not (IsPromoShowSchedule)
-        5. Customer
-        a. Review Sys Config  (PromotionsSubCustomer)
-        6. Dates
-        a. Review Sys Config
-        i. PromotionDatePeriods
-        ii. StopPromotionDatePeriodsDropdownReset
-        iii. AllowBuyInStartAfterSellOutEnd
-        iv. AllowBuyInStartAfterSellOutStart
-        v. AllowBuyInEndAfterSellOutEnd
-        vi. AllowBuyInEndAfterSellOutStart
-        b. Setup Date Master Data
-        i. app.Dim_Promotion_DateGroup
-        ii. app.Dim_Promotion_Dates
-        iii. app.Dim_Promotion_DatePeriod
-        iv. app.Fact_Promotion_DatePeriod_Dates
-        7. Products
-        a. Review Sys Config
-        i. Promotion_Show_Display
-        ii. Promotion_Show_FOC
-        b. Configure columns appearing in the Product Price Grid.
-        i. app.Dim Promotion Measures
-        8. Attributes
-        a. Configure Mechanic List:
-        i. app.Dim_Promotion_Mechanic_Group
-        ii. app.Dim_Promotion_Mechanic
-        iii. app.Fact_Promotion_MechanicToGroup
-        iv. app.Fact_Promotion_Measures_Mechanics
-        v. app.Dim_Promotion_Mechanic_L1
-        b. Configure Attribute List
-        i. app.Dim_Promotion_AttributeGroup
-        ii. app.Dim_Promotion_Attribute
-        iii. app.Fact_Promotion_Attributes_Parents
-        9. Volumes
-        a. Review Sys Config
-        i. PromoTotalSalesOutVolFromSalesIn
-        ii. PromoBaseSalesOutVolFromSalesIn
-        iii. Cannibalisation
-        iv. InPromoPhasing.Daily
-        v. InPromoPhasing.Weekly
-        b. Configure Dynamic Grids
-        i. app.Dim_Promotion_Measures
-        c. Test
-        i. Parent Planning Mode grids correctly configured and saves correctly
-        ii. Display Unit Mode grids correctly configured and saves correctly
-        iii. Normal SKU Mode grids correctly configured and saves correctly
-        iv. Uplift Mode grids correctly configured and saves correctly
-        v. Cannibalisation Grid grids correctly configured and saves correctly
-        vi. Promo Phasing (daily/weekly) where configured saves correctly
-        vii. Post Promo Dip where configured saves correctly
-        10. Financials
-        a. Configure Dynamic Grids
-        i. Parent Planning Mode grids correctly configured and saves correctly
-        ii. Normal SKU Mode grids correctly configured and saves correctly
-        11. Review Page configured as part of Calculation Demo.
-        12. Statuses
-        a) Configure Statuses
-        i) a) app.Dim_Promotion_Statuses
-        b) Workflow configured after Roles setup, so set app.Dim_Promotion_Workflow_Template to allow every Promotion Status to go to every other Promotion Status for every role.
-
-        •	List Page
-        a) Configure list page dynamic grid
-        2) Customers
-        a) Review SYS Config (Show Sub-Customer Tree)
-        3) Dates
-        a) No standard configuration. Review
-        i) app.Dim_Promotion_DateGroup
-        ii) app.Dim_Promotion_Dates
-        4) Products
-        a) Configure what columns appear in the Products Grid using app.Dim_Promotion_Measure
-        5) Attributes
-        a) No standard configuration. Just needs test.
-        6) Financials
-        a) No standard configuration. Just needs test.
-        7) Review
-        a) Setup Grids
-        8) Setup Template Constraints
-        a) app.Dim_Promotion_Template_ConstraintTypes
-        b) app.Dim_Promotion_Template_Constraints
-        c) app.Fact_Promotion_Template_Constraint
-        d) Clnt Procedure where necessary to implement
-
-        •	Confirm which tabs are required. Disable tabs not required.
-        a)  app.SYS_ScreenTabs
-        2) Setup Master Data
-        a) app.Dim_ROB_AppType
-        i) app.Dim_ROB_Statuses
-        ii) app.Dim_ROB_Type
-        iii) app.Dim_ROB_SubType
-        iv) app.Dim_ROB_Impact
-        v) app.Dim_ROB_ImpactOption
-        vi) Workflow configured after Roles setup, so set app.Dim_ROB_Workflow_Template to allow every ROB Status to go to every other ROB Status for every role.
-        3) List Page
-        a) Configure dynamic grid
-        4) Confirm if ROB Recipient Required, and what sub-customer levels should be shown there
-
-        •	Confirm which tabs are required. Disable tabs not required.
-        a)  app.SYS_ScreenTabs
-        2) Setup Master Data
-        a) app.Dim_ROB_AppType
-        i) app.Dim_ROB_Statuses
-        ii) app.Dim_ROB_Type
-        iii) app.Dim_ROB_SubType
-        iv) app.Dim_ROB_Impact
-        v) app.Dim_ROB_ImpactOption
-        vi) Workflow configured after Roles setup, so set app.Dim_ROB_Workflow_Template to allow every ROB Status to go to every other ROB Status for every role.
-        3) List Page
-        a) Configure dynamic grid
-        4) Confirm if ROB Recipient Required, and what sub-customer levels should be shown there
-
-        •	Confirm which tabs are required. Disable tabs not required.
-        a)  app.SYS_ScreenTabs
-        2) Setup Master Data
-        a) app.Dim_ROB_AppType
-        i) app.Dim_ROB_Statuses
-        ii) app.Dim_ROB_Type
-        iii) app.Dim_ROB_SubType
-        iv) app.Dim_ROB_Impact
-        v) app.Dim_ROB_ImpactOption
-        vi) Workflow configured after Roles setup, so set app.Dim_ROB_Workflow_Template to allow every ROB Status to go to every other ROB Status for every role.
-        3) List Page
-        a) Configure dynamic grid
-        4) Confirm if ROB Recipient Required, and what sub-customer levels should be shown there
-
-
-        •	List of tasks to be confirmed. Confirmation from US Team.
-        1) Configure List Page Dynamic Grid
-        2) Configure Statuses
-        a. app.Dim_Fund_Statuses
-        3) Mapping of Funds Types and Sub-Types
-        a. app.Dim_Fund_Type
-        b. app.Dim_Fund_SubType
-        c. app.Dim_Fund_Impact
-        4) Linked GL Code Dynamic Grid Configuration
-        5) Linked Events Dynamic Grid Configuration
-        6) Test that Promotions and ROBs draw down from Funds appropriately
+•	List of tasks to be confirmed. Confirmation from US Team.
+1) Configure List Page Dynamic Grid
+2) Configure Statuses
+a. app.Dim_Fund_Statuses
+3) Mapping of Funds Types and Sub-Types
+a. app.Dim_Fund_Type
+b. app.Dim_Fund_SubType
+c. app.Dim_Fund_Impact
+4) Linked GL Code Dynamic Grid Configuration
+5) Linked Events Dynamic Grid Configuration
+6) Test that Promotions and ROBs draw down from Funds appropriately

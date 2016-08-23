@@ -14,7 +14,7 @@ namespace ConfigToolTests
         [TestMethod()]
         public void test1()
         {
-            var json = ParseWizard.textToJson();
+            var json = ParseWizard.TextToJson();
         }
     }
 }
