@@ -1,4 +1,20 @@
-﻿/* Set padding to keep content from hitting the edges */
+﻿/* setup panels */
+.left-panel
+{        
+    background-color:#ccc;
+    width:10%;
+    height:90%;
+    float:left;            
+}
+.right-panel
+{        
+    background-color: azure;
+    width:80%;
+    height:100%;
+    float:left;
+}​
+
+/* Set padding to keep content from hitting the edges */
 
 .switchdemoBasicUsage .inset {
   padding-left: 25px;

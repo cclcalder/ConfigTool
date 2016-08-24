@@ -40,8 +40,8 @@ namespace WebApplication2.Controllers
     //            return View("Error");
     //}
 
-    // GET: Another table for demo -  if generic dont need
-    public ActionResult About()
+    // GET: Another table for demo -  if generic dont need  TEMPORARY
+        public ActionResult About()
         {
             return View();
         }

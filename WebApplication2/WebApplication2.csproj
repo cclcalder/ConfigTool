@@ -206,6 +206,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SetupController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -221,7 +222,9 @@
     <Content Include="Content\angular-material.layouts.css" />
     <Content Include="Content\angular-material.layouts.min.css" />
     <Content Include="Content\angular-material.min.css" />
+    <Content Include="Content\CustomSiteCSS\GlobalSite.css" />
     <Content Include="Content\jquery.layout-1.4.3.css" />
+    <Content Include="Content\CustomSiteCSS\SetupPage.css" />
     <Content Include="Content\SidebarTransitions\css\component.css" />
     <Content Include="Content\SidebarTransitions\css\demo.css" />
     <Content Include="Content\SidebarTransitions\css\icons.css" />
@@ -280,7 +283,7 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\CustomSiteCSS\Site.css" />
     <Content Include="Images\ExceedraLogo_White.png" />
     <Content Include="pager\first.png" />
     <Content Include="pager\last.png" />
@@ -434,7 +437,7 @@
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Home\Setup.cshtml" />
+    <Content Include="Views\Setup\Setup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

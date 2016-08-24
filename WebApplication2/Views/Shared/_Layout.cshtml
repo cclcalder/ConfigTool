@@ -21,6 +21,7 @@
 </head>
 
 <body>
+
     <script type="text/javascript">
     $(window).load(function () {
         // Animate loader off screen
@@ -69,6 +70,7 @@
             <ul class="menu">
                 @*This will be filled with data from wizard upload*@
                 <li><a class="icon icon-data" href="@Url.Action("Home", "Home")">Home</a></li>
+                <li><a class="icon icon-data" href="@Url.Action("Setup", "Setup")">Setup</a></li>
                 @*The rest of these need dropdowns*@
                 <li><a class="icon icon-data" href="@Url.Action("Index", "Home")">Master Data Setup</a></li> @*Temp until sorted wizard*@
                 <li><a class="icon icon-location" href="#">General Setup</a></li>
@@ -92,7 +94,7 @@
             </ul>
         </nav>
       
-    <!-- push wrapper -->
+    <!-- push wrapper .. surely dont need all these divs.. -->
         <div class="st-pusher">
             <div class="st-content">
                 <div class="st-content-inner">
@@ -111,6 +113,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/JSplugins")
+
     @RenderSection("scripts", required: false)
     <script src="js/classie.js"></script>
     <script src="js/sidebarEffects.js"></script>

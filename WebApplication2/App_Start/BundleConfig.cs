@@ -37,7 +37,7 @@ namespace WebApplication2
                       "~/Content/SidebarTransitions/css/demo.css",
                       //"~/Content/SidebarTransitions/css/normalize.css",
                       "~/Content/SidebarTransitions/css/icons.css",
-                      "~/Content/Site.css"));
+                      "~/Content/CustomSiteCSS/Site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/angularJS").Include(
                 "~/Scripts/angular.js"
