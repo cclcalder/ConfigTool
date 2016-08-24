@@ -8,6 +8,7 @@
     @Scripts.Render("~/bundles/customJS")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")   
+
     @*Put these in bundles if def need them in end*@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
     <script src="https://cdn.rawgit.com/esvit/ng-table/1.0.0/dist/ng-table.js"></script>
@@ -17,7 +18,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
 
-    @*<link rel="stylesheet" href="/content/bootstrap.min.css">*@
 </head>
 
 <body>
@@ -46,7 +46,6 @@
             background: url(images/loader-64x/Preloader_2.gif) center no-repeat #fff;
         }
     </style>
-
 
     <header class="main-header">
         <nav2>
@@ -118,67 +117,3 @@
 
 </body>
 </html>
-
-
-
-@* OLD SIDE NAV CONTENT
-    
-    
-    
-    <div class='nav_menu'>
-        <nav>
-            <span class="icon">&equiv;</span>
-            <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li class="lili">@Html.ActionLink("Home", "Home", "Home")</li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        SYS_Config<span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="lili">@Html.ActionLink("SYS_Config", "Index", "Home")</li>
-                        <li class="lili">@Html.ActionLink("SYS_Screens", "Index", "Home")</li>
-                        <li class="lili">@Html.ActionLink("SYS_ScreenTabs", "Index", "Home")</li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Products<span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('SYS_Config')">Auto-filled</a></li>
-                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
-                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Customers<span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
-                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
-                        <li><a img class="button button-clear" href="#" ng-click="selectedTable('tableName')">Auto-filled</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        ROBS<span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="lili">@Html.ActionLink("Dim_ROB_AppType", "About", "Home")</li>
-                        <li class="lili">@Html.ActionLink("Dim_ROB_Type", "Index", "Home")</li>
-                        <li class="lili">@Html.ActionLink("Dim_ROB_SubType", "Index", "Home")</li>
-                        <li class="lili">@Html.ActionLink("Dim_ROB_Impact", "Index", "Home")</li>
-                        <li class="lili">@Html.ActionLink("Dim_ROB_ImpactOption", "Index", "Home")</li>
-                        <li class="lili">@Html.ActionLink("+++", "Index", "Home")</li>
-                    </ul>
-                </li>
-
-
-            </ul>
-        </nav>
-
-    </div>*@

@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace WebApplication2.Controllers
 {
-
+    //[Authorize]
     public class HomeController : Controller
     {
 
@@ -34,9 +34,14 @@ namespace WebApplication2.Controllers
         //    }
         //}
 
+    // if error use that V
+    //                if (user == null)
+    //        {
+    //            return View("Error");
+    //}
 
-        // GET: Another table for demo -  if generic dont need
-        public ActionResult About()
+    // GET: Another table for demo -  if generic dont need
+    public ActionResult About()
         {
             return View();
         }
@@ -86,6 +91,7 @@ namespace WebApplication2.Controllers
                 if (!tablesInDb.Contains(table))
                 {
                     throw new Exception("Table " + table + "Does Not Exist In Database.");
+                   // return View("Error");
                 }
             }
         }

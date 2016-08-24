@@ -8,6 +8,7 @@ using System.Web.Routing;
 
 namespace WebApplication2
 {
+    // Global.asax.cs MVC file thats should contain 'event handlers for ASP.NET application lifecycle events'
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()

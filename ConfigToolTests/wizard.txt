@@ -11,83 +11,74 @@
 1.3.5. app.Dim_Product_Sku_Attributes
 1.3.6. app.Dim_Product_Sku_Cust_Attributes
 
+2. General Setup
+2.1. Set Base Unit Of Measure
+2.1.1. app.SYS_Config
+2.2. Set Deleting Policy
+2.2.1. app.SYS_Config
+2.3. Set Password Policy
+2.3.1. app.SYS_Config
+2.4. Config clnt Calendar View
+2.4.1. clnt.vw_Dim_Calendar
+2.5. Review References to “Demo”
+2.5.1. SYS Config
+2.6. Remove any screens and tabs not in scope
+2.6.1. app.SYS_Screens
+2.6.2. app.SYS_ScreenTabs
+2.6.3. app.Fact_Screen_ScreenGroup
+2.7. Update languages settings for any renaming of screens, tabs and controls
+2.7.1. app.Dim_Language_AppLabels
 
-•	Master Data Setup
-•	General Setup
-•	Planning Screen Configuration
-•	Promotions Configuration
-•	Promotion Templates Configuration
-•	Terms Configuration
-•	Management Adjustment Configuration
-•	Risk And Ops Configuration
-•	Funds
+3. Planning Screen Configuration
+3.1. Setup Master Data
+3.1.1. Review and modify as appropriate app.Dim_Planning_Volume_MeasureGroups
+3.1.2. Review and modify as appropriate app.Dim_Planning_Volume_Measures
+3.1.3. Review and modify as appropriate app.Dim_Planning_Time_Range
+3.1.4. Review and modify as appropriate app.Dim_Planning_Time_Levels
+3.2. Test
+3.2.1. Check volume saves and reloads, and unit of measure correctly set
 
-
-
-•	Set Base Unit Of Measure
-a. app.SYS_Config
-2. Set Deleting Policy
-a. app.SYS_Config
-3. Set Password Policy
-a. app.SYS_Config
-4. Config clnt Calendar View
-a. clnt.vw_Dim_Calendar
-5. Review References to “Demo”
-a. SYS Config
-6. Remove any screens and tabs not in scope
-a. app.SYS_Screens
-b. app.SYS_ScreenTabs
-c. app.Fact_Screen_ScreenGroup
-7. Update languages settings for any renaming of screens, tabs and controls
-a.  app.Dim_Language_AppLabels
-----------------------------------
-•	Setup Master Data
-a) Review and modify as appropriate app.Dim_Planning_Volume_MeasureGroups
-b) Review and modify as appropriate app.Dim_Planning_Volume_Measures
-c) Review and modify as appropriate app.Dim_Planning_Time_Range
-d) Review and modify as appropriate app.Dim_Planning_Time_Levels
-2) Test
-a) Check volume saves and reloads, and unit of measure correctly set
-
-•	1. Overall Promotions Behaviour
-a. Review Sys Config Settings
-i. Phasing
-ii. PostPromo
-iii. PromotionScenario
-iv. EnablePromotionProductsReferenceData
-v. EnableTemplateConstraints
-vi. Scenario_IsExportActive
-vii. PromoPowerEditor
-viii. Promotion_FileSelector
-ix. ListingsProductSelectedByDefault       CanEditPromoFinancialScreenProductData
-x. Phasing.Daily
-xi. Phasing.Post
-xii. TriggerPromoOrProduct
-xiii. TriggerUnitOrDeal
-xiv. PromoPhasing_PostPromo
-xv. AllowOverlappingPromotions
-xvi. PostPromoNumDays
-xvii. PromoUseRRpc
-2. List Page
-a. Configure columns required to be shown on the dynamic grid
-3. Graph Page
-a. Configure if displayed
-b. Configure additional graphs to be shown
-i. app.Dim_Promotion_Graph
-ii. Fact_User_Promotion_Graph
-4. Schedule Page
-a. Configure if displayed or not (IsPromoShowSchedule)
-5. Customer
-a. Review Sys Config  (PromotionsSubCustomer)
-6. Dates
-a. Review Sys Config
-i. PromotionDatePeriods
-ii. StopPromotionDatePeriodsDropdownReset
-iii. AllowBuyInStartAfterSellOutEnd
-iv. AllowBuyInStartAfterSellOutStart
-v. AllowBuyInEndAfterSellOutEnd
-vi. AllowBuyInEndAfterSellOutStart
-b. Setup Date Master Data
+4. Promotions Configuration
+4.1. Overall Promotions Behaviour
+4.1.1. Review Sys Config Settings
+4.1.1.1. Phasing
+4.1.1.2. PostPromo
+4.1.1.3. PromotionScenario
+4.1.1.4. EnablePromotionProductsReferenceData
+4.1.1.5. EnableTemplateConstraints
+4.1.1.6. Scenario_IsExportActive
+4.1.1.7. PromoPowerEditor
+4.1.1.8. Promotion_FileSelector
+4.1.1.9. ListingsProductSelectedByDefault       CanEditPromoFinancialScreenProductData
+4.1.1.10. Phasing.Daily
+4.1.1.11. Phasing.Post
+4.1.1.12. TriggerPromoOrProduct
+4.1.1.13. TriggerUnitOrDeal
+4.1.1.14. PromoPhasing_PostPromo
+4.1.1.15. AllowOverlappingPromotions
+4.1.1.16. PostPromoNumDays
+4.1.1.17. PromoUseRRpc
+4.2. List Page
+4.2.1. Configure columns required to be shown on the dynamic grid
+4.3. Graph Page
+4.3.1. Configure if displayed
+4.3.2. Configure additional graphs to be shown
+4.3.2.1. app.Dim_Promotion_Graph
+4.3.2.2. Fact_User_Promotion_Graph
+4.4. Schedule Page
+4.4.1. Configure if displayed or not (IsPromoShowSchedule)
+4.5. Customer
+4.5.1. Review Sys Config  (PromotionsSubCustomer)
+4.6. Dates
+4.6.1. Review Sys Config
+4.6.1.1. PromotionDatePeriods
+4.6.1.2. StopPromotionDatePeriodsDropdownReset
+4.6.1.3. AllowBuyInStartAfterSellOutEnd
+4.6.1.4. AllowBuyInStartAfterSellOutStart
+4.6.1.5. AllowBuyInEndAfterSellOutEnd
+4.6.1.6. AllowBuyInEndAfterSellOutStart
+4.6.2. Setup Date Master Data
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 i. app.Dim_Promotion_DateGroup
 ii. app.Dim_Promotion_Dates
 iii. app.Dim_Promotion_DatePeriod
@@ -135,6 +126,15 @@ ii. Normal SKU Mode grids correctly configured and saves correctly
 a) Configure Statuses
 i) a) app.Dim_Promotion_Statuses
 b) Workflow configured after Roles setup, so set app.Dim_Promotion_Workflow_Template to allow every Promotion Status to go to every other Promotion Status for every role.
+
+
+
+•	Promotion Templates Configuration
+•	Terms Configuration
+•	Management Adjustment Configuration
+•	Risk And Ops Configuration
+•	Funds
+
 
 •	List Page
 a) Configure list page dynamic grid

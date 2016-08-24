@@ -13,11 +13,12 @@ namespace WebApplication2
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //defult route home index
+            //defult route home home -- soon should be setup page
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                //defaults: new { controller = "Home", action = "Home", id = UrlParameter.Optional }
             );
         }
     }

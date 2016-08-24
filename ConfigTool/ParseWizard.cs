@@ -16,7 +16,7 @@ using System.Xml.Linq;
  * list subsections in 1, 1.1, 1.1.2, 2, 2.1, 2.2, 3 ... etc
  */
 
-//adds cildren [ TWICE --> WHERE?
+//adds children [ TWICE --> WHERE?
 //and deal with ending subsections as well as creating
 
 //variable called 'end node' or something
@@ -37,9 +37,9 @@ namespace ConfigTool
             jsonString.Append('[');
             string[] lines = System.IO.File.ReadAllLines(@"C:\Users\CosimaCalder\Documents\Visual Studio 2015\Projects\ConfigTool\ConfigToolTests\wizard.txt");
 
-
             foreach (string line in lines)
             {
+                //what level node
                 String[] splitArray = line.Split(' ');
                 level.Add(splitArray[0].Length / 2);
             }
