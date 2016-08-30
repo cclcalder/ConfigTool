@@ -1,6 +1,18 @@
 ﻿app.controller("mvcCRUDCtrl", function ($scope, crudAJService){
     $scope.divSYS_Config = false;
 
+    //equivalent of get SYS_Config etc but now generic, can be any na
+    //GetAllTableData();
+    //function GetAllTableData() {
+    //    console.log("Load data from DB table");
+
+    //    var getTableData = crudAJService.getTable();
+    //    getTable.then(function (Data) {
+    //        $scope.tableData = Data.data;
+    //    }, function () {
+    //        alert('Error in getting records');
+    //    });
+    //}
 
     GetAllSYS_Configs();
     //To Get all SYS_Config records  
@@ -9,6 +21,7 @@
         //debugger;
         //var self = this; //this
         var getSYS_ConfigData = crudAJService.getSYS_Configs();
+        console.log("getSYS_ConfigData = " + getSYS_ConfigData);
         //self.tableParams = new NgTableParams({}, { dataset: getSYS_ConfigData }); //and this
         getSYS_ConfigData.then(function (SYS_Config) {
             $scope.SYS_Configs = SYS_Config.data.Item1; //now returns tuple of data (item1) and header info . . 
@@ -18,10 +31,10 @@
     }
 
     //need to get this form the wizard now? I think
-    //easier - willl just be json object to fill nav . . . .
+    //easier - will just be json object to fill nav . . . .
     GetAllTableNames();
-    console.log("get table names");
     function GetAllTableNames() {
+        console.log("get table names");
         var getTableNameData = crudAJService.getTables();
         console.log("getTableNameData = "+getTableNameData);
         getTableNameData.then(function (TableList) {
@@ -31,8 +44,8 @@
         });
     }
 
-    $scope.selectedTable = function(name) {
-        console.log("Selected table to load:" + name);
+    $scope.LoadTableData = function(tableName) {
+        console.log("Selected table to load:" + tableName);
 
         var loadTablemethod = crudAJService.LoadTable(tableName);
         loadTablemethod.then(function (msg) {
@@ -85,7 +98,7 @@
                 alert(msg.data);
                 $scope.divSYS_Config = false;
             }, function () {
-                alert('Error in updating SYS_Config record');
+                alert('Error in updating record');
             });
         } else {
             getSYS_ConfigData = crudAJService.AddSYS_Config(SYS_Config);
@@ -94,7 +107,7 @@
                 alert(msg.data);
                 $scope.divSYS_Config = false;
             }, function () {
-                alert('Error in adding SYS_Config record');
+                alert('Error in adding record');
             });
         }
     };
@@ -113,7 +126,7 @@
             alert(msg.data);
             GetAllSYS_Configs();
         }, function () {
-            alert('Error in deleting SYS_Config record');
+            alert('Error in deleting record');
         });
     };
 

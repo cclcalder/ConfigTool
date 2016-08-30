@@ -33,10 +33,79 @@ namespace ConfigTool
     partial void InsertSYS_Config(SYS_Config instance);
     partial void UpdateSYS_Config(SYS_Config instance);
     partial void DeleteSYS_Config(SYS_Config instance);
+    partial void InsertSYS_Telemetry(SYS_Telemetry instance);
+    partial void UpdateSYS_Telemetry(SYS_Telemetry instance);
+    partial void DeleteSYS_Telemetry(SYS_Telemetry instance);
+    partial void InsertSYS_Lock(SYS_Lock instance);
+    partial void UpdateSYS_Lock(SYS_Lock instance);
+    partial void DeleteSYS_Lock(SYS_Lock instance);
+    partial void InsertSYS_Number(SYS_Number instance);
+    partial void UpdateSYS_Number(SYS_Number instance);
+    partial void DeleteSYS_Number(SYS_Number instance);
+    partial void InsertSYS_Queue_AccountPlanBuild(SYS_Queue_AccountPlanBuild instance);
+    partial void UpdateSYS_Queue_AccountPlanBuild(SYS_Queue_AccountPlanBuild instance);
+    partial void DeleteSYS_Queue_AccountPlanBuild(SYS_Queue_AccountPlanBuild instance);
+    partial void InsertSYS_Queue_AccountPlanBuildKey(SYS_Queue_AccountPlanBuildKey instance);
+    partial void UpdateSYS_Queue_AccountPlanBuildKey(SYS_Queue_AccountPlanBuildKey instance);
+    partial void DeleteSYS_Queue_AccountPlanBuildKey(SYS_Queue_AccountPlanBuildKey instance);
+    partial void InsertSYS_Queue_AccountPlanBuildKeys_For_Current_Build(SYS_Queue_AccountPlanBuildKeys_For_Current_Build instance);
+    partial void UpdateSYS_Queue_AccountPlanBuildKeys_For_Current_Build(SYS_Queue_AccountPlanBuildKeys_For_Current_Build instance);
+    partial void DeleteSYS_Queue_AccountPlanBuildKeys_For_Current_Build(SYS_Queue_AccountPlanBuildKeys_For_Current_Build instance);
+    partial void InsertSYS_Queue_Asynchronous_Task(SYS_Queue_Asynchronous_Task instance);
+    partial void UpdateSYS_Queue_Asynchronous_Task(SYS_Queue_Asynchronous_Task instance);
+    partial void DeleteSYS_Queue_Asynchronous_Task(SYS_Queue_Asynchronous_Task instance);
+    partial void InsertSYS_Queue_Email(SYS_Queue_Email instance);
+    partial void UpdateSYS_Queue_Email(SYS_Queue_Email instance);
+    partial void DeleteSYS_Queue_Email(SYS_Queue_Email instance);
+    partial void InsertSYS_Queue_Scheduled_Task(SYS_Queue_Scheduled_Task instance);
+    partial void UpdateSYS_Queue_Scheduled_Task(SYS_Queue_Scheduled_Task instance);
+    partial void DeleteSYS_Queue_Scheduled_Task(SYS_Queue_Scheduled_Task instance);
+    partial void InsertSYS_Screen(SYS_Screen instance);
+    partial void UpdateSYS_Screen(SYS_Screen instance);
+    partial void DeleteSYS_Screen(SYS_Screen instance);
+    partial void InsertSYS_ScreenTab(SYS_ScreenTab instance);
+    partial void UpdateSYS_ScreenTab(SYS_ScreenTab instance);
+    partial void DeleteSYS_ScreenTab(SYS_ScreenTab instance);
+    partial void InsertDim_Customer(Dim_Customer instance);
+    partial void UpdateDim_Customer(Dim_Customer instance);
+    partial void DeleteDim_Customer(Dim_Customer instance);
+    partial void InsertDim_Customer_Measure(Dim_Customer_Measure instance);
+    partial void UpdateDim_Customer_Measure(Dim_Customer_Measure instance);
+    partial void DeleteDim_Customer_Measure(Dim_Customer_Measure instance);
+    partial void InsertDim_Customer_Attribute(Dim_Customer_Attribute instance);
+    partial void UpdateDim_Customer_Attribute(Dim_Customer_Attribute instance);
+    partial void DeleteDim_Customer_Attribute(Dim_Customer_Attribute instance);
+    partial void InsertDim_Customer_Hierarchy(Dim_Customer_Hierarchy instance);
+    partial void UpdateDim_Customer_Hierarchy(Dim_Customer_Hierarchy instance);
+    partial void DeleteDim_Customer_Hierarchy(Dim_Customer_Hierarchy instance);
+    partial void InsertDim_Customer_Level(Dim_Customer_Level instance);
+    partial void UpdateDim_Customer_Level(Dim_Customer_Level instance);
+    partial void DeleteDim_Customer_Level(Dim_Customer_Level instance);
+    partial void InsertDim_Product_Hierarchy(Dim_Product_Hierarchy instance);
+    partial void UpdateDim_Product_Hierarchy(Dim_Product_Hierarchy instance);
+    partial void DeleteDim_Product_Hierarchy(Dim_Product_Hierarchy instance);
+    partial void InsertDim_Product_Sku_Measure(Dim_Product_Sku_Measure instance);
+    partial void UpdateDim_Product_Sku_Measure(Dim_Product_Sku_Measure instance);
+    partial void DeleteDim_Product_Sku_Measure(Dim_Product_Sku_Measure instance);
+    partial void InsertDim_Product_Level(Dim_Product_Level instance);
+    partial void UpdateDim_Product_Level(Dim_Product_Level instance);
+    partial void DeleteDim_Product_Level(Dim_Product_Level instance);
+    partial void InsertDim_Product_Sku(Dim_Product_Sku instance);
+    partial void UpdateDim_Product_Sku(Dim_Product_Sku instance);
+    partial void DeleteDim_Product_Sku(Dim_Product_Sku instance);
+    partial void InsertDim_Product_Sku_Attribute(Dim_Product_Sku_Attribute instance);
+    partial void UpdateDim_Product_Sku_Attribute(Dim_Product_Sku_Attribute instance);
+    partial void DeleteDim_Product_Sku_Attribute(Dim_Product_Sku_Attribute instance);
+    partial void InsertDim_Product_Sku_Cust_Attribute(Dim_Product_Sku_Cust_Attribute instance);
+    partial void UpdateDim_Product_Sku_Cust_Attribute(Dim_Product_Sku_Cust_Attribute instance);
+    partial void DeleteDim_Product_Sku_Cust_Attribute(Dim_Product_Sku_Cust_Attribute instance);
+    partial void InsertDim_Product_Sku_Cust_Measure(Dim_Product_Sku_Cust_Measure instance);
+    partial void UpdateDim_Product_Sku_Cust_Measure(Dim_Product_Sku_Cust_Measure instance);
+    partial void DeleteDim_Product_Sku_Cust_Measure(Dim_Product_Sku_Cust_Measure instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
-				base(global::ConfigTool.Properties.Settings.Default.ESP_Demo_DEV_UK_v2_9ConnectionString, mappingSource)
+				base(global::ConfigTool.Properties.Settings.Default.ESP_Demo_DEV_UK_v2_9ConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -70,6 +139,190 @@ namespace ConfigTool
 			get
 			{
 				return this.GetTable<SYS_Config>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Telemetry> SYS_Telemetries
+		{
+			get
+			{
+				return this.GetTable<SYS_Telemetry>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Lock> SYS_Locks
+		{
+			get
+			{
+				return this.GetTable<SYS_Lock>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Number> SYS_Numbers
+		{
+			get
+			{
+				return this.GetTable<SYS_Number>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Queue_AccountPlanBuild> SYS_Queue_AccountPlanBuilds
+		{
+			get
+			{
+				return this.GetTable<SYS_Queue_AccountPlanBuild>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Queue_AccountPlanBuildKey> SYS_Queue_AccountPlanBuildKeys
+		{
+			get
+			{
+				return this.GetTable<SYS_Queue_AccountPlanBuildKey>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Queue_AccountPlanBuildKeys_For_Current_Build> SYS_Queue_AccountPlanBuildKeys_For_Current_Builds
+		{
+			get
+			{
+				return this.GetTable<SYS_Queue_AccountPlanBuildKeys_For_Current_Build>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Queue_Asynchronous_Task> SYS_Queue_Asynchronous_Tasks
+		{
+			get
+			{
+				return this.GetTable<SYS_Queue_Asynchronous_Task>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Queue_Email> SYS_Queue_Emails
+		{
+			get
+			{
+				return this.GetTable<SYS_Queue_Email>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Queue_Scheduled_Task> SYS_Queue_Scheduled_Tasks
+		{
+			get
+			{
+				return this.GetTable<SYS_Queue_Scheduled_Task>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_Screen> SYS_Screens
+		{
+			get
+			{
+				return this.GetTable<SYS_Screen>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SYS_ScreenTab> SYS_ScreenTabs
+		{
+			get
+			{
+				return this.GetTable<SYS_ScreenTab>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Customer> Dim_Customers
+		{
+			get
+			{
+				return this.GetTable<Dim_Customer>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Customer_Measure> Dim_Customer_Measures
+		{
+			get
+			{
+				return this.GetTable<Dim_Customer_Measure>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Customer_Attribute> Dim_Customer_Attributes
+		{
+			get
+			{
+				return this.GetTable<Dim_Customer_Attribute>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Customer_Hierarchy> Dim_Customer_Hierarchies
+		{
+			get
+			{
+				return this.GetTable<Dim_Customer_Hierarchy>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Customer_Level> Dim_Customer_Levels
+		{
+			get
+			{
+				return this.GetTable<Dim_Customer_Level>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Product_Hierarchy> Dim_Product_Hierarchies
+		{
+			get
+			{
+				return this.GetTable<Dim_Product_Hierarchy>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Product_Sku_Measure> Dim_Product_Sku_Measures
+		{
+			get
+			{
+				return this.GetTable<Dim_Product_Sku_Measure>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Product_Level> Dim_Product_Levels
+		{
+			get
+			{
+				return this.GetTable<Dim_Product_Level>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Product_Sku> Dim_Product_Skus
+		{
+			get
+			{
+				return this.GetTable<Dim_Product_Sku>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Product_Sku_Attribute> Dim_Product_Sku_Attributes
+		{
+			get
+			{
+				return this.GetTable<Dim_Product_Sku_Attribute>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Product_Sku_Cust_Attribute> Dim_Product_Sku_Cust_Attributes
+		{
+			get
+			{
+				return this.GetTable<Dim_Product_Sku_Cust_Attribute>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Dim_Product_Sku_Cust_Measure> Dim_Product_Sku_Cust_Measures
+		{
+			get
+			{
+				return this.GetTable<Dim_Product_Sku_Cust_Measure>();
 			}
 		}
 	}
@@ -255,6 +508,4780 @@ namespace ConfigTool
 					this._MenuItem_Code = value;
 					this.SendPropertyChanged("MenuItem_Code");
 					this.OnMenuItem_CodeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Telemetry")]
+	public partial class SYS_Telemetry : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.Guid _RunLogID;
+		
+		private string _StoredProcedure;
+		
+		private string _Msg;
+		
+		private System.Xml.Linq.XElement _XML_In;
+		
+		private int _RC;
+		
+		private string _UserName;
+		
+		private string _HostName;
+		
+		private short _SPID;
+		
+		private System.DateTime _TS;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnRunLogIDChanging(System.Guid value);
+    partial void OnRunLogIDChanged();
+    partial void OnStoredProcedureChanging(string value);
+    partial void OnStoredProcedureChanged();
+    partial void OnMsgChanging(string value);
+    partial void OnMsgChanged();
+    partial void OnXML_InChanging(System.Xml.Linq.XElement value);
+    partial void OnXML_InChanged();
+    partial void OnRCChanging(int value);
+    partial void OnRCChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnHostNameChanging(string value);
+    partial void OnHostNameChanged();
+    partial void OnSPIDChanging(short value);
+    partial void OnSPIDChanged();
+    partial void OnTSChanging(System.DateTime value);
+    partial void OnTSChanged();
+    #endregion
+		
+		public SYS_Telemetry()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RunLogID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid RunLogID
+		{
+			get
+			{
+				return this._RunLogID;
+			}
+			set
+			{
+				if ((this._RunLogID != value))
+				{
+					this.OnRunLogIDChanging(value);
+					this.SendPropertyChanging();
+					this._RunLogID = value;
+					this.SendPropertyChanged("RunLogID");
+					this.OnRunLogIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StoredProcedure", DbType="VarChar(200) NOT NULL", CanBeNull=false)]
+		public string StoredProcedure
+		{
+			get
+			{
+				return this._StoredProcedure;
+			}
+			set
+			{
+				if ((this._StoredProcedure != value))
+				{
+					this.OnStoredProcedureChanging(value);
+					this.SendPropertyChanging();
+					this._StoredProcedure = value;
+					this.SendPropertyChanged("StoredProcedure");
+					this.OnStoredProcedureChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Msg", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Msg
+		{
+			get
+			{
+				return this._Msg;
+			}
+			set
+			{
+				if ((this._Msg != value))
+				{
+					this.OnMsgChanging(value);
+					this.SendPropertyChanging();
+					this._Msg = value;
+					this.SendPropertyChanged("Msg");
+					this.OnMsgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_XML_In", DbType="Xml", UpdateCheck=UpdateCheck.Never)]
+		public System.Xml.Linq.XElement XML_In
+		{
+			get
+			{
+				return this._XML_In;
+			}
+			set
+			{
+				if ((this._XML_In != value))
+				{
+					this.OnXML_InChanging(value);
+					this.SendPropertyChanging();
+					this._XML_In = value;
+					this.SendPropertyChanged("XML_In");
+					this.OnXML_InChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RC", DbType="Int NOT NULL")]
+		public int RC
+		{
+			get
+			{
+				return this._RC;
+			}
+			set
+			{
+				if ((this._RC != value))
+				{
+					this.OnRCChanging(value);
+					this.SendPropertyChanging();
+					this._RC = value;
+					this.SendPropertyChanged("RC");
+					this.OnRCChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HostName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string HostName
+		{
+			get
+			{
+				return this._HostName;
+			}
+			set
+			{
+				if ((this._HostName != value))
+				{
+					this.OnHostNameChanging(value);
+					this.SendPropertyChanging();
+					this._HostName = value;
+					this.SendPropertyChanged("HostName");
+					this.OnHostNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SPID", DbType="SmallInt NOT NULL")]
+		public short SPID
+		{
+			get
+			{
+				return this._SPID;
+			}
+			set
+			{
+				if ((this._SPID != value))
+				{
+					this.OnSPIDChanging(value);
+					this.SendPropertyChanging();
+					this._SPID = value;
+					this.SendPropertyChanged("SPID");
+					this.OnSPIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TS", DbType="DateTime2 NOT NULL")]
+		public System.DateTime TS
+		{
+			get
+			{
+				return this._TS;
+			}
+			set
+			{
+				if ((this._TS != value))
+				{
+					this.OnTSChanging(value);
+					this.SendPropertyChanging();
+					this._TS = value;
+					this.SendPropertyChanged("TS");
+					this.OnTSChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Locks")]
+	public partial class SYS_Lock : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _StoredProcedure;
+		
+		private System.Guid _RunLogID;
+		
+		private bool _Locked;
+		
+		private System.Nullable<System.DateTime> _LockedDate;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnStoredProcedureChanging(string value);
+    partial void OnStoredProcedureChanged();
+    partial void OnRunLogIDChanging(System.Guid value);
+    partial void OnRunLogIDChanged();
+    partial void OnLockedChanging(bool value);
+    partial void OnLockedChanged();
+    partial void OnLockedDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnLockedDateChanged();
+    #endregion
+		
+		public SYS_Lock()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StoredProcedure", DbType="VarChar(500) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string StoredProcedure
+		{
+			get
+			{
+				return this._StoredProcedure;
+			}
+			set
+			{
+				if ((this._StoredProcedure != value))
+				{
+					this.OnStoredProcedureChanging(value);
+					this.SendPropertyChanging();
+					this._StoredProcedure = value;
+					this.SendPropertyChanged("StoredProcedure");
+					this.OnStoredProcedureChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RunLogID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid RunLogID
+		{
+			get
+			{
+				return this._RunLogID;
+			}
+			set
+			{
+				if ((this._RunLogID != value))
+				{
+					this.OnRunLogIDChanging(value);
+					this.SendPropertyChanging();
+					this._RunLogID = value;
+					this.SendPropertyChanged("RunLogID");
+					this.OnRunLogIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Locked", DbType="Bit NOT NULL")]
+		public bool Locked
+		{
+			get
+			{
+				return this._Locked;
+			}
+			set
+			{
+				if ((this._Locked != value))
+				{
+					this.OnLockedChanging(value);
+					this.SendPropertyChanging();
+					this._Locked = value;
+					this.SendPropertyChanged("Locked");
+					this.OnLockedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LockedDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> LockedDate
+		{
+			get
+			{
+				return this._LockedDate;
+			}
+			set
+			{
+				if ((this._LockedDate != value))
+				{
+					this.OnLockedDateChanging(value);
+					this.SendPropertyChanging();
+					this._LockedDate = value;
+					this.SendPropertyChanged("LockedDate");
+					this.OnLockedDateChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Numbers")]
+	public partial class SYS_Number : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Num;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnNumChanging(int value);
+    partial void OnNumChanged();
+    #endregion
+		
+		public SYS_Number()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Num", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Num
+		{
+			get
+			{
+				return this._Num;
+			}
+			set
+			{
+				if ((this._Num != value))
+				{
+					this.OnNumChanging(value);
+					this.SendPropertyChanging();
+					this._Num = value;
+					this.SendPropertyChanged("Num");
+					this.OnNumChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Queue_AccountPlanBuild")]
+	public partial class SYS_Queue_AccountPlanBuild : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Task_Idx;
+		
+		private string _Task_Code;
+		
+		private int _Source_Idx;
+		
+		private int _BuildAPWave;
+		
+		private System.Nullable<System.DateTime> _Task_Processed_Date;
+		
+		private System.Nullable<System.DateTime> _Task_Started_Date;
+		
+		private System.DateTime _Task_Queued_Date;
+		
+		private System.Nullable<int> _Task_Queued_By;
+		
+		private EntitySet<SYS_Queue_AccountPlanBuildKey> _SYS_Queue_AccountPlanBuildKeys;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTask_IdxChanging(int value);
+    partial void OnTask_IdxChanged();
+    partial void OnTask_CodeChanging(string value);
+    partial void OnTask_CodeChanged();
+    partial void OnSource_IdxChanging(int value);
+    partial void OnSource_IdxChanged();
+    partial void OnBuildAPWaveChanging(int value);
+    partial void OnBuildAPWaveChanged();
+    partial void OnTask_Processed_DateChanging(System.Nullable<System.DateTime> value);
+    partial void OnTask_Processed_DateChanged();
+    partial void OnTask_Started_DateChanging(System.Nullable<System.DateTime> value);
+    partial void OnTask_Started_DateChanged();
+    partial void OnTask_Queued_DateChanging(System.DateTime value);
+    partial void OnTask_Queued_DateChanged();
+    partial void OnTask_Queued_ByChanging(System.Nullable<int> value);
+    partial void OnTask_Queued_ByChanged();
+    #endregion
+		
+		public SYS_Queue_AccountPlanBuild()
+		{
+			this._SYS_Queue_AccountPlanBuildKeys = new EntitySet<SYS_Queue_AccountPlanBuildKey>(new Action<SYS_Queue_AccountPlanBuildKey>(this.attach_SYS_Queue_AccountPlanBuildKeys), new Action<SYS_Queue_AccountPlanBuildKey>(this.detach_SYS_Queue_AccountPlanBuildKeys));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Task_Idx
+		{
+			get
+			{
+				return this._Task_Idx;
+			}
+			set
+			{
+				if ((this._Task_Idx != value))
+				{
+					this.OnTask_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Idx = value;
+					this.SendPropertyChanged("Task_Idx");
+					this.OnTask_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Task_Code
+		{
+			get
+			{
+				return this._Task_Code;
+			}
+			set
+			{
+				if ((this._Task_Code != value))
+				{
+					this.OnTask_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Code = value;
+					this.SendPropertyChanged("Task_Code");
+					this.OnTask_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Source_Idx", DbType="Int NOT NULL")]
+		public int Source_Idx
+		{
+			get
+			{
+				return this._Source_Idx;
+			}
+			set
+			{
+				if ((this._Source_Idx != value))
+				{
+					this.OnSource_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Source_Idx = value;
+					this.SendPropertyChanged("Source_Idx");
+					this.OnSource_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuildAPWave", DbType="Int NOT NULL")]
+		public int BuildAPWave
+		{
+			get
+			{
+				return this._BuildAPWave;
+			}
+			set
+			{
+				if ((this._BuildAPWave != value))
+				{
+					this.OnBuildAPWaveChanging(value);
+					this.SendPropertyChanging();
+					this._BuildAPWave = value;
+					this.SendPropertyChanged("BuildAPWave");
+					this.OnBuildAPWaveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Processed_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Task_Processed_Date
+		{
+			get
+			{
+				return this._Task_Processed_Date;
+			}
+			set
+			{
+				if ((this._Task_Processed_Date != value))
+				{
+					this.OnTask_Processed_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Processed_Date = value;
+					this.SendPropertyChanged("Task_Processed_Date");
+					this.OnTask_Processed_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Started_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Task_Started_Date
+		{
+			get
+			{
+				return this._Task_Started_Date;
+			}
+			set
+			{
+				if ((this._Task_Started_Date != value))
+				{
+					this.OnTask_Started_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Started_Date = value;
+					this.SendPropertyChanged("Task_Started_Date");
+					this.OnTask_Started_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Queued_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Task_Queued_Date
+		{
+			get
+			{
+				return this._Task_Queued_Date;
+			}
+			set
+			{
+				if ((this._Task_Queued_Date != value))
+				{
+					this.OnTask_Queued_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Queued_Date = value;
+					this.SendPropertyChanged("Task_Queued_Date");
+					this.OnTask_Queued_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Queued_By", DbType="Int")]
+		public System.Nullable<int> Task_Queued_By
+		{
+			get
+			{
+				return this._Task_Queued_By;
+			}
+			set
+			{
+				if ((this._Task_Queued_By != value))
+				{
+					this.OnTask_Queued_ByChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Queued_By = value;
+					this.SendPropertyChanged("Task_Queued_By");
+					this.OnTask_Queued_ByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SYS_Queue_AccountPlanBuild_SYS_Queue_AccountPlanBuildKey", Storage="_SYS_Queue_AccountPlanBuildKeys", ThisKey="Task_Idx", OtherKey="Task_Idx")]
+		public EntitySet<SYS_Queue_AccountPlanBuildKey> SYS_Queue_AccountPlanBuildKeys
+		{
+			get
+			{
+				return this._SYS_Queue_AccountPlanBuildKeys;
+			}
+			set
+			{
+				this._SYS_Queue_AccountPlanBuildKeys.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_SYS_Queue_AccountPlanBuildKeys(SYS_Queue_AccountPlanBuildKey entity)
+		{
+			this.SendPropertyChanging();
+			entity.SYS_Queue_AccountPlanBuild = this;
+		}
+		
+		private void detach_SYS_Queue_AccountPlanBuildKeys(SYS_Queue_AccountPlanBuildKey entity)
+		{
+			this.SendPropertyChanging();
+			entity.SYS_Queue_AccountPlanBuild = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Queue_AccountPlanBuildKeys")]
+	public partial class SYS_Queue_AccountPlanBuildKey : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Task_Idx;
+		
+		private int _Scen_Idx;
+		
+		private int _Cust_Idx;
+		
+		private int _Sku_Idx;
+		
+		private int _Day_Idx;
+		
+		private EntityRef<SYS_Queue_AccountPlanBuild> _SYS_Queue_AccountPlanBuild;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTask_IdxChanging(int value);
+    partial void OnTask_IdxChanged();
+    partial void OnScen_IdxChanging(int value);
+    partial void OnScen_IdxChanged();
+    partial void OnCust_IdxChanging(int value);
+    partial void OnCust_IdxChanged();
+    partial void OnSku_IdxChanging(int value);
+    partial void OnSku_IdxChanged();
+    partial void OnDay_IdxChanging(int value);
+    partial void OnDay_IdxChanged();
+    #endregion
+		
+		public SYS_Queue_AccountPlanBuildKey()
+		{
+			this._SYS_Queue_AccountPlanBuild = default(EntityRef<SYS_Queue_AccountPlanBuild>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Task_Idx
+		{
+			get
+			{
+				return this._Task_Idx;
+			}
+			set
+			{
+				if ((this._Task_Idx != value))
+				{
+					if (this._SYS_Queue_AccountPlanBuild.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTask_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Idx = value;
+					this.SendPropertyChanged("Task_Idx");
+					this.OnTask_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Scen_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Scen_Idx
+		{
+			get
+			{
+				return this._Scen_Idx;
+			}
+			set
+			{
+				if ((this._Scen_Idx != value))
+				{
+					this.OnScen_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Scen_Idx = value;
+					this.SendPropertyChanged("Scen_Idx");
+					this.OnScen_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cust_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Cust_Idx
+		{
+			get
+			{
+				return this._Cust_Idx;
+			}
+			set
+			{
+				if ((this._Cust_Idx != value))
+				{
+					this.OnCust_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Cust_Idx = value;
+					this.SendPropertyChanged("Cust_Idx");
+					this.OnCust_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sku_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Sku_Idx
+		{
+			get
+			{
+				return this._Sku_Idx;
+			}
+			set
+			{
+				if ((this._Sku_Idx != value))
+				{
+					this.OnSku_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Sku_Idx = value;
+					this.SendPropertyChanged("Sku_Idx");
+					this.OnSku_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Day_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Day_Idx
+		{
+			get
+			{
+				return this._Day_Idx;
+			}
+			set
+			{
+				if ((this._Day_Idx != value))
+				{
+					this.OnDay_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Day_Idx = value;
+					this.SendPropertyChanged("Day_Idx");
+					this.OnDay_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SYS_Queue_AccountPlanBuild_SYS_Queue_AccountPlanBuildKey", Storage="_SYS_Queue_AccountPlanBuild", ThisKey="Task_Idx", OtherKey="Task_Idx", IsForeignKey=true)]
+		public SYS_Queue_AccountPlanBuild SYS_Queue_AccountPlanBuild
+		{
+			get
+			{
+				return this._SYS_Queue_AccountPlanBuild.Entity;
+			}
+			set
+			{
+				SYS_Queue_AccountPlanBuild previousValue = this._SYS_Queue_AccountPlanBuild.Entity;
+				if (((previousValue != value) 
+							|| (this._SYS_Queue_AccountPlanBuild.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SYS_Queue_AccountPlanBuild.Entity = null;
+						previousValue.SYS_Queue_AccountPlanBuildKeys.Remove(this);
+					}
+					this._SYS_Queue_AccountPlanBuild.Entity = value;
+					if ((value != null))
+					{
+						value.SYS_Queue_AccountPlanBuildKeys.Add(this);
+						this._Task_Idx = value.Task_Idx;
+					}
+					else
+					{
+						this._Task_Idx = default(int);
+					}
+					this.SendPropertyChanged("SYS_Queue_AccountPlanBuild");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Queue_AccountPlanBuildKeys_For_Current_Build")]
+	public partial class SYS_Queue_AccountPlanBuildKeys_For_Current_Build : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Day_Idx;
+		
+		private int _Cust_Idx;
+		
+		private int _Sku_Idx;
+		
+		private int _Scen_Idx;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDay_IdxChanging(int value);
+    partial void OnDay_IdxChanged();
+    partial void OnCust_IdxChanging(int value);
+    partial void OnCust_IdxChanged();
+    partial void OnSku_IdxChanging(int value);
+    partial void OnSku_IdxChanged();
+    partial void OnScen_IdxChanging(int value);
+    partial void OnScen_IdxChanged();
+    #endregion
+		
+		public SYS_Queue_AccountPlanBuildKeys_For_Current_Build()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Day_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Day_Idx
+		{
+			get
+			{
+				return this._Day_Idx;
+			}
+			set
+			{
+				if ((this._Day_Idx != value))
+				{
+					this.OnDay_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Day_Idx = value;
+					this.SendPropertyChanged("Day_Idx");
+					this.OnDay_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cust_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Cust_Idx
+		{
+			get
+			{
+				return this._Cust_Idx;
+			}
+			set
+			{
+				if ((this._Cust_Idx != value))
+				{
+					this.OnCust_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Cust_Idx = value;
+					this.SendPropertyChanged("Cust_Idx");
+					this.OnCust_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sku_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Sku_Idx
+		{
+			get
+			{
+				return this._Sku_Idx;
+			}
+			set
+			{
+				if ((this._Sku_Idx != value))
+				{
+					this.OnSku_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Sku_Idx = value;
+					this.SendPropertyChanged("Sku_Idx");
+					this.OnSku_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Scen_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Scen_Idx
+		{
+			get
+			{
+				return this._Scen_Idx;
+			}
+			set
+			{
+				if ((this._Scen_Idx != value))
+				{
+					this.OnScen_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Scen_Idx = value;
+					this.SendPropertyChanged("Scen_Idx");
+					this.OnScen_IdxChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Queue_Asynchronous_Tasks")]
+	public partial class SYS_Queue_Asynchronous_Task : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Task_Idx;
+		
+		private string _Task_Code;
+		
+		private System.Xml.Linq.XElement _Task_Data;
+		
+		private System.Nullable<System.DateTime> _Task_Processed_Date;
+		
+		private System.Nullable<System.DateTime> _Task_Started_Date;
+		
+		private System.DateTime _Task_Queued_Date;
+		
+		private int _Task_Queued_By;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTask_IdxChanging(int value);
+    partial void OnTask_IdxChanged();
+    partial void OnTask_CodeChanging(string value);
+    partial void OnTask_CodeChanged();
+    partial void OnTask_DataChanging(System.Xml.Linq.XElement value);
+    partial void OnTask_DataChanged();
+    partial void OnTask_Processed_DateChanging(System.Nullable<System.DateTime> value);
+    partial void OnTask_Processed_DateChanged();
+    partial void OnTask_Started_DateChanging(System.Nullable<System.DateTime> value);
+    partial void OnTask_Started_DateChanged();
+    partial void OnTask_Queued_DateChanging(System.DateTime value);
+    partial void OnTask_Queued_DateChanged();
+    partial void OnTask_Queued_ByChanging(int value);
+    partial void OnTask_Queued_ByChanged();
+    #endregion
+		
+		public SYS_Queue_Asynchronous_Task()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Task_Idx
+		{
+			get
+			{
+				return this._Task_Idx;
+			}
+			set
+			{
+				if ((this._Task_Idx != value))
+				{
+					this.OnTask_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Idx = value;
+					this.SendPropertyChanged("Task_Idx");
+					this.OnTask_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Task_Code
+		{
+			get
+			{
+				return this._Task_Code;
+			}
+			set
+			{
+				if ((this._Task_Code != value))
+				{
+					this.OnTask_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Code = value;
+					this.SendPropertyChanged("Task_Code");
+					this.OnTask_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Data", DbType="Xml NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public System.Xml.Linq.XElement Task_Data
+		{
+			get
+			{
+				return this._Task_Data;
+			}
+			set
+			{
+				if ((this._Task_Data != value))
+				{
+					this.OnTask_DataChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Data = value;
+					this.SendPropertyChanged("Task_Data");
+					this.OnTask_DataChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Processed_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Task_Processed_Date
+		{
+			get
+			{
+				return this._Task_Processed_Date;
+			}
+			set
+			{
+				if ((this._Task_Processed_Date != value))
+				{
+					this.OnTask_Processed_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Processed_Date = value;
+					this.SendPropertyChanged("Task_Processed_Date");
+					this.OnTask_Processed_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Started_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Task_Started_Date
+		{
+			get
+			{
+				return this._Task_Started_Date;
+			}
+			set
+			{
+				if ((this._Task_Started_Date != value))
+				{
+					this.OnTask_Started_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Started_Date = value;
+					this.SendPropertyChanged("Task_Started_Date");
+					this.OnTask_Started_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Queued_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Task_Queued_Date
+		{
+			get
+			{
+				return this._Task_Queued_Date;
+			}
+			set
+			{
+				if ((this._Task_Queued_Date != value))
+				{
+					this.OnTask_Queued_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Queued_Date = value;
+					this.SendPropertyChanged("Task_Queued_Date");
+					this.OnTask_Queued_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Queued_By", DbType="Int NOT NULL")]
+		public int Task_Queued_By
+		{
+			get
+			{
+				return this._Task_Queued_By;
+			}
+			set
+			{
+				if ((this._Task_Queued_By != value))
+				{
+					this.OnTask_Queued_ByChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Queued_By = value;
+					this.SendPropertyChanged("Task_Queued_By");
+					this.OnTask_Queued_ByChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Queue_Emails")]
+	public partial class SYS_Queue_Email : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Email_Recipient;
+		
+		private string _Email_Body;
+		
+		private string _Email_SubjectLine;
+		
+		private string _Attachment_FileName;
+		
+		private string _Attachment_Query;
+		
+		private System.DateTime _Email_Queued_Date;
+		
+		private System.Nullable<System.DateTime> _Email_Processed_Date;
+		
+		private bool _IsApprovalEmail;
+		
+		private string _Item_Code;
+		
+		private System.Nullable<int> _Item_Idx;
+		
+		private System.Nullable<System.DateTime> _EmailReplyReceivedOn;
+		
+		private string _EmailReplyKeyWord;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnEmail_RecipientChanging(string value);
+    partial void OnEmail_RecipientChanged();
+    partial void OnEmail_BodyChanging(string value);
+    partial void OnEmail_BodyChanged();
+    partial void OnEmail_SubjectLineChanging(string value);
+    partial void OnEmail_SubjectLineChanged();
+    partial void OnAttachment_FileNameChanging(string value);
+    partial void OnAttachment_FileNameChanged();
+    partial void OnAttachment_QueryChanging(string value);
+    partial void OnAttachment_QueryChanged();
+    partial void OnEmail_Queued_DateChanging(System.DateTime value);
+    partial void OnEmail_Queued_DateChanged();
+    partial void OnEmail_Processed_DateChanging(System.Nullable<System.DateTime> value);
+    partial void OnEmail_Processed_DateChanged();
+    partial void OnIsApprovalEmailChanging(bool value);
+    partial void OnIsApprovalEmailChanged();
+    partial void OnItem_CodeChanging(string value);
+    partial void OnItem_CodeChanged();
+    partial void OnItem_IdxChanging(System.Nullable<int> value);
+    partial void OnItem_IdxChanged();
+    partial void OnEmailReplyReceivedOnChanging(System.Nullable<System.DateTime> value);
+    partial void OnEmailReplyReceivedOnChanged();
+    partial void OnEmailReplyKeyWordChanging(string value);
+    partial void OnEmailReplyKeyWordChanged();
+    #endregion
+		
+		public SYS_Queue_Email()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email_Recipient", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Email_Recipient
+		{
+			get
+			{
+				return this._Email_Recipient;
+			}
+			set
+			{
+				if ((this._Email_Recipient != value))
+				{
+					this.OnEmail_RecipientChanging(value);
+					this.SendPropertyChanging();
+					this._Email_Recipient = value;
+					this.SendPropertyChanged("Email_Recipient");
+					this.OnEmail_RecipientChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email_Body", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Email_Body
+		{
+			get
+			{
+				return this._Email_Body;
+			}
+			set
+			{
+				if ((this._Email_Body != value))
+				{
+					this.OnEmail_BodyChanging(value);
+					this.SendPropertyChanging();
+					this._Email_Body = value;
+					this.SendPropertyChanged("Email_Body");
+					this.OnEmail_BodyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email_SubjectLine", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Email_SubjectLine
+		{
+			get
+			{
+				return this._Email_SubjectLine;
+			}
+			set
+			{
+				if ((this._Email_SubjectLine != value))
+				{
+					this.OnEmail_SubjectLineChanging(value);
+					this.SendPropertyChanging();
+					this._Email_SubjectLine = value;
+					this.SendPropertyChanged("Email_SubjectLine");
+					this.OnEmail_SubjectLineChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Attachment_FileName", DbType="NVarChar(MAX)")]
+		public string Attachment_FileName
+		{
+			get
+			{
+				return this._Attachment_FileName;
+			}
+			set
+			{
+				if ((this._Attachment_FileName != value))
+				{
+					this.OnAttachment_FileNameChanging(value);
+					this.SendPropertyChanging();
+					this._Attachment_FileName = value;
+					this.SendPropertyChanged("Attachment_FileName");
+					this.OnAttachment_FileNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Attachment_Query", DbType="NVarChar(MAX)")]
+		public string Attachment_Query
+		{
+			get
+			{
+				return this._Attachment_Query;
+			}
+			set
+			{
+				if ((this._Attachment_Query != value))
+				{
+					this.OnAttachment_QueryChanging(value);
+					this.SendPropertyChanging();
+					this._Attachment_Query = value;
+					this.SendPropertyChanged("Attachment_Query");
+					this.OnAttachment_QueryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email_Queued_Date", DbType="DateTime2 NOT NULL")]
+		public System.DateTime Email_Queued_Date
+		{
+			get
+			{
+				return this._Email_Queued_Date;
+			}
+			set
+			{
+				if ((this._Email_Queued_Date != value))
+				{
+					this.OnEmail_Queued_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Email_Queued_Date = value;
+					this.SendPropertyChanged("Email_Queued_Date");
+					this.OnEmail_Queued_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email_Processed_Date", DbType="DateTime2")]
+		public System.Nullable<System.DateTime> Email_Processed_Date
+		{
+			get
+			{
+				return this._Email_Processed_Date;
+			}
+			set
+			{
+				if ((this._Email_Processed_Date != value))
+				{
+					this.OnEmail_Processed_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Email_Processed_Date = value;
+					this.SendPropertyChanged("Email_Processed_Date");
+					this.OnEmail_Processed_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsApprovalEmail", DbType="Bit NOT NULL")]
+		public bool IsApprovalEmail
+		{
+			get
+			{
+				return this._IsApprovalEmail;
+			}
+			set
+			{
+				if ((this._IsApprovalEmail != value))
+				{
+					this.OnIsApprovalEmailChanging(value);
+					this.SendPropertyChanging();
+					this._IsApprovalEmail = value;
+					this.SendPropertyChanged("IsApprovalEmail");
+					this.OnIsApprovalEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_Code", DbType="VarChar(50)")]
+		public string Item_Code
+		{
+			get
+			{
+				return this._Item_Code;
+			}
+			set
+			{
+				if ((this._Item_Code != value))
+				{
+					this.OnItem_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._Item_Code = value;
+					this.SendPropertyChanged("Item_Code");
+					this.OnItem_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Item_Idx", DbType="Int")]
+		public System.Nullable<int> Item_Idx
+		{
+			get
+			{
+				return this._Item_Idx;
+			}
+			set
+			{
+				if ((this._Item_Idx != value))
+				{
+					this.OnItem_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Item_Idx = value;
+					this.SendPropertyChanged("Item_Idx");
+					this.OnItem_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailReplyReceivedOn", DbType="DateTime2")]
+		public System.Nullable<System.DateTime> EmailReplyReceivedOn
+		{
+			get
+			{
+				return this._EmailReplyReceivedOn;
+			}
+			set
+			{
+				if ((this._EmailReplyReceivedOn != value))
+				{
+					this.OnEmailReplyReceivedOnChanging(value);
+					this.SendPropertyChanging();
+					this._EmailReplyReceivedOn = value;
+					this.SendPropertyChanged("EmailReplyReceivedOn");
+					this.OnEmailReplyReceivedOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailReplyKeyWord", DbType="NVarChar(100)")]
+		public string EmailReplyKeyWord
+		{
+			get
+			{
+				return this._EmailReplyKeyWord;
+			}
+			set
+			{
+				if ((this._EmailReplyKeyWord != value))
+				{
+					this.OnEmailReplyKeyWordChanging(value);
+					this.SendPropertyChanging();
+					this._EmailReplyKeyWord = value;
+					this.SendPropertyChanged("EmailReplyKeyWord");
+					this.OnEmailReplyKeyWordChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Queue_Scheduled_Tasks")]
+	public partial class SYS_Queue_Scheduled_Task : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Task_Idx;
+		
+		private string _Task_Code;
+		
+		private System.Xml.Linq.XElement _Task_Data;
+		
+		private System.Nullable<System.DateTime> _Task_Processed_Date;
+		
+		private System.DateTime _Task_Queued_Date;
+		
+		private int _Task_Queued_By;
+		
+		private System.DateTime _Task_RunAfter;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTask_IdxChanging(int value);
+    partial void OnTask_IdxChanged();
+    partial void OnTask_CodeChanging(string value);
+    partial void OnTask_CodeChanged();
+    partial void OnTask_DataChanging(System.Xml.Linq.XElement value);
+    partial void OnTask_DataChanged();
+    partial void OnTask_Processed_DateChanging(System.Nullable<System.DateTime> value);
+    partial void OnTask_Processed_DateChanged();
+    partial void OnTask_Queued_DateChanging(System.DateTime value);
+    partial void OnTask_Queued_DateChanged();
+    partial void OnTask_Queued_ByChanging(int value);
+    partial void OnTask_Queued_ByChanged();
+    partial void OnTask_RunAfterChanging(System.DateTime value);
+    partial void OnTask_RunAfterChanged();
+    #endregion
+		
+		public SYS_Queue_Scheduled_Task()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Task_Idx
+		{
+			get
+			{
+				return this._Task_Idx;
+			}
+			set
+			{
+				if ((this._Task_Idx != value))
+				{
+					this.OnTask_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Idx = value;
+					this.SendPropertyChanged("Task_Idx");
+					this.OnTask_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Task_Code
+		{
+			get
+			{
+				return this._Task_Code;
+			}
+			set
+			{
+				if ((this._Task_Code != value))
+				{
+					this.OnTask_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Code = value;
+					this.SendPropertyChanged("Task_Code");
+					this.OnTask_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Data", DbType="Xml NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public System.Xml.Linq.XElement Task_Data
+		{
+			get
+			{
+				return this._Task_Data;
+			}
+			set
+			{
+				if ((this._Task_Data != value))
+				{
+					this.OnTask_DataChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Data = value;
+					this.SendPropertyChanged("Task_Data");
+					this.OnTask_DataChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Processed_Date", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Task_Processed_Date
+		{
+			get
+			{
+				return this._Task_Processed_Date;
+			}
+			set
+			{
+				if ((this._Task_Processed_Date != value))
+				{
+					this.OnTask_Processed_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Processed_Date = value;
+					this.SendPropertyChanged("Task_Processed_Date");
+					this.OnTask_Processed_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Queued_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Task_Queued_Date
+		{
+			get
+			{
+				return this._Task_Queued_Date;
+			}
+			set
+			{
+				if ((this._Task_Queued_Date != value))
+				{
+					this.OnTask_Queued_DateChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Queued_Date = value;
+					this.SendPropertyChanged("Task_Queued_Date");
+					this.OnTask_Queued_DateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_Queued_By", DbType="Int NOT NULL")]
+		public int Task_Queued_By
+		{
+			get
+			{
+				return this._Task_Queued_By;
+			}
+			set
+			{
+				if ((this._Task_Queued_By != value))
+				{
+					this.OnTask_Queued_ByChanging(value);
+					this.SendPropertyChanging();
+					this._Task_Queued_By = value;
+					this.SendPropertyChanged("Task_Queued_By");
+					this.OnTask_Queued_ByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Task_RunAfter", DbType="DateTime NOT NULL")]
+		public System.DateTime Task_RunAfter
+		{
+			get
+			{
+				return this._Task_RunAfter;
+			}
+			set
+			{
+				if ((this._Task_RunAfter != value))
+				{
+					this.OnTask_RunAfterChanging(value);
+					this.SendPropertyChanging();
+					this._Task_RunAfter = value;
+					this.SendPropertyChanged("Task_RunAfter");
+					this.OnTask_RunAfterChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_Screens")]
+	public partial class SYS_Screen : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Screen_Idx;
+		
+		private string _Screen_Code;
+		
+		private string _Label_Key;
+		
+		private int _SortOrder;
+		
+		private bool _IsDisplayed;
+		
+		private int _Minimum_CustLevelCode;
+		
+		private int _Maximum_CustLevelCode;
+		
+		private int _Minimum_ProdLevelCode;
+		
+		private int _Maximum_ProdLevelCode;
+		
+		private int _Customer_Hierarchy_Idx;
+		
+		private int _Product_Hierarchy_Idx;
+		
+		private int _Customer_CodeAppendedToNameSetting;
+		
+		private int _Product_CodeAppendedToNameSetting;
+		
+		private EntitySet<SYS_ScreenTab> _SYS_ScreenTabs;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnScreen_IdxChanging(int value);
+    partial void OnScreen_IdxChanged();
+    partial void OnScreen_CodeChanging(string value);
+    partial void OnScreen_CodeChanged();
+    partial void OnLabel_KeyChanging(string value);
+    partial void OnLabel_KeyChanged();
+    partial void OnSortOrderChanging(int value);
+    partial void OnSortOrderChanged();
+    partial void OnIsDisplayedChanging(bool value);
+    partial void OnIsDisplayedChanged();
+    partial void OnMinimum_CustLevelCodeChanging(int value);
+    partial void OnMinimum_CustLevelCodeChanged();
+    partial void OnMaximum_CustLevelCodeChanging(int value);
+    partial void OnMaximum_CustLevelCodeChanged();
+    partial void OnMinimum_ProdLevelCodeChanging(int value);
+    partial void OnMinimum_ProdLevelCodeChanged();
+    partial void OnMaximum_ProdLevelCodeChanging(int value);
+    partial void OnMaximum_ProdLevelCodeChanged();
+    partial void OnCustomer_Hierarchy_IdxChanging(int value);
+    partial void OnCustomer_Hierarchy_IdxChanged();
+    partial void OnProduct_Hierarchy_IdxChanging(int value);
+    partial void OnProduct_Hierarchy_IdxChanged();
+    partial void OnCustomer_CodeAppendedToNameSettingChanging(int value);
+    partial void OnCustomer_CodeAppendedToNameSettingChanged();
+    partial void OnProduct_CodeAppendedToNameSettingChanging(int value);
+    partial void OnProduct_CodeAppendedToNameSettingChanged();
+    #endregion
+		
+		public SYS_Screen()
+		{
+			this._SYS_ScreenTabs = new EntitySet<SYS_ScreenTab>(new Action<SYS_ScreenTab>(this.attach_SYS_ScreenTabs), new Action<SYS_ScreenTab>(this.detach_SYS_ScreenTabs));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Screen_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Screen_Idx
+		{
+			get
+			{
+				return this._Screen_Idx;
+			}
+			set
+			{
+				if ((this._Screen_Idx != value))
+				{
+					this.OnScreen_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Screen_Idx = value;
+					this.SendPropertyChanged("Screen_Idx");
+					this.OnScreen_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Screen_Code", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string Screen_Code
+		{
+			get
+			{
+				return this._Screen_Code;
+			}
+			set
+			{
+				if ((this._Screen_Code != value))
+				{
+					this.OnScreen_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._Screen_Code = value;
+					this.SendPropertyChanged("Screen_Code");
+					this.OnScreen_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Label_Key", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string Label_Key
+		{
+			get
+			{
+				return this._Label_Key;
+			}
+			set
+			{
+				if ((this._Label_Key != value))
+				{
+					this.OnLabel_KeyChanging(value);
+					this.SendPropertyChanging();
+					this._Label_Key = value;
+					this.SendPropertyChanged("Label_Key");
+					this.OnLabel_KeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOrder", DbType="Int NOT NULL")]
+		public int SortOrder
+		{
+			get
+			{
+				return this._SortOrder;
+			}
+			set
+			{
+				if ((this._SortOrder != value))
+				{
+					this.OnSortOrderChanging(value);
+					this.SendPropertyChanging();
+					this._SortOrder = value;
+					this.SendPropertyChanged("SortOrder");
+					this.OnSortOrderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDisplayed", DbType="Bit NOT NULL")]
+		public bool IsDisplayed
+		{
+			get
+			{
+				return this._IsDisplayed;
+			}
+			set
+			{
+				if ((this._IsDisplayed != value))
+				{
+					this.OnIsDisplayedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDisplayed = value;
+					this.SendPropertyChanged("IsDisplayed");
+					this.OnIsDisplayedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Minimum_CustLevelCode", DbType="Int NOT NULL")]
+		public int Minimum_CustLevelCode
+		{
+			get
+			{
+				return this._Minimum_CustLevelCode;
+			}
+			set
+			{
+				if ((this._Minimum_CustLevelCode != value))
+				{
+					this.OnMinimum_CustLevelCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Minimum_CustLevelCode = value;
+					this.SendPropertyChanged("Minimum_CustLevelCode");
+					this.OnMinimum_CustLevelCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Maximum_CustLevelCode", DbType="Int NOT NULL")]
+		public int Maximum_CustLevelCode
+		{
+			get
+			{
+				return this._Maximum_CustLevelCode;
+			}
+			set
+			{
+				if ((this._Maximum_CustLevelCode != value))
+				{
+					this.OnMaximum_CustLevelCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Maximum_CustLevelCode = value;
+					this.SendPropertyChanged("Maximum_CustLevelCode");
+					this.OnMaximum_CustLevelCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Minimum_ProdLevelCode", DbType="Int NOT NULL")]
+		public int Minimum_ProdLevelCode
+		{
+			get
+			{
+				return this._Minimum_ProdLevelCode;
+			}
+			set
+			{
+				if ((this._Minimum_ProdLevelCode != value))
+				{
+					this.OnMinimum_ProdLevelCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Minimum_ProdLevelCode = value;
+					this.SendPropertyChanged("Minimum_ProdLevelCode");
+					this.OnMinimum_ProdLevelCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Maximum_ProdLevelCode", DbType="Int NOT NULL")]
+		public int Maximum_ProdLevelCode
+		{
+			get
+			{
+				return this._Maximum_ProdLevelCode;
+			}
+			set
+			{
+				if ((this._Maximum_ProdLevelCode != value))
+				{
+					this.OnMaximum_ProdLevelCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Maximum_ProdLevelCode = value;
+					this.SendPropertyChanged("Maximum_ProdLevelCode");
+					this.OnMaximum_ProdLevelCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Customer_Hierarchy_Idx", DbType="Int NOT NULL")]
+		public int Customer_Hierarchy_Idx
+		{
+			get
+			{
+				return this._Customer_Hierarchy_Idx;
+			}
+			set
+			{
+				if ((this._Customer_Hierarchy_Idx != value))
+				{
+					this.OnCustomer_Hierarchy_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Customer_Hierarchy_Idx = value;
+					this.SendPropertyChanged("Customer_Hierarchy_Idx");
+					this.OnCustomer_Hierarchy_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Product_Hierarchy_Idx", DbType="Int NOT NULL")]
+		public int Product_Hierarchy_Idx
+		{
+			get
+			{
+				return this._Product_Hierarchy_Idx;
+			}
+			set
+			{
+				if ((this._Product_Hierarchy_Idx != value))
+				{
+					this.OnProduct_Hierarchy_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Product_Hierarchy_Idx = value;
+					this.SendPropertyChanged("Product_Hierarchy_Idx");
+					this.OnProduct_Hierarchy_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Customer_CodeAppendedToNameSetting", DbType="Int NOT NULL")]
+		public int Customer_CodeAppendedToNameSetting
+		{
+			get
+			{
+				return this._Customer_CodeAppendedToNameSetting;
+			}
+			set
+			{
+				if ((this._Customer_CodeAppendedToNameSetting != value))
+				{
+					this.OnCustomer_CodeAppendedToNameSettingChanging(value);
+					this.SendPropertyChanging();
+					this._Customer_CodeAppendedToNameSetting = value;
+					this.SendPropertyChanged("Customer_CodeAppendedToNameSetting");
+					this.OnCustomer_CodeAppendedToNameSettingChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Product_CodeAppendedToNameSetting", DbType="Int NOT NULL")]
+		public int Product_CodeAppendedToNameSetting
+		{
+			get
+			{
+				return this._Product_CodeAppendedToNameSetting;
+			}
+			set
+			{
+				if ((this._Product_CodeAppendedToNameSetting != value))
+				{
+					this.OnProduct_CodeAppendedToNameSettingChanging(value);
+					this.SendPropertyChanging();
+					this._Product_CodeAppendedToNameSetting = value;
+					this.SendPropertyChanged("Product_CodeAppendedToNameSetting");
+					this.OnProduct_CodeAppendedToNameSettingChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SYS_Screen_SYS_ScreenTab", Storage="_SYS_ScreenTabs", ThisKey="Screen_Idx", OtherKey="Screen_Idx")]
+		public EntitySet<SYS_ScreenTab> SYS_ScreenTabs
+		{
+			get
+			{
+				return this._SYS_ScreenTabs;
+			}
+			set
+			{
+				this._SYS_ScreenTabs.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_SYS_ScreenTabs(SYS_ScreenTab entity)
+		{
+			this.SendPropertyChanging();
+			entity.SYS_Screen = this;
+		}
+		
+		private void detach_SYS_ScreenTabs(SYS_ScreenTab entity)
+		{
+			this.SendPropertyChanging();
+			entity.SYS_Screen = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.SYS_ScreenTabs")]
+	public partial class SYS_ScreenTab : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _TabKey;
+		
+		private int _Screen_Idx;
+		
+		private string _Label_Key;
+		
+		private int _SortOrder;
+		
+		private bool _IsDefault;
+		
+		private bool _IsDisplayed;
+		
+		private EntityRef<SYS_Screen> _SYS_Screen;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTabKeyChanging(string value);
+    partial void OnTabKeyChanged();
+    partial void OnScreen_IdxChanging(int value);
+    partial void OnScreen_IdxChanged();
+    partial void OnLabel_KeyChanging(string value);
+    partial void OnLabel_KeyChanged();
+    partial void OnSortOrderChanging(int value);
+    partial void OnSortOrderChanged();
+    partial void OnIsDefaultChanging(bool value);
+    partial void OnIsDefaultChanged();
+    partial void OnIsDisplayedChanging(bool value);
+    partial void OnIsDisplayedChanged();
+    #endregion
+		
+		public SYS_ScreenTab()
+		{
+			this._SYS_Screen = default(EntityRef<SYS_Screen>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TabKey", DbType="VarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string TabKey
+		{
+			get
+			{
+				return this._TabKey;
+			}
+			set
+			{
+				if ((this._TabKey != value))
+				{
+					this.OnTabKeyChanging(value);
+					this.SendPropertyChanging();
+					this._TabKey = value;
+					this.SendPropertyChanged("TabKey");
+					this.OnTabKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Screen_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Screen_Idx
+		{
+			get
+			{
+				return this._Screen_Idx;
+			}
+			set
+			{
+				if ((this._Screen_Idx != value))
+				{
+					if (this._SYS_Screen.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnScreen_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Screen_Idx = value;
+					this.SendPropertyChanged("Screen_Idx");
+					this.OnScreen_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Label_Key", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string Label_Key
+		{
+			get
+			{
+				return this._Label_Key;
+			}
+			set
+			{
+				if ((this._Label_Key != value))
+				{
+					this.OnLabel_KeyChanging(value);
+					this.SendPropertyChanging();
+					this._Label_Key = value;
+					this.SendPropertyChanged("Label_Key");
+					this.OnLabel_KeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOrder", DbType="Int NOT NULL")]
+		public int SortOrder
+		{
+			get
+			{
+				return this._SortOrder;
+			}
+			set
+			{
+				if ((this._SortOrder != value))
+				{
+					this.OnSortOrderChanging(value);
+					this.SendPropertyChanging();
+					this._SortOrder = value;
+					this.SendPropertyChanged("SortOrder");
+					this.OnSortOrderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDefault", DbType="Bit NOT NULL")]
+		public bool IsDefault
+		{
+			get
+			{
+				return this._IsDefault;
+			}
+			set
+			{
+				if ((this._IsDefault != value))
+				{
+					this.OnIsDefaultChanging(value);
+					this.SendPropertyChanging();
+					this._IsDefault = value;
+					this.SendPropertyChanged("IsDefault");
+					this.OnIsDefaultChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDisplayed", DbType="Bit NOT NULL")]
+		public bool IsDisplayed
+		{
+			get
+			{
+				return this._IsDisplayed;
+			}
+			set
+			{
+				if ((this._IsDisplayed != value))
+				{
+					this.OnIsDisplayedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDisplayed = value;
+					this.SendPropertyChanged("IsDisplayed");
+					this.OnIsDisplayedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SYS_Screen_SYS_ScreenTab", Storage="_SYS_Screen", ThisKey="Screen_Idx", OtherKey="Screen_Idx", IsForeignKey=true)]
+		public SYS_Screen SYS_Screen
+		{
+			get
+			{
+				return this._SYS_Screen.Entity;
+			}
+			set
+			{
+				SYS_Screen previousValue = this._SYS_Screen.Entity;
+				if (((previousValue != value) 
+							|| (this._SYS_Screen.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SYS_Screen.Entity = null;
+						previousValue.SYS_ScreenTabs.Remove(this);
+					}
+					this._SYS_Screen.Entity = value;
+					if ((value != null))
+					{
+						value.SYS_ScreenTabs.Add(this);
+						this._Screen_Idx = value.Screen_Idx;
+					}
+					else
+					{
+						this._Screen_Idx = default(int);
+					}
+					this.SendPropertyChanged("SYS_Screen");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Customer")]
+	public partial class Dim_Customer : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Cust_Idx;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCust_IdxChanging(int value);
+    partial void OnCust_IdxChanged();
+    #endregion
+		
+		public Dim_Customer()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cust_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Cust_Idx
+		{
+			get
+			{
+				return this._Cust_Idx;
+			}
+			set
+			{
+				if ((this._Cust_Idx != value))
+				{
+					this.OnCust_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Cust_Idx = value;
+					this.SendPropertyChanged("Cust_Idx");
+					this.OnCust_IdxChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Customer_Measures")]
+	public partial class Dim_Customer_Measure : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CustMeasure_Idx;
+		
+		private string _CustMeasure_Code;
+		
+		private string _CustMeasure_Name;
+		
+		private string _CustMeasure_Format;
+		
+		private string _CustMeasure_AggMethod;
+		
+		private int _IncludeInPriceModule;
+		
+		private int _IncludeInNPD;
+		
+		private int _APBuildWave;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCustMeasure_IdxChanging(int value);
+    partial void OnCustMeasure_IdxChanged();
+    partial void OnCustMeasure_CodeChanging(string value);
+    partial void OnCustMeasure_CodeChanged();
+    partial void OnCustMeasure_NameChanging(string value);
+    partial void OnCustMeasure_NameChanged();
+    partial void OnCustMeasure_FormatChanging(string value);
+    partial void OnCustMeasure_FormatChanged();
+    partial void OnCustMeasure_AggMethodChanging(string value);
+    partial void OnCustMeasure_AggMethodChanged();
+    partial void OnIncludeInPriceModuleChanging(int value);
+    partial void OnIncludeInPriceModuleChanged();
+    partial void OnIncludeInNPDChanging(int value);
+    partial void OnIncludeInNPDChanged();
+    partial void OnAPBuildWaveChanging(int value);
+    partial void OnAPBuildWaveChanged();
+    #endregion
+		
+		public Dim_Customer_Measure()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustMeasure_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CustMeasure_Idx
+		{
+			get
+			{
+				return this._CustMeasure_Idx;
+			}
+			set
+			{
+				if ((this._CustMeasure_Idx != value))
+				{
+					this.OnCustMeasure_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._CustMeasure_Idx = value;
+					this.SendPropertyChanged("CustMeasure_Idx");
+					this.OnCustMeasure_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustMeasure_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string CustMeasure_Code
+		{
+			get
+			{
+				return this._CustMeasure_Code;
+			}
+			set
+			{
+				if ((this._CustMeasure_Code != value))
+				{
+					this.OnCustMeasure_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._CustMeasure_Code = value;
+					this.SendPropertyChanged("CustMeasure_Code");
+					this.OnCustMeasure_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustMeasure_Name", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string CustMeasure_Name
+		{
+			get
+			{
+				return this._CustMeasure_Name;
+			}
+			set
+			{
+				if ((this._CustMeasure_Name != value))
+				{
+					this.OnCustMeasure_NameChanging(value);
+					this.SendPropertyChanging();
+					this._CustMeasure_Name = value;
+					this.SendPropertyChanged("CustMeasure_Name");
+					this.OnCustMeasure_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustMeasure_Format", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string CustMeasure_Format
+		{
+			get
+			{
+				return this._CustMeasure_Format;
+			}
+			set
+			{
+				if ((this._CustMeasure_Format != value))
+				{
+					this.OnCustMeasure_FormatChanging(value);
+					this.SendPropertyChanging();
+					this._CustMeasure_Format = value;
+					this.SendPropertyChanged("CustMeasure_Format");
+					this.OnCustMeasure_FormatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustMeasure_AggMethod", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string CustMeasure_AggMethod
+		{
+			get
+			{
+				return this._CustMeasure_AggMethod;
+			}
+			set
+			{
+				if ((this._CustMeasure_AggMethod != value))
+				{
+					this.OnCustMeasure_AggMethodChanging(value);
+					this.SendPropertyChanging();
+					this._CustMeasure_AggMethod = value;
+					this.SendPropertyChanged("CustMeasure_AggMethod");
+					this.OnCustMeasure_AggMethodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInPriceModule", DbType="Int NOT NULL")]
+		public int IncludeInPriceModule
+		{
+			get
+			{
+				return this._IncludeInPriceModule;
+			}
+			set
+			{
+				if ((this._IncludeInPriceModule != value))
+				{
+					this.OnIncludeInPriceModuleChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInPriceModule = value;
+					this.SendPropertyChanged("IncludeInPriceModule");
+					this.OnIncludeInPriceModuleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInNPD", DbType="Int NOT NULL")]
+		public int IncludeInNPD
+		{
+			get
+			{
+				return this._IncludeInNPD;
+			}
+			set
+			{
+				if ((this._IncludeInNPD != value))
+				{
+					this.OnIncludeInNPDChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInNPD = value;
+					this.SendPropertyChanged("IncludeInNPD");
+					this.OnIncludeInNPDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_APBuildWave", DbType="Int NOT NULL")]
+		public int APBuildWave
+		{
+			get
+			{
+				return this._APBuildWave;
+			}
+			set
+			{
+				if ((this._APBuildWave != value))
+				{
+					this.OnAPBuildWaveChanging(value);
+					this.SendPropertyChanging();
+					this._APBuildWave = value;
+					this.SendPropertyChanged("APBuildWave");
+					this.OnAPBuildWaveChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Customer_Attributes")]
+	public partial class Dim_Customer_Attribute : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CustAttribute_Idx;
+		
+		private string _CustAttribute_Code;
+		
+		private string _CustAttribute_Name;
+		
+		private string _CustAttribute_Format;
+		
+		private string _CustAttribute_AggMethod;
+		
+		private int _IncludeInPriceModule;
+		
+		private int _IncludeInNPD;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCustAttribute_IdxChanging(int value);
+    partial void OnCustAttribute_IdxChanged();
+    partial void OnCustAttribute_CodeChanging(string value);
+    partial void OnCustAttribute_CodeChanged();
+    partial void OnCustAttribute_NameChanging(string value);
+    partial void OnCustAttribute_NameChanged();
+    partial void OnCustAttribute_FormatChanging(string value);
+    partial void OnCustAttribute_FormatChanged();
+    partial void OnCustAttribute_AggMethodChanging(string value);
+    partial void OnCustAttribute_AggMethodChanged();
+    partial void OnIncludeInPriceModuleChanging(int value);
+    partial void OnIncludeInPriceModuleChanged();
+    partial void OnIncludeInNPDChanging(int value);
+    partial void OnIncludeInNPDChanged();
+    #endregion
+		
+		public Dim_Customer_Attribute()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustAttribute_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CustAttribute_Idx
+		{
+			get
+			{
+				return this._CustAttribute_Idx;
+			}
+			set
+			{
+				if ((this._CustAttribute_Idx != value))
+				{
+					this.OnCustAttribute_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._CustAttribute_Idx = value;
+					this.SendPropertyChanged("CustAttribute_Idx");
+					this.OnCustAttribute_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustAttribute_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string CustAttribute_Code
+		{
+			get
+			{
+				return this._CustAttribute_Code;
+			}
+			set
+			{
+				if ((this._CustAttribute_Code != value))
+				{
+					this.OnCustAttribute_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._CustAttribute_Code = value;
+					this.SendPropertyChanged("CustAttribute_Code");
+					this.OnCustAttribute_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustAttribute_Name", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string CustAttribute_Name
+		{
+			get
+			{
+				return this._CustAttribute_Name;
+			}
+			set
+			{
+				if ((this._CustAttribute_Name != value))
+				{
+					this.OnCustAttribute_NameChanging(value);
+					this.SendPropertyChanging();
+					this._CustAttribute_Name = value;
+					this.SendPropertyChanged("CustAttribute_Name");
+					this.OnCustAttribute_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustAttribute_Format", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string CustAttribute_Format
+		{
+			get
+			{
+				return this._CustAttribute_Format;
+			}
+			set
+			{
+				if ((this._CustAttribute_Format != value))
+				{
+					this.OnCustAttribute_FormatChanging(value);
+					this.SendPropertyChanging();
+					this._CustAttribute_Format = value;
+					this.SendPropertyChanged("CustAttribute_Format");
+					this.OnCustAttribute_FormatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustAttribute_AggMethod", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string CustAttribute_AggMethod
+		{
+			get
+			{
+				return this._CustAttribute_AggMethod;
+			}
+			set
+			{
+				if ((this._CustAttribute_AggMethod != value))
+				{
+					this.OnCustAttribute_AggMethodChanging(value);
+					this.SendPropertyChanging();
+					this._CustAttribute_AggMethod = value;
+					this.SendPropertyChanged("CustAttribute_AggMethod");
+					this.OnCustAttribute_AggMethodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInPriceModule", DbType="Int NOT NULL")]
+		public int IncludeInPriceModule
+		{
+			get
+			{
+				return this._IncludeInPriceModule;
+			}
+			set
+			{
+				if ((this._IncludeInPriceModule != value))
+				{
+					this.OnIncludeInPriceModuleChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInPriceModule = value;
+					this.SendPropertyChanged("IncludeInPriceModule");
+					this.OnIncludeInPriceModuleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInNPD", DbType="Int NOT NULL")]
+		public int IncludeInNPD
+		{
+			get
+			{
+				return this._IncludeInNPD;
+			}
+			set
+			{
+				if ((this._IncludeInNPD != value))
+				{
+					this.OnIncludeInNPDChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInNPD = value;
+					this.SendPropertyChanged("IncludeInNPD");
+					this.OnIncludeInNPDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Customer_Hierarchies")]
+	public partial class Dim_Customer_Hierarchy : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Cust_Hierarchy_Idx;
+		
+		private string _Cust_Hierarchy_Name;
+		
+		private EntitySet<Dim_Customer_Level> _Dim_Customer_Levels;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCust_Hierarchy_IdxChanging(int value);
+    partial void OnCust_Hierarchy_IdxChanged();
+    partial void OnCust_Hierarchy_NameChanging(string value);
+    partial void OnCust_Hierarchy_NameChanged();
+    #endregion
+		
+		public Dim_Customer_Hierarchy()
+		{
+			this._Dim_Customer_Levels = new EntitySet<Dim_Customer_Level>(new Action<Dim_Customer_Level>(this.attach_Dim_Customer_Levels), new Action<Dim_Customer_Level>(this.detach_Dim_Customer_Levels));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cust_Hierarchy_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Cust_Hierarchy_Idx
+		{
+			get
+			{
+				return this._Cust_Hierarchy_Idx;
+			}
+			set
+			{
+				if ((this._Cust_Hierarchy_Idx != value))
+				{
+					this.OnCust_Hierarchy_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Cust_Hierarchy_Idx = value;
+					this.SendPropertyChanged("Cust_Hierarchy_Idx");
+					this.OnCust_Hierarchy_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cust_Hierarchy_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Cust_Hierarchy_Name
+		{
+			get
+			{
+				return this._Cust_Hierarchy_Name;
+			}
+			set
+			{
+				if ((this._Cust_Hierarchy_Name != value))
+				{
+					this.OnCust_Hierarchy_NameChanging(value);
+					this.SendPropertyChanging();
+					this._Cust_Hierarchy_Name = value;
+					this.SendPropertyChanged("Cust_Hierarchy_Name");
+					this.OnCust_Hierarchy_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Dim_Customer_Hierarchy_Dim_Customer_Level", Storage="_Dim_Customer_Levels", ThisKey="Cust_Hierarchy_Idx", OtherKey="Hierarchy_Idx")]
+		public EntitySet<Dim_Customer_Level> Dim_Customer_Levels
+		{
+			get
+			{
+				return this._Dim_Customer_Levels;
+			}
+			set
+			{
+				this._Dim_Customer_Levels.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Dim_Customer_Levels(Dim_Customer_Level entity)
+		{
+			this.SendPropertyChanging();
+			entity.Dim_Customer_Hierarchy = this;
+		}
+		
+		private void detach_Dim_Customer_Levels(Dim_Customer_Level entity)
+		{
+			this.SendPropertyChanging();
+			entity.Dim_Customer_Hierarchy = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Customer_Levels")]
+	public partial class Dim_Customer_Level : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CustLevel_Idx;
+		
+		private int _CustLevel_Code;
+		
+		private string _CustLevel_Name;
+		
+		private int _Hierarchy_Idx;
+		
+		private EntityRef<Dim_Customer_Hierarchy> _Dim_Customer_Hierarchy;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCustLevel_IdxChanging(int value);
+    partial void OnCustLevel_IdxChanged();
+    partial void OnCustLevel_CodeChanging(int value);
+    partial void OnCustLevel_CodeChanged();
+    partial void OnCustLevel_NameChanging(string value);
+    partial void OnCustLevel_NameChanged();
+    partial void OnHierarchy_IdxChanging(int value);
+    partial void OnHierarchy_IdxChanged();
+    #endregion
+		
+		public Dim_Customer_Level()
+		{
+			this._Dim_Customer_Hierarchy = default(EntityRef<Dim_Customer_Hierarchy>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustLevel_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CustLevel_Idx
+		{
+			get
+			{
+				return this._CustLevel_Idx;
+			}
+			set
+			{
+				if ((this._CustLevel_Idx != value))
+				{
+					this.OnCustLevel_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._CustLevel_Idx = value;
+					this.SendPropertyChanged("CustLevel_Idx");
+					this.OnCustLevel_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustLevel_Code", DbType="Int NOT NULL")]
+		public int CustLevel_Code
+		{
+			get
+			{
+				return this._CustLevel_Code;
+			}
+			set
+			{
+				if ((this._CustLevel_Code != value))
+				{
+					this.OnCustLevel_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._CustLevel_Code = value;
+					this.SendPropertyChanged("CustLevel_Code");
+					this.OnCustLevel_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustLevel_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string CustLevel_Name
+		{
+			get
+			{
+				return this._CustLevel_Name;
+			}
+			set
+			{
+				if ((this._CustLevel_Name != value))
+				{
+					this.OnCustLevel_NameChanging(value);
+					this.SendPropertyChanging();
+					this._CustLevel_Name = value;
+					this.SendPropertyChanged("CustLevel_Name");
+					this.OnCustLevel_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Hierarchy_Idx", DbType="Int NOT NULL")]
+		public int Hierarchy_Idx
+		{
+			get
+			{
+				return this._Hierarchy_Idx;
+			}
+			set
+			{
+				if ((this._Hierarchy_Idx != value))
+				{
+					if (this._Dim_Customer_Hierarchy.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnHierarchy_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Hierarchy_Idx = value;
+					this.SendPropertyChanged("Hierarchy_Idx");
+					this.OnHierarchy_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Dim_Customer_Hierarchy_Dim_Customer_Level", Storage="_Dim_Customer_Hierarchy", ThisKey="Hierarchy_Idx", OtherKey="Cust_Hierarchy_Idx", IsForeignKey=true)]
+		public Dim_Customer_Hierarchy Dim_Customer_Hierarchy
+		{
+			get
+			{
+				return this._Dim_Customer_Hierarchy.Entity;
+			}
+			set
+			{
+				Dim_Customer_Hierarchy previousValue = this._Dim_Customer_Hierarchy.Entity;
+				if (((previousValue != value) 
+							|| (this._Dim_Customer_Hierarchy.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Dim_Customer_Hierarchy.Entity = null;
+						previousValue.Dim_Customer_Levels.Remove(this);
+					}
+					this._Dim_Customer_Hierarchy.Entity = value;
+					if ((value != null))
+					{
+						value.Dim_Customer_Levels.Add(this);
+						this._Hierarchy_Idx = value.Cust_Hierarchy_Idx;
+					}
+					else
+					{
+						this._Hierarchy_Idx = default(int);
+					}
+					this.SendPropertyChanged("Dim_Customer_Hierarchy");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Product_Hierarchies")]
+	public partial class Dim_Product_Hierarchy : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Prod_Hierarchy_Idx;
+		
+		private string _Prod_Hierarchy_Name;
+		
+		private EntitySet<Dim_Product_Level> _Dim_Product_Levels;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnProd_Hierarchy_IdxChanging(int value);
+    partial void OnProd_Hierarchy_IdxChanged();
+    partial void OnProd_Hierarchy_NameChanging(string value);
+    partial void OnProd_Hierarchy_NameChanged();
+    #endregion
+		
+		public Dim_Product_Hierarchy()
+		{
+			this._Dim_Product_Levels = new EntitySet<Dim_Product_Level>(new Action<Dim_Product_Level>(this.attach_Dim_Product_Levels), new Action<Dim_Product_Level>(this.detach_Dim_Product_Levels));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Prod_Hierarchy_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Prod_Hierarchy_Idx
+		{
+			get
+			{
+				return this._Prod_Hierarchy_Idx;
+			}
+			set
+			{
+				if ((this._Prod_Hierarchy_Idx != value))
+				{
+					this.OnProd_Hierarchy_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Prod_Hierarchy_Idx = value;
+					this.SendPropertyChanged("Prod_Hierarchy_Idx");
+					this.OnProd_Hierarchy_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Prod_Hierarchy_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Prod_Hierarchy_Name
+		{
+			get
+			{
+				return this._Prod_Hierarchy_Name;
+			}
+			set
+			{
+				if ((this._Prod_Hierarchy_Name != value))
+				{
+					this.OnProd_Hierarchy_NameChanging(value);
+					this.SendPropertyChanging();
+					this._Prod_Hierarchy_Name = value;
+					this.SendPropertyChanged("Prod_Hierarchy_Name");
+					this.OnProd_Hierarchy_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Dim_Product_Hierarchy_Dim_Product_Level", Storage="_Dim_Product_Levels", ThisKey="Prod_Hierarchy_Idx", OtherKey="Hierarchy_Idx")]
+		public EntitySet<Dim_Product_Level> Dim_Product_Levels
+		{
+			get
+			{
+				return this._Dim_Product_Levels;
+			}
+			set
+			{
+				this._Dim_Product_Levels.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Dim_Product_Levels(Dim_Product_Level entity)
+		{
+			this.SendPropertyChanging();
+			entity.Dim_Product_Hierarchy = this;
+		}
+		
+		private void detach_Dim_Product_Levels(Dim_Product_Level entity)
+		{
+			this.SendPropertyChanging();
+			entity.Dim_Product_Hierarchy = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Product_Sku_Measures")]
+	public partial class Dim_Product_Sku_Measure : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _SkuMeasure_Idx;
+		
+		private string _SkuMeasure_Code;
+		
+		private string _SkuMeasure_Name;
+		
+		private string _SkuMeasure_Format;
+		
+		private string _SkuMeasure_AggMethod;
+		
+		private int _IncludeInPriceModule;
+		
+		private int _IncludeInPromoModule;
+		
+		private int _IncludeInNPD;
+		
+		private bool _IncludeInListingsMgmt;
+		
+		private int _APBuildWave;
+		
+		private string _NPD_ControlType;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSkuMeasure_IdxChanging(int value);
+    partial void OnSkuMeasure_IdxChanged();
+    partial void OnSkuMeasure_CodeChanging(string value);
+    partial void OnSkuMeasure_CodeChanged();
+    partial void OnSkuMeasure_NameChanging(string value);
+    partial void OnSkuMeasure_NameChanged();
+    partial void OnSkuMeasure_FormatChanging(string value);
+    partial void OnSkuMeasure_FormatChanged();
+    partial void OnSkuMeasure_AggMethodChanging(string value);
+    partial void OnSkuMeasure_AggMethodChanged();
+    partial void OnIncludeInPriceModuleChanging(int value);
+    partial void OnIncludeInPriceModuleChanged();
+    partial void OnIncludeInPromoModuleChanging(int value);
+    partial void OnIncludeInPromoModuleChanged();
+    partial void OnIncludeInNPDChanging(int value);
+    partial void OnIncludeInNPDChanged();
+    partial void OnIncludeInListingsMgmtChanging(bool value);
+    partial void OnIncludeInListingsMgmtChanged();
+    partial void OnAPBuildWaveChanging(int value);
+    partial void OnAPBuildWaveChanged();
+    partial void OnNPD_ControlTypeChanging(string value);
+    partial void OnNPD_ControlTypeChanged();
+    #endregion
+		
+		public Dim_Product_Sku_Measure()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuMeasure_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int SkuMeasure_Idx
+		{
+			get
+			{
+				return this._SkuMeasure_Idx;
+			}
+			set
+			{
+				if ((this._SkuMeasure_Idx != value))
+				{
+					this.OnSkuMeasure_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._SkuMeasure_Idx = value;
+					this.SendPropertyChanged("SkuMeasure_Idx");
+					this.OnSkuMeasure_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuMeasure_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuMeasure_Code
+		{
+			get
+			{
+				return this._SkuMeasure_Code;
+			}
+			set
+			{
+				if ((this._SkuMeasure_Code != value))
+				{
+					this.OnSkuMeasure_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._SkuMeasure_Code = value;
+					this.SendPropertyChanged("SkuMeasure_Code");
+					this.OnSkuMeasure_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuMeasure_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string SkuMeasure_Name
+		{
+			get
+			{
+				return this._SkuMeasure_Name;
+			}
+			set
+			{
+				if ((this._SkuMeasure_Name != value))
+				{
+					this.OnSkuMeasure_NameChanging(value);
+					this.SendPropertyChanging();
+					this._SkuMeasure_Name = value;
+					this.SendPropertyChanged("SkuMeasure_Name");
+					this.OnSkuMeasure_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuMeasure_Format", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuMeasure_Format
+		{
+			get
+			{
+				return this._SkuMeasure_Format;
+			}
+			set
+			{
+				if ((this._SkuMeasure_Format != value))
+				{
+					this.OnSkuMeasure_FormatChanging(value);
+					this.SendPropertyChanging();
+					this._SkuMeasure_Format = value;
+					this.SendPropertyChanged("SkuMeasure_Format");
+					this.OnSkuMeasure_FormatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuMeasure_AggMethod", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuMeasure_AggMethod
+		{
+			get
+			{
+				return this._SkuMeasure_AggMethod;
+			}
+			set
+			{
+				if ((this._SkuMeasure_AggMethod != value))
+				{
+					this.OnSkuMeasure_AggMethodChanging(value);
+					this.SendPropertyChanging();
+					this._SkuMeasure_AggMethod = value;
+					this.SendPropertyChanged("SkuMeasure_AggMethod");
+					this.OnSkuMeasure_AggMethodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInPriceModule", DbType="Int NOT NULL")]
+		public int IncludeInPriceModule
+		{
+			get
+			{
+				return this._IncludeInPriceModule;
+			}
+			set
+			{
+				if ((this._IncludeInPriceModule != value))
+				{
+					this.OnIncludeInPriceModuleChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInPriceModule = value;
+					this.SendPropertyChanged("IncludeInPriceModule");
+					this.OnIncludeInPriceModuleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInPromoModule", DbType="Int NOT NULL")]
+		public int IncludeInPromoModule
+		{
+			get
+			{
+				return this._IncludeInPromoModule;
+			}
+			set
+			{
+				if ((this._IncludeInPromoModule != value))
+				{
+					this.OnIncludeInPromoModuleChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInPromoModule = value;
+					this.SendPropertyChanged("IncludeInPromoModule");
+					this.OnIncludeInPromoModuleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInNPD", DbType="Int NOT NULL")]
+		public int IncludeInNPD
+		{
+			get
+			{
+				return this._IncludeInNPD;
+			}
+			set
+			{
+				if ((this._IncludeInNPD != value))
+				{
+					this.OnIncludeInNPDChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInNPD = value;
+					this.SendPropertyChanged("IncludeInNPD");
+					this.OnIncludeInNPDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInListingsMgmt", DbType="Bit NOT NULL")]
+		public bool IncludeInListingsMgmt
+		{
+			get
+			{
+				return this._IncludeInListingsMgmt;
+			}
+			set
+			{
+				if ((this._IncludeInListingsMgmt != value))
+				{
+					this.OnIncludeInListingsMgmtChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInListingsMgmt = value;
+					this.SendPropertyChanged("IncludeInListingsMgmt");
+					this.OnIncludeInListingsMgmtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_APBuildWave", DbType="Int NOT NULL")]
+		public int APBuildWave
+		{
+			get
+			{
+				return this._APBuildWave;
+			}
+			set
+			{
+				if ((this._APBuildWave != value))
+				{
+					this.OnAPBuildWaveChanging(value);
+					this.SendPropertyChanging();
+					this._APBuildWave = value;
+					this.SendPropertyChanged("APBuildWave");
+					this.OnAPBuildWaveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NPD_ControlType", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string NPD_ControlType
+		{
+			get
+			{
+				return this._NPD_ControlType;
+			}
+			set
+			{
+				if ((this._NPD_ControlType != value))
+				{
+					this.OnNPD_ControlTypeChanging(value);
+					this.SendPropertyChanging();
+					this._NPD_ControlType = value;
+					this.SendPropertyChanged("NPD_ControlType");
+					this.OnNPD_ControlTypeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Product_Levels")]
+	public partial class Dim_Product_Level : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ProdLevel_Idx;
+		
+		private int _ProdLevel_Code;
+		
+		private string _ProdLevel_Name;
+		
+		private int _Hierarchy_Idx;
+		
+		private EntityRef<Dim_Product_Hierarchy> _Dim_Product_Hierarchy;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnProdLevel_IdxChanging(int value);
+    partial void OnProdLevel_IdxChanged();
+    partial void OnProdLevel_CodeChanging(int value);
+    partial void OnProdLevel_CodeChanged();
+    partial void OnProdLevel_NameChanging(string value);
+    partial void OnProdLevel_NameChanged();
+    partial void OnHierarchy_IdxChanging(int value);
+    partial void OnHierarchy_IdxChanged();
+    #endregion
+		
+		public Dim_Product_Level()
+		{
+			this._Dim_Product_Hierarchy = default(EntityRef<Dim_Product_Hierarchy>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProdLevel_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ProdLevel_Idx
+		{
+			get
+			{
+				return this._ProdLevel_Idx;
+			}
+			set
+			{
+				if ((this._ProdLevel_Idx != value))
+				{
+					this.OnProdLevel_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._ProdLevel_Idx = value;
+					this.SendPropertyChanged("ProdLevel_Idx");
+					this.OnProdLevel_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProdLevel_Code", DbType="Int NOT NULL")]
+		public int ProdLevel_Code
+		{
+			get
+			{
+				return this._ProdLevel_Code;
+			}
+			set
+			{
+				if ((this._ProdLevel_Code != value))
+				{
+					this.OnProdLevel_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._ProdLevel_Code = value;
+					this.SendPropertyChanged("ProdLevel_Code");
+					this.OnProdLevel_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProdLevel_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string ProdLevel_Name
+		{
+			get
+			{
+				return this._ProdLevel_Name;
+			}
+			set
+			{
+				if ((this._ProdLevel_Name != value))
+				{
+					this.OnProdLevel_NameChanging(value);
+					this.SendPropertyChanging();
+					this._ProdLevel_Name = value;
+					this.SendPropertyChanged("ProdLevel_Name");
+					this.OnProdLevel_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Hierarchy_Idx", DbType="Int NOT NULL")]
+		public int Hierarchy_Idx
+		{
+			get
+			{
+				return this._Hierarchy_Idx;
+			}
+			set
+			{
+				if ((this._Hierarchy_Idx != value))
+				{
+					if (this._Dim_Product_Hierarchy.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnHierarchy_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Hierarchy_Idx = value;
+					this.SendPropertyChanged("Hierarchy_Idx");
+					this.OnHierarchy_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Dim_Product_Hierarchy_Dim_Product_Level", Storage="_Dim_Product_Hierarchy", ThisKey="Hierarchy_Idx", OtherKey="Prod_Hierarchy_Idx", IsForeignKey=true)]
+		public Dim_Product_Hierarchy Dim_Product_Hierarchy
+		{
+			get
+			{
+				return this._Dim_Product_Hierarchy.Entity;
+			}
+			set
+			{
+				Dim_Product_Hierarchy previousValue = this._Dim_Product_Hierarchy.Entity;
+				if (((previousValue != value) 
+							|| (this._Dim_Product_Hierarchy.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Dim_Product_Hierarchy.Entity = null;
+						previousValue.Dim_Product_Levels.Remove(this);
+					}
+					this._Dim_Product_Hierarchy.Entity = value;
+					if ((value != null))
+					{
+						value.Dim_Product_Levels.Add(this);
+						this._Hierarchy_Idx = value.Prod_Hierarchy_Idx;
+					}
+					else
+					{
+						this._Hierarchy_Idx = default(int);
+					}
+					this.SendPropertyChanged("Dim_Product_Hierarchy");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Product_Sku")]
+	public partial class Dim_Product_Sku : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Sku_Idx;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSku_IdxChanging(int value);
+    partial void OnSku_IdxChanged();
+    #endregion
+		
+		public Dim_Product_Sku()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sku_Idx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Sku_Idx
+		{
+			get
+			{
+				return this._Sku_Idx;
+			}
+			set
+			{
+				if ((this._Sku_Idx != value))
+				{
+					this.OnSku_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._Sku_Idx = value;
+					this.SendPropertyChanged("Sku_Idx");
+					this.OnSku_IdxChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Product_Sku_Attributes")]
+	public partial class Dim_Product_Sku_Attribute : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _SkuAttribute_Idx;
+		
+		private string _SkuAttribute_Code;
+		
+		private string _SkuAttribute_Name;
+		
+		private string _SkuAttribute_AggMethod;
+		
+		private string _SkuAttribute_Format;
+		
+		private int _IncludeInNPD;
+		
+		private bool _IncludeInListingsMgmt;
+		
+		private string _NPD_ControlType;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSkuAttribute_IdxChanging(int value);
+    partial void OnSkuAttribute_IdxChanged();
+    partial void OnSkuAttribute_CodeChanging(string value);
+    partial void OnSkuAttribute_CodeChanged();
+    partial void OnSkuAttribute_NameChanging(string value);
+    partial void OnSkuAttribute_NameChanged();
+    partial void OnSkuAttribute_AggMethodChanging(string value);
+    partial void OnSkuAttribute_AggMethodChanged();
+    partial void OnSkuAttribute_FormatChanging(string value);
+    partial void OnSkuAttribute_FormatChanged();
+    partial void OnIncludeInNPDChanging(int value);
+    partial void OnIncludeInNPDChanged();
+    partial void OnIncludeInListingsMgmtChanging(bool value);
+    partial void OnIncludeInListingsMgmtChanged();
+    partial void OnNPD_ControlTypeChanging(string value);
+    partial void OnNPD_ControlTypeChanged();
+    #endregion
+		
+		public Dim_Product_Sku_Attribute()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuAttribute_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int SkuAttribute_Idx
+		{
+			get
+			{
+				return this._SkuAttribute_Idx;
+			}
+			set
+			{
+				if ((this._SkuAttribute_Idx != value))
+				{
+					this.OnSkuAttribute_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._SkuAttribute_Idx = value;
+					this.SendPropertyChanged("SkuAttribute_Idx");
+					this.OnSkuAttribute_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuAttribute_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuAttribute_Code
+		{
+			get
+			{
+				return this._SkuAttribute_Code;
+			}
+			set
+			{
+				if ((this._SkuAttribute_Code != value))
+				{
+					this.OnSkuAttribute_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._SkuAttribute_Code = value;
+					this.SendPropertyChanged("SkuAttribute_Code");
+					this.OnSkuAttribute_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuAttribute_Name", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string SkuAttribute_Name
+		{
+			get
+			{
+				return this._SkuAttribute_Name;
+			}
+			set
+			{
+				if ((this._SkuAttribute_Name != value))
+				{
+					this.OnSkuAttribute_NameChanging(value);
+					this.SendPropertyChanging();
+					this._SkuAttribute_Name = value;
+					this.SendPropertyChanged("SkuAttribute_Name");
+					this.OnSkuAttribute_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuAttribute_AggMethod", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuAttribute_AggMethod
+		{
+			get
+			{
+				return this._SkuAttribute_AggMethod;
+			}
+			set
+			{
+				if ((this._SkuAttribute_AggMethod != value))
+				{
+					this.OnSkuAttribute_AggMethodChanging(value);
+					this.SendPropertyChanging();
+					this._SkuAttribute_AggMethod = value;
+					this.SendPropertyChanged("SkuAttribute_AggMethod");
+					this.OnSkuAttribute_AggMethodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuAttribute_Format", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuAttribute_Format
+		{
+			get
+			{
+				return this._SkuAttribute_Format;
+			}
+			set
+			{
+				if ((this._SkuAttribute_Format != value))
+				{
+					this.OnSkuAttribute_FormatChanging(value);
+					this.SendPropertyChanging();
+					this._SkuAttribute_Format = value;
+					this.SendPropertyChanged("SkuAttribute_Format");
+					this.OnSkuAttribute_FormatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInNPD", DbType="Int NOT NULL")]
+		public int IncludeInNPD
+		{
+			get
+			{
+				return this._IncludeInNPD;
+			}
+			set
+			{
+				if ((this._IncludeInNPD != value))
+				{
+					this.OnIncludeInNPDChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInNPD = value;
+					this.SendPropertyChanged("IncludeInNPD");
+					this.OnIncludeInNPDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInListingsMgmt", DbType="Bit NOT NULL")]
+		public bool IncludeInListingsMgmt
+		{
+			get
+			{
+				return this._IncludeInListingsMgmt;
+			}
+			set
+			{
+				if ((this._IncludeInListingsMgmt != value))
+				{
+					this.OnIncludeInListingsMgmtChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInListingsMgmt = value;
+					this.SendPropertyChanged("IncludeInListingsMgmt");
+					this.OnIncludeInListingsMgmtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NPD_ControlType", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string NPD_ControlType
+		{
+			get
+			{
+				return this._NPD_ControlType;
+			}
+			set
+			{
+				if ((this._NPD_ControlType != value))
+				{
+					this.OnNPD_ControlTypeChanging(value);
+					this.SendPropertyChanging();
+					this._NPD_ControlType = value;
+					this.SendPropertyChanged("NPD_ControlType");
+					this.OnNPD_ControlTypeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Product_Sku_Cust_Attributes")]
+	public partial class Dim_Product_Sku_Cust_Attribute : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _SkuCustAttribute_Idx;
+		
+		private string _SkuCustAttribute_Code;
+		
+		private string _SkuCustAttribute_Name;
+		
+		private string _SkuCustAttribute_AggMethod;
+		
+		private string _SkuCustAttribute_Format;
+		
+		private int _IncludeInNPD;
+		
+		private bool _IncludeInListingsMgmt;
+		
+		private string _NPD_ControlType;
+		
+		private string _SkuCustAttribute_DataSource;
+		
+		private string _SkuCustAttribute_DataSourceInput;
+		
+		private int _SortOrder;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSkuCustAttribute_IdxChanging(int value);
+    partial void OnSkuCustAttribute_IdxChanged();
+    partial void OnSkuCustAttribute_CodeChanging(string value);
+    partial void OnSkuCustAttribute_CodeChanged();
+    partial void OnSkuCustAttribute_NameChanging(string value);
+    partial void OnSkuCustAttribute_NameChanged();
+    partial void OnSkuCustAttribute_AggMethodChanging(string value);
+    partial void OnSkuCustAttribute_AggMethodChanged();
+    partial void OnSkuCustAttribute_FormatChanging(string value);
+    partial void OnSkuCustAttribute_FormatChanged();
+    partial void OnIncludeInNPDChanging(int value);
+    partial void OnIncludeInNPDChanged();
+    partial void OnIncludeInListingsMgmtChanging(bool value);
+    partial void OnIncludeInListingsMgmtChanged();
+    partial void OnNPD_ControlTypeChanging(string value);
+    partial void OnNPD_ControlTypeChanged();
+    partial void OnSkuCustAttribute_DataSourceChanging(string value);
+    partial void OnSkuCustAttribute_DataSourceChanged();
+    partial void OnSkuCustAttribute_DataSourceInputChanging(string value);
+    partial void OnSkuCustAttribute_DataSourceInputChanged();
+    partial void OnSortOrderChanging(int value);
+    partial void OnSortOrderChanged();
+    #endregion
+		
+		public Dim_Product_Sku_Cust_Attribute()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustAttribute_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int SkuCustAttribute_Idx
+		{
+			get
+			{
+				return this._SkuCustAttribute_Idx;
+			}
+			set
+			{
+				if ((this._SkuCustAttribute_Idx != value))
+				{
+					this.OnSkuCustAttribute_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustAttribute_Idx = value;
+					this.SendPropertyChanged("SkuCustAttribute_Idx");
+					this.OnSkuCustAttribute_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustAttribute_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuCustAttribute_Code
+		{
+			get
+			{
+				return this._SkuCustAttribute_Code;
+			}
+			set
+			{
+				if ((this._SkuCustAttribute_Code != value))
+				{
+					this.OnSkuCustAttribute_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustAttribute_Code = value;
+					this.SendPropertyChanged("SkuCustAttribute_Code");
+					this.OnSkuCustAttribute_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustAttribute_Name", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string SkuCustAttribute_Name
+		{
+			get
+			{
+				return this._SkuCustAttribute_Name;
+			}
+			set
+			{
+				if ((this._SkuCustAttribute_Name != value))
+				{
+					this.OnSkuCustAttribute_NameChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustAttribute_Name = value;
+					this.SendPropertyChanged("SkuCustAttribute_Name");
+					this.OnSkuCustAttribute_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustAttribute_AggMethod", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuCustAttribute_AggMethod
+		{
+			get
+			{
+				return this._SkuCustAttribute_AggMethod;
+			}
+			set
+			{
+				if ((this._SkuCustAttribute_AggMethod != value))
+				{
+					this.OnSkuCustAttribute_AggMethodChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustAttribute_AggMethod = value;
+					this.SendPropertyChanged("SkuCustAttribute_AggMethod");
+					this.OnSkuCustAttribute_AggMethodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustAttribute_Format", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuCustAttribute_Format
+		{
+			get
+			{
+				return this._SkuCustAttribute_Format;
+			}
+			set
+			{
+				if ((this._SkuCustAttribute_Format != value))
+				{
+					this.OnSkuCustAttribute_FormatChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustAttribute_Format = value;
+					this.SendPropertyChanged("SkuCustAttribute_Format");
+					this.OnSkuCustAttribute_FormatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInNPD", DbType="Int NOT NULL")]
+		public int IncludeInNPD
+		{
+			get
+			{
+				return this._IncludeInNPD;
+			}
+			set
+			{
+				if ((this._IncludeInNPD != value))
+				{
+					this.OnIncludeInNPDChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInNPD = value;
+					this.SendPropertyChanged("IncludeInNPD");
+					this.OnIncludeInNPDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInListingsMgmt", DbType="Bit NOT NULL")]
+		public bool IncludeInListingsMgmt
+		{
+			get
+			{
+				return this._IncludeInListingsMgmt;
+			}
+			set
+			{
+				if ((this._IncludeInListingsMgmt != value))
+				{
+					this.OnIncludeInListingsMgmtChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInListingsMgmt = value;
+					this.SendPropertyChanged("IncludeInListingsMgmt");
+					this.OnIncludeInListingsMgmtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NPD_ControlType", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string NPD_ControlType
+		{
+			get
+			{
+				return this._NPD_ControlType;
+			}
+			set
+			{
+				if ((this._NPD_ControlType != value))
+				{
+					this.OnNPD_ControlTypeChanging(value);
+					this.SendPropertyChanging();
+					this._NPD_ControlType = value;
+					this.SendPropertyChanged("NPD_ControlType");
+					this.OnNPD_ControlTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustAttribute_DataSource", DbType="VarChar(200)")]
+		public string SkuCustAttribute_DataSource
+		{
+			get
+			{
+				return this._SkuCustAttribute_DataSource;
+			}
+			set
+			{
+				if ((this._SkuCustAttribute_DataSource != value))
+				{
+					this.OnSkuCustAttribute_DataSourceChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustAttribute_DataSource = value;
+					this.SendPropertyChanged("SkuCustAttribute_DataSource");
+					this.OnSkuCustAttribute_DataSourceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustAttribute_DataSourceInput", DbType="VarChar(MAX)")]
+		public string SkuCustAttribute_DataSourceInput
+		{
+			get
+			{
+				return this._SkuCustAttribute_DataSourceInput;
+			}
+			set
+			{
+				if ((this._SkuCustAttribute_DataSourceInput != value))
+				{
+					this.OnSkuCustAttribute_DataSourceInputChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustAttribute_DataSourceInput = value;
+					this.SendPropertyChanged("SkuCustAttribute_DataSourceInput");
+					this.OnSkuCustAttribute_DataSourceInputChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOrder", DbType="Int NOT NULL")]
+		public int SortOrder
+		{
+			get
+			{
+				return this._SortOrder;
+			}
+			set
+			{
+				if ((this._SortOrder != value))
+				{
+					this.OnSortOrderChanging(value);
+					this.SendPropertyChanging();
+					this._SortOrder = value;
+					this.SendPropertyChanged("SortOrder");
+					this.OnSortOrderChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="app.Dim_Product_Sku_Cust_Measures")]
+	public partial class Dim_Product_Sku_Cust_Measure : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _SkuCustMeasure_Idx;
+		
+		private string _SkuCustMeasure_Code;
+		
+		private string _SkuCustMeasure_Name;
+		
+		private string _SkuCustMeasure_Format;
+		
+		private string _SkuCustMeasure_AggMethod;
+		
+		private int _IncludeInPriceModule;
+		
+		private int _IncludeInPromoModule;
+		
+		private int _IncludeInNPD;
+		
+		private bool _IncludeInListingsMgmt;
+		
+		private string _NPD_ControlType;
+		
+		private string _SkuCustMeasure_DataSource;
+		
+		private string _SkuCustMeasure_DataSourceInput;
+		
+		private int _SortOrder;
+		
+		private int _APBuildWave;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSkuCustMeasure_IdxChanging(int value);
+    partial void OnSkuCustMeasure_IdxChanged();
+    partial void OnSkuCustMeasure_CodeChanging(string value);
+    partial void OnSkuCustMeasure_CodeChanged();
+    partial void OnSkuCustMeasure_NameChanging(string value);
+    partial void OnSkuCustMeasure_NameChanged();
+    partial void OnSkuCustMeasure_FormatChanging(string value);
+    partial void OnSkuCustMeasure_FormatChanged();
+    partial void OnSkuCustMeasure_AggMethodChanging(string value);
+    partial void OnSkuCustMeasure_AggMethodChanged();
+    partial void OnIncludeInPriceModuleChanging(int value);
+    partial void OnIncludeInPriceModuleChanged();
+    partial void OnIncludeInPromoModuleChanging(int value);
+    partial void OnIncludeInPromoModuleChanged();
+    partial void OnIncludeInNPDChanging(int value);
+    partial void OnIncludeInNPDChanged();
+    partial void OnIncludeInListingsMgmtChanging(bool value);
+    partial void OnIncludeInListingsMgmtChanged();
+    partial void OnNPD_ControlTypeChanging(string value);
+    partial void OnNPD_ControlTypeChanged();
+    partial void OnSkuCustMeasure_DataSourceChanging(string value);
+    partial void OnSkuCustMeasure_DataSourceChanged();
+    partial void OnSkuCustMeasure_DataSourceInputChanging(string value);
+    partial void OnSkuCustMeasure_DataSourceInputChanged();
+    partial void OnSortOrderChanging(int value);
+    partial void OnSortOrderChanged();
+    partial void OnAPBuildWaveChanging(int value);
+    partial void OnAPBuildWaveChanged();
+    #endregion
+		
+		public Dim_Product_Sku_Cust_Measure()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustMeasure_Idx", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int SkuCustMeasure_Idx
+		{
+			get
+			{
+				return this._SkuCustMeasure_Idx;
+			}
+			set
+			{
+				if ((this._SkuCustMeasure_Idx != value))
+				{
+					this.OnSkuCustMeasure_IdxChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustMeasure_Idx = value;
+					this.SendPropertyChanged("SkuCustMeasure_Idx");
+					this.OnSkuCustMeasure_IdxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustMeasure_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuCustMeasure_Code
+		{
+			get
+			{
+				return this._SkuCustMeasure_Code;
+			}
+			set
+			{
+				if ((this._SkuCustMeasure_Code != value))
+				{
+					this.OnSkuCustMeasure_CodeChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustMeasure_Code = value;
+					this.SendPropertyChanged("SkuCustMeasure_Code");
+					this.OnSkuCustMeasure_CodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustMeasure_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string SkuCustMeasure_Name
+		{
+			get
+			{
+				return this._SkuCustMeasure_Name;
+			}
+			set
+			{
+				if ((this._SkuCustMeasure_Name != value))
+				{
+					this.OnSkuCustMeasure_NameChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustMeasure_Name = value;
+					this.SendPropertyChanged("SkuCustMeasure_Name");
+					this.OnSkuCustMeasure_NameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustMeasure_Format", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuCustMeasure_Format
+		{
+			get
+			{
+				return this._SkuCustMeasure_Format;
+			}
+			set
+			{
+				if ((this._SkuCustMeasure_Format != value))
+				{
+					this.OnSkuCustMeasure_FormatChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustMeasure_Format = value;
+					this.SendPropertyChanged("SkuCustMeasure_Format");
+					this.OnSkuCustMeasure_FormatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustMeasure_AggMethod", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string SkuCustMeasure_AggMethod
+		{
+			get
+			{
+				return this._SkuCustMeasure_AggMethod;
+			}
+			set
+			{
+				if ((this._SkuCustMeasure_AggMethod != value))
+				{
+					this.OnSkuCustMeasure_AggMethodChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustMeasure_AggMethod = value;
+					this.SendPropertyChanged("SkuCustMeasure_AggMethod");
+					this.OnSkuCustMeasure_AggMethodChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInPriceModule", DbType="Int NOT NULL")]
+		public int IncludeInPriceModule
+		{
+			get
+			{
+				return this._IncludeInPriceModule;
+			}
+			set
+			{
+				if ((this._IncludeInPriceModule != value))
+				{
+					this.OnIncludeInPriceModuleChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInPriceModule = value;
+					this.SendPropertyChanged("IncludeInPriceModule");
+					this.OnIncludeInPriceModuleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInPromoModule", DbType="Int NOT NULL")]
+		public int IncludeInPromoModule
+		{
+			get
+			{
+				return this._IncludeInPromoModule;
+			}
+			set
+			{
+				if ((this._IncludeInPromoModule != value))
+				{
+					this.OnIncludeInPromoModuleChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInPromoModule = value;
+					this.SendPropertyChanged("IncludeInPromoModule");
+					this.OnIncludeInPromoModuleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInNPD", DbType="Int NOT NULL")]
+		public int IncludeInNPD
+		{
+			get
+			{
+				return this._IncludeInNPD;
+			}
+			set
+			{
+				if ((this._IncludeInNPD != value))
+				{
+					this.OnIncludeInNPDChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInNPD = value;
+					this.SendPropertyChanged("IncludeInNPD");
+					this.OnIncludeInNPDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IncludeInListingsMgmt", DbType="Bit NOT NULL")]
+		public bool IncludeInListingsMgmt
+		{
+			get
+			{
+				return this._IncludeInListingsMgmt;
+			}
+			set
+			{
+				if ((this._IncludeInListingsMgmt != value))
+				{
+					this.OnIncludeInListingsMgmtChanging(value);
+					this.SendPropertyChanging();
+					this._IncludeInListingsMgmt = value;
+					this.SendPropertyChanged("IncludeInListingsMgmt");
+					this.OnIncludeInListingsMgmtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NPD_ControlType", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string NPD_ControlType
+		{
+			get
+			{
+				return this._NPD_ControlType;
+			}
+			set
+			{
+				if ((this._NPD_ControlType != value))
+				{
+					this.OnNPD_ControlTypeChanging(value);
+					this.SendPropertyChanging();
+					this._NPD_ControlType = value;
+					this.SendPropertyChanged("NPD_ControlType");
+					this.OnNPD_ControlTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustMeasure_DataSource", DbType="VarChar(200)")]
+		public string SkuCustMeasure_DataSource
+		{
+			get
+			{
+				return this._SkuCustMeasure_DataSource;
+			}
+			set
+			{
+				if ((this._SkuCustMeasure_DataSource != value))
+				{
+					this.OnSkuCustMeasure_DataSourceChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustMeasure_DataSource = value;
+					this.SendPropertyChanged("SkuCustMeasure_DataSource");
+					this.OnSkuCustMeasure_DataSourceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkuCustMeasure_DataSourceInput", DbType="VarChar(MAX)")]
+		public string SkuCustMeasure_DataSourceInput
+		{
+			get
+			{
+				return this._SkuCustMeasure_DataSourceInput;
+			}
+			set
+			{
+				if ((this._SkuCustMeasure_DataSourceInput != value))
+				{
+					this.OnSkuCustMeasure_DataSourceInputChanging(value);
+					this.SendPropertyChanging();
+					this._SkuCustMeasure_DataSourceInput = value;
+					this.SendPropertyChanged("SkuCustMeasure_DataSourceInput");
+					this.OnSkuCustMeasure_DataSourceInputChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SortOrder", DbType="Int NOT NULL")]
+		public int SortOrder
+		{
+			get
+			{
+				return this._SortOrder;
+			}
+			set
+			{
+				if ((this._SortOrder != value))
+				{
+					this.OnSortOrderChanging(value);
+					this.SendPropertyChanging();
+					this._SortOrder = value;
+					this.SendPropertyChanged("SortOrder");
+					this.OnSortOrderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_APBuildWave", DbType="Int NOT NULL")]
+		public int APBuildWave
+		{
+			get
+			{
+				return this._APBuildWave;
+			}
+			set
+			{
+				if ((this._APBuildWave != value))
+				{
+					this.OnAPBuildWaveChanging(value);
+					this.SendPropertyChanging();
+					this._APBuildWave = value;
+					this.SendPropertyChanged("APBuildWave");
+					this.OnAPBuildWaveChanged();
 				}
 			}
 		}

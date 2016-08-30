@@ -14,33 +14,16 @@ using System.Web.Mvc;
 
 namespace WebApplication2.Controllers
 {
-    //[Authorize]
+    //[Authorize] 
     public class HomeController : Controller
     {
-
         // GET: SYS_Config
         public ActionResult Index()
         {
             return View();
         }
 
-        //class BasePlugin<TContext, TEntity> where TContext : DataContext, new()
-        //    where TEntity : class
-        //{
-        //    protected TContext DataContext = new TContext();
-        //    protected string GetJSONData()
-        //    {
-        //        return JsonConvert.SerializeObject(DataContext.GetTable<TEntity>());
-        //    }
-        //}
-
-    // if error use that V
-    //                if (user == null)
-    //        {
-    //            return View("Error");
-    //}
-
-    // GET: Another table for demo -  if generic dont need  TEMPORARY
+        // GET: Another table for demo -  if generic dont need TEMPORARY
         public ActionResult About()
         {
             return View();
@@ -51,27 +34,47 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        //Returns all table names for navbar
-        public ActionResult GetTableNames()
-        {
-            return View(GetAllTableNames());
-        }
-
         //Return selected table data
         public ActionResult TableAction(string table)
         {
             return PartialView(table);
         }
-        public string LoadTable(string table)
+        //eventually replace GetSYS_Config with LoadTable
+        public JsonResult LoadTable(string table)
         {
-            return ("Loading table:"+table);
+            //if (!String.IsNullOrEmpty(table))
+            //{
+            //    return ("Loading table:" + table);
+            //}
+            //else return ("Table name is null or empty");
+
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                if (!String.IsNullOrEmpty(table))
+                {
+                    //load 'default' table - SYS_Config for now
+                    var SYS_ConfigList = contextObj.SYS_Configs.ToList();
+
+                    var data = new ColDataToHtml();
+                    data.names = ColumnMapping(SYS_ConfigList[0], "name");
+                    data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(SYS_ConfigList[0], "type")), ColumnMapping(SYS_ConfigList[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
+                    data.parents = ColumnMapping(SYS_ConfigList[0], "relations");
+                    data.children = ColumnMapping(SYS_ConfigList[0], "relations");
+
+                    var jsonReturn = new Tuple<List<SYS_Config>, ColDataToHtml>(SYS_ConfigList, data);
+
+                    return Json(jsonReturn, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    //else load table passed in
+
+                }
+            }
         }
 
         //if want to do this create a method that is called, the 'table' is passed in from somewhere and passed into the view
         //onclick of side-nav table, arguement passed to 'GetTable' - name of table, and partial? view containing THAT TABLE is returned
-
-
-        //"GetTable", new{table = SYS_Config})
 
         //create object containing all info html needs from db - via controller and javascript
         public struct ColDataToHtml
@@ -91,11 +94,11 @@ namespace WebApplication2.Controllers
                 if (!tablesInDb.Contains(table))
                 {
                     throw new Exception("Table " + table + "Does Not Exist In Database.");
-                   // return View("Error");
+                    // return View("Error");
                 }
             }
         }
-        public List<string> GetAllTableNames()
+        public JsonResult GetAllTableNames()
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
@@ -105,7 +108,7 @@ namespace WebApplication2.Controllers
                 {
                     tabNames.Add(table.TableName);
                 }
-                return tabNames;
+                return Json(tabNames, JsonRequestBehavior.AllowGet);
             }
         }
 

@@ -64,22 +64,20 @@
         </nav1>
     </header>
 
-    <div id="st-container" class="st-container">
+    <div id="st-container" class="st-container" ng-controller="mvcCRUDCtrl">
         <nav class="st-menu st-effect-2" id="menu-2">
             <h2 class="icon icon-stack">Menu</h2>
-
             <ul class="menu">
                 @*This will be filled with data from wizard upload*@
                 <li><a class="icon icon-location" href="@Url.Action("Home", "Home")">Home</a></li>
                 <li><a class="icon icon-study" href="@Url.Action("Setup", "Setup")">Setup</a></li>
                 <li><a class="icon icon-photo" href="@Url.Action("Index", "Setup")">Task Wizard</a></li> 
-                @*Tables in db create table dropdowns*@
-                <li><a class="icon icon-data" href="@Url.Action("Index", "Home")">Tables</a>
-                <ul class="menu">
-                    <li><a>All tables in DB</a></li>
-                    <li><a>Will populate here</a></li>
-                </ul></li>
-
+                <li><a class="icon icon-data">Tables</a>
+                @*use ng-mouseover*@
+                    <ul class="menu">
+                        <li ng-repeat="TableList in Tables"> <button1 ng-click="LoadTableData(TableList)">{{TableList}}</button1> </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
       

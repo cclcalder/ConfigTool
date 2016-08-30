@@ -27,10 +27,21 @@ namespace ConfigTool.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=exceedracom.cloudapp.net,10315;Initial Catalog=ESP_Demo_DEV_UK_v2_9;U" +
-            "ser ID=WebApp;password=ExceedraLondon1!")]
+            "ser ID=WebApp")]
         public string ESP_Demo_DEV_UK_v2_9ConnectionString {
             get {
                 return ((string)(this["ESP_Demo_DEV_UK_v2_9ConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=exceedracom.cloudapp.net,10315;Initial Catalog=ESP_Demo_DEV_UK_v2_9;U" +
+            "ser ID=WebApp;Connect Timeout=60")]
+        public string ESP_Demo_DEV_UK_v2_9ConnectionString1 {
+            get {
+                return ((string)(this["ESP_Demo_DEV_UK_v2_9ConnectionString1"]));
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ESP_Demo_DEV_UK_v2_9" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=exceedracom.cloudapp.net,10315;Initial Catalog=ESP_Demo_DEV_UK_v2_9;User ID=WebApp" SettingsObjectName="ConfigTool.Properties.Settings" SettingsPropertyName="ESP_Demo_DEV_UK_v2_9ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=exceedracom.cloudapp.net,10315;Initial Catalog=ESP_Demo_DEV_UK_v2_9;User ID=WebApp;Connect Timeout=60" SettingsObjectName="ConfigTool.Properties.Settings" SettingsPropertyName="ESP_Demo_DEV_UK_v2_9ConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="app.SYS_Config" Member="SYS_Configs">
     <Type Name="SYS_Config">
       <Column Name="OptionItem_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -9,6 +9,257 @@
       <Column Name="Description" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
       <Column Name="IsEditable" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="MenuItem_Code" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Telemetry" Member="SYS_Telemetries">
+    <Type Name="SYS_Telemetry">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RunLogID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="StoredProcedure" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="Msg" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="XML_In" Type="System.Xml.Linq.XElement" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="RC" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="HostName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SPID" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="TS" Type="System.DateTime" DbType="DateTime2 NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Locks" Member="SYS_Locks">
+    <Type Name="SYS_Lock">
+      <Column Name="StoredProcedure" Type="System.String" DbType="VarChar(500) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RunLogID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Locked" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LockedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Numbers" Member="SYS_Numbers">
+    <Type Name="SYS_Number">
+      <Column Name="Num" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Queue_AccountPlanBuild" Member="SYS_Queue_AccountPlanBuilds">
+    <Type Name="SYS_Queue_AccountPlanBuild">
+      <Column Name="Task_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Task_Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Source_Idx" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BuildAPWave" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Task_Processed_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Task_Started_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Task_Queued_Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Task_Queued_By" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="SYS_Queue_AccountPlanBuild_SYS_Queue_AccountPlanBuildKey" Member="SYS_Queue_AccountPlanBuildKeys" ThisKey="Task_Idx" OtherKey="Task_Idx" Type="SYS_Queue_AccountPlanBuildKey" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Queue_AccountPlanBuildKeys" Member="SYS_Queue_AccountPlanBuildKeys">
+    <Type Name="SYS_Queue_AccountPlanBuildKey">
+      <Column Name="Task_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Scen_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Cust_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Sku_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Day_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="SYS_Queue_AccountPlanBuild_SYS_Queue_AccountPlanBuildKey" Member="SYS_Queue_AccountPlanBuild" ThisKey="Task_Idx" OtherKey="Task_Idx" Type="SYS_Queue_AccountPlanBuild" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Queue_AccountPlanBuildKeys_For_Current_Build" Member="SYS_Queue_AccountPlanBuildKeys_For_Current_Builds">
+    <Type Name="SYS_Queue_AccountPlanBuildKeys_For_Current_Build">
+      <Column Name="Day_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Cust_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Sku_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Scen_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Queue_Asynchronous_Tasks" Member="SYS_Queue_Asynchronous_Tasks">
+    <Type Name="SYS_Queue_Asynchronous_Task">
+      <Column Name="Task_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Task_Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Task_Data" Type="System.Xml.Linq.XElement" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Task_Processed_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Task_Started_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Task_Queued_Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Task_Queued_By" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Queue_Emails" Member="SYS_Queue_Emails">
+    <Type Name="SYS_Queue_Email">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Email_Recipient" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Email_Body" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Email_SubjectLine" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Attachment_FileName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Attachment_Query" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Email_Queued_Date" Type="System.DateTime" DbType="DateTime2 NOT NULL" CanBeNull="false" />
+      <Column Name="Email_Processed_Date" Type="System.DateTime" DbType="DateTime2" CanBeNull="true" />
+      <Column Name="IsApprovalEmail" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Item_Code" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Item_Idx" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmailReplyReceivedOn" Type="System.DateTime" DbType="DateTime2" CanBeNull="true" />
+      <Column Name="EmailReplyKeyWord" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Queue_Scheduled_Tasks" Member="SYS_Queue_Scheduled_Tasks">
+    <Type Name="SYS_Queue_Scheduled_Task">
+      <Column Name="Task_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Task_Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Task_Data" Type="System.Xml.Linq.XElement" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Task_Processed_Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Task_Queued_Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Task_Queued_By" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Task_RunAfter" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_Screens" Member="SYS_Screens">
+    <Type Name="SYS_Screen">
+      <Column Name="Screen_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Screen_Code" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Label_Key" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsDisplayed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Minimum_CustLevelCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Maximum_CustLevelCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Minimum_ProdLevelCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Maximum_ProdLevelCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Customer_Hierarchy_Idx" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Product_Hierarchy_Idx" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Customer_CodeAppendedToNameSetting" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Product_CodeAppendedToNameSetting" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="SYS_Screen_SYS_ScreenTab" Member="SYS_ScreenTabs" ThisKey="Screen_Idx" OtherKey="Screen_Idx" Type="SYS_ScreenTab" />
+    </Type>
+  </Table>
+  <Table Name="app.SYS_ScreenTabs" Member="SYS_ScreenTabs">
+    <Type Name="SYS_ScreenTab">
+      <Column Name="TabKey" Type="System.String" DbType="VarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Screen_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Label_Key" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsDefault" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsDisplayed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="SYS_Screen_SYS_ScreenTab" Member="SYS_Screen" ThisKey="Screen_Idx" OtherKey="Screen_Idx" Type="SYS_Screen" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Customer" Member="Dim_Customers">
+    <Type Name="Dim_Customer">
+      <Column Name="Cust_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Customer_Measures" Member="Dim_Customer_Measures">
+    <Type Name="Dim_Customer_Measure">
+      <Column Name="CustMeasure_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CustMeasure_Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustMeasure_Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CustMeasure_Format" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustMeasure_AggMethod" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInPriceModule" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInNPD" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="APBuildWave" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Customer_Attributes" Member="Dim_Customer_Attributes">
+    <Type Name="Dim_Customer_Attribute">
+      <Column Name="CustAttribute_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CustAttribute_Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustAttribute_Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CustAttribute_Format" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CustAttribute_AggMethod" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInPriceModule" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInNPD" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Customer_Hierarchies" Member="Dim_Customer_Hierarchies">
+    <Type Name="Dim_Customer_Hierarchy">
+      <Column Name="Cust_Hierarchy_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Cust_Hierarchy_Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Dim_Customer_Hierarchy_Dim_Customer_Level" Member="Dim_Customer_Levels" ThisKey="Cust_Hierarchy_Idx" OtherKey="Hierarchy_Idx" Type="Dim_Customer_Level" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Customer_Levels" Member="Dim_Customer_Levels">
+    <Type Name="Dim_Customer_Level">
+      <Column Name="CustLevel_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CustLevel_Code" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CustLevel_Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Hierarchy_Idx" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Dim_Customer_Hierarchy_Dim_Customer_Level" Member="Dim_Customer_Hierarchy" ThisKey="Hierarchy_Idx" OtherKey="Cust_Hierarchy_Idx" Type="Dim_Customer_Hierarchy" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Product_Hierarchies" Member="Dim_Product_Hierarchies">
+    <Type Name="Dim_Product_Hierarchy">
+      <Column Name="Prod_Hierarchy_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Prod_Hierarchy_Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="Dim_Product_Hierarchy_Dim_Product_Level" Member="Dim_Product_Levels" ThisKey="Prod_Hierarchy_Idx" OtherKey="Hierarchy_Idx" Type="Dim_Product_Level" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Product_Sku_Measures" Member="Dim_Product_Sku_Measures">
+    <Type Name="Dim_Product_Sku_Measure">
+      <Column Name="SkuMeasure_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SkuMeasure_Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuMeasure_Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuMeasure_Format" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuMeasure_AggMethod" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInPriceModule" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInPromoModule" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInNPD" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInListingsMgmt" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="APBuildWave" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NPD_ControlType" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Product_Levels" Member="Dim_Product_Levels">
+    <Type Name="Dim_Product_Level">
+      <Column Name="ProdLevel_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProdLevel_Code" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProdLevel_Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Hierarchy_Idx" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Dim_Product_Hierarchy_Dim_Product_Level" Member="Dim_Product_Hierarchy" ThisKey="Hierarchy_Idx" OtherKey="Prod_Hierarchy_Idx" Type="Dim_Product_Hierarchy" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Product_Sku" Member="Dim_Product_Skus">
+    <Type Name="Dim_Product_Sku">
+      <Column Name="Sku_Idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Product_Sku_Attributes" Member="Dim_Product_Sku_Attributes">
+    <Type Name="Dim_Product_Sku_Attribute">
+      <Column Name="SkuAttribute_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SkuAttribute_Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuAttribute_Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuAttribute_AggMethod" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuAttribute_Format" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInNPD" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInListingsMgmt" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NPD_ControlType" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Product_Sku_Cust_Attributes" Member="Dim_Product_Sku_Cust_Attributes">
+    <Type Name="Dim_Product_Sku_Cust_Attribute">
+      <Column Name="SkuCustAttribute_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SkuCustAttribute_Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuCustAttribute_Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuCustAttribute_AggMethod" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuCustAttribute_Format" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInNPD" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInListingsMgmt" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NPD_ControlType" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuCustAttribute_DataSource" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="SkuCustAttribute_DataSourceInput" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="app.Dim_Product_Sku_Cust_Measures" Member="Dim_Product_Sku_Cust_Measures">
+    <Type Name="Dim_Product_Sku_Cust_Measure">
+      <Column Name="SkuCustMeasure_Idx" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SkuCustMeasure_Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuCustMeasure_Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuCustMeasure_Format" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuCustMeasure_AggMethod" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInPriceModule" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInPromoModule" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInNPD" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IncludeInListingsMgmt" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="NPD_ControlType" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SkuCustMeasure_DataSource" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="SkuCustMeasure_DataSourceInput" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="SortOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="APBuildWave" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

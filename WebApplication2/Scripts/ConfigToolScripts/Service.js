@@ -58,12 +58,12 @@
         return response;
     };
 
-    this.LoadTable = function (tableName) {
+    this.LoadTable = function (table) {
         var response = $http({
             method: "post",
             url: "Home/LoadTable",
             params: {
-                tableName: JSON.stringify(tableName)
+                table: JSON.stringify(table)
             }
         });
         return response;
