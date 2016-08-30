@@ -1,8 +1,5 @@
 ﻿app.service("crudAJService", function ($http) {
-        ////get Tables Names 
-    //this.getTableNames = function (){
-    //    return $http.get("Home/GetTableNames");
-    //}
+
     //get All SYS_Configs
     this.getSYS_Configs = function () {
         return $http.get("Home/GetAllSYS_Configs");
@@ -10,6 +7,19 @@
 
     this.getTables = function () {
         return $http.get("Home/GetAllTableNames");
+    };
+
+    this.LoadTable = function (table) {
+        var response = $http({
+            method: "post",
+            url: "Home/LoadTable",
+            params: {
+                table: JSON.stringify(table)
+            }
+        });
+        //return response;
+
+        return $http.get("Home/LoadTableData");
     };
 
     // get SYS_Config by SYS_ConfigId
@@ -58,17 +68,5 @@
         return response;
     };
 
-    this.LoadTable = function (table) {
-        var response = $http({
-            method: "post",
-            url: "Home/LoadTable",
-            params: {
-                table: JSON.stringify(table)
-            }
-        });
-        return response;
-
-        //return $http.get("Home/LoadTableData");
-    };
 
 });

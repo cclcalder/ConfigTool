@@ -50,7 +50,7 @@ namespace WebApplication2.Controllers
             var tableToLoad = table.Trim('/', '"');
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                if (String.IsNullOrEmpty(table))
+                if (String.IsNullOrEmpty(table) || tableToLoad == "app.SYS_Config")
                 {
                     //load 'default' table - SYS_Config for now
                     var SYS_ConfigList = contextObj.SYS_Configs.ToList();

@@ -1,28 +1,11 @@
 ﻿app.controller("mvcCRUDCtrl", function ($scope, crudAJService){
     $scope.divSYS_Config = false;
 
-    //equivalent of get SYS_Config etc but now generic, can be any na
-    //GetAllTableData();
-    //function GetAllTableData() {
-    //    console.log("Load data from DB table");
-
-    //    var getTableData = crudAJService.getTable();
-    //    getTable.then(function (Data) {
-    //        $scope.tableData = Data.data;
-    //    }, function () {
-    //        alert('Error in getting records');
-    //    });
-    //}
-
     GetAllSYS_Configs();
-    //To Get all SYS_Config records  
+    //To Get all SYS_Config records (currently)  
     function GetAllSYS_Configs() {
-        console.log("get SYS_Configs");
-        //debugger;
-        //var self = this; //this
+        console.log("Load data");
         var getSYS_ConfigData = crudAJService.getSYS_Configs();
-        console.log("getSYS_ConfigData = " + getSYS_ConfigData);
-        //self.tableParams = new NgTableParams({}, { dataset: getSYS_ConfigData }); //and this
         getSYS_ConfigData.then(function (SYS_Config) {
             $scope.SYS_Configs = SYS_Config.data.Item1; //now returns tuple of data (item1) and header info . . 
         }, function () {
@@ -30,35 +13,30 @@
         });
     }
 
-    //need to get this form the wizard now? I think
-    //easier - will just be json object to fill nav . . . .
-    GetAllTableNames();
-    function GetAllTableNames() {
-        console.log("get table names");
-        var getTableNameData = crudAJService.getTables();
-        console.log("getTableNameData = "+getTableNameData);
-        getTableNameData.then(function (TableList) {
-            $scope.Tables = TableList.data;
-        }, function () {
-            alert('Error in getting Table Names');
-        });
-    }
-
     $scope.LoadTableData = function (table) {
         console.log("Selected table to load:" + table);
-
-        var loadTablemethod = crudAJService.LoadTable(table);
-        loadTablemethod.then(function (msg) {
-            GetAllSYS_Configs();
-            alert(msg.data);
-            $scope.divSYS_Config = false;
+        var loadTableMethod = crudAJService.LoadTable(table);
+        loadTableMethod.then(function (TabData) {
+            $scope.TableData = TabData.data;
+            console.log("TabData.data:" + TabData.data);
         }, function () {
             alert('Error in getting table?');
         });
     }
 
 
-
+    //need to get this form the wizard now? I think
+    //easier - will just be json object to fill nav . . . .
+    GetAllTableNames();
+    function GetAllTableNames() {
+        console.log("get table names");
+        var getTableNameData = crudAJService.getTables();
+        getTableNameData.then(function (TableList) {
+            $scope.Tables = TableList.data;
+        }, function () {
+            alert('Error in getting Table Names');
+        });
+    }
 
     $scope.editSYS_Config = function (SYS_Config) {
         console.log("edit");
