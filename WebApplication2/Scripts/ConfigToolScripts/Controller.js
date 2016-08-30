@@ -1,6 +1,7 @@
 ﻿app.controller("mvcCRUDCtrl", function ($scope, crudAJService){
     $scope.divSYS_Config = false;
 
+
     GetAllSYS_Configs();
     //To Get all SYS_Config records  
     function GetAllSYS_Configs() {

@@ -2,15 +2,14 @@
     ViewBag.Title = "Home Page";
 }
 
-@Scripts.Render("~/bundles/aggrid")
- 
+
+<!--loading icon - move from here-->
 <script type="text/javascript">
     $(window).load(function () {
         // Animate loader off screen
         $(".se-pre-con").fadeOut("slow");;
     });
 </script>
-
 <style>
 .js #loader { display: block; position: absolute; left: 100px; top: 0; }
     .se-pre-con {
@@ -31,7 +30,6 @@
 
     <p style="text-align:left;">
         <div id="childTableCSS">
-            <!--Title-->
             <center>
                 <h1 class="display-1">
                     SYS_Config
@@ -84,14 +82,7 @@
                 <td><b>MenuItem_Code</b></td>
                 <td>
                     <input type="text" ng-model="SYS_ConfigMenuItem_Code" />
-                    @*<select value="SYS_ConfigMenuItem_Code" ng-model="SYS_ConfigMenuItem_Code">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>*@
-                    @*</select>*@
                 </td>
-
-
                 <td><b>OptionItem</b></td>
                 <td>
                     <input type="text" ng-model="SYS_ConfigOptionItem" />
@@ -172,14 +163,70 @@
             </tbody>
         </table>
     </div>
+  
     
     <pagination total-items="totalItems" ng-model="currentPage"
                 max-size="5" boundary-links="true"
                 items-per-page="10" class="pagination ">
     </pagination>
+
+    <!--Implement ag-grid test here-->
+    <div id="myGrid" style="width: 500px; height: 200px;" class="ag-fresh">
+
+    </div>
+
 </div>
 
+<script src="~/node_modules/ag-grid/dist/ag-grid.js"></script>
+<link rel="stylesheet" type="text/css" href="~/node_modules/ag-grid/dist/styles/ag-grid.css"/>
+<link href="~/node_modules/ag-grid/dist/styles/theme-fresh.css" rel="stylesheet" />
+<script>
+    (function () {
 
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var gridDiv = document.querySelector('#myGrid');
+
+            var gridOptions = {
+                columnDefs: [
+                    { headerName: 'Country', field: 'country' },
+                    { headerName: 'City', field: 'city' },
+                    { headerName: 'Jan', field: 'jan_act' },
+                    { headerName: 'Feb', field: 'feb_act' },
+                    { headerName: 'Mar', field: 'mar_act' },
+                    { headerName: 'Apr', field: 'apr_act' },
+                    { headerName: 'May', field: 'may_act' }
+                ]
+            };
+
+            new agGrid.Grid(gridDiv, gridOptions);
+
+            jsonLoad(function (data) {
+                gridOptions.api.setRowData(data);
+            });
+        });
+
+    })();
+
+
+    function jsonLoad(callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '../sample-data/monthlySales.json'); // by default async
+        xhr.responseType = 'json'; // in which format you expect the response to be
+
+        xhr.onload = function () {
+            if (this.status == 200) {// onload called even on 404 etc so check the status
+                callback(this.response);
+            }
+        };
+
+        xhr.onerror = function () {
+            console.log('loading data error');
+        };
+
+        xhr.send();
+    }
+</script>
 
 
 

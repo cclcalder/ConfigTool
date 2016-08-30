@@ -24,7 +24,7 @@ namespace WebApplication2
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/aggrid").Include(
-                      "~/Scripts/ag-grid.js"));
+                      "~/node_modules/ag-grid/dist/ag-grid.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       //"~/Content/bootstrap.css",
