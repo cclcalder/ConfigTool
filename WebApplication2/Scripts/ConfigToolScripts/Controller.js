@@ -44,10 +44,10 @@
         });
     }
 
-    $scope.LoadTableData = function(tableName) {
-        console.log("Selected table to load:" + tableName);
+    $scope.LoadTableData = function (table) {
+        console.log("Selected table to load:" + table);
 
-        var loadTablemethod = crudAJService.LoadTable(tableName);
+        var loadTablemethod = crudAJService.LoadTable(table);
         loadTablemethod.then(function (msg) {
             GetAllSYS_Configs();
             alert(msg.data);
@@ -56,6 +56,9 @@
             alert('Error in getting table?');
         });
     }
+
+
+
 
     $scope.editSYS_Config = function (SYS_Config) {
         console.log("edit");

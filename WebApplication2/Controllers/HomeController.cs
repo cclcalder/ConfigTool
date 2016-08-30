@@ -47,10 +47,10 @@ namespace WebApplication2.Controllers
             //    return ("Loading table:" + table);
             //}
             //else return ("Table name is null or empty");
-
+            var tableToLoad = table.Trim('/', '"');
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                if (!String.IsNullOrEmpty(table))
+                if (String.IsNullOrEmpty(table))
                 {
                     //load 'default' table - SYS_Config for now
                     var SYS_ConfigList = contextObj.SYS_Configs.ToList();
@@ -68,7 +68,16 @@ namespace WebApplication2.Controllers
                 else
                 {
                     //else load table passed in
-
+                    //foreach table in context check whether name matches and if so use that one
+                    var tableList = contextObj.Mapping.GetTables();
+                    foreach (MetaTable dataTable in tableList)
+                    {
+                        if(dataTable.TableName == tableToLoad)
+                        {
+                            return Json(dataTable, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                    return Json("Shouldn't get here");
                 }
             }
         }
@@ -85,19 +94,19 @@ namespace WebApplication2.Controllers
             public List<string> parents;                            // key constraints
         }
 
-        public void CheckRequiredTables(List<string> tableNames)        // GET: All table names in DataContext
-        {
-            var tablesRequired = ConfigTool.ParseWizard.TablesPresent();
-            var tablesInDb = GetAllTableNames();
-            foreach (string table in tablesRequired)
-            {
-                if (!tablesInDb.Contains(table))
-                {
-                    throw new Exception("Table " + table + "Does Not Exist In Database.");
-                    // return View("Error");
-                }
-            }
-        }
+        //public void CheckRequiredTables(List<string> tableNames)        // GET: All table names in DataContext
+        //{
+        //    var tablesRequired = ConfigTool.ParseWizard.TablesPresent();
+        //    var tablesInDb = GetAllTableNames();
+        //    foreach (string table in tablesRequired)
+        //    {
+        //        if (!tablesInDb.Contains(table))
+        //        {
+        //            throw new Exception("Table " + table + "Does Not Exist In Database.");
+        //            // return View("Error");
+        //        }
+        //    }
+        //}
         public JsonResult GetAllTableNames()
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
