@@ -25,15 +25,21 @@ namespace WebApplication2.Controllers
         }
 
         //All tables
-        public ActionResult Table(string table)
+        public ActionResult Table(string tablename)
         {
-            ViewBag.TableName = table;
+            ViewBag.TableName = tablename;
             return PartialView();
         }
 
+        //public ActionResult Table(string table)
+        //{
+        //    ViewBag.TableName = table;
+        //    return PartialView();
+        //}
+
         public ActionResult Home()
         {
-            return View();
+            return PartialView();
         }
         public ActionResult ngView()
         {

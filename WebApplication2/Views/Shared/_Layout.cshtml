@@ -68,14 +68,14 @@
             <h2 class="icon icon-cloud">Config Tool</h2>
             <ul class="menu">
                 @*This will be filled with data from wizard upload*@
-                <li><a class="icon icon-location" href="#">Home</a></li>
+                <li><a class="icon icon-location" href="#Home">Home</a></li>
                 <li><a class="icon icon-study" href="#Setup">Setup</a></li>
-                <li><a class="icon icon-photo" href="#Table/SYS_Config">Task Wizard</a></li>
+                <li><a class="icon icon-photo" href="#Table/hi">Task Wizard</a></li>
                 <li><a class="icon icon-photo" href="#Index">Test Table</a></li>  
                 @*<li><a class="icon icon-photo" href="/Home/Index" ng-click="GetAllSYS_Configs()">Test Table</a></li>*@ 
                 <li><a class="icon icon-data">Tables</a>
                     <ul class="menu">
-                        <li ng-repeat="Table in TableList"> <a1 href="#Table" ng-click="LoadTableData(Table)" class="icon icon-pen">{{Table}}</a1> </li>
+                        <li ng-repeat="Table in TableList"> <a id="sublist" href="#Table/{{Table}}" ng-click="LoadTableData(Table)" class="icon icon-pen">{{Table}}</a> </li>
                     </ul>
                 </li>
             </ul>

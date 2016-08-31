@@ -12,7 +12,7 @@ namespace WebApplication2.Controllers
         public ActionResult Setup()
         {
             //speak to SetupModel and update View
-            return View();
+            return PartialView();
         }
     }
 }
