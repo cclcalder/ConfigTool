@@ -7,20 +7,24 @@
 
     this.getTables = function () {
         return $http.get("Home/GetAllTableNames");
+
     };
 
-    this.LoadTable = function (table) {
+    this.loadTable = function (table) {
         var response = $http({
             method: "post",
-            url: "Home/LoadTable",
+            url: "Home/LoadTableData",
             params: {
                 table: JSON.stringify(table)
             }
         });
-        //return response;
+        //return above function
+        return response;
 
-        return $http.get("Home/LoadTableData");
+        //return $http.get("Home/LoadTableData");
     };
+
+    /* --------------------------------------- */
 
     // get SYS_Config by SYS_ConfigId
     this.getSYS_Config = function (SYS_ConfigId) {
@@ -63,6 +67,55 @@
             url: "Home/DeleteSYS_Config",
             params: {
                 SYS_ConfigId: JSON.stringify(SYS_ConfigId)
+            }
+        });
+        return response;
+    };
+
+    /* --------------------------------------- */
+    //Generic Table view - same as above ish
+
+    // Get record by id
+    this.getRecord = function (RecordId) {
+        var response = $http({
+            method: "post",
+            url: "Table/GetRecordById",
+            params: {
+                id: JSON.stringify(RecordId)
+            }
+        });
+        return response;
+    };
+
+    // Update record 
+    this.updateRecord = function (Record) {
+        var response = $http({
+            method: "post",
+            url: "Table/UpdateRecord",
+            data: JSON.stringify(Record),
+            dataType: "json"
+        });
+        return response;
+    };
+
+    // Add record
+    this.AddRecord = function (Record) {
+        var response = $http({
+            method: "post",
+            url: "Table/AddRecord",
+            data: JSON.stringify(Record),
+            dataType: "json"
+        });
+        return response;
+    };
+
+    //Delete record
+    this.DeleteRecord = function (RecordId) {
+        var response = $http({
+            method: "post",
+            url: "Table/DeleteRecord",
+            params: {
+                SYS_ConfigId: JSON.stringify(Record)
             }
         });
         return response;

@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Table";
+}
+
+@*Generic screen, does what 'index'/sys_config does but generically*@
+<div class="se-pre-con"></div>
+<p style="text-align:right;">
+    <div id="childTableCSS">
+        <center>
+            <h1 class="display-1">
+                @{ViewBag.Table}
+                <small class="text-muted">Table</small>
+            </h1>
+        </center>
+    </div>
+
+    <!--Complete/next buttons, replaced with wizard?-->
+    @*<span style="float:right;">
+        <button type="button" class="btn btn-default">Complete <i class="fa fa-check" aria-hidden="true"></i></button>
+        <button type="button" class="btn btn-default">Next  <i class="fa fa-space-shuttle" aria-hidden="true"></i></button>
+    </span>*@
+</p>
+
+<div class="table">
+    <table ngtable="" class="table table-bordered table-hover table-condensed" show-filter="true">
+
+        <thead>
+            <tr ng-repeat="Header in TableHeaders">
+                <th>{{Header}}</th>
+            <tr>
+                <th>
+                    <center>
+                        <span ng-click="AddSYS_ConfigDiv()" class="btn btn-info">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i> SYS_Config
+                        </span>
+                    </center>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="SYS_Config in SYS_Configs  | orderBy:sortType:sortReverse | filter:searchConfig" ng-click="setSelected();">
+                <td>
+                    {{SYS_Config.OptionItem_ID}} @*<a class="btn" href="#"><i class="fa fa-info-circle" aria-hidden="true"></i></a>*@
+
+                </td>
+                <td>
+                    {{SYS_Config.IsEditable}}
+                </td>
+                <td>
+                    {{SYS_Config.MenuItem_Code}}
+                </td>
+                <td>
+                    {{SYS_Config.OptionItem}}
+                </td>
+                <td>
+                    {{SYS_Config.OptionItemDetail}}
+                </td>
+                <td>
+                    {{SYS_Config.OptionItemDetail_Value}}
+                </td>
+                <td>
+                    <center>
+                        <span ng-click="editSYS_Config(SYS_Config)" class="btn btn-success" id="popup"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                        <span ng-click="deleteSYS_Config(SYS_Config)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
+                    </center>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

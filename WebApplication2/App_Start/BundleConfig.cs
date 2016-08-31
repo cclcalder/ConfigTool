@@ -40,7 +40,8 @@ namespace WebApplication2
                       "~/Content/CustomSiteCSS/Site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/angularJS").Include(
-                "~/Scripts/angular.js"
+                "~/Scripts/angular.js",
+                "~/Scripts/angular-route.js"
                      //"~/Scripts/angular-material/angular-material.js",
                      //"~/Scripts/angular-aria/angular-aria.js",
                      //"~/Script/angular-animate/angular-animate.js"

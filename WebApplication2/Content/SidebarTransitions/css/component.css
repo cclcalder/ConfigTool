@@ -102,11 +102,11 @@ body,
 
 .st-menu h2 {
 	margin: 0;
-	padding: 1em;
+	padding: 0.7em;
 	color: rgba(0,0,0,0.4);
 	text-shadow: 0 0 1px rgba(0,0,0,0.1);
-	font-weight: 300;
-	font-size: 2em;
+	font-weight: 500;
+	font-size: 1.7em;
 }
 
 .st-menu ul li a {

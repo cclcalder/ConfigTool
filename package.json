@@ -8,5 +8,8 @@
   },
   "author": "cosima calder",
   "license": "ISC",
-  "keywords": []
+  "keywords": [],
+  "dependencies": {
+    "angular-chart.js": "^1.0.2"
+  }
 }

@@ -1,46 +1,67 @@
-﻿app.controller("mvcCRUDCtrl", function ($scope, crudAJService){
+﻿app.controller("mvcCRUDCtrl", function ($scope, crudAJService) {
+
+    //Loads all table names from the data base into navbar
+    GetAllTableNames();
+    function GetAllTableNames() {
+        console.log("get table names");
+        var getTableNameData = crudAJService.getTables();
+        getTableNameData.then(function (Table) {
+            $scope.TableList = Table.data;
+        }, function () {
+            alert('Error in getting Table Names');
+        });
+    }
+
+    $scope.LoadTableData = function (table) {
+        console.log("Selected table to load:" + table);
+
+        var loadTableMethod = crudAJService.loadTable(table);
+
+        console.log("loadTableMethod from service.js:" + loadTableMethod);
+        //calls function when response is available
+        loadTableMethod.then(function (TabData) {
+            console.log("in loadtablemethod");
+            $scope.TableHeaders = TabData.data.Item2;
+            $scope.TableData = TabData.data.Item1;
+            console.log("TabData.data.Item2.names:" + TabData.data.Item2.names);
+            console.log("TabData.data.Item1:" + TabData.data.Item1);
+        }, function () {
+            alert('Error in getting table.');
+        });
+        //Now put this data into 'Table'
+    }
+
     $scope.divSYS_Config = false;
 
-    GetAllSYS_Configs();
-    //To Get all SYS_Config records (currently)  
-    function GetAllSYS_Configs() {
-        console.log("Load data");
+    //This is SYS_Config at the moment
+    //LoadDefaultTable();
+    //function LoadDefaultTable() {
+    //    console.log("Load default data");
+    //    var getSYS_ConfigData = crudAJService.getSYS_Configs();
+    //    getSYS_ConfigData.then(function (SYS_Config) {
+    //        $scope.SYS_Configs = SYS_Config.data.Item1; //now returns tuple of data (item1) and header info . . 
+    //    }, function () {
+    //        alert('Error in getting SYS_Config records');
+    //    });
+    //}
+
+    /* ------------------------------------------------------------------------- */
+    //Replace this
+    $scope.GetAllSYS_Configs = function () {
+        console.log("Get SYS_Config data");
         var getSYS_ConfigData = crudAJService.getSYS_Configs();
         getSYS_ConfigData.then(function (SYS_Config) {
+            console.log("SYS_Config.data.Item1:" + SYS_Config.data.Item1);
             $scope.SYS_Configs = SYS_Config.data.Item1; //now returns tuple of data (item1) and header info . . 
         }, function () {
             alert('Error in getting SYS_Config records');
         });
     }
 
-    $scope.LoadTableData = function (table) {
-        console.log("Selected table to load:" + table);
-        var loadTableMethod = crudAJService.LoadTable(table);
-        loadTableMethod.then(function (TabData) {
-            $scope.TableData = TabData.data;
-            console.log("TabData.data:" + TabData.data);
-        }, function () {
-            alert('Error in getting table?');
-        });
-    }
-
-
-    //need to get this form the wizard now? I think
-    //easier - will just be json object to fill nav . . . .
-    GetAllTableNames();
-    function GetAllTableNames() {
-        console.log("get table names");
-        var getTableNameData = crudAJService.getTables();
-        getTableNameData.then(function (TableList) {
-            $scope.Tables = TableList.data;
-        }, function () {
-            alert('Error in getting Table Names');
-        });
-    }
-
     $scope.editSYS_Config = function (SYS_Config) {
         console.log("edit");
         var getSYS_ConfigData = crudAJService.getSYS_Config(SYS_Config.Id);
+        console.log("getSYS_ConfigData from service.js:" + getSYS_ConfigData);
         getSYS_ConfigData.then(function (_SYS_Config) {
             $scope.SYS_Config = _SYS_Config.data.Item1;
             $scope.SYS_ConfigId = SYS_Config.OptionItem_ID;
@@ -126,69 +147,59 @@
         $scope.divSYS_Config = false;
     };
 
-    
-    
-    $scope.predicate = 'naOptime';
-    $scope.reverse = true;
-    $scope.currentPage = 1;
-    $scope.order = function (predicate) {
-        console.log("order");
+});
+/* ------------------------------------------------------------------------- */
 
-        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
-        $scope.predicate = predicate;
-    };
-
-    $scope.totalItems = 177;
-    //console.log($scope.SYS_Configs.Count());
-    $scope.numPerPage = 5;
-    console.log("(total, num/page)" + ": " + $scope.totalItems + "," + $scope.numPerPage);
-    $scope.paginate = function (value) {
-        console.log("paginate");
-            console.log("paginate");
-            var begin, end, index;
-            begin = ($scope.currentPage - 1) * $scope.numPerPage;
-            end = begin + $scope.numPerPage;
-            index = $scope.students.indexOf(value);
-            return (begin <= index && index < end);
-        };
-    
-
-
+app.controller("getdataCtrl", function ($scope, crudAJService) {
+    LoadDefaultTable();
+    function LoadDefaultTable() {
+        console.log("Load default table");
+        var getSYS_ConfigData = crudAJService.getSYS_Configs();
+        console.log("data:" + getSYS_ConfigData);
+        getSYS_ConfigData.then(function (SYS_Config) {
+            //console.log("inmethod: " + SYS_Config.data.Item1);
+            $scope.SYS_Configs = SYS_Config.data.Item1; //now returns tuple of data (item1) and header info . . 
+        }, function () {
+            alert('Error in getting SYS_Config records');
+        });
+    }
 });
 
-//angular.module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
-//    .controller('DemoCtrl', function ($interval) {
-//        this.elevation = 1;
-//        this.showFrame = 3;
+/* ------------------------------------------------------------------------- */
 
-//        this.nextElevation = function () {
-//            if (++this.elevation == 25) {
-//                this.elevation = 1;
-//            }
-//        };
+//app.controller("getableCtrl", function ($scope, crudAJService) {
+//    LoadDefaultTable();
+//    function LoadDefaultTable() {
+//        console.log("Load default data");
+//        var getSYS_ConfigData = crudAJService.getSYS_Configs();
+//        console.log("data:" + getSYS_ConfigData);
+//        getSYS_ConfigData.then(function (SYS_Config) {
+//            //console.log("inmethod: " + SYS_Config.data.Item1);
+//            $scope.SYS_Configs = SYS_Config.data.Item1; //now returns tuple of data (item1) and header info . . 
+//        }, function () {
+//            alert('Error in getting SYS_Config records');
+//        });
+//    }
+//});
 
-//        $interval(this.nextElevation.bind(this), 500);
+/* ------------------------------------------------------------------------- */
 
-//        this.toggleFrame = function () {
-//            this.showFrame = this.showFrame == 3 ? -1 : 3;
-//        };
-//    });
-
-app.controller('SwitchDemoCtrl', function ($scope) {
-    $scope.data = {
-        cb1: true,
-        cb4: true,
-        cb5: false
-    };
-    $scope.message = 'false';
-    $scope.onChange = function (cbState) {
-        $scope.message = cbState;
-    };
-});
-
-/**
-Copyright 2016 Google Inc. All Rights Reserved. 
-Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
-**/
-
-
+app.config(function ($routeProvider) {
+    $routeProvider
+        .when("#", {
+            templateUrl: "/Home/Home"
+        })
+        .when("/Index", {
+            templateUrl: "/Home/Index"
+        })
+        .when("/Setup", {
+            templateUrl: "/Setup/Setup"
+        })
+        .when("/Table", {
+            templateUrl: function (params) { console.log("tableview"); return "/Home/Table?tablename=" + params.tablename; }
+            //templateUrl: function (params) { console.log("tableview"); return '/Home/Table?tablename=' + params.tablename; }
+        })
+        .when("/Home", {
+            templateUrl: "Home"
+        });
+})

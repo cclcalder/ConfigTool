@@ -29,7 +29,7 @@
         background-image: url('../../Images/Preloader_2.gif');
     }
 </style>
-
+<div class="se-pre-con"></div>
 <center>
     <h1 class="display-1">
         Home
@@ -40,9 +40,8 @@
 <div class="container body-content">
 
     <div ng-controller="WizardController">
-        <span>{{items.remaining()}} of {{items.length}} remaining</span>
         <div>
-            <ul ng-repeat="item in items" >
+            <ul style="list-style: none;" ng-repeat="item in items" >
                 <li>
                     <label class="checkbox">
                         <input type="checkbox" ng-model="item.complete">

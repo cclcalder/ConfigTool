@@ -17,7 +17,6 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
-
 </head>
 
 <body>
@@ -66,27 +65,27 @@
 
     <div id="st-container" class="st-container" ng-controller="mvcCRUDCtrl">
         <nav class="st-menu st-effect-2" id="menu-2">
-            <h2 class="icon icon-stack">Menu</h2>
+            <h2 class="icon icon-cloud">Config Tool</h2>
             <ul class="menu">
                 @*This will be filled with data from wizard upload*@
-                <li><a class="icon icon-location" href="@Url.Action("Home", "Home")">Home</a></li>
-                <li><a class="icon icon-study" href="@Url.Action("Setup", "Setup")">Setup</a></li>
-                <li><a class="icon icon-photo" href="@Url.Action("Index", "Setup")">Task Wizard</a></li> 
+                <li><a class="icon icon-location" href="#">Home</a></li>
+                <li><a class="icon icon-study" href="#Setup">Setup</a></li>
+                <li><a class="icon icon-photo" href="#Table/SYS_Config">Task Wizard</a></li>
+                <li><a class="icon icon-photo" href="#Index">Test Table</a></li>  
+                @*<li><a class="icon icon-photo" href="/Home/Index" ng-click="GetAllSYS_Configs()">Test Table</a></li>*@ 
                 <li><a class="icon icon-data">Tables</a>
-                @*use ng-mouseover*@
                     <ul class="menu">
-                        <li ng-repeat="TableList in Tables"> <button1 ng-click="LoadTableData(TableList)">{{TableList}}</button1> </li>
+                        <li ng-repeat="Table in TableList"> <a1 href="#Table" ng-click="LoadTableData(Table)" class="icon icon-pen">{{Table}}</a1> </li>
                     </ul>
                 </li>
             </ul>
         </nav>
       
-    <!-- push wrapper .. surely dont need all these divs.. -->
         <div class="st-pusher">
             <div class="st-content">
                 <div class="st-content-inner">
                     <div class="main clearfix">
-                        <div class="se-pre-con"></div>
+                        @*<div class="se-pre-con"></div>*@
                             @RenderBody()
                             <footer>
                                 <center><p>&copy; @DateTime.Now.Year - Config Tool</p></center>
@@ -100,10 +99,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/JSplugins")
-
     @RenderSection("scripts", required: false)
-    <script src="js/classie.js"></script>
-    <script src="js/sidebarEffects.js"></script>
 
 </body>
 </html>

@@ -9,6 +9,7 @@ using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
 
@@ -20,37 +21,33 @@ namespace WebApplication2.Controllers
         // GET: SYS_Config
         public ActionResult Index()
         {
-            return View();
+            return PartialView();
         }
 
-        // GET: Another table for demo -  if generic dont need TEMPORARY
-        public ActionResult About()
+        //All tables
+        public ActionResult Table(string table)
         {
-            return View();
+            ViewBag.TableName = table;
+            return PartialView();
         }
 
         public ActionResult Home()
         {
             return View();
         }
-
-        //Return selected table data
-        public ActionResult TableAction(string table)
+        public ActionResult ngView()
         {
-            return PartialView(table);
+            return View();
         }
+
         //eventually replace GetSYS_Config with LoadTable
-        public JsonResult LoadTable(string table)
+        public JsonResult LoadTableData(string table)
         {
-            //if (!String.IsNullOrEmpty(table))
-            //{
-            //    return ("Loading table:" + table);
-            //}
-            //else return ("Table name is null or empty");
             var tableToLoad = table.Trim('/', '"');
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                if (String.IsNullOrEmpty(table) || tableToLoad == "app.SYS_Config")
+                //default load sys_config table for ease
+                if (String.IsNullOrEmpty(table) || tableToLoad == "SYS_Config")
                 {
                     //load 'default' table - SYS_Config for now
                     var SYS_ConfigList = contextObj.SYS_Configs.ToList();
@@ -67,17 +64,41 @@ namespace WebApplication2.Controllers
                 }
                 else
                 {
+                    try
+                    {
+                        //if exists return ITable to 
+                        var table1 = contextObj.GetType();
+                        var table2 = table1.GetProperty(tableToLoad);
+                        var table3 = table2.GetValue(contextObj, null);
+
+                        var returnTable = contextObj.SYS_Locks.ToList();
+
+                        var data = new ColDataToHtml();
+                        data.names = ColumnMapping(returnTable[0], "name");
+                        data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(returnTable[0], "type")), ColumnMapping(returnTable[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
+                        data.parents = ColumnMapping(returnTable[0], "relations");
+                        data.children = ColumnMapping(returnTable[0], "relations");
+
+                        var jsonReturn = new Tuple<List<SYS_Lock>, ColDataToHtml>(returnTable, data);
+
+                        return Json(jsonReturn, JsonRequestBehavior.AllowGet);
+                    }
+                    catch
+                    {
+                        return Json("Error getting table data from db.");
+                    }
+
                     //else load table passed in
                     //foreach table in context check whether name matches and if so use that one
-                    var tableList = contextObj.Mapping.GetTables();
-                    foreach (MetaTable dataTable in tableList)
-                    {
-                        if(dataTable.TableName == tableToLoad)
-                        {
-                            return Json(dataTable, JsonRequestBehavior.AllowGet);
-                        }
-                    }
-                    return Json("Shouldn't get here");
+                    //var tableList = contextObj.Mapping.GetTables();
+                    //foreach (MetaTable dataTable in tableList)
+                    //{
+                    //    if(dataTable.TableName.TrimStart("app.".ToCharArray()) == tableToLoad)
+                    //    {
+                    //        return Json(table, JsonRequestBehavior.AllowGet);
+                    //    }
+                    //}
+                    //return Json("Shouldn't get here");
                 }
             }
         }
@@ -115,7 +136,7 @@ namespace WebApplication2.Controllers
                 var tabNames = new List<string>();
                 foreach (MetaTable table in tableList)
                 {
-                    tabNames.Add(table.TableName);
+                    tabNames.Add(table.TableName.TrimStart("app.".ToCharArray()));
                 }
                 return Json(tabNames, JsonRequestBehavior.AllowGet);
             }
