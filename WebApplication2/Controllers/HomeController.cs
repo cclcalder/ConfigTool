@@ -42,6 +42,7 @@ namespace WebApplication2.Controllers
             return PartialView();
         }
         public ActionResult ngView()
+
         {
             return View();
         }

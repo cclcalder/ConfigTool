@@ -4,10 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Configuration Tool </title>
+    @Scripts.Render("~/bundles/aggrid")
     @Scripts.Render("~/bundles/angularJS")
     @Scripts.Render("~/bundles/customJS")
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")   
+    @Scripts.Render("~/bundles/modernizr")
 
     @*Put these in bundles if def need them in end*@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato" />
@@ -23,10 +24,10 @@
 
     <!--loading icon - move from here-->
     <script type="text/javascript">
-    $(window).load(function () {
-        // Animate loader off screen
-        $(".se-pre-con").fadeOut("slow");;
-    });
+        $(window).load(function () {
+            // Animate loader off screen
+            $(".se-pre-con").fadeOut("slow");;
+        });
     </script>
     <style>
         .js #loader {
@@ -63,7 +64,7 @@
         </nav1>
     </header>
 
-    <div id="st-container" class="st-container" ng-controller="mvcCRUDCtrl">
+    <div id="st-container" class="st-container" ng-controller="mainCtrl">
         <nav class="st-menu st-effect-2" id="menu-2">
             <h2 class="icon icon-cloud">Config Tool</h2>
             <ul class="menu">
@@ -71,25 +72,26 @@
                 <li><a class="icon icon-location" href="#Home">Home</a></li>
                 <li><a class="icon icon-study" href="#Setup">Setup</a></li>
                 <li><a class="icon icon-photo" href="#Table/hi">Task Wizard</a></li>
-                <li><a class="icon icon-photo" href="#Index">Test Table</a></li>  
-                @*<li><a class="icon icon-photo" href="/Home/Index" ng-click="GetAllSYS_Configs()">Test Table</a></li>*@ 
-                <li><a class="icon icon-data">Tables</a>
-                    <ul class="menu">
-                        <li ng-repeat="Table in TableList"> <a id="sublist" href="#Table/{{Table}}" ng-click="LoadTableData(Table)" class="icon icon-pen">{{Table}}</a> </li>
-                    </ul>
+                <li><a class="icon icon-photo" href="#Index">Test Table</a></li>
+                @*<li><a class="icon icon-photo" href="/Home/Index" ng-click="GetAllSYS_Configs()">Test Table</a></li>*@
+                <li>
+                    <a class="icon icon-data">Tables</a>
+                        <ul class="submenu">
+                            <li ng-repeat="Table in TableList"> <a rel="external" href="#Table/{{Table}}" class="icon icon-pen" >{{Table}}</a> </li>
+                        </ul>
                 </li>
             </ul>
         </nav>
-      
+
         <div class="st-pusher">
             <div class="st-content">
                 <div class="st-content-inner">
                     <div class="main clearfix">
                         @*<div class="se-pre-con"></div>*@
-                            @RenderBody()
-                            <footer>
-                                <center><p>&copy; @DateTime.Now.Year - Config Tool</p></center>
-                            </footer>
+                        @RenderBody()
+                        <footer>
+                            <center><p>&copy; @DateTime.Now.Year - Config Tool</p></center>
+                        </footer>
                     </div><!-- /main -->
                 </div><!-- /st-content-inner -->
             </div><!-- /st-content -->

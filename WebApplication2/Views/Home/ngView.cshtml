@@ -6,7 +6,6 @@
 <!--loading icon - move from here-->
 <script type="text/javascript">
     $(window).load(function () {
-        // Animate loader off screen
         $(".se-pre-con").fadeOut("slow");;
     });
 </script>
@@ -29,7 +28,14 @@
         background-image: url('../../Images/Preloader_2.gif');
     }
 </style>
+@*<script src="~/node_modules/ag-grid/dist/ag-grid.js"></script>
+
+<link href="~/node_modules/ag-grid/dist/styles/ag-grid.css" rel="stylesheet" />
+<link href="~/node_modules/ag-grid/dist/styles/theme-fresh.css" rel="stylesheet" />*@
 
 <div class="se-pre-con"></div>
-<div ng-view></div>
+
+@*<route-loading-indicator />*@
+
+<div @*ng-if='!isRouteLoading'*@ ng-view></div>
 
