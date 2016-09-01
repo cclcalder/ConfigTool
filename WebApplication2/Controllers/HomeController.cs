@@ -1,6 +1,7 @@
 ﻿using ConfigTool;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,6 +16,7 @@ using System.Web.Mvc;
 
 namespace WebApplication2.Controllers
 {
+    #region Action Views
     //[Authorize] 
     public class HomeController : Controller
     {
@@ -46,8 +48,19 @@ namespace WebApplication2.Controllers
         {
             return View();
         }
+        #endregion
 
-        //eventually replace GetSYS_Config with LoadTable
+
+        //create object containing all info html needs from db - via controller and javascript
+        public struct ColDataToHtml
+        {
+            public List<string> names;                              // name of col, mainly for testing
+            public Tuple<List<string>, List<bool>> inputTypes;      // input type for col - for html edit/add
+            public List<string> children;                           // key contraints
+            public List<string> parents;                            // key constraints
+            public string namesJson;
+        }
+
         public JsonResult LoadTableData(string table)
         {
             var tableToLoad = table.Trim('/', '"');
@@ -65,6 +78,18 @@ namespace WebApplication2.Controllers
                     data.parents = ColumnMapping(SYS_ConfigList[0], "relations");
                     data.children = ColumnMapping(SYS_ConfigList[0], "relations");
 
+                    JArray jArr = new JArray();
+                    foreach (string name in data.names)
+                    {
+                        var obj = new JObject();
+                        var prop = new JProperty("headerName", name.Trim('_'));
+                        var fieldprop = new JProperty("field", name.Trim('_'));
+                        obj.Add(prop);
+                        obj.Add(fieldprop);
+                        jArr.Add(obj);
+                    }
+                    data.namesJson = jArr.ToString();
+
                     var jsonReturn = new Tuple<List<SYS_Config>, ColDataToHtml>(SYS_ConfigList, data);
 
                     return Json(jsonReturn, JsonRequestBehavior.AllowGet);
@@ -78,6 +103,7 @@ namespace WebApplication2.Controllers
                         var table2 = table1.GetProperty(tableToLoad);
                         var table3 = table2.GetValue(contextObj, null);
 
+                        //this is a cheat! make it work!!
                         var returnTable = contextObj.SYS_Locks.ToList();
 
                         var data = new ColDataToHtml();
@@ -85,6 +111,17 @@ namespace WebApplication2.Controllers
                         data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(returnTable[0], "type")), ColumnMapping(returnTable[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
                         data.parents = ColumnMapping(returnTable[0], "relations");
                         data.children = ColumnMapping(returnTable[0], "relations");
+                        JArray jArr = new JArray();
+                        foreach (string name in data.names)
+                        {
+                            var obj = new JObject();
+                            var prop = new JProperty("headerName", name.Trim('_'));
+                            var fieldprop = new JProperty("field", name.Trim('_'));
+                            obj.Add(prop);
+                            obj.Add(fieldprop);
+                            jArr.Add(obj);
+                        }
+                        data.namesJson = jArr.ToString();
 
                         var jsonReturn = new Tuple<List<SYS_Lock>, ColDataToHtml>(returnTable, data);
 
@@ -112,15 +149,6 @@ namespace WebApplication2.Controllers
 
         //if want to do this create a method that is called, the 'table' is passed in from somewhere and passed into the view
         //onclick of side-nav table, arguement passed to 'GetTable' - name of table, and partial? view containing THAT TABLE is returned
-
-        //create object containing all info html needs from db - via controller and javascript
-        public struct ColDataToHtml
-        {
-            public List<string> names;                              // name of col, mainly for testing
-            public Tuple<List<string>, List<bool>> inputTypes;      // input type for col - for html edit/add
-            public List<string> children;                           // key contraints
-            public List<string> parents;                            // key constraints
-        }
 
         //public void CheckRequiredTables(List<string> tableNames)        // GET: All table names in DataContext
         //{
@@ -154,8 +182,6 @@ namespace WebApplication2.Controllers
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                //MetaTable tableMeta = contextObj.Mapping.GetTable(typeof(SYS_Config));
-                //var dataMembers = tableMeta.RowType.PersistentDataMembers; //for each item in datamember check info and attach to each column in table
 
                 var SYS_ConfigList = contextObj.SYS_Configs.ToList();
 
@@ -164,6 +190,7 @@ namespace WebApplication2.Controllers
                 data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(SYS_ConfigList[0], "type")), ColumnMapping(SYS_ConfigList[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
                 data.parents = ColumnMapping(SYS_ConfigList[0], "relations");
                 data.children = ColumnMapping(SYS_ConfigList[0], "relations");
+
 
                 var jsonReturn = new Tuple<List<SYS_Config>, ColDataToHtml>(SYS_ConfigList, data);
 

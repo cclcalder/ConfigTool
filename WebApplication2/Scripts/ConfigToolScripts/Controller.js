@@ -3,37 +3,58 @@
 
 app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
     console.log("Ctrl = mvcCRUDCtrl");
-
     $scope.tablename = $routeParams.tablename;
-    console.log("TableName = " + $scope.tablename);
+    console.log("Loading table: " + $scope.tablename);
 
     LoadTable();
     function LoadTable() {
         var loadTableMethod = crudAJService.loadTable($scope.tablename);
         //calls function when response is available
+
         loadTableMethod.then(function (TabData) {
+            //headers for old grid
             $scope.TableHeaders = TabData.data.Item2.names;
+            //json headers for new grid
+            $scope.TableHeadersJson = JSON.parse(TabData.data.Item2.namesJson);
+            //$scope.TableHeadersJson.push(TabData.data.Item2.namesJson);
+            //data (in json)
             $scope.TableData = TabData.data.Item1;
+
             console.log("Headers: " + TabData.data.Item2.names);
+            console.log("Json Headers: " + TabData.data.Item2.namesJson);
+            console.log("Data: " + TabData.data.Item1);
         }, function () {
             alert('Error in getting table.');
         });
 
         var gridDiv = document.querySelector('#myGrid');
-
+        //gridOptions.datasource = TabData.data.Item1;
+        //console.log(gridOptions.datasource);
         var gridOptions = {
+            //columnDefs:  $scope.TableHeadersJson ,
             columnDefs: [
-                { headerName: 'Name', field: 'name' },
-                { headerName: 'Role', field: 'role' }
+                { headerName: 'StoredProcedure', field: 'StoredProcedure' },
+                { headerName: 'RunLogID', field: 'RunLogID' },
+                { headerName: 'Locked', field: 'Locked' },
+                { headerName: 'LockedDate', field: 'LockedDate' }
             ],
+            //rowData:  $scope.TableData ,
             rowData: [
-                { name: 'Niall', role: 'Developer' },
-                { name: 'Eamon', role: 'Manager' },
-                { name: 'Brian', role: 'Musician' },
-                { name: 'Kevin', role: 'Manager' }
-            ]
-        };
+                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" }
+            ],
 
+            enableSorting: true,
+            enableFilter: true,
+            debug: true,
+            paginationPageSize: 500,
+            rowSelection: 'multiple',
+            enableColResize: true,
+            //rowModelType: 'pagination'
+
+        };
         new agGrid.Grid(gridDiv, gridOptions);
     }
 });
