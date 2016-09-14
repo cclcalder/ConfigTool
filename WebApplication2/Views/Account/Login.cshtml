@@ -3,7 +3,19 @@
 @{
     ViewBag.Title = "Log in";
 }
+<!--  
+In Internet applications or other scenarios where it is impractical to use Windows accounts, you can use forms authentication to establish user identity. 
+For this task, you typically create a page where users can enter a user name and password and then you validate the user's credentials. The ASP.NET Login 
+controls can perform much of this work for you, or you can create a login page and use the FormsAuthentication class to establish a user identity. 
 
+Roles do not work with users who have not established an identity in your application (anonymous users).
+ 
+If you use Login controls or forms authentication to establish user identity, you can also use role management together with membership. In this scenario, 
+you use membership to define users and passwords. You can then use role management to define roles and assign members to those roles. However, role management 
+does not depend on membership. As long as you have a way in your application to set user identity, you can use role management for authorization.
+
+https://msdn.microsoft.com/en-us/library/ms178329.aspx#builtin_login_pages
+-->
 <h2>@ViewBag.Title.</h2>
 <div class="row">
     <div class="col-md-8">
@@ -51,11 +63,11 @@
             }
         </section>
     </div>
-    <div class="col-md-4">
+    @*<div class="col-md-4">
         <section id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
-    </div>
+    </div>*@
 </div>
 
 @section Scripts {

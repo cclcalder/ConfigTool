@@ -17,7 +17,8 @@ using System.Web.Mvc;
 namespace WebApplication2.Controllers
 {
     #region Action Views
-    //[Authorize] 
+    //does this mean you have to authorize every controller below?
+    [Authorize] 
     public class HomeController : Controller
     {
         // GET: SYS_Config

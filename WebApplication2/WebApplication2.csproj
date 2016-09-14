@@ -1929,10 +1929,12 @@
     <Content Include="Views\Setup\Setup.cshtml" />
     <Content Include="Views\Home\Table.cshtml" />
     <Content Include="Views\Home\ngView.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="node_modules\ag-grid\node_modules\css-loader\node_modules\cssnano\node_modules\postcss-calc\node_modules\reduce-css-calc\node_modules\math-expression-evaluator\" />
+    <Folder Include="Roles\" />
     <Folder Include="Views\Wizard\" />
   </ItemGroup>
   <ItemGroup>

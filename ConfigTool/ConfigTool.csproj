@@ -61,6 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuditTrail.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="LinqToSQL.cs" />
     <Compile Include="ExceedraDB.designer.cs">
       <AutoGen>True</AutoGen>

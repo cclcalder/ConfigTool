@@ -1,5 +1,5 @@
 body {
-	background: #444;
+    background: rgba(255,255,255,0.3);
 	font-weight: 300;
 	font-family: 'Lato', Calibri, Arial, sans-serif;
 }
@@ -104,14 +104,15 @@ a:hover, a:focus {
 }
 
 .main {
-	max-width: 80%;
+	/*max-width: 80%;*/
+    display: table;
 	margin: 0 auto;
 }
 
 .column {
 	float: left;
 	width: 50%;
-	/*padding: 0 2em;*/
+	padding: 0 0.1em;
 	min-height: 300px;
 	position: relative;
 	text-align: right;
@@ -195,7 +196,7 @@ button:hover {
 		width: 100%;
 		min-width: auto;
 		min-height: auto;
-		padding: 2em; 
+		/*padding: 2em;*/ 
 		text-align: center;
 	}
 

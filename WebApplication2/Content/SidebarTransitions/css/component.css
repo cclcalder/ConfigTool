@@ -1,8 +1,9 @@
 *,
 *:after,
-*::before {
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+*::before,
+*:before {
+	-moz-box-sizing: unset;
+	box-sizing: unset;
 }
 
 html,
@@ -141,9 +142,9 @@ body,
     word-break:break-all;
 }
 
-.st-menu a[rel="external"] :hover {
+/*.st-menu a[rel="external"] :hover {
 
-}
+}*/
 
 /*.menu li a {
     display: block;

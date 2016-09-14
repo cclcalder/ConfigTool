@@ -30,32 +30,103 @@ app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
         var gridDiv = document.querySelector('#myGrid');
         //gridOptions.datasource = TabData.data.Item1;
         //console.log(gridOptions.datasource);
+        var colHeaders = $scope.TableHeadersJson;
         var gridOptions = {
-            //columnDefs:  $scope.TableHeadersJson ,
+            //columnDefs:  colHeaders ,
             columnDefs: [
-                { headerName: 'StoredProcedure', field: 'StoredProcedure' },
-                { headerName: 'RunLogID', field: 'RunLogID' },
-                { headerName: 'Locked', field: 'Locked' },
-                { headerName: 'LockedDate', field: 'LockedDate' }
+            {
+              "headerName": "StoredProcedure",
+              "field": "StoredProcedure"
+            },
+            {
+              "headerName": "RunLogID",
+              "field": "RunLogID"
+            },
+            {
+              "headerName": "Locked",
+              "field": "Locked"
+            },
+            {
+              "headerName": "LockedDate",
+              "field": "LockedDate"
+            }
             ],
-            //rowData:  $scope.TableData ,
-            rowData: [
-                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
-                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
-                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
-                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" }
-            ],
+            rowData:  $scope.TableData ,
+            //rowData: [
+            //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+            //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+            //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+            //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" }
+            //],
 
             enableSorting: true,
             enableFilter: true,
             debug: true,
-            paginationPageSize: 500,
+            //paginationPageSize: 500,
             rowSelection: 'multiple',
             enableColResize: true,
             //rowModelType: 'pagination'
 
         };
         new agGrid.Grid(gridDiv, gridOptions);
+
+
+        //function onPageSizeChanged(newPageSize) {
+        //    this.gridOptions.paginationPageSize = new Number(newPageSize);
+        //    createNewDatasource();
+        //}
+
+        //// when json gets loaded, it's put here, and  the datasource reads in from here.
+        //// in a real application, the page will be got from the server.
+        //var allOfTheData;
+
+        //function createNewDatasource() {
+        //    if (!allOfTheData) {
+        //        // in case user selected 'onPageSizeChanged()' before the json was loaded
+        //        return;
+        //    }
+
+        //    var dataSource = {
+        //        //rowCount: ???, - not setting the row count, infinite paging will be used
+        //        getRows: function (params) {
+        //            // this code should contact the server for rows. however for the purposes of the demo,
+        //            // the data is generated locally, a timer is used to give the experience of
+        //            // an asynchronous call
+        //            console.log('asking for ' + params.startRow + ' to ' + params.endRow);
+        //            setTimeout(function () {
+        //                // take a chunk of the array, matching the start and finish times
+        //                var rowsThisPage = allOfTheData.slice(params.startRow, params.endRow);
+        //                // see if we have come to the last page. if we have, set lastRow to
+        //                // the very last row of the last page. if you are getting data from
+        //                // a server, lastRow could be returned separately if the lastRow
+        //                // is not in the current page.
+        //                var lastRow = -1;
+        //                if (allOfTheData.length <= params.endRow) {
+        //                    lastRow = allOfTheData.length;
+        //                }
+        //                params.successCallback(rowsThisPage, lastRow);
+        //            }, 500);
+        //        }
+        //    };
+
+        //    gridOptions.api.setDatasource(dataSource);
+        //}
+
+        //function setRowData(rowData) {
+        //    allOfTheData = rowData;
+        //    createNewDatasource();
+        //}
+
+        //// setup the grid after the page has finished loading
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    var gridDiv = document.querySelector('#myGrid');
+        //    new agGrid.Grid(gridDiv, gridOptions);
+
+        //            setRowData($scope.TableData);
+
+        //});
+
+
     }
 });
 
@@ -208,4 +279,16 @@ app.config(function ($routeProvider,
         .otherwise({ redirectTo: '/Home/Home' });;
 
 })
+
+app.directive('header', function () {
+    return {
+        restrict: 'A', //This menas that it will be used as an attribute and NOT as an element. I don't like creating custom HTML elements
+        replace: true,
+        scope: { user: '=' }, // This is one of the cool things :). Will be explained in post.
+        templateUrl: "/js/directives/layout.html",
+        controller: ['$scope', '$filter', function ($scope, $filter) {
+            // Your behaviour goes here :)
+        }]
+    }
+});
 
