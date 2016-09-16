@@ -4,6 +4,9 @@
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "main-header" }))
     {
     @Html.AntiForgeryToken()
+        <script>
+            console.log("(Logged in)");
+        </script>
 
         <header class="main-header">
             <nav2>
@@ -40,16 +43,19 @@
                 </ul>
             </nav>
             </div>
-
     }
 }
 else
 {
+    <script>
+            console.log("(Logged out)");
+    </script>
+
     <header class="main-header">
         <nav2>
-            <div id="st-trigger-effects" class="column">
+            @*<div id="st-trigger-effects" class="column">
                 <button data-effect="st-effect-2"><i class="fa fa-bars" aria-hidden="true"></i></button>
-            </div>
+            </div>*@
         </nav2>
         <nav1>
             <ul>
@@ -62,7 +68,6 @@ else
     </header>
 
 }
-
 
 
 @*<ul class="nav navbar-nav navbar-right">

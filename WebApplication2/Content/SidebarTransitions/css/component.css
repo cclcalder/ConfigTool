@@ -16,7 +16,7 @@ body,
 
 .st-content {
 	overflow-y: scroll;
-	background: #f3efe0;
+	background: rgba(243, 239, 224, 0.46);
 }
 
 .st-content,

@@ -72,10 +72,6 @@ h1 {
     /*transform: translateY(0);
     transform: translate3d(0,0,0);
     transition: .25s transform;*/
-    width:100%;
-
-
-
 }
 
 .heads-up {
@@ -83,17 +79,16 @@ h1 {
     transform: translate3d(0,-6rem,0);
 }
 
-.main-header h1 {
+/*.main-header h1 {
     float: right;
     font-size: 1.4rem;
     margin: 0 0 0 2rem;
-}
+}*/
 
 .main-header nav1 {
     float: right;
     font-size: 1.4rem;
 }
-
 
 
 .main-header nav2 {
@@ -217,11 +212,11 @@ h1 {
 
 
 /* ---- angular whiteframe ----- */
-.whiteframedemoDirectiveInterpolation {
+/*.whiteframedemoDirectiveInterpolation {
   /* For breakpoint `-xs` */
   /* For breakpoint `-sm` */
   /* For breakpoint `-md` */
-  /* For breakpoint `-gt-md` */ }
+  /* For breakpoint `-gt-md`  }*/
   .whiteframedemoDirectiveInterpolation md-whiteframe, .whiteframedemoDirectiveInterpolation div.padded {
     background: #fff;
     height: 100px; }
@@ -499,8 +494,14 @@ ol.linenums {
   margin-bottom: 0;
 }
 
+/*input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: rgb(250, 255, 189);
+    background-image: none;
+    color: rgb(0, 0, 0);
+}*/
+
 /* IE indents via margin-left */
-li.L0,
+/*li.L0,
 li.L1,
 li.L2,
 li.L3,
@@ -510,17 +511,17 @@ li.L6,
 li.L7,
 li.L8,
 li.L9 {
-  /* */
-}
+
+}*/
 
 /* Alternate shading for lines */
-li.L1,
+/*li.L1,
 li.L3,
 li.L5,
 li.L7,
 li.L9 {
-  /* */
-}
+
+}*/
 
 /* ----------- */
 

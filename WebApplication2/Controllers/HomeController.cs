@@ -27,6 +27,11 @@ namespace WebApplication2.Controllers
             return PartialView();
         }
 
+        public ActionResult Setup()
+        {
+            return PartialView();
+        }
+
         //All tables
         public ActionResult Table(string tablename)
         {
@@ -45,7 +50,6 @@ namespace WebApplication2.Controllers
             return PartialView();
         }
         public ActionResult ngView()
-
         {
             return View();
         }
@@ -357,7 +361,6 @@ namespace WebApplication2.Controllers
         // Delete SYS_Config
         public string DeleteSYS_Config(string SYS_ConfigId)
         {
-
             if (!String.IsNullOrEmpty(SYS_ConfigId))
             {
                 try
@@ -367,7 +370,14 @@ namespace WebApplication2.Controllers
                     {
                         var _SYS_Config = contextObj.SYS_Configs.FirstOrDefault(s => s.OptionItem_ID == _SYS_ConfigId); //only one?
                         contextObj.SYS_Configs.DeleteOnSubmit(_SYS_Config);//only one element?
+                        //https://damieng.com/blog/2008/07/30/linq-to-sql-log-to-debug-window-file-memory-or-multiple-writers
+                        //
+                        //contextObj.Log = new ConfigTool.Log();
+                        //f you wish to not overwrite the existing log file then change the constructor to include the parameter true after the filename. 
+                        contextObj.Log = new System.IO.StreamWriter("linqtosql.log", true) { AutoFlush = true };
+
                         contextObj.SubmitChanges();
+
                         return "Selected SYS_Config record deleted sucessfully";
                     }
                 }
@@ -381,6 +391,7 @@ namespace WebApplication2.Controllers
                 return "Invalid operation";
             }
         }
+
     }
 
 }

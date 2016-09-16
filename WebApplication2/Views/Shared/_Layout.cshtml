@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - Configuration Tool </title>
     @Scripts.Render("~/bundles/aggrid")
     @Scripts.Render("~/bundles/angularJS")
+    @Scripts.Render("~/bundles/angularmaterial")
     @Scripts.Render("~/bundles/customJS")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -47,8 +48,30 @@
             background: url(images/loader-64x/Preloader_2.gif) center no-repeat #fff;
         }
     </style>
+
     @Html.Partial("_LoginPartial")
-    @*<header class="main-header">
+    
+    <div id="st-container" class="st-container">
+        <div class="st-pusher">
+            <div class="st-content">
+                <div class="st-content-inner">
+                    <div class="main clearfix">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/JSplugins")
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+
+@*<header class="main-header">
         <nav2>
             <div id="st-trigger-effects" class="column">
                 <button data-effect="st-effect-2"><i class="fa fa-bars" aria-hidden="true"></i></button>
@@ -79,26 +102,3 @@
                 </li>
             </ul>
         </nav>*@
-
-    <div id="st-container" class="st-container">
-        <div class="st-pusher">
-            <div class="st-content">
-                <div class="st-content-inner">
-                    <div class="main clearfix">
-                        @RenderBody()
-                        <footer>
-                            <center><p>&copy; @DateTime.Now.Year - Config Tool</p></center>
-                        </footer>
-                    </div><!-- /main -->
-                </div><!-- /st-content-inner -->
-            </div><!-- /st-content -->
-        </div><!-- /st-pusher -->
-    </div><!-- /st-container -->
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/JSplugins")
-    @RenderSection("scripts", required: false)
-
-</body>
-</html>

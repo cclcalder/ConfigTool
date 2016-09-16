@@ -59,7 +59,7 @@ namespace ConfigTool
             int i = 0;
             var info = "show: false,\ncomplete: false";
             var child = ",\nchildren: [\n";
-            var rootNode = "\ntableName:";
+            //var rootNode = "\ntableName:";
 
             if (char.IsDigit(line[i]))
             {

@@ -1004,11 +1004,23 @@
     <Content Include="node_modules\angular-ui-router\src\viewScroll.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
+    <Content Include="Scripts\angular-animate\angular-animate.js" />
+    <Content Include="Scripts\angular-animate\angular-animate.min.js" />
+    <Content Include="Scripts\angular-animate\index.js" />
+    <Content Include="Scripts\angular-aria\angular-aria.js" />
+    <Content Include="Scripts\angular-aria\angular-aria.min.js" />
+    <Content Include="Scripts\angular-aria\index.js" />
     <Content Include="Scripts\angular-cookies.js" />
     <Content Include="Scripts\angular-cookies.min.js" />
     <Content Include="Scripts\angular-csp.css" />
     <Content Include="Scripts\angular-loader.js" />
     <Content Include="Scripts\angular-loader.min.js" />
+    <Content Include="Scripts\angular-material\angular-material-mocks.js" />
+    <Content Include="Scripts\angular-material\angular-material.css" />
+    <Content Include="Scripts\angular-material\angular-material.js" />
+    <Content Include="Scripts\angular-material\angular-material.min.css" />
+    <Content Include="Scripts\angular-material\angular-material.min.js" />
+    <Content Include="Scripts\angular-material\index.js" />
     <Content Include="Scripts\angular-message-format.js" />
     <Content Include="Scripts\angular-message-format.min.js" />
     <Content Include="Scripts\angular-messages.js" />
@@ -1864,6 +1876,12 @@
     <Content Include="node_modules\angular-ui-router\ui-router2.iml" />
     <Content Include="node_modules\angular-ui-router\ui-router2.ipr" />
     <Content Include="node_modules\angular-ui-router\ui-router2.iws" />
+    <Content Include="Scripts\angular-animate\angular-animate.min.js.map" />
+    <Content Include="Scripts\angular-animate\package.json" />
+    <Content Include="Scripts\angular-aria\angular-aria.min.js.map" />
+    <Content Include="Scripts\angular-aria\package.json" />
+    <Content Include="Scripts\angular-material\.npmignore" />
+    <Content Include="Scripts\angular-material\angular-material.scss" />
     <None Include="Scripts\jQuery\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jQuery\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\fastclick.js" />
@@ -1926,7 +1944,7 @@
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Setup\Setup.cshtml" />
+    <Content Include="Views\Home\Setup.cshtml" />
     <Content Include="Views\Home\Table.cshtml" />
     <Content Include="Views\Home\ngView.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
@@ -1935,6 +1953,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="node_modules\ag-grid\node_modules\css-loader\node_modules\cssnano\node_modules\postcss-calc\node_modules\reduce-css-calc\node_modules\math-expression-evaluator\" />
     <Folder Include="Roles\" />
+    <Folder Include="Scripts\angular-material\layouts\" />
+    <Folder Include="Scripts\angular-material\modules\" />
+    <Folder Include="Views\Setup\" />
     <Folder Include="Views\Wizard\" />
   </ItemGroup>
   <ItemGroup>

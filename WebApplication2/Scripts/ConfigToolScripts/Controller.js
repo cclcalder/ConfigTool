@@ -1,4 +1,5 @@
-﻿
+﻿//ANGULAR CONTROLLERS
+
 /* ----- Generic table controller -------------------------------- */
 
 app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
@@ -64,12 +65,11 @@ app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
             debug: true,
             //paginationPageSize: 500,
             rowSelection: 'multiple',
-            enableColResize: true,
+            enableColResize: true
             //rowModelType: 'pagination'
 
         };
         new agGrid.Grid(gridDiv, gridOptions);
-
 
         //function onPageSizeChanged(newPageSize) {
         //    this.gridOptions.paginationPageSize = new Number(newPageSize);
@@ -126,12 +126,27 @@ app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
 
         //});
 
-
     }
 });
 
-/* ----------- Main controller -------------------------------------- */
+/* ------- Setup controller -------------------------------- */
 
+/* ------- Hometest controller -------------------------------- */
+app.controller('AppCtrl', function($scope) {
+    $scope.imagePath = 'Images/ExceedraLogo_White.png';
+})
+.config(function($mdThemingProvider) {
+    $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+    $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
+    $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
+    $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+});
+
+
+
+/* ----------- Main controller -------------------------------------- */
+//This will be loaded AFTER setup - only then does the tool know what database it is connecting to
+//Login -> Setup (what database, whether wizard(if option), etc) -> loads tables into menu and starts whatever selected
 app.controller("mainCtrl", function ($scope, crudAJService) {
     console.log("Ctrl = mainCtrl");
     //Loads all table names from the data base into navbar
@@ -155,10 +170,10 @@ app.controller("getdataCtrl", function ($scope, crudAJService) {
     function LoadDefaultTable() {
         console.log("Load default table");
         var getSYS_ConfigData = crudAJService.getSYS_Configs();
-        //console.log("data:" + getSYS_ConfigData);
+        //Console.log("data:" + getSYS_ConfigData);
         getSYS_ConfigData.then(function (SYS_Config) {
-            //console.log("inmethod: " + SYS_Config.data.Item1);
-            $scope.SYS_Configs = SYS_Config.data.Item1; //now returns tuple of data (item1) and header info . . 
+            //Now returns tuple of data (item1) and header info..
+            $scope.SYS_Configs = SYS_Config.data.Item1; 
         }, function () {
             alert('Error in getting SYS_Config records');
         });
@@ -266,29 +281,17 @@ app.config(function ($routeProvider,
             templateUrl: function () { console.log("IndexView"); return "/Home/Index"; }
         })
         .when("/Setup", {
-            templateUrl: function () { console.log("SetupView"); return "/Setup/Setup"; }
+            templateUrl: function () { console.log("SetupView"); return "/Home/Setup"; }
         })
         .when('/Table/:tablename', {
-            //tablename is a route parameter
+            //tablename is a 'route parameter'
             templateUrl: function (params) { console.log("params.tablename: " + params.tablename); return "/Home/Table?tablename=" + params.tablename; },
             controller: 'mvcCRUDCtrl'
         })
         .when("/Home", {
             templateUrl: function () { console.log("HomeView3"); return "/Home/Home"; }
         })
-        .otherwise({ redirectTo: '/Home/Home' });;
+        .otherwise({ redirectTo: '/Home/Home' });
 
-})
-
-app.directive('header', function () {
-    return {
-        restrict: 'A', //This menas that it will be used as an attribute and NOT as an element. I don't like creating custom HTML elements
-        replace: true,
-        scope: { user: '=' }, // This is one of the cool things :). Will be explained in post.
-        templateUrl: "/js/directives/layout.html",
-        controller: ['$scope', '$filter', function ($scope, $filter) {
-            // Your behaviour goes here :)
-        }]
-    }
 });
 
