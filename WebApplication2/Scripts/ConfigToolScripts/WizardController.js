@@ -246,3 +246,6 @@ app.factory('Items', [function() {
     return items;
 }]);
 
+
+/*----------  ------------*/
+

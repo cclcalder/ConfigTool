@@ -1,7 +1,6 @@
 ﻿//ANGULAR CONTROLLERS
 
 /* ----- Generic table controller -------------------------------- */
-
 app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
     console.log("Ctrl = mvcCRUDCtrl");
     $scope.tablename = $routeParams.tablename;
@@ -36,23 +35,23 @@ app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
             //columnDefs:  colHeaders ,
             columnDefs: [
             {
-              "headerName": "StoredProcedure",
-              "field": "StoredProcedure"
+                "headerName": "StoredProcedure",
+                "field": "StoredProcedure"
             },
             {
-              "headerName": "RunLogID",
-              "field": "RunLogID"
+                "headerName": "RunLogID",
+                "field": "RunLogID"
             },
             {
-              "headerName": "Locked",
-              "field": "Locked"
+                "headerName": "Locked",
+                "field": "Locked"
             },
             {
-              "headerName": "LockedDate",
-              "field": "LockedDate"
+                "headerName": "LockedDate",
+                "field": "LockedDate"
             }
             ],
-            rowData:  $scope.TableData ,
+            rowData: $scope.TableData,
             //rowData: [
             //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
             //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
@@ -129,20 +128,125 @@ app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
     }
 });
 
-/* ------- Setup controller -------------------------------- */
+/* ------- Side Nav controller -------------------------------- */
+app.controller('SideNavCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+    $scope.toggleLeft = buildDelayedToggler('left');
+    $scope.toggleRight = buildToggler('right');
+    $scope.isOpenRight = function () {
+        return $mdSidenav('right').isOpen();
+    };
+
+    /**
+     * Supplies a function that will continue to operate until the
+     * time is up.
+     */
+    function debounce(func, wait, context) {
+        var timer;
+
+        return function debounced() {
+            var context = $scope,
+                args = Array.prototype.slice.call(arguments);
+            $timeout.cancel(timer);
+            timer = $timeout(function () {
+                timer = undefined;
+                func.apply(context, args);
+            }, wait || 10);
+        };
+    }
+
+    /**
+     * Build handler to open/close a SideNav; when animation finishes
+     * report completion in console
+     */
+    function buildDelayedToggler(navID) {
+        return debounce(function () {
+            // Component lookup should always be available since we are not using `ng-if`
+            $mdSidenav(navID)
+              .toggle()
+              .then(function () {
+                  $log.debug("toggle " + navID + " is done");
+              });
+        }, 200);
+    }
+
+    function buildToggler(navID) {
+        return function () {
+            // Component lookup should always be available since we are not using `ng-if`
+            $mdSidenav(navID)
+              .toggle()
+              .then(function () {
+                  $log.debug("toggle " + navID + " is done");
+              });
+        }
+    }
+})
+app.controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+    $scope.close = function () {
+        // Component lookup should always be available since we are not using `ng-if`
+        $mdSidenav('left').close()
+          .then(function () {
+              $log.debug("close LEFT is done");
+          });
+
+    };
+})
+app.controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+    $scope.close = function () {
+        // Component lookup should always be available since we are not using `ng-if`
+        $mdSidenav('right').close()
+          .then(function () {
+              $log.debug("close RIGHT is done");
+          });
+    };
+});
+app.controller('MyController', function ($scope, $mdSidenav) {
+    $scope.openLeftMenu = function () {
+        $mdSidenav('left').toggle();
+    };
+});
 
 /* ------- Hometest controller -------------------------------- */
-app.controller('AppCtrl', function($scope) {
+app.controller('AppCtrl', function ($scope) {
     $scope.imagePath = 'Images/ExceedraLogo_White.png';
 })
-.config(function($mdThemingProvider) {
+app.config(function ($mdThemingProvider) {
     $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
     $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
     $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
     $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
 });
 
+/* ------- Angular Material Setup -------------------------------- */
+app.controller('SetupCtrl', function ($scope, $routeParams) {
+    //instead send type of user as routeParam?
+    $scope.user = {
+        name: '',
+        title: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        company: 'Exceedra',
+        leveloption: '',
+        biography: ' '
+    };
 
+    $scope.leveloptions = ('Demo Setup All DataManipulation').split(' ').map(function (leveloption) {
+        return { abbrev: leveloption };
+    });
+
+    $scope.process = $routeParams.process;
+
+    $scope.start = function (process) {
+        console.log("start process: " + process);
+        
+    };
+})
+app.config(function ($mdThemingProvider) {
+        $mdThemingProvider.theme('docs-dark', 'default')
+        .primaryPalette('yellow')
+        .dark();
+
+  });
 
 /* ----------- Main controller -------------------------------------- */
 //This will be loaded AFTER setup - only then does the tool know what database it is connecting to
@@ -162,8 +266,8 @@ app.controller("mainCtrl", function ($scope, crudAJService) {
     }
 
 });
-/* ----------- Test table controller ------------------------------------------ */
 
+/* ----------- Test table controller ------------------------------------------ */
 app.controller("getdataCtrl", function ($scope, crudAJService) {
     console.log("Ctrl = getdataCtrl");
     LoadDefaultTable();
@@ -173,7 +277,7 @@ app.controller("getdataCtrl", function ($scope, crudAJService) {
         //Console.log("data:" + getSYS_ConfigData);
         getSYS_ConfigData.then(function (SYS_Config) {
             //Now returns tuple of data (item1) and header info..
-            $scope.SYS_Configs = SYS_Config.data.Item1; 
+            $scope.SYS_Configs = SYS_Config.data.Item1;
         }, function () {
             alert('Error in getting SYS_Config records');
         });
@@ -270,7 +374,6 @@ app.controller("getdataCtrl", function ($scope, crudAJService) {
 });
 
 /* ------------- Angular routing ------------------------------------ */
-
 app.config(function ($routeProvider,
     $locationProvider) {
     $routeProvider
@@ -283,13 +386,17 @@ app.config(function ($routeProvider,
         .when("/Setup", {
             templateUrl: function () { console.log("SetupView"); return "/Home/Setup"; }
         })
+        .when("/Login", {
+            templateUrl: function () { console.log("Login"); return "Account/Login"; }
+        })
         .when('/Table/:tablename', {
             //tablename is a 'route parameter'
             templateUrl: function (params) { console.log("params.tablename: " + params.tablename); return "/Home/Table?tablename=" + params.tablename; },
             controller: 'mvcCRUDCtrl'
         })
         .when("/Home", {
-            templateUrl: function () { console.log("HomeView3"); return "/Home/Home"; }
+            templateUrl: function (params) { console.log("HomeView3" + params.process); return "/Home/Home?process=" + params.process; },
+
         })
         .otherwise({ redirectTo: '/Home/Home' });
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConfigTool
 {
+    //log LINQ queries 
     public class Log : System.IO.TextWriter
     {
         public override void Write(char[] buffer, int index, int count)

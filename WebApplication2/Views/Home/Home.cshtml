@@ -17,120 +17,111 @@
 
 <center>
     <h1 class="display-1">
-        Home
-        <small class="text-muted">Progress</small>
+        Setup
+        <small class="text-muted">Config</small>
     </h1>
 </center>
 
-@*<div class="container body-content">
+<div ng-controller="SetupCtrl" layout="column" ng-cloak="" class="md-inline-form">
 
-    <div ng-controller="WizardController">
+    <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
         <div>
-            <ul style="list-style: none;" ng-repeat="item in items" >
-                <li>
-                    <label class="checkbox">
-                        <input type="checkbox" ng-model="item.complete">
-                        <span class="created">{{item.text}}</span>
-                        <i class="fa fa-angle-down" aria-hidden="true" ng-click="expand(item)"></i>
-                    </label>
-                </li>
-                <li ng-show="item.done">
-                    <ul>
-                        <li ng-repeat="children in item.children">
-                            <input type="checkbox" ng-model="children.complete">
-                            <span class="created">{{children.text}}</span>
+            <md-input-container>
+                <label>User Name</label>
+                <input ng-model="user.name" required>
+            </md-input-container>
 
-                            <ul>
-                                <li ng-repeat="subchildren in children.subchildren">
-                                    <input type="checkbox" ng-model="subchildren.complete">
-                                    <span class="created">{{ subchildren.text}}</span>
-                                </li>
-                            </ul>
-                        </li>                     
-                    </ul>           
-                </li>            
-            </ul>          
-        </div>*@
-        <div ng-controller="AppCtrl" ng-cloak>
-            <md-content class="md-padding" layout-xs="column" layout="row">
-                <div flex-xs flex-gt-xs="50" layout="column">
-                    <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">Card with image</span>
-                                <span class="md-subhead">Large</span>
-                            </md-card-title-text>
-                            <md-card-title-media>
-                                <div class="md-media-lg card-media"></div>
-                            </md-card-title-media>
-                        </md-card-title>
-                        <md-card-actions layout="row" layout-align="end center">
-                            <md-button>Action 1</md-button>
-                            <md-button>Action 2</md-button>
-                        </md-card-actions>
-                    </md-card>
-                    <md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">Card with image</span>
-                                <span class="md-subhead">Extra Large</span>
-                            </md-card-title-text>
-                        </md-card-title>
-                        <md-card-content layout="row" layout-align="space-between">
-                            <div class="md-media-xl card-media"></div>
+            <md-input-container>
+                <label>Project</label>
+                <input ng-model="user.title" required>
+            </md-input-container>
 
-                            <md-card-actions layout="column">
-                                <md-button class="md-icon-button" aria-label="Favorite">
-                                    <md-icon class="icon_home" aria-label="Favourite"></md-icon>
-                                </md-button>
-                                <md-button class="md-icon-button" aria-label="Settings">
-                                    <md-icon class="icon_home" aria-label="Menu"></md-icon>
-                                </md-button>
-                                <md-button class="md-icon-button" aria-label="Share">
-                                    <md-icon class="icon_home" aria-label="Arrow"></md-icon>
-                                </md-button>
-                            </md-card-actions>
-                        </md-card-content>
-                    </md-card>
-                </div>
-
-                <div flex-xs flex-gt-xs="50" layout="column">
-                    <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">Card with image</span>
-                                <span class="md-subhead">Small</span>
-                            </md-card-title-text>
-                            <md-card-title-media>
-                                <div class="md-media-sm card-media"></div>
-                            </md-card-title-media>
-                        </md-card-title>
-                        <md-card-actions layout="row" layout-align="end center">
-                            <md-button>Action 1</md-button>
-                            <md-button>Action 2</md-button>
-                        </md-card-actions>
-                    </md-card>
-                    <md-card md-theme="{{ showDarkTheme ? 'dark-blue' : 'default' }}" md-theme-watch>
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">Card with image</span>
-                                <span class="md-subhead">Medium</span>
-                            </md-card-title-text>
-                            <md-card-title-media>
-                                <div class="md-media-md card-media"></div>
-                            </md-card-title-media>
-                        </md-card-title>
-                        <md-card-actions layout="row" layout-align="end center">
-                            <md-button>Action 1</md-button>
-                            <md-button>Action 2</md-button>
-                        </md-card-actions>
-                    </md-card>
-                    <div layout layout-padding layout-align="center end" style="height:200px">
-                        <md-checkbox ng-model="showDarkTheme">Use 'Dark' Themed Cards</md-checkbox>
-                    </div>
-                </div>
-            </md-content>
+            <md-input-container>
+                <label>Client</label>
+                <input ng-model="user.email" type="text" required>
+            </md-input-container>
         </div>
+    </md-content>
+
+    <md-content layout-padding="">
+        <div>
+            <form name="userForm">
+
+                <div layout-gt-xs="row">
+                    <md-input-container class="md-block" flex-gt-xs="">
+                        <label>Company (Disabled)</label>
+                        <input ng-model="user.company" disabled="">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Start date</label>
+                        <md-datepicker ng-model="user.submissionDate" required></md-datepicker>
+                    </md-input-container>
+                </div>
+
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm="">
+                        <label>Database</label>
+                        <input ng-model="user.city" required>
+                    </md-input-container>
+                    <md-input-container class="md-block" flex-gt-sm="">
+                        <label>Process</label>
+                        <md-select ng-model="user.leveloption" required>
+                            <md-option ng-repeat="leveloption in leveloptions" value="{{leveloption.abbrev}}">
+                                {{leveloption.abbrev}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+        <md-input-container class="md-block">
+            <label>Notes</label>
+            <textarea ng-model="user.biography" md-select-on-focus=""></textarea>
+        </md-input-container>
+
+                <section layout="row" layout-sm="column" layout-align="left" layout-wrap="">
+                    <md-button class="md-raised" href="#Home/{{user.leveloption}}" ng-click="start(user.leveloption)" ng-disabled="userForm.$invalid">Start</md-button>
+                </section>
+
+        </form>
+</div>
+</md-content>
+
+</div>
+
+
+
+    @*<div class="container body-content">
+
+        <div ng-controller="WizardController">
+            <div>
+                <ul style="list-style: none;" ng-repeat="item in items" >
+                    <li>
+                        <label class="checkbox">
+                            <input type="checkbox" ng-model="item.complete">
+                            <span class="created">{{item.text}}</span>
+                            <i class="fa fa-angle-down" aria-hidden="true" ng-click="expand(item)"></i>
+                        </label>
+                    </li>
+                    <li ng-show="item.done">
+                        <ul>
+                            <li ng-repeat="children in item.children">
+                                <input type="checkbox" ng-model="children.complete">
+                                <span class="created">{{children.text}}</span>
+
+                                <ul>
+                                    <li ng-repeat="subchildren in children.subchildren">
+                                        <input type="checkbox" ng-model="subchildren.complete">
+                                        <span class="created">{{ subchildren.text}}</span>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>*@
+
+
+
+
 
         @*<h2>Configuration Tasks</h2>
             <div ng-controller="WizardController as todoList">

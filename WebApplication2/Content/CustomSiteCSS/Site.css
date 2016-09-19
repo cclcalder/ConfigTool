@@ -1,24 +1,4 @@
-﻿/* setup panels */
-.left-panel
-{        
-    background-color:#ccc;
-    width:10%;
-    height:90%;
-    float:left;            
-}
-.right-panel
-{        
-    background-color: azure;
-    width:80%;
-    height:100%;
-    float:left;
-}​
-
-/* Set padding to keep content from hitting the edges */
-
-.switchdemoBasicUsage .inset {
-  padding-left: 25px;
-  padding-top: 25px; }
+﻿/* Set padding to keep content from hitting the edges */
 
 .body-content {
     padding-left: 15px;
@@ -67,7 +47,7 @@ h1 {
     width: 100%;
     height: 5.5rem;
     color: white;
-    background: #444;
+    background: rgb(48,48,48);
     line-height: 5rem;
     /*transform: translateY(0);
     transform: translate3d(0,0,0);
@@ -96,7 +76,7 @@ h1 {
     z-index:0;
     padding-top: 5px;
     padding-left: 10px;
-    color: darkgray;
+color:rgb(48,48,48); 
     float: left;
     font-size: 2.4rem;
 }
@@ -125,84 +105,6 @@ h1 {
   -webkit-transition: all 1s; /* Safari and Chrome */
   -o-transition: all 1s; /* Opera */
 }
-
-/* Tabs displaying all children & parent tables of selected table
-           At the moment just a list of words yo..
-        */
-
-#childTableCSS ul {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    width: 100%;
-    list-style: none;
-}
-
-#childTableCSS li {
-    float: left;
-    margin: 0 10px;
-}
-
-.btn:active {
-    color: seagreen;
-}
-/*main square of button*/
-#childTableCSS a {
-    background: #ddd;
-    padding: .7em 1em;
-    float: left;
-    text-decoration: none;
-    color: #444;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
-    position: relative;
-}
-
-#childTableCSS li:first-child a {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-#childTableCSS li:last-child a {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-#childTableCSS a:hover {
-    background: #80cde2;
-}
-
-/*top left arrow wing*/
-#childTableCSS li:not(:first-child) > a::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    margin-top: -1.5em;
-    border-width: 1.5em 0 1.5em 1em;
-    border-style: solid;
-    border-color: #ddd #ddd #ddd transparent;
-    left: -1em;
-}
-
-#childTableCSS li:not(:first-child) > a:hover::before {
-    border-color: #80cde2 #80cde2 #80cde2 transparent;
-}
-
-/*arrow points*/
-#childTableCSS li:not(:last-child) > a::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    margin-top: -1.5em;
-    border-top: 1.5em solid transparent;
-    border-bottom: 1.5em solid transparent;
-    border-left: 1.02em solid #ddd;
-    right: -1em;
-}
-
-#childTableCSS li:not(:last-child) > a:hover::after {
-    border-left-color: #80cde2;
-}
-
 
 
 
@@ -307,7 +209,7 @@ ul {
   content: '#';
   font-size: 25px;
   margin-right: 10px;
-  color: #3c8dbc;
+  color: white;
 }
 .page-header:before,
 #components > h3:before {
@@ -679,7 +581,7 @@ body.layout .main-header .logo {
 }
 /* General Links */
 a {
-  color: #3c8dbc;
+  color: white;
 }
 a:hover,
 a:active,
@@ -1748,7 +1650,7 @@ a:focus {
  * ---------------
  */
 .form-control {
-  border-radius: 0;
+  border-radius: 10pt;
   box-shadow: none;
   border-color: #d2d6de;
 }
@@ -3314,3 +3216,20 @@ table.text-center th {
     text-align: center;
   }
 }
+
+/* border corners */
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+
+    border-radius: 10pt;
+    background-color:white;
+}
+
+/*md-button*/
+.md-button.md-default-theme.md-primary, .md-button.md-primary{
+
+    min-width: 0pt;
+    font-size:24pt;
+    color:white;
+
+}
+
