@@ -124,8 +124,9 @@ h1 {
 body {
     min-height: 100%;
     background-image: url('../../Images/ExceedraBackground.png');
+    background-size:100%;
+    background-repeat: no-repeat;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 400;
     overflow-x: hidden;

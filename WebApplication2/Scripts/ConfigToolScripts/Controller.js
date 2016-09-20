@@ -218,16 +218,16 @@ app.config(function ($mdThemingProvider) {
 
 /* ------- Angular Material Setup -------------------------------- */
 app.controller('SetupCtrl', function ($scope, $routeParams) {
-    //instead send type of user as routeParam?
-    $scope.user = {
-        name: '',
-        title: '',
-        email: '',
-        firstName: '',
-        lastName: '',
+    //instead send type of setup as routeParam?
+    $scope.setup = {
+        username: '',
+        project: '',
+        client: '',
+        database: '',
         company: 'Exceedra',
+        startdate: '',
         leveloption: '',
-        biography: ' '
+        notes: ' '
     };
 
     $scope.leveloptions = ('Demo Setup All DataManipulation').split(' ').map(function (leveloption) {
@@ -238,15 +238,46 @@ app.controller('SetupCtrl', function ($scope, $routeParams) {
 
     $scope.start = function (process) {
         console.log("start process: " + process);
-        
+
     };
+
+    $scope.autofill = function () {
+        //var date = now();
+        //console.log('date' + date);
+        console.log("autofill");
+        console.log("autofill");
+        $scope.setup = {
+            username: 'Name',
+            project: 'Project',
+            client: 'Exceedra',
+            database: 'Default',
+            company: 'Exceedra',
+            startdate: '',
+            leveloption: 'All',
+            notes: ''
+
+        }
+    }
+    $scope.clear = function () {
+        console.log("clear");
+        $scope.setup = {
+            username: '',
+            project: '',
+            client: '',
+            database: '',
+            company: 'Exceedra',
+            startdate: '',
+            leveloption: '',
+            notes: ' '
+        }
+    }
 })
 app.config(function ($mdThemingProvider) {
-        $mdThemingProvider.theme('docs-dark', 'default')
-        .primaryPalette('yellow')
-        .dark();
+    $mdThemingProvider.theme('docs-dark', 'default')
+    .primaryPalette('yellow')
+    .dark();
 
-  });
+});
 
 /* ----------- Main controller -------------------------------------- */
 //This will be loaded AFTER setup - only then does the tool know what database it is connecting to
