@@ -240,6 +240,7 @@
     <Content Include="Content\SidebarTransitions\js\classie.js" />
     <Content Include="Content\SidebarTransitions\js\modernizr.custom.js" />
     <Content Include="Content\SidebarTransitions\js\sidebarEffects.js" />
+    <Content Include="Images\ExceedraBackground.png" />
     <Content Include="Images\Preloader_2.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
