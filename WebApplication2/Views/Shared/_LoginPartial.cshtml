@@ -3,105 +3,60 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "main-header" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
         <script>
             console.log("(Logged in)");
         </script>
-
-            <header class="main-header">
-                <nav2>
-                    @*<div id="st-trigger-effects" class="column">
-                            <button data-effect="st-effect-2"><i class="fa fa-bars" aria-hidden="true"></i></button>
-                        </div>*@
-                    <div>
-                        <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">
-                            <i class="fa fa-bars" aria-hidden="true"></i>
-                        </md-button>
-                    </div>
-                </nav2>
-                <nav1>
-                    <ul>
-                        <li><a href="/Home"><img src="/Images/ExceedraLogo_White.png" style="width:228px;" /></a></li>
-                        <li>
-                            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                        </li>
-                        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-
-                    </ul>
-                </nav1>
-            </header>
-
-            @*<div ng-controller="SideNavCtrl" layout="column" style="height:500px;" ng-cloak="">
-                <md-sidenav class="md-sidenav-left" md-component-id="left" md-whiteframe="4">
-                        <md-toolbar class="md-theme-indigo">
-                            <h1 class="md-toolbar-tools">Sidenav Left</h1>
-                        </md-toolbar>
-                        <md-content layout-padding="" ng-controller="LeftCtrl">
-                            <md-button ng-click="close()" class="md-primary" hide-gt-md="">
-                                Close Sidenav Left
-                            </md-button>
-                            <p hide="" show-gt-md="">
-                                This sidenav is locked open on your device. To go back to the default behavior,
-                                narrow your display.
-                            </p>
-                        </md-content>
-
-                    </md-sidenav>
-
-                    <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
-
-                        <md-toolbar class="md-theme-light">
-                            <h1 class="md-toolbar-tools">Sidenav Right</h1>
-                        </md-toolbar>
-                        <md-content ng-controller="RightCtrl" layout-padding="">
-                            <form>
-                                <md-input-container>
-                                    <label for="testInput">Test input</label>
-                                    <input type="text" id="testInput" ng-model="data" md-autofocus="">
-                                </md-input-container>
-                            </form>
-                            <md-button ng-click="close()" class="md-primary">
-                                Close Sidenav Right
-                            </md-button>
-                        </md-content>
-
-                    </md-sidenav>
-
-
-
-            </div>*@
-
-
-        @*<div id="st-container" class="st-container" ng-controller="mainCtrl">
-            <nav class="st-menu st-effect-2" id="menu-2">
-                <h2 class="icon icon-cloud">Config Tool</h2>
-                <ul class="menu">
-                    <li><a class="icon icon-location" href="#Home">Home</a></li>
-                    <li><a class="icon icon-study" href="#Setup">Setup</a></li>
-                    <li><a class="icon icon-photo" href="#Table/hi">Task Wizard</a></li>
-                    <li><a class="icon icon-photo" href="#Index">Old Table Format</a></li>
+        <div ng-controller="SideNavCtrl">
+            <nav2>
+                <div>
+                    <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">
+                        <i class="fa fa-magic" aria-hidden="true"></i>
+                    </md-button>
+                </div>
+            </nav2>
+            <nav1>
+                <ul>
+                    <li><a href="/Home"><img src="/Images/ExceedraLogo_White.png" style="width:228px;" /></a></li>
                     <li>
-                        <a class="icon icon-data">Tables</a>
-                        <ul class="submenu">
-                            <li ng-repeat="Table in TableList"> <a rel="external" href="#Table/{{Table}}" class="icon icon-pen">{{Table}}</a> </li>
-                        </ul>
+                        @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                     </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                 </ul>
-            </nav>
-            </div>*@
+            </nav1>
+          
+        </div>
     }
+    <div ng-controller="SideNavCtrl" @*layout="column"*@ style="height:10px;" ng-cloak="">
+        <md-sidenav class="md-sidenav-left" md-component-id="left" md-whiteframe="4">
+            <md-toolbar class="md-theme-indigo">
+                <h1 class="md-toolbar-tools">Sidenav Left</h1>
+            </md-toolbar>
+            <md-content layout-padding="" ng-controller="LeftCtrl">
+                <md-button ng-click="close()" class="md-raised" hide-gt-md="">
+                    Close Sidenav Left
+                </md-button>
+                <p>
+                    -- This sidenav should only be availible one editing/configuring mode - and show a tree grid of the wizard.
+                    -- Also needs to be pinable and push screen across rather than over lap.
+                    -- Also don't know where the header ^^ has gone...
+                </p>
+                
+            </md-content>
+        </md-sidenav>
+    </div>
 }
 else
 {
     <script>
-            console.log("(Logged out)");
+        console.log("(Logged out)");
     </script>
 
     <header class="main-header">
         <nav2>
             @*<div id="st-trigger-effects" class="column">
-                <button data-effect="st-effect-2"><i class="fa fa-bars" aria-hidden="true"></i></button>
-            </div>*@
+                    <button data-effect="st-effect-2"><i class="fa fa-bars" aria-hidden="true"></i></button>
+                </div>*@
         </nav2>
         <nav1>
             <ul>

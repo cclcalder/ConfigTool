@@ -128,12 +128,29 @@ app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
     }
 });
 
+/*-------- Side Nav ----------------------------------------*/
+app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {
+      $scope.toggleLeft = buildToggler('left');
+      $scope.toggleRight = buildToggler('right');
+
+      function buildToggler(componentId) {
+          return function () {
+              $mdSidenav(componentId).toggle();
+          }
+      }
+  });
+
 /* ------- Side Nav controller -------------------------------- */
+/**
+ * Add two numbers.
+ * @param {number} num The first number.
+ * @returns The sum of the two numbers.
+ */
 app.controller('SideNavCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
     $scope.isOpenRight = function () {
-        return $mdSidenav('right').isOpen();
+        return ( $mdSidenav('right').isOpen() );
     };
 
     /**
@@ -190,31 +207,21 @@ app.controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
 
     };
 })
-app.controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
-    $scope.close = function () {
-        // Component lookup should always be available since we are not using `ng-if`
-        $mdSidenav('right').close()
-          .then(function () {
-              $log.debug("close RIGHT is done");
-          });
-    };
-});
-app.controller('MyController', function ($scope, $mdSidenav) {
-    $scope.openLeftMenu = function () {
-        $mdSidenav('left').toggle();
-    };
-});
+//app.controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+//    $scope.close = function () {
+//        // Component lookup should always be available since we are not using `ng-if`
+//        $mdSidenav('right').close()
+//          .then(function () {
+//              $log.debug("close RIGHT is done");
+//          });
+//    };
+//});
+//app.controller('MyController', function ($scope, $mdSidenav) {
+//    $scope.openLeftMenu = function () {
+//        $mdSidenav('left').toggle();
+//    };
+//});
 
-/* ------- Hometest controller -------------------------------- */
-app.controller('AppCtrl', function ($scope) {
-    $scope.imagePath = 'Images/ExceedraLogo_White.png';
-})
-app.config(function ($mdThemingProvider) {
-    $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
-    $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
-    $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
-    $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
-});
 
 /* ------- Angular Material Setup -------------------------------- */
 app.controller('SetupCtrl', function ($scope, $routeParams) {
@@ -425,11 +432,11 @@ app.config(function ($routeProvider,
             templateUrl: function (params) { console.log("params.tablename: " + params.tablename); return "/Home/Table?tablename=" + params.tablename; },
             controller: 'mvcCRUDCtrl'
         })
-        .when("/Home", {
+        .when("/Contact", {
             templateUrl: function (params) { console.log("HomeView3" + params.process); return "/Home/Home?process=" + params.process; },
 
         })
-        .otherwise({ redirectTo: '/Home/Home' });
+        .otherwise({ redirectTo: '/Home/Contact' });
 
 });
 

@@ -5,11 +5,7 @@ body {
 	font-family: 'Lato', Calibri, Arial, sans-serif;
 }
 
-a {
-	text-decoration: none;
-	color: #48a770;
-	/*outline: none;*/
-}
+
 
 a:hover, a:focus {
 	color: #2c774b;
