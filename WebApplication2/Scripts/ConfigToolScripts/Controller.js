@@ -1,8 +1,8 @@
 ﻿//ANGULAR CONTROLLERS
 
-/* ----- Generic table controller -------------------------------- */
-app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
-    console.log("Ctrl = mvcCRUDCtrl");
+/* ----- Generic table controller ----- */
+app.controller("TableEditorCtrl", function ($scope, $routeParams, crudAJService) {
+    console.log("Ctrl = TableEditorCtrl"); 
     $scope.tablename = $routeParams.tablename;
     console.log("Loading table: " + $scope.tablename);
 
@@ -128,7 +128,7 @@ app.controller("mvcCRUDCtrl", function ($scope, $routeParams, crudAJService) {
     }
 });
 
-/*-------- Side Nav ----------------------------------------*/
+/* ----- Side Nav ----- */
 app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {
       $scope.toggleLeft = buildToggler('left');
       $scope.toggleRight = buildToggler('right');
@@ -140,12 +140,7 @@ app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {
       }
   });
 
-/* ------- Side Nav controller -------------------------------- */
-/**
- * Add two numbers.
- * @param {number} num The first number.
- * @returns The sum of the two numbers.
- */
+/* ----- Side Nav controller ----- */
 app.controller('SideNavCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
@@ -207,34 +202,10 @@ app.controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
 
     };
 })
-//app.controller('RightCtrl', function ($scope, $timeout, $mdSidenav, $log) {
-//    $scope.close = function () {
-//        // Component lookup should always be available since we are not using `ng-if`
-//        $mdSidenav('right').close()
-//          .then(function () {
-//              $log.debug("close RIGHT is done");
-//          });
-//    };
-//});
-//app.controller('MyController', function ($scope, $mdSidenav) {
-//    $scope.openLeftMenu = function () {
-//        $mdSidenav('left').toggle();
-//    };
-//});
-app.directive('stickyText', function ($mdSticky, $compile) {
-    return {
-        restrict: 'E',
-        template: '<span>Sticky Text</span>',
-        link: function (scope, element) {
-            $mdSticky(scope, element);
-        }
-    };
-});
 
-/* ------- Angular Material Home Setup -------------------------------- */
+/* ----- Home Setup ----- */
 app.controller('HomeSetupCtrl', function ($scope, $routeParams) {
     console.log("Ctrl = HomeSetupCtrl");
-    //instead send type of setup as routeParam?
     $scope.setup = {
         username: '',
         project: '',
@@ -294,8 +265,8 @@ app.config(function ($mdThemingProvider) {
 
 });
 
-/* ------- Angular Material Mode Setup -------------------------------- */
-app.controller('ModeSetupCtrl', function ($scope, $routeParams) {
+/* ----- Mode Setup ----- */
+app.controller('ModeSetupCtrl', function ($scope) {
     console.log("Ctrl = ModeSetupCtrl");
 
     $scope.mode = {
@@ -311,14 +282,47 @@ app.controller('ModeSetupCtrl', function ($scope, $routeParams) {
         targetDatabase: '',
         targetConnString: ''
     };
+    $scope.connect = 'CONNECT';
+
+    $scope.clickConnect = function (connectState) {
+        console.log('connectState: ' + connectState);
+        if (connectState == 'CONNECTED') {
+
+        }
+        else {
+            //somehow put loading icon here
+            $scope.connect = 'CONNECTED';
+        }
+    }
+    
+    //do an on click, turns into gif until connected and then $scope.connect = connected
+    //console.log("Connecting to DB")
 
 });
 
-/* ----------- Main controller -------------------------------------- */
-//This will be loaded AFTER setup - only then does the tool know what database it is connecting to
-//Login -> Setup (what database, whether wizard(if option), etc) -> loads tables into menu and starts whatever selected
-app.controller("mainCtrl", function ($scope, crudAJService) {
-    console.log("Ctrl = mainCtrl");
+/* ----- Mode Continue ----- */
+app.controller('ModeContinueCtrl', function ($scope, $mdDialog) {
+    $scope.confirmContinue = function () {
+        // Appending dialog to document.body to cover sidenav in docs app
+        var confirm = $mdDialog.confirm()
+              .title('Are you sure you want to continue with:')
+              .textContent('- Source Database: ' + $scope.mode.sourceDatabase + ' , - Target Database: ' + $scope.mode.targetDatabase + ' - Compare Differences: ')
+              .ok('Continue')
+              .cancel('Back');
+
+        $mdDialog.show(confirm).then(function () {
+            console.log('Continue.. to table editor view');
+            //url: '/tables';
+
+        }, function () {
+            $scope.status = 'You decided to keep your debt.';
+        });
+    };
+});
+
+/* ----- Main ----- */
+app.controller("GetTablesCtrl", function ($scope, crudAJService) {
+    console.log("Ctrl = GetTablesCtrl");
     //Loads all table names from the data base into navbar
     GetAllTableNames();
     function GetAllTableNames() {
@@ -333,9 +337,9 @@ app.controller("mainCtrl", function ($scope, crudAJService) {
 
 });
 
-/* ----------- Test table controller ------------------------------------------ */
-app.controller("getdataCtrl", function ($scope, crudAJService) {
-    console.log("Ctrl = getdataCtrl");
+/* ----- Test Table ----- */
+app.controller("GetDataCtrl", function ($scope, crudAJService) {
+    console.log("Ctrl = GetDataCtrl");
     LoadDefaultTable();
     function LoadDefaultTable() {
         console.log("Load default table");
@@ -439,7 +443,7 @@ app.controller("getdataCtrl", function ($scope, crudAJService) {
     };
 });
 
-/* ------------- Angular routing ------------------------------------ */
+/* ----- Angular Routing ----- */
 app.config(function ($routeProvider,
     $locationProvider) {
     $routeProvider
@@ -457,7 +461,7 @@ app.config(function ($routeProvider,
         })
         .when('/Table/:tablename', {
             templateUrl: function (params) { console.log("Route: Table/" + params.tablename); return "/Home/Table?tablename=" + params.tablename; },
-            controller: 'mvcCRUDCtrl'
+            controller: 'TableEditorCtrl'
         })
         .when("/ModeSetup/:process", {
             templateUrl: function (params) { console.log("Route: ModeSetupView/" + params.process); return "/Home/ModeSetup?process=" + params.process; },

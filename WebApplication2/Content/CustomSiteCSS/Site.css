@@ -16,6 +16,25 @@ hr{
     border-top-color:#edecec;
 }
 
+.loader{
+  margin: 0 0 2em;
+  height: 100px;
+  width: 20%;
+  text-align: center;
+  padding: 1em;
+  margin: 0 auto 1em;
+  display: inline-block;
+  vertical-align: top;
+}
+
+/*
+  Set the color of the icon
+*/
+svg path,
+svg rect{
+  fill: #FF6700;
+}
+
 /**/
 HTMLJSCSS
 .inputdemoIcons {
@@ -672,7 +691,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 /*md-button*/
-.md-button.md-default-theme.md-primary, .md-button.md-primary {
+.md-button.md-custom, .md-button.md-custom {
     min-width: 0pt;
     font-size: 24pt;
     color: white;

@@ -10,7 +10,7 @@
         <div ng-controller="SideNavCtrl">
             <nav2>
                 <div>
-                    <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md="">
+                    <md-button ng-click="toggleLeft()" class="md-custom" hide-gt-md="">
                         <i class="fa fa-magic" aria-hidden="true"></i>
                     </md-button>
                 </div>
@@ -37,7 +37,7 @@
                 @*<md-button ng-click="close()" class="md-raised" hide-gt-md="">
                     Close Sidenav Left
                 </md-button>*@
-                <md-list ng-controller="mainCtrl" class="md-dense" flex>
+                <md-list ng-controller="GetTablesCtrl" class="md-dense" flex>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-bars" aria-hidden="true"></i>    Navigation</md-subheader>
                     <md-list-item><a1 href="#">Home</a1></md-list-item>
                     <md-list-item><a1 href="#Setup">Setup</a1></md-list-item>
