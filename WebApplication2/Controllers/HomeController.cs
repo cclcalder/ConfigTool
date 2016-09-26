@@ -27,8 +27,9 @@ namespace WebApplication2.Controllers
             return PartialView();
         }
 
-        public ActionResult Setup()
+        public ActionResult ModeSetup(string process)
         {
+            ViewBag.Process = process;
             return PartialView();
         }
 
@@ -45,7 +46,7 @@ namespace WebApplication2.Controllers
         //    return PartialView();
         //}
 
-        public ActionResult Home()
+        public ActionResult HomeSetup()
         {
             return PartialView();
         }

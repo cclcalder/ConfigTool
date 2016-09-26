@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Home";
+    ViewBag.Title = "HomeSetup";
 }
 
 <script type="text/javascript">
@@ -22,11 +22,10 @@
     </h1>
 </center>
 
-
 <div layout="row">
+@*Setup form for new project*@
     <div flex="66" flex-offset="10">
-        @*<h3>New Project Form</h3>*@
-        <div ng-controller="SetupCtrl" layout="column" ng-cloak="" class="md-inline-form">
+        <div ng-controller="HomeSetupCtrl" layout="column" ng-cloak="" class="md-inline-form">
             <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding="">
                 <div>
                     <md-input-container>
@@ -88,7 +87,7 @@
                                 <md-button class="md-raised" ng-click="clear()">Clear</md-button>
                             </md-input-container>
                             <md-input-container>
-                                <md-button class="md-raised" href="#Home/Contact/{{setup.leveloption}}" ng-disabled="userForm.$invalid">Start</md-button>
+                                <md-button class="md-raised" href="#ModeSetup/{{setup.leveloption}}" ng-disabled="userForm.$invalid">Start</md-button>
                             </md-input-container>
                         </section>
 
@@ -98,13 +97,10 @@
 
         </div>
     </div>
+
+@*Continue saved projects option*@
     <div flex>
-        @*<h3>     Saved Projects</h3>*@
         <div layout="column">
-            @*<div flex>
-                </div>
-                <div>
-                </div>*@
             <div flex-xs="" flex-gt-xs="50" layout="column">
                 <md-card>
                     <md-card-title>
@@ -166,8 +162,12 @@
         </div>
     </div>
 
+</div>
 
-    @*<div class="container body-content">
+
+
+
+@*<div class="container body-content">
 
         <div ng-controller="WizardController">
             <div>
@@ -188,42 +188,16 @@
                                 <ul>
                                     <li ng-repeat="subchildren in children.subchildren">
                                         <input type="checkbox" ng-model="subchildren.complete">
-                                        <span class="created">{{ subchildren.text}}</span>
+                                        <span class="created">{{subchildren.text}}</span>
                                     </li>
                                 </ul>
                             </li>
                         </ul>
                     </li>
                 </ul>
-            </div>*@
+            </div>
 
-
-
-
-
-    @*<h2>Configuration Tasks</h2>
-        <div ng-controller="WizardController as todoList">
-            <span>{{todoList.remaining()}} of {{todoList.todos.length}} remaining</span>
-            [ <a href="" ng-click="todoList.archive()">archive</a> ]
-            <ul class="unstyled">
-                <li ng-repeat="todo in todoList.todos">
-                    <label class="checkbox">
-                        <input type="checkbox" ng-model="todo.done">
-                        <span class="done-{{todo.done}}">{{todo.text}}</span>
-                    </label>
-                </li>
-            </ul>
-            <form ng-submit="todoList.addTodo()">
-                <input type="text" ng-model="todoList.todoText" size="30"
-                       placeholder="Add additional tasks here">
-                <input class="btn-primary" type="submit" value="add">
-            </form>
-        </div>*@
-    @*</div>
-        </div>*@
-
-
-    @*•	Master Data Setup
+    •	Master Data Setup
             •	General Setup
             •	Planning Screen Configuration
             •	Promotions Configuration
@@ -441,4 +415,4 @@
 
             fhjdfkldfkldflhkdf
         </div>
-    *@
+*@

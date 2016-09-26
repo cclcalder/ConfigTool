@@ -7,6 +7,37 @@ td th {
     max-width: 150px;
 }
 
+a.actionlink { 
+    color:rgba(48,48,48,0.6); 
+    text-align:center;
+}
+hr{
+    border-top-width:1.5px;
+    border-top-color:#edecec;
+}
+
+/**/
+HTMLJSCSS
+.inputdemoIcons {
+  /*
+.right-icon {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  left: auto;
+  margin-top: 0;
+}
+*/ }
+  .inputdemoIcons .inputIconDemo {
+    min-height: 48px; }
+  .inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.email {
+    color: green; }
+  .inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.name {
+    color: dodgerblue; }
+  .inputdemoIcons md-input-container.md-input-invalid > md-icon.email,
+  .inputdemoIcons md-input-container.md-input-invalid > md-icon.name {
+    color: red; }
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -28,6 +59,9 @@ h1 {
 /*side nav*/
 md-sidenav {
     max-width: 300px;
+}
+md-checkbox.md-checked.orange .md-icon {
+ background-color: orange;
 }
 
 .main-header {
@@ -129,7 +163,7 @@ body {
     background-size:100%;
     background-repeat: no-repeat;
     -webkit-font-smoothing: antialiased;
-    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /*font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
     font-weight: 400;
     overflow-x: hidden;
     overflow-y: auto;

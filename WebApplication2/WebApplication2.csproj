@@ -1932,7 +1932,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\Home\HomeSetup.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
@@ -1945,7 +1945,7 @@
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Home\Setup.cshtml" />
+    <Content Include="Views\Home\ModeSetup.cshtml" />
     <Content Include="Views\Home\Table.cshtml" />
     <Content Include="Views\Home\ngView.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />

@@ -17,12 +17,9 @@ does not depend on membership. As long as you have a way in your application to 
 https://msdn.microsoft.com/en-us/library/ms178329.aspx#builtin_login_pages
 -->
 
-
-
-
-                    <h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
+<div class="row" style="text-align:center">
+    <h2>@ViewBag.Title.</h2>
+    <div class="col-md-8" >
         <section id="loginForm">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
@@ -44,7 +41,7 @@ https://msdn.microsoft.com/en-us/library/ms178329.aspx#builtin_login_pages
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="text-align:left">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="checkbox">
                             @Html.CheckBoxFor(m => m.RememberMe)
@@ -58,7 +55,8 @@ https://msdn.microsoft.com/en-us/library/ms178329.aspx#builtin_login_pages
                     </div>
                 </div>
                 <p>
-                    @Html.ActionLink("Register as a new user", "Register")
+                    @*<a href="~/Account/Register" class="btn btn-default">Register as a new user</a>*@
+                    @Html.ActionLink("Register as a new user", "Register", null, new { @class = "actionlink" })
                 </p>
                 @* Enable this once you have account confirmation enabled for password reset functionality
                     <p>

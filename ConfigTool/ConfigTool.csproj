@@ -51,6 +51,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
@@ -63,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AuditTrail.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="DatabaseConnect.cs" />
     <Compile Include="LinqToSQL.cs" />
     <Compile Include="ExceedraDB.designer.cs">
       <AutoGen>True</AutoGen>

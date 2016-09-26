@@ -221,10 +221,19 @@ app.controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
 //        $mdSidenav('left').toggle();
 //    };
 //});
+app.directive('stickyText', function ($mdSticky, $compile) {
+    return {
+        restrict: 'E',
+        template: '<span>Sticky Text</span>',
+        link: function (scope, element) {
+            $mdSticky(scope, element);
+        }
+    };
+});
 
-
-/* ------- Angular Material Setup -------------------------------- */
-app.controller('SetupCtrl', function ($scope, $routeParams) {
+/* ------- Angular Material Home Setup -------------------------------- */
+app.controller('HomeSetupCtrl', function ($scope, $routeParams) {
+    console.log("Ctrl = HomeSetupCtrl");
     //instead send type of setup as routeParam?
     $scope.setup = {
         username: '',
@@ -251,7 +260,6 @@ app.controller('SetupCtrl', function ($scope, $routeParams) {
     $scope.autofill = function () {
         //var date = now();
         //console.log('date' + date);
-        console.log("autofill");
         console.log("autofill");
         $scope.setup = {
             username: 'Name',
@@ -283,6 +291,26 @@ app.config(function ($mdThemingProvider) {
     $mdThemingProvider.theme('docs-dark', 'default')
     .primaryPalette('yellow')
     .dark();
+
+});
+
+/* ------- Angular Material Mode Setup -------------------------------- */
+app.controller('ModeSetupCtrl', function ($scope, $routeParams) {
+    console.log("Ctrl = ModeSetupCtrl");
+
+    $scope.mode = {
+        sourceServer:'',
+        sourceName: '',
+        sourcePassword: '',
+        sourceDatabase: '',
+        sourceConnString: '',
+
+        targetServer: '',
+        targetName: '',
+        targetPassword: '',
+        targetDatabase: '',
+        targetConnString: ''
+    };
 
 });
 
@@ -416,24 +444,23 @@ app.config(function ($routeProvider,
     $locationProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: function () { console.log("HomeView2"); return "/Home/Home"; }
+            templateUrl: function () { console.log("Route: HomeSetupView"); return "/Home/HomeSetup"; }
         })
         .when("/Index", {
-            templateUrl: function () { console.log("IndexView"); return "/Home/Index"; }
+            templateUrl: function () { console.log("Route: IndexView"); return "/Home/Index"; }
         })
-        .when("/Setup", {
-            templateUrl: function () { console.log("SetupView"); return "/Home/Setup"; }
+        .when("/ModeSetup", {
+            templateUrl: function () { console.log("Route: ModeSetupView"); return "/Home/ModeSetup"; }
         })
         .when("/Login", {
-            templateUrl: function () { console.log("Login"); return "Account/Login"; }
+            templateUrl: function () { console.log("Route: Login"); return "Account/Login"; }
         })
         .when('/Table/:tablename', {
-            //tablename is a 'route parameter'
-            templateUrl: function (params) { console.log("params.tablename: " + params.tablename); return "/Home/Table?tablename=" + params.tablename; },
+            templateUrl: function (params) { console.log("Route: Table/" + params.tablename); return "/Home/Table?tablename=" + params.tablename; },
             controller: 'mvcCRUDCtrl'
         })
-        .when("/Contact", {
-            templateUrl: function (params) { console.log("HomeView3" + params.process); return "/Home/Home?process=" + params.process; },
+        .when("/ModeSetup/:process", {
+            templateUrl: function (params) { console.log("Route: ModeSetupView/" + params.process); return "/Home/ModeSetup?process=" + params.process; },
 
         })
         .otherwise({ redirectTo: '/Home/Contact' });

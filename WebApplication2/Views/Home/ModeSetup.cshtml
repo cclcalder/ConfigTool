@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "ModeSetup";
+}
+
+@*
+Change all route stuff to be correct with javascript and controllers
+ModeSetupCtrl
+modeFrom
+mode.target(Server, Name, Password, Database, ConnString)
+    .source( " .. )
+*@
+<div ng-controller="ModeSetupCtrl">
+
+    <h1 class="display-1" style="text-align:center">
+        Mode Setup
+        <small class="text-muted">@ViewBag.Process</small>
+    </h1>
+
+    @if (@ViewBag.Process == "Setup")
+    {
+        <div layout="column" ng-cloak class="md-inline-form">
+            <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+                <div>
+                    Target Database
+                </div>
+            </md-content>
+            <md-content layout-padding>
+                <div>
+                    <form name="modeForm">
+                        <div layout-gt-xs="row">
+                            <md-input-container class="md-block" flex-gt-xs>
+                                <label>Server</label>
+                                <input ng-model="mode.targetServer" disabled>
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Username</label>
+                                <input ng-model="mode.targetName">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Password</label>
+                                <input ng-model="mode.targetPassword">
+                            </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Database</label>
+                                <input ng-model="mode.targetDatabase">
+                            </md-input-container>
+                        </div>
+                        <div layout-gt-sm="row" style="color:orange">
+                            <hr />OR<hr />
+                        </div>
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Paste Connection String</label>
+                                <input ng-model="mode.targetConnString">
+                            </md-input-container>
+                        </div>
+                    </form>
+                </div>
+                <div style="text-align:center">
+                    <md-button layout-align="center">Connect</md-button>
+                    <md-button class="md-icon-button md-accent" aria-label="Favorite">
+                        <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+                    </md-button>
+                </div>
+            </md-content>
+        </div>
+    }
+    else
+    {
+        @*Demo All DataManipulation - Option to enter source and target databases *@
+        <div layout="row" layout-xs="column" layout-padding ng-cloak>
+            <br />
+            <div flex>
+                <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+                    <div>
+                        Source Database
+                    </div>
+                </md-content>
+                <md-content layout-padding>
+                    <div>
+                        <form name="modeForm">
+                            <div layout-gt-xs="row">
+                                <md-input-container class="md-block" flex-gt-xs>
+                                    <label>Server</label>
+                                    <input ng-model="mode.sourceServer" disabled>
+                                </md-input-container>
+                            </div>
+                            <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Username</label>
+                                    <input ng-model="mode.sourceName">
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Password</label>
+                                    <input ng-model="mode.sourcePassword">
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Database</label>
+                                    <input ng-model="mode.sourceDatabase">
+                                </md-input-container>
+                            </div>
+                            <div layout-gt-sm="row" style="color:orange">
+                                <hr />OR<hr />
+                            </div>
+                            <div layout-gt-xs="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Paste Connection String</label>
+                                    <input ng-model="mode.sourceConnString">
+                                </md-input-container>
+                            </div>
+                        </form>
+                    </div>
+                    <div style="text-align:center">
+                        <md-button layout-align="center">Connect</md-button>
+                        <md-button class="md-icon-button md-accent" aria-label="Favorite">
+                            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+                        </md-button>
+                    </div>
+                </md-content>
+            </div>
+            <div flex>
+                <md-content md-theme="docs-dark" layout-gt-sm="row" layout-padding>
+                    <div>
+                        Target Database
+                    </div>
+                </md-content>
+                <md-content layout-padding>
+                    <div>
+                        <form name="modeForm">
+                            <div layout-gt-xs="row">
+                                <md-input-container class="md-block" flex-gt-xs>
+                                    <label>Server</label>
+                                    <input ng-model="mode.targetServer" disabled>
+                                </md-input-container>
+                            </div>
+                            <div layout-gt-sm="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Username</label>
+                                    <input ng-model="mode.targetName">
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Password</label>
+                                    <input ng-model="mode.targetPassword">
+                                </md-input-container>
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Database</label>
+                                    <input ng-model="mode.targetDatabase">
+                                </md-input-container>
+                            </div>
+                            <div layout-gt-sm="row" style="color:orange">
+                                <hr />OR<hr />
+                            </div>
+                            <div layout-gt-xs="row">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Paste Connection String</label>
+                                    <input ng-model="mode.targetConnString">
+                                </md-input-container>
+                            </div>
+                        </form>
+                    </div>
+                    <div style="text-align:center">
+                        <md-button layout-align="center">Connect</md-button>
+                        <md-button class="md-icon-button md-accent" aria-label="Favorite">
+                            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+                        </md-button>
+                    </div>
+                </md-content>
+        </div>
+        </div>
+    }
+
+</div>
+
