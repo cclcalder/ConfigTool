@@ -59,13 +59,14 @@
                         <div layout-gt-sm="row">
                             <md-input-container class="md-block" flex-gt-sm>
                                 <label>Paste Connection String</label>
-                                <input ng-model="mode.targetConnString">
+                                <input ng-model="mode.targetConnString" required>
                             </md-input-container>
                         </div>
                     </form>
                 </div>
                 <div style="text-align:center">
-                    <md-button layout-align="center" ng-disabled="modeFormTarget.$invalid" ng-click="clickConnect(connect)">{{connect}}</md-button>
+                    <md-button layout-align="center" ng-disabled="modeTargetFormIncomplete(mode.targetServer,
+                                   mode.targetName, mode.targetPassword, mode.targetDatabase, mode.targetConnString)" ng-click="clickConnectT(connectTarget)">{{connectTarget}}</md-button>
                     <md-button class="md-icon-button md-accent" aria-label="Favorite">
                         <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
                     </md-button>
@@ -120,13 +121,14 @@
                             <div layout-gt-xs="row">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Paste Connection String</label>
-                                    <input ng-model="mode.sourceConnString">
+                                    <input ng-model="mode.sourceConnString" required>
                                 </md-input-container>
                             </div>
                         </form>
                     </div>
                     <div style="text-align:center">
-                        <md-button layout-align="center" ng-disabled="modeFormSource.$invalid" ng-click="clickConnect(connect)">{{connect}}</md-button>
+                        <md-button layout-align="center" @*ng-disabled="modeFormSource.$invalid"*@ ng-disabled="modeSourceFormIncomplete(mode.sourceServer,
+                                   mode.sourceName, mode.sourcePassword, mode.sourceDatabase, mode.sourceConnString)" ng-click="clickConnectS(connectSource)">{{connectSource}}</md-button>
                         <md-button class="md-icon-button md-accent" aria-label="Favorite">
                             <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
                         </md-button>
@@ -168,13 +170,14 @@
                             <div layout-gt-sm="row">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label>Paste Connection String</label>
-                                    <input ng-model="mode.targetConnString">
+                                    <input ng-model="mode.targetConnString" required>
                                 </md-input-container>
                             </div>
                         </form>
                     </div>
                     <div style="text-align:center">
-                        <md-button layout-align="center" ng-disabled="modeFormTarget.$invalid" ng-click="clickConnect(connect)">{{connect}}</md-button>
+                        <md-button layout-align="center" ng-disabled="modeTargetFormIncomplete(mode.targetServer,
+                                   mode.targetName, mode.targetPassword, mode.targetDatabase, mode.targetConnString)" ng-click="clickConnectT(connectTarget)">{{connectTarget}}</md-button>
                         <md-button class="md-icon-button md-accent" aria-label="Favorite">
                             @*<md-icon md-svg-icon="Images/ic_done_black_24px.svg"></md-icon>*@
                         </md-button>

@@ -11,6 +11,12 @@ a.actionlink {
     color:rgba(48,48,48,0.6); 
     text-align:center;
 }
+a.sidenav {
+    color:black; 
+}
+a.sidenav:focus, a.sidenav:hover{
+    color:orangered;
+}
 hr{
     border-top-width:1.5px;
     border-top-color:#edecec;

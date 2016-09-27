@@ -10,7 +10,7 @@
         <div ng-controller="SideNavCtrl">
             <nav2>
                 <div>
-                    <md-button ng-click="toggleLeft()" class="md-custom" hide-gt-md="">
+                    <md-button ng-click="toggleLeft()" class="md-custom" hide-gt-md="" aria-label="false">
                         <i class="fa fa-magic" aria-hidden="true"></i>
                     </md-button>
                 </div>
@@ -38,16 +38,15 @@
                     Close Sidenav Left
                 </md-button>*@
                 <md-list ng-controller="GetTablesCtrl" class="md-dense" flex>
-                    <md-subheader @*class="md-no-sticky"*@><i class="fa fa-bars" aria-hidden="true"></i>    Navigation</md-subheader>
-                    <md-list-item><a1 href="#">Home</a1></md-list-item>
-                    <md-list-item><a1 href="#Setup">Setup</a1></md-list-item>
-                    <md-list-item><a1 href="#Table/SYS_Config">Table/SYS_Config</a1></md-list-item>
-                    <md-list-item><a1 href="#Index">Table</a1></md-list-item>
-                    <md-list-item><a1 href="/Home/Index" ng-click="GetAllSYS_Configs()">Test Table</a1></md-list-item>
+                    <md-subheader @*class="md-no-sticky"*@><i class="fa fa-bars" aria-hidden="true"></i>    Navigation - should be disabled when relevant, all active for now </md-subheader>
+                    <md-list-item><a class="sidenav" href="#/">Home Setup</a></md-list-item>
+                    <md-list-item><a class="sidenav" href="#ModeSetup">Mode Setup</a></md-list-item>
+                    <md-list-item><a class="sidenav" href="#Table/SYS_Config">Test agGrid</a></md-list-item>
+                    <md-list-item><a class="sidenav" href="#Index">Test Table Editor</a></md-list-item>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-magic" aria-hidden="true"></i>    Wizard (Disabled in Wizard Mode), can only use forward and back?</md-subheader>
                     <md-list-item>Wizard tree grid..</md-list-item>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-table" aria-hidden="true"></i>    Tables (Disabled in Wizard Mode)</md-subheader>
-                    <md-list-item ng-repeat="Table in TableList"><md-checkbox class="orange" ></md-checkbox><a1 href="#Table" ng-click="LoadTableData(Table)">{{Table}}</a1></md-list-item>
+                    <md-list-item ng-repeat="Table in TableList"><md-checkbox class="orange" aria-label="false" ></md-checkbox><a class="sidenav" href="#Table" ng-click="LoadTableData(Table)">{{Table}}</a></md-list-item>
 
                 </md-list>
             </md-content>
@@ -59,7 +58,6 @@ else
     <script>
         console.log("(Logged out)");
     </script>
-
     <header class="main-header">
         <nav2>
             @*<div id="st-trigger-effects" class="column">
@@ -75,5 +73,4 @@ else
             </ul>
         </nav1>
     </header>
-
 }

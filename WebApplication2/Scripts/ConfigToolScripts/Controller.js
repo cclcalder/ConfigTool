@@ -1,8 +1,8 @@
-﻿//ANGULAR CONTROLLERS
+﻿/* ----- ANGULAR CONTROLLERS ----- */
 
 /* ----- Generic table controller ----- */
 app.controller("TableEditorCtrl", function ($scope, $routeParams, crudAJService) {
-    console.log("Ctrl = TableEditorCtrl"); 
+    console.log("Ctrl = TableEditorCtrl");
     $scope.tablename = $routeParams.tablename;
     console.log("Loading table: " + $scope.tablename);
 
@@ -130,22 +130,22 @@ app.controller("TableEditorCtrl", function ($scope, $routeParams, crudAJService)
 
 /* ----- Side Nav ----- */
 app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {
-      $scope.toggleLeft = buildToggler('left');
-      $scope.toggleRight = buildToggler('right');
+    $scope.toggleLeft = buildToggler('left');
+    $scope.toggleRight = buildToggler('right');
 
-      function buildToggler(componentId) {
-          return function () {
-              $mdSidenav(componentId).toggle();
-          }
-      }
-  });
+    function buildToggler(componentId) {
+        return function () {
+            $mdSidenav(componentId).toggle();
+        }
+    }
+});
 
 /* ----- Side Nav controller ----- */
 app.controller('SideNavCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
     $scope.isOpenRight = function () {
-        return ( $mdSidenav('right').isOpen() );
+        return ($mdSidenav('right').isOpen());
     };
 
     /**
@@ -270,7 +270,7 @@ app.controller('ModeSetupCtrl', function ($scope) {
     console.log("Ctrl = ModeSetupCtrl");
 
     $scope.mode = {
-        sourceServer:'',
+        sourceServer: '',
         sourceName: '',
         sourcePassword: '',
         sourceDatabase: '',
@@ -282,26 +282,71 @@ app.controller('ModeSetupCtrl', function ($scope) {
         targetDatabase: '',
         targetConnString: ''
     };
-    $scope.connect = 'CONNECT';
 
-    $scope.clickConnect = function (connectState) {
-        console.log('connectState: ' + connectState);
+    $scope.connectTarget = 'CONNECT';
+    $scope.connectSource = 'CONNECT';
+
+    $scope.clickConnectT = function (connectState) {
+        console.log('connectStateT: ' + connectState);
         if (connectState == 'CONNECTED') {
 
         }
         else {
             //somehow put loading icon here
-            $scope.connect = 'CONNECTED';
+            $scope.connectTarget = 'CONNECTED';
         }
-    }
-    
+    };
+    $scope.clickConnectS = function (connectState) {
+        console.log('connectStateS: ' + connectState);
+        if (connectState == 'CONNECTED') {
+
+        }
+        else {
+            //somehow put loading icon here
+            $scope.connectSource = 'CONNECTED';
+        }
+    };
+
     //do an on click, turns into gif until connected and then $scope.connect = connected
     //console.log("Connecting to DB")
+
+    //write something that disables dependant on how you choose to input OR even better! disbaled but filled in upper bit with broken up string and vice versa
+
+    //all this source target shit can be simplified into same code
+    $scope.modeSourceFormIncomplete = function (ss, sn, sp, sd, sconstr) {
+        //console.log("modeSourceFormIncomplete check completion");
+        //if no connection string and complete other inputs
+        if (sconstr == null && (ss && sn && sp && sd) != null) {
+            //IS complete so return false
+            return false;
+        }
+        else if (sconstr != null && (ss || sn || sp || sd) == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+
+    $scope.modeTargetFormIncomplete = function (ts, tn, tp, td, tconstr) {
+        //console.log("modeTargetFormIncomplete check completion");
+        //if no connection string and complete other inputs
+        if (tconstr == null && (ts && tn && tp && td) != null) {
+            //IS complete so return false
+            return false;
+        }
+        else if (tconstr != null && (ts || tn || tp || td) == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
 
 });
 
 /* ----- Mode Continue ----- */
-app.controller('ModeContinueCtrl', function ($scope, $mdDialog) {
+app.controller('ModeContinueCtrl', function ($scope, $mdDialog, $location) {
     $scope.confirmContinue = function () {
         // Appending dialog to document.body to cover sidenav in docs app
         var confirm = $mdDialog.confirm()
@@ -311,11 +356,15 @@ app.controller('ModeContinueCtrl', function ($scope, $mdDialog) {
               .cancel('Back');
 
         $mdDialog.show(confirm).then(function () {
-            console.log('Continue.. to table editor view');
+            console.log('Continue to: table editor view .... ');
+            //$location.url();
+            $location.path('/Home/Tables');
+
+
             //url: '/tables';
 
         }, function () {
-            $scope.status = 'You decided to keep your debt.';
+            console.log('Back to mode setup');
         });
     };
 });
@@ -467,7 +516,11 @@ app.config(function ($routeProvider,
             templateUrl: function (params) { console.log("Route: ModeSetupView/" + params.process); return "/Home/ModeSetup?process=" + params.process; },
 
         })
-        .otherwise({ redirectTo: '/Home/Contact' });
+        .when("/Table", {
+            templateUrl: function () { console.log("Route: Home/Table/"); return "/Home/Table;" },
+            //this should be for table editor..
+        })
+        .otherwise({ redirectTo: '/Home/HomeSetup' });
 
 });
 
