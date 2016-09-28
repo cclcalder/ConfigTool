@@ -520,7 +520,7 @@ app.config(function ($routeProvider,
 
         })
         .when("/Table", {
-            templateUrl: function () { console.log("Route: Home/Table/"); return "/Home/Table;" },
+            templateUrl: function () { console.log("Route: Home/Table/"); return "/Home/Table" },
             //this should be for table editor..
         })
         .when("/About", {

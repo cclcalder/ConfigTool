@@ -140,11 +140,38 @@ namespace WebApplication2.Controllers
         /* --------------------------------------- */
         //NEW AGGRID GENERIC TABLE EDITOR STUFF
 
+        public ContentResult LoadTableContent(string table)
+        {
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                var tableToLoad = table.Trim('/', '"');
+                if (tableToLoad != null)
+                {
+                    var t = typeof(SYS_Lock).AssemblyQualifiedName; //should use this to generate type: "ConfigTool.SYS_Lock, ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+                    string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+                    Type tableType = Type.GetType(tableName);
+                    try
+                    {
+                        var returnTableNoList = contextObj.GetTable(tableType).AsQueryable();
+                        return Content(JsonConvert.SerializeObject(returnTableNoList));
+                    }
+                    catch
+                    {
+                        return Content("Error getting table data from db.");
+                    }
+                }
+                else
+                {
+                    return Content("Error getting table data from db.");
+                }              
+            }
+        }
+
         public JsonResult LoadTableData(string table)
         {
             //string tableName
             var tableToLoad = table.Trim('/', '"');
-
+            
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
                 //this shouldn't exist - if no match show dialog alert and don't reload page
@@ -177,25 +204,10 @@ namespace WebApplication2.Controllers
                 /* SECOND ISSUE = TROUBLE GETTING DATA INTO AGGRID */
                 else
                 {
-                    var t = typeof(SYS_Lock).AssemblyQualifiedName; //should use this to generate type
-                    //"ConfigTool.SYS_Lock, ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-                    Type tableType = Type.GetType("ConfigTool."+tableToLoad+", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-
                     try
                     {
-                        //this is correct generic table
-                        var returnTableNoList = contextObj.GetTable(tableType);
-                        var type = returnTableNoList.GetType();           
-                        
-                        //here write method that works with ITable or whatever doing here 
-                        //need to access headers and data
-                        
-                        
-                        
-                               
                         //non generic method, using SYS_Locks at the moment
-                        var test = contextObj.SYS_Locks; //this is Table<SYS_Lock>
-                        var returnTableList = contextObj.GetTable(tableType).GetEnumerator();
+                        var test1 = contextObj.SYS_Locks; //this is Table<SYS_Lock>
                         var returnTable = contextObj.SYS_Locks.ToList();
                         var data = new ColDataToHtml();
                         data.names = ColumnMapping(returnTable[0], "name");
@@ -214,7 +226,7 @@ namespace WebApplication2.Controllers
                         }
                         data.namesJson = jArr.ToString();
                         var jsonReturn = new Tuple<List<SYS_Lock>, ColDataToHtml>(returnTable, data);
-                        return Json(jsonReturn, JsonRequestBehavior.AllowGet);                
+                        return Json(jsonReturn, JsonRequestBehavior.AllowGet);
                     }
                     catch
                     {
