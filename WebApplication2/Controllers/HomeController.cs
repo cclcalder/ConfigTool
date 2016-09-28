@@ -8,17 +8,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
+using System.Linq.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace WebApplication2.Controllers
 {
     #region Action Views
     //does this mean you have to authorize every controller below?
-    [Authorize] 
+    [Authorize]
     public class HomeController : Controller
     {
         // GET: SYS_Config
@@ -56,8 +58,11 @@ namespace WebApplication2.Controllers
         }
         #endregion
 
+        #region DataContext Info - unfinished
+        /* --------------------------------------- */
+        //GET USEFUL INFO FROM DATACONTEXT - MAYBE DON'T NEED THIS
 
-        //create object containing all info html needs from db - via controller and javascript
+        //Create object containing all info html needs from db - via controller and javascript
         public struct ColDataToHtml
         {
             public List<string> names;                              // name of col, mainly for testing
@@ -65,143 +70,6 @@ namespace WebApplication2.Controllers
             public List<string> children;                           // key contraints
             public List<string> parents;                            // key constraints
             public string namesJson;
-        }
-
-        public JsonResult LoadTableData(string table)
-        {
-            var tableToLoad = table.Trim('/', '"');
-            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
-            {
-                //default load sys_config table for ease
-                if (String.IsNullOrEmpty(table) || tableToLoad == "SYS_Config")
-                {
-                    //load 'default' table - SYS_Config for now
-                    var SYS_ConfigList = contextObj.SYS_Configs.ToList();
-
-                    var data = new ColDataToHtml();
-                    data.names = ColumnMapping(SYS_ConfigList[0], "name");
-                    data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(SYS_ConfigList[0], "type")), ColumnMapping(SYS_ConfigList[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
-                    data.parents = ColumnMapping(SYS_ConfigList[0], "relations");
-                    data.children = ColumnMapping(SYS_ConfigList[0], "relations");
-
-                    JArray jArr = new JArray();
-                    foreach (string name in data.names)
-                    {
-                        var obj = new JObject();
-                        var prop = new JProperty("headerName", name.Trim('_'));
-                        var fieldprop = new JProperty("field", name.Trim('_'));
-                        obj.Add(prop);
-                        obj.Add(fieldprop);
-                        jArr.Add(obj);
-                    }
-                    data.namesJson = jArr.ToString();
-
-                    var jsonReturn = new Tuple<List<SYS_Config>, ColDataToHtml>(SYS_ConfigList, data);
-
-                    return Json(jsonReturn, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    try
-                    {
-                        //if exists return ITable to 
-                        var table1 = contextObj.GetType();
-                        var table2 = table1.GetProperty(tableToLoad);
-                        var table3 = table2.GetValue(contextObj, null);
-
-                        //this is a cheat! make it work!!
-                        var returnTable = contextObj.SYS_Locks.ToList();
-
-                        var data = new ColDataToHtml();
-                        data.names = ColumnMapping(returnTable[0], "name");
-                        data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(returnTable[0], "type")), ColumnMapping(returnTable[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
-                        data.parents = ColumnMapping(returnTable[0], "relations");
-                        data.children = ColumnMapping(returnTable[0], "relations");
-                        JArray jArr = new JArray();
-                        foreach (string name in data.names)
-                        {
-                            var obj = new JObject();
-                            var prop = new JProperty("headerName", name.Trim('_'));
-                            var fieldprop = new JProperty("field", name.Trim('_'));
-                            obj.Add(prop);
-                            obj.Add(fieldprop);
-                            jArr.Add(obj);
-                        }
-                        data.namesJson = jArr.ToString();
-
-                        var jsonReturn = new Tuple<List<SYS_Lock>, ColDataToHtml>(returnTable, data);
-
-                        return Json(jsonReturn, JsonRequestBehavior.AllowGet);
-                    }
-                    catch
-                    {
-                        return Json("Error getting table data from db.");
-                    }
-
-                    //else load table passed in
-                    //foreach table in context check whether name matches and if so use that one
-                    //var tableList = contextObj.Mapping.GetTables();
-                    //foreach (MetaTable dataTable in tableList)
-                    //{
-                    //    if(dataTable.TableName.TrimStart("app.".ToCharArray()) == tableToLoad)
-                    //    {
-                    //        return Json(table, JsonRequestBehavior.AllowGet);
-                    //    }
-                    //}
-                    //return Json("Shouldn't get here");
-                }
-            }
-        }
-
-        //if want to do this create a method that is called, the 'table' is passed in from somewhere and passed into the view
-        //onclick of side-nav table, arguement passed to 'GetTable' - name of table, and partial? view containing THAT TABLE is returned
-
-        //public void CheckRequiredTables(List<string> tableNames)        // GET: All table names in DataContext
-        //{
-        //    var tablesRequired = ConfigTool.ParseWizard.TablesPresent();
-        //    var tablesInDb = GetAllTableNames();
-        //    foreach (string table in tablesRequired)
-        //    {
-        //        if (!tablesInDb.Contains(table))
-        //        {
-        //            throw new Exception("Table " + table + "Does Not Exist In Database.");
-        //            // return View("Error");
-        //        }
-        //    }
-        //}
-        public JsonResult GetAllTableNames()
-        {
-            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
-            {
-                var tableList = contextObj.Mapping.GetTables();
-                var tabNames = new List<string>();
-                foreach (MetaTable table in tableList)
-                {
-                    tabNames.Add(table.TableName.TrimStart("app.".ToCharArray()));
-                }
-                return Json(tabNames, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        // GET: All SYS_Configs
-        public JsonResult GetAllSYS_Configs()
-        {
-            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
-            {
-
-                var SYS_ConfigList = contextObj.SYS_Configs.ToList();
-
-                var data = new ColDataToHtml();
-                data.names = ColumnMapping(SYS_ConfigList[0], "name");
-                data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(SYS_ConfigList[0], "type")), ColumnMapping(SYS_ConfigList[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
-                data.parents = ColumnMapping(SYS_ConfigList[0], "relations");
-                data.children = ColumnMapping(SYS_ConfigList[0], "relations");
-
-
-                var jsonReturn = new Tuple<List<SYS_Config>, ColDataToHtml>(SYS_ConfigList, data);
-
-                return Json(jsonReturn, JsonRequestBehavior.AllowGet);
-            }
         }
 
         //GET: Input type from column data type
@@ -265,6 +133,147 @@ namespace WebApplication2.Controllers
 
             }
             return listMaps;
+        }
+
+        #endregion
+
+        /* --------------------------------------- */
+        //NEW AGGRID GENERIC TABLE EDITOR STUFF
+
+        public JsonResult LoadTableData(string table)
+        {
+            //string tableName
+            var tableToLoad = table.Trim('/', '"');
+
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                //this shouldn't exist - if no match show dialog alert and don't reload page
+                if (String.IsNullOrEmpty(table))
+                {
+                    //load SYS_Config example
+                    var SYS_ConfigList = contextObj.SYS_Configs.ToList();
+                    //perhaps redundant v
+                    var data = new ColDataToHtml();
+                    data.names = ColumnMapping(SYS_ConfigList[0], "name");
+                    data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(SYS_ConfigList[0], "type")), ColumnMapping(SYS_ConfigList[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
+                    data.parents = ColumnMapping(SYS_ConfigList[0], "relations");
+                    data.children = ColumnMapping(SYS_ConfigList[0], "relations");
+                    //json parsing
+                    JArray jArr = new JArray();
+                    foreach (string name in data.names)
+                    {
+                        var obj = new JObject();
+                        var prop = new JProperty("headerName", name.Trim('_'));
+                        var fieldprop = new JProperty("field", name.Trim('_'));
+                        obj.Add(prop);
+                        obj.Add(fieldprop);
+                        jArr.Add(obj);
+                    }
+                    data.namesJson = jArr.ToString();
+                    var jsonReturn = new Tuple<List<SYS_Config>, ColDataToHtml>(SYS_ConfigList, data);
+                    return Json(jsonReturn, JsonRequestBehavior.AllowGet);
+                }
+                /* THIS IS FIRST ISSUE - dynamically get tables from tableNames */
+                /* SECOND ISSUE = TROUBLE GETTING DATA INTO AGGRID */
+                else
+                {
+                    var t = typeof(SYS_Lock).AssemblyQualifiedName; //should use this to generate type
+                    //"ConfigTool.SYS_Lock, ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+                    Type tableType = Type.GetType("ConfigTool."+tableToLoad+", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+
+                    try
+                    {
+                        //this is correct generic table
+                        var returnTableNoList = contextObj.GetTable(tableType);
+                        var type = returnTableNoList.GetType();           
+                        
+                        //here write method that works with ITable or whatever doing here 
+                        //need to access headers and data
+                        
+                        
+                        
+                               
+                        //non generic method, using SYS_Locks at the moment
+                        var test = contextObj.SYS_Locks; //this is Table<SYS_Lock>
+                        var returnTableList = contextObj.GetTable(tableType).GetEnumerator();
+                        var returnTable = contextObj.SYS_Locks.ToList();
+                        var data = new ColDataToHtml();
+                        data.names = ColumnMapping(returnTable[0], "name");
+                        data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(returnTable[0], "type")), ColumnMapping(returnTable[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
+                        data.parents = ColumnMapping(returnTable[0], "relations");
+                        data.children = ColumnMapping(returnTable[0], "relations");
+                        JArray jArr = new JArray();
+                        foreach (string name in data.names)
+                        {
+                            var obj = new JObject();
+                            var prop = new JProperty("headerName", name.Trim('_'));
+                            var fieldprop = new JProperty("field", name.Trim('_'));
+                            obj.Add(prop);
+                            obj.Add(fieldprop);
+                            jArr.Add(obj);
+                        }
+                        data.namesJson = jArr.ToString();
+                        var jsonReturn = new Tuple<List<SYS_Lock>, ColDataToHtml>(returnTable, data);
+                        return Json(jsonReturn, JsonRequestBehavior.AllowGet);                
+                    }
+                    catch
+                    {
+                        return Json("Error getting table data from db.");
+                    }
+                }
+            }
+        }
+
+
+        #region Get Info on Tables in DB
+        /* --------------------------------------- */
+        //GET TABLES AND INFO FOR SIDE NAV AND SETUP
+
+        public JsonResult CompareSourceAndTarget()
+        {
+            //
+            var r = new JsonResult();
+            return r;
+        }
+
+        public JsonResult GetAllTableNames()
+        {
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                var tableList = contextObj.Mapping.GetTables();
+                var tabNames = new List<string>();
+                foreach (MetaTable table in tableList)
+                {
+                    tabNames.Add(table.TableName.TrimStart("app.".ToCharArray()));
+                }
+                return Json(tabNames, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
+
+        #region Old Table Stuff
+        /* --------------------------------------- */
+        //OLD TABLE FORMAT STUFF
+
+        // GET: All SYS_Configs
+        public JsonResult GetAllSYS_Configs()
+        {
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+
+                var SYS_ConfigList = contextObj.SYS_Configs.ToList();
+
+                var data = new ColDataToHtml();
+                data.names = ColumnMapping(SYS_ConfigList[0], "name");
+                data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(SYS_ConfigList[0], "type")), ColumnMapping(SYS_ConfigList[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
+                data.parents = ColumnMapping(SYS_ConfigList[0], "relations");
+                data.children = ColumnMapping(SYS_ConfigList[0], "relations");
+
+
+                var jsonReturn = new Tuple<List<SYS_Config>, ColDataToHtml>(SYS_ConfigList, data);
+
+                return Json(jsonReturn, JsonRequestBehavior.AllowGet);
+            }
         }
 
         //GET: SYS_Config by Id
@@ -371,10 +380,10 @@ namespace WebApplication2.Controllers
                     {
                         var _SYS_Config = contextObj.SYS_Configs.FirstOrDefault(s => s.OptionItem_ID == _SYS_ConfigId); //only one?
                         contextObj.SYS_Configs.DeleteOnSubmit(_SYS_Config);//only one element?
-                        //https://damieng.com/blog/2008/07/30/linq-to-sql-log-to-debug-window-file-memory-or-multiple-writers
-                        //
-                        //contextObj.Log = new ConfigTool.Log();
-                        //f you wish to not overwrite the existing log file then change the constructor to include the parameter true after the filename. 
+                                                                           //https://damieng.com/blog/2008/07/30/linq-to-sql-log-to-debug-window-file-memory-or-multiple-writers
+                                                                           //
+                                                                           //contextObj.Log = new ConfigTool.Log();
+                                                                           //f you wish to not overwrite the existing log file then change the constructor to include the parameter true after the filename. 
                         contextObj.Log = new System.IO.StreamWriter("linqtosql.log", true) { AutoFlush = true };
 
                         contextObj.SubmitChanges();
@@ -393,6 +402,7 @@ namespace WebApplication2.Controllers
             }
         }
 
+        #endregion
     }
 
 }

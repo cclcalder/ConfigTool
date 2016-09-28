@@ -41,13 +41,12 @@
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-bars" aria-hidden="true"></i>    Navigation - should be disabled when relevant, all active for now </md-subheader>
                     <md-list-item><a class="sidenav" href="#/">Home Setup</a></md-list-item>
                     <md-list-item><a class="sidenav" href="#ModeSetup">Mode Setup</a></md-list-item>
-                    <md-list-item><a class="sidenav" href="#Table/SYS_Config">Test agGrid</a></md-list-item>
+                    <md-list-item><a class="sidenav" href="#Table/SYS_Config">Test agGrid (should be same as clicking SYS_Config below)</a></md-list-item>
                     <md-list-item><a class="sidenav" href="#Index">Test Table Editor</a></md-list-item>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-magic" aria-hidden="true"></i>    Wizard (Disabled in Wizard Mode), can only use forward and back?</md-subheader>
                     <md-list-item>Wizard tree grid..</md-list-item>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-table" aria-hidden="true"></i>    Tables (Disabled in Wizard Mode)</md-subheader>
                     <md-list-item ng-repeat="Table in TableList"><md-checkbox class="orange" aria-label="false" ></md-checkbox><a class="sidenav" href="#Table" ng-click="LoadTableData(Table)">{{Table}}</a></md-list-item>
-
                 </md-list>
             </md-content>
         </md-sidenav>

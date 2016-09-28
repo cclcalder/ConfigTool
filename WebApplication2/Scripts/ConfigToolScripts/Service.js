@@ -1,15 +1,19 @@
 ﻿app.service("crudAJService", function ($http) {
-
-    //get All SYS_Configs
-    this.getSYS_Configs = function () {
-        return $http.get("Home/GetAllSYS_Configs");
-    };
-
+    /* --------------------------------------- */
+    //Get table names for side nav
     this.getTables = function () {
         return $http.get("Home/GetAllTableNames");
 
     };
 
+    /* --------------------------------------- */
+    //Get all SYS_Configs - for test old table
+    this.getSYS_Configs = function () {
+        return $http.get("Home/GetAllSYS_Configs");
+    };
+
+    /* --------------------------------------- */
+    //Get all records from selected table - same as above ish?
     this.loadTable = function (table) {
         var response = $http({
             method: "post",
@@ -25,8 +29,9 @@
     };
 
     /* --------------------------------------- */
+    //CRUD FUNCTIONS-- for old table layout
 
-    // get SYS_Config by SYS_ConfigId
+    //Get SYS_Config by SYS_ConfigId
     this.getSYS_Config = function (SYS_ConfigId) {
         var response = $http({
             method: "post",
@@ -38,7 +43,7 @@
         return response;
     };
 
-    // Update SYS_Config 
+    //Update SYS_Config 
     this.updateSYS_Config = function (SYS_Config) {
         var response = $http({
             method: "post",
@@ -49,7 +54,7 @@
         return response;
     };
 
-    // Add SYS_Config
+    //Add SYS_Config
     this.AddSYS_Config = function (SYS_Config) {
         var response = $http({
             method: "post",
@@ -75,7 +80,7 @@
     /* --------------------------------------- */
     //Generic Table view - same as above ish
 
-    // Get record by id
+    //Get record by id
     this.getRecord = function (RecordId) {
         var response = $http({
             method: "post",
@@ -87,7 +92,7 @@
         return response;
     };
 
-    // Update record 
+    //Update record 
     this.updateRecord = function (Record) {
         var response = $http({
             method: "post",
@@ -98,7 +103,7 @@
         return response;
     };
 
-    // Add record
+    //Add record
     this.AddRecord = function (Record) {
         var response = $http({
             method: "post",

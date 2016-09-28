@@ -15,7 +15,7 @@ a.sidenav {
     color:black; 
 }
 a.sidenav:focus, a.sidenav:hover{
-    color:orangered;
+    color:rgb(63,81,181);
 }
 hr{
     border-top-width:1.5px;
@@ -32,6 +32,10 @@ hr{
   display: inline-block;
   vertical-align: top;
 }
+/*.md-subheader.md-default-theme, .md-subheader {
+    color: rgba(0,0,0,0.54);
+    background-color: rgb(247,247,245);
+}*/
 
 /*
   Set the color of the icon

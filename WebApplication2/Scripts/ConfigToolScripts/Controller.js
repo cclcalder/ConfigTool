@@ -1,8 +1,11 @@
 ﻿/* ----- ANGULAR CONTROLLERS ----- */
 
-/* ----- Generic table controller ----- */
+/* ----- Generic Table Editor ----- */
 app.controller("TableEditorCtrl", function ($scope, $routeParams, crudAJService) {
+
     console.log("Ctrl = TableEditorCtrl");
+    //gets table names from route - user clicked table of choice
+    //atm manually always sent SYS_Config - written into route
     $scope.tablename = $routeParams.tablename;
     console.log("Loading table: " + $scope.tablename);
 
@@ -140,7 +143,7 @@ app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {
     }
 });
 
-/* ----- Side Nav controller ----- */
+/* ----- Side Nav ----- */
 app.controller('SideNavCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
@@ -519,6 +522,10 @@ app.config(function ($routeProvider,
         .when("/Table", {
             templateUrl: function () { console.log("Route: Home/Table/"); return "/Home/Table;" },
             //this should be for table editor..
+        })
+        .when("/About", {
+            //not sure what this does
+            templateUrl: function () { console.log("Route: Home/About/"); return "/Home/About ;" },
         })
         .otherwise({ redirectTo: '/Home/HomeSetup' });
 
