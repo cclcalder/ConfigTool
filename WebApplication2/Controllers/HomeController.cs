@@ -140,30 +140,52 @@ namespace WebApplication2.Controllers
         /* --------------------------------------- */
         //NEW AGGRID GENERIC TABLE EDITOR STUFF
 
-        public ContentResult LoadTableContent(string table)
+        public JsonResult LoadTableContent(string table)
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                var tableToLoad = table.Trim('/', '"');
-                if (tableToLoad != null)
+                if (table != null)
                 {
+                    var tableToLoad = table.Trim('/', '"');
                     var t = typeof(SYS_Lock).AssemblyQualifiedName; //should use this to generate type: "ConfigTool.SYS_Lock, ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
                     string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
                     Type tableType = Type.GetType(tableName);
                     try
                     {
                         var returnTableNoList = contextObj.GetTable(tableType).AsQueryable();
-                        return Content(JsonConvert.SerializeObject(returnTableNoList));
+                        JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(returnTableNoList));
+                        //var jsonParse = arr();
+                        //var result = arr.Root.ToString();
+                        var headers = dataArr.Root[0].ToString().Split(',');
+                        var headerList = new List<string>();
+                        JArray headArr = new JArray();
+                        foreach (string cell in headers)
+                        {
+                            var headerName = cell.Split(':')[0].Trim(new Char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
+                            var obj = new JObject();
+                            var prop = new JProperty("headerName", headerName);
+                            var fieldprop = new JProperty("field", headerName);
+                            obj.Add(prop);
+                            obj.Add(fieldprop);
+                            headArr.Add(obj);
+                            headerList.Add(headerName);
+                        }
+                        string bla = headArr.ToString().TrimStart('{').TrimEnd('}');
+                        //var jsonData = new Tuple<JArray, JArray>(headArr, dataArr);
+                        var jsonData = new Tuple<string, JArray>(bla, dataArr);
+                        //var jsonData = new Tuple<List<string>, JArray>(headerList, dataArr);
+                        var json = Json(jsonData, JsonRequestBehavior.AllowGet);
+                        return json;
                     }
                     catch
                     {
-                        return Content("Error getting table data from db.");
+                        return Json("Error getting table data from db.");
                     }
                 }
                 else
                 {
-                    return Content("Error getting table data from db.");
-                }              
+                    return Json("Error getting table data from db.");
+                }
             }
         }
 
@@ -171,7 +193,7 @@ namespace WebApplication2.Controllers
         {
             //string tableName
             var tableToLoad = table.Trim('/', '"');
-            
+
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
                 //this shouldn't exist - if no match show dialog alert and don't reload page

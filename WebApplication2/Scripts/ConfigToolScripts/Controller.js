@@ -2,132 +2,73 @@
 
 /* ----- Generic Table Editor ----- */
 app.controller("TableEditorCtrl", function ($scope, $routeParams, crudAJService) {
-
     console.log("Ctrl = TableEditorCtrl");
     //gets table names from route - user clicked table of choice
-    //atm manually always sent SYS_Config - written into route
     $scope.tablename = $routeParams.tablename;
     console.log("Loading table: " + $scope.tablename);
 
-    LoadTable();
-    function LoadTable() {
-        var loadTableMethod = crudAJService.loadTable($scope.tablename);
-        //calls function when response is available
+    
+    $scope.LoadTableContent = function () {
 
-        loadTableMethod.then(function (TabData) {
-            //headers for old grid
-            $scope.TableHeaders = TabData.data.Item2.names;
-            //json headers for new grid
-            $scope.TableHeadersJson = JSON.parse(TabData.data.Item2.namesJson);
-            //$scope.TableHeadersJson.push(TabData.data.Item2.namesJson);
-            //data (in json)
-            $scope.TableData = TabData.data.Item1;
-
-            console.log("Headers: " + TabData.data.Item2.names);
-            console.log("Json Headers: " + TabData.data.Item2.namesJson);
-            console.log("Data: " + TabData.data.Item1);
+        var loadMethod = crudAJService.loadTableContent($scope.tablename);
+        //Get json object from service
+        loadMethod.then(function (TableContent) {
+            $scope.TableContentJson = TableContent.data.Item2;
+            $scope.TableHeaders = JSON.parse(TableContent.data.Item1);
+            console.log("$scope.TableContentJson: " + $scope.TableContentJson);
+            console.log("$scope.TableHeaders: " + $scope.TableHeaders);
         }, function () {
             alert('Error in getting table.');
         });
 
-        var gridDiv = document.querySelector('#myGrid');
-        //gridOptions.datasource = TabData.data.Item1;
-        //console.log(gridOptions.datasource);
-        var colHeaders = $scope.TableHeadersJson;
-        var gridOptions = {
-            //columnDefs:  colHeaders ,
-            columnDefs: [
-            {
-                "headerName": "StoredProcedure",
-                "field": "StoredProcedure"
-            },
-            {
-                "headerName": "RunLogID",
-                "field": "RunLogID"
-            },
-            {
-                "headerName": "Locked",
-                "field": "Locked"
-            },
-            {
-                "headerName": "LockedDate",
-                "field": "LockedDate"
-            }
-            ],
-            rowData: $scope.TableData,
-            //rowData: [
-            //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
-            //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
-            //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
-            //    { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" }
-            //],
+        var gridDiv = document.querySelector("#tableEditorGrid");
 
+        //var gridOptions = {
+        //    //Object properties, myRowData and myColDefs are created somewhere in your application
+        //    rowData: myRowData,
+        //    columnDefs: myColDefs,
+        //    // PROPERTIES - simple boolean / string / number properties
+        //    enableColResize: true,
+
+        //}
+        var gridOptions = {
+            columnDefs: [
+                {
+                    "headerName": "StoredProcedure",
+                    "field": "StoredProcedure"
+                },
+                {
+                    "headerName": "RunLogID",
+                    "field": "RunLogID"
+                },
+                {
+                    "headerName": "Locked",
+                    "field": "Locked"
+                },
+                {
+                    "headerName": "LockedDate",
+                    "field": "LockedDate"
+                }
+            ],
+
+            rowData: [
+                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" }
+            ],
             enableSorting: true,
             enableFilter: true,
             debug: true,
             //paginationPageSize: 500,
             rowSelection: 'multiple',
             enableColResize: true
-            //rowModelType: 'pagination'
-
+            //columnDefs: $scope.TableHeaders,
+            //rowData: $scope.TableContentJson
         };
         new agGrid.Grid(gridDiv, gridOptions);
-
-        //function onPageSizeChanged(newPageSize) {
-        //    this.gridOptions.paginationPageSize = new Number(newPageSize);
-        //    createNewDatasource();
-        //}
-
-        //// when json gets loaded, it's put here, and  the datasource reads in from here.
-        //// in a real application, the page will be got from the server.
-        //var allOfTheData;
-
-        //function createNewDatasource() {
-        //    if (!allOfTheData) {
-        //        // in case user selected 'onPageSizeChanged()' before the json was loaded
-        //        return;
-        //    }
-
-        //    var dataSource = {
-        //        //rowCount: ???, - not setting the row count, infinite paging will be used
-        //        getRows: function (params) {
-        //            // this code should contact the server for rows. however for the purposes of the demo,
-        //            // the data is generated locally, a timer is used to give the experience of
-        //            // an asynchronous call
-        //            console.log('asking for ' + params.startRow + ' to ' + params.endRow);
-        //            setTimeout(function () {
-        //                // take a chunk of the array, matching the start and finish times
-        //                var rowsThisPage = allOfTheData.slice(params.startRow, params.endRow);
-        //                // see if we have come to the last page. if we have, set lastRow to
-        //                // the very last row of the last page. if you are getting data from
-        //                // a server, lastRow could be returned separately if the lastRow
-        //                // is not in the current page.
-        //                var lastRow = -1;
-        //                if (allOfTheData.length <= params.endRow) {
-        //                    lastRow = allOfTheData.length;
-        //                }
-        //                params.successCallback(rowsThisPage, lastRow);
-        //            }, 500);
-        //        }
-        //    };
-
-        //    gridOptions.api.setDatasource(dataSource);
-        //}
-
-        //function setRowData(rowData) {
-        //    allOfTheData = rowData;
-        //    createNewDatasource();
-        //}
-
-        //// setup the grid after the page has finished loading
-        //document.addEventListener('DOMContentLoaded', function () {
-        //    var gridDiv = document.querySelector('#myGrid');
-        //    new agGrid.Grid(gridDiv, gridOptions);
-
-        //            setRowData($scope.TableData);
-
-        //});
-
+        ////Init and fill agGrid
+        //$scope.gridOptions.api.setRowData(jsonString);
     }
 });
 

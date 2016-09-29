@@ -1,63 +1,15 @@
 ﻿@{
     ViewBag.Title = "Table";
 }
-
-    <p style="text-align:right;">
-        <div id="childTableCSS">
-            <center>
-                <h1 class="display-1">
-                    @ViewBag.TableName
-                    <small class="text-muted">Table</small>
-                </h1>
-            </center>
-        </div>
-    </p>
-
-@*<div style="height: 6%;">
-    Page Size:
-    <select onchange="onPageSizeChanged(this.value)">
-        <option value="10">10</option>
-        <option value="100">100</option>
-        <option value="500" selected>500</option>
-        <option value="1000">1000</option>
-    </select>
-</div>*@
-<div style="height: 100%;" id="myGrid" class="ag-fresh"></div>
-
-
-    <!--Search box, replaced when do better table stuff-->
-    <form>
-        <div>
-            <p style="text-align:left;">
-                <div class="input-group">
-                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                    <input float="right" type="text" class="form-control" placeholder="Search" @*ng-model="searchTable"*@>
-                </div>
-            </p>
-        </div>
-    </form>
-    <div class="table">
-        <table ngtable="" class="table table-bordered table-hover table-condensed" show-filter="true">
-            <thead>
-                <tr>
-                    <th ng-repeat="Headers in TableHeaders">{{Headers}}</th>
-                    <th>
-                        <center>
-                            <span class="btn btn-info">
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i> @ViewBag.TableName
-                            </span>
-                        </center>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="Data in TableData">
-                    <td>{{Data}}</td>
-            </tbody>
-        </table>
+<p style="text-align:right;">
+    <div id="childTableCSS">
+        <center>
+            <h1 class="display-1">
+                @ViewBag.TableName
+                <small class="text-muted">Table</small>
+            </h1>
+            <hr />
+        </center>
     </div>
- 
-    @*ng-click="AddRecordDDiv(@ViewBag.TableName)"*@
-
-    @*now try same with ag-grid*@
-
+</p>
+<div ag-grid="gridOptions" style="height: 100%; border-color: gray" id="tableEditorGrid" class="ag-fresh"></div>

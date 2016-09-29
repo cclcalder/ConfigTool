@@ -24,8 +24,21 @@
         });
         //return above function
         return response;
+    };
 
-        //return $http.get("Home/LoadTableData");
+    //this should replace above method..
+    this.loadTableContent = function (table) {
+        var response = $http({
+            method: "post",
+            dataType: "json",
+            url: "Home/LoadTableContent",
+            params: {
+                //pass tablename to method
+                table: JSON.stringify(table)
+            }
+        });
+        return response;
+        //return $http.get("Home/LoadTableContent");
     };
 
     /* --------------------------------------- */
