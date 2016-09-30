@@ -7,70 +7,107 @@ app.controller("TableEditorCtrl", function ($scope, $routeParams, crudAJService)
     $scope.tablename = $routeParams.tablename;
     console.log("Loading table: " + $scope.tablename);
 
-    
-    $scope.LoadTableContent = function () {
-
-        var loadMethod = crudAJService.loadTableContent($scope.tablename);
-        //Get json object from service
-        loadMethod.then(function (TableContent) {
-            $scope.TableContentJson = TableContent.data.Item2;
-            $scope.TableHeaders = JSON.parse(TableContent.data.Item1);
-            console.log("$scope.TableContentJson: " + $scope.TableContentJson);
-            console.log("$scope.TableHeaders: " + $scope.TableHeaders);
-        }, function () {
-            alert('Error in getting table.');
-        });
+    LoadTableContent();
+    function LoadTableContent() {
+        console.log("Load new table 1");
 
         var gridDiv = document.querySelector("#tableEditorGrid");
+        //var colHeaders = $scope.
+        $scope.gridOptions = {
+            columnDefs: coldef(),
+            enableFilter: true,
+            rowData: [],
+            rowSelection: 'multiple',
+            rowDeselection: true,
+            enableColResize: true,
 
-        //var gridOptions = {
-        //    //Object properties, myRowData and myColDefs are created somewhere in your application
-        //    rowData: myRowData,
-        //    columnDefs: myColDefs,
-        //    // PROPERTIES - simple boolean / string / number properties
-        //    enableColResize: true,
+        }
+    };
+    $scope.gridOptions.columnDefs = $scope.customColumns;
+    $scope.gridOptions.rowData =generateChartData();
+    $scope.gridOptions.rowData = generateChartData();
 
-        //}
-        var gridOptions = {
-            columnDefs: [
+
+    $scope.customData = [];
+
+    var loadMethod = crudAJService.loadTableContent($scope.tablename);
+    loadMethod.then(function (TableContent) {
+        if (typeof TableContent.data.Item1 == "string") {
+            TableContent.data.Item1 = JSON.parse(TableContent.data.Item1);
+        }
+        if (typeof TableContent.data.Item2 == "string") {
+            TableContent.data.Item2 = JSON.parse(TableContent.data.Item2);
+        }
+        console.log("Headers: " + TableContent.data.Item1);
+        console.log("Data: " + TableContent.data.Item2);
+            
+        for(var i=0;i<Student.length;i++) {
+            $scope.customColumns.push(
                 {
-                    "headerName": "StoredProcedure",
-                    "field": "StoredProcedure"
-                },
-                {
-                    "headerName": "RunLogID",
-                    "field": "RunLogID"
-                },
-                {
-                    "headerName": "Locked",
-                    "field": "Locked"
-                },
-                {
-                    "headerName": "LockedDate",
-                    "field": "LockedDate"
+                    headerName: Student[i].Name,
+                    field: "Mark",
+                    headerClass: 'grid-halign-left'
+
                 }
-            ],
+            );
 
+            $scope.gridOptions.columnDefs = $scope.customColumns;
+            $scope.gridOptions.rowData = Student;
+            $scope.gridOptions.api.setColumnDefs();
+
+        }, function () {
+            alert('Error in getting table from database.');
+        });
+
+
+
+        var gridOptions = {
+            //columnDefs:  colHeaders ,
+            columnDefs: [
+            {
+                "headerName": "StoredProcedure",
+                "field": "StoredProcedure"
+            },
+            {
+                "headerName": "RunLogID",
+                "field": "RunLogID"
+            },
+            {
+                "headerName": "Locked",
+                "field": "Locked"
+            },
+            {
+                "headerName": "LockedDate",
+                "field": "LockedDate"
+            }
+            ],
+            //rowData: $scope.TableData,
             rowData: [
-                { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
+                { "StoredProcedure": "Grocast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
                 { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
                 { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" },
                 { "StoredProcedure": "Procast_SP_AccountPlanBuild", "RunLogID": "3ee152b7-13c4-41d9-ab38-4279b9090d82", "Locked": "false", "LockedDate": "null" }
             ],
+
             enableSorting: true,
             enableFilter: true,
             debug: true,
-            //paginationPageSize: 500,
+
             rowSelection: 'multiple',
             enableColResize: true
-            //columnDefs: $scope.TableHeaders,
-            //rowData: $scope.TableContentJson
         };
         new agGrid.Grid(gridDiv, gridOptions);
+
+
+        //new agGrid.Grid(gridDiv, gridOptions);
         ////Init and fill agGrid
         //$scope.gridOptions.api.setRowData(jsonString);
     }
-});
+
+//http://stackoverflow.com/questions/31743534/angular-grid-ag-grid-columndefs-dynamically-change
+
+   
+    });
 
 /* ----- Side Nav ----- */
 app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {
