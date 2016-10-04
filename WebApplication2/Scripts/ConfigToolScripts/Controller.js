@@ -9,52 +9,34 @@ app.controller("TableEditorCtrl", function ($scope, $routeParams, crudAJService)
 
     LoadTableContent();
     function LoadTableContent() {
-        console.log("Load new table 1");
+        console.log("Load new table");
 
-        var gridDiv = document.querySelector("#tableEditorGrid");
-        //var colHeaders = $scope.
-        $scope.gridOptions = {
-            columnDefs: coldef(),
-            enableFilter: true,
-            rowData: [],
-            rowSelection: 'multiple',
-            rowDeselection: true,
-            enableColResize: true,
+        var loadMethod = crudAJService.loadTableContent($scope.tablename);
+        loadMethod.then(function (TableContent) {
+            if (typeof TableContent.data.Item1 == "string") {
+                TableContent.data.Item1 = JSON.parse(TableContent.data.Item1);
+            }
+            if (typeof TableContent.data.Item2 == "string") {
+                TableContent.data.Item2 = JSON.parse(TableContent.data.Item2);
+            }
+            console.log("Headers: " + TableContent.data.Item1);
+            console.log("Data: " + TableContent.data.Item2);
 
-        }
-    };
-    $scope.gridOptions.columnDefs = $scope.customColumns;
-    $scope.gridOptions.rowData =generateChartData();
-    $scope.gridOptions.rowData = generateChartData();
+            for (var i = 0; i < Student.length; i++) {
+                $scope.customColumns.push(
+                    {
+                        headerName: Student[i].Name,
+                        field: "Mark",
+                        headerClass: 'grid-halign-left'
 
+                    }
+                );
 
-    $scope.customData = [];
+                $scope.gridOptions.columnDefs = $scope.customColumns;
+                $scope.gridOptions.rowData = Student;
+                $scope.gridOptions.api.setColumnDefs();
 
-    var loadMethod = crudAJService.loadTableContent($scope.tablename);
-    loadMethod.then(function (TableContent) {
-        if (typeof TableContent.data.Item1 == "string") {
-            TableContent.data.Item1 = JSON.parse(TableContent.data.Item1);
-        }
-        if (typeof TableContent.data.Item2 == "string") {
-            TableContent.data.Item2 = JSON.parse(TableContent.data.Item2);
-        }
-        console.log("Headers: " + TableContent.data.Item1);
-        console.log("Data: " + TableContent.data.Item2);
-            
-        for(var i=0;i<Student.length;i++) {
-            $scope.customColumns.push(
-                {
-                    headerName: Student[i].Name,
-                    field: "Mark",
-                    headerClass: 'grid-halign-left'
-
-                }
-            );
-
-            $scope.gridOptions.columnDefs = $scope.customColumns;
-            $scope.gridOptions.rowData = Student;
-            $scope.gridOptions.api.setColumnDefs();
-
+            }
         }, function () {
             alert('Error in getting table from database.');
         });
@@ -102,12 +84,13 @@ app.controller("TableEditorCtrl", function ($scope, $routeParams, crudAJService)
         //new agGrid.Grid(gridDiv, gridOptions);
         ////Init and fill agGrid
         //$scope.gridOptions.api.setRowData(jsonString);
-    }
 
-//http://stackoverflow.com/questions/31743534/angular-grid-ag-grid-columndefs-dynamically-change
 
-   
-    });
+        //http://stackoverflow.com/questions/31743534/angular-grid-ag-grid-columndefs-dynamically-change
+
+
+    };
+});
 
 /* ----- Side Nav ----- */
 app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {

@@ -1,18 +1,12 @@
 ﻿using ConfigTool;
-using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
 using System.Linq.Dynamic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Remoting.Contexts;
-using System.Web;
 using System.Web.Mvc;
 
 
@@ -58,7 +52,7 @@ namespace WebApplication2.Controllers
         }
         #endregion
 
-        #region DataContext Info - unfinished
+        #region DataContext Info
         /* --------------------------------------- */
         //GET USEFUL INFO FROM DATACONTEXT - MAYBE DON'T NEED THIS
 
@@ -137,6 +131,7 @@ namespace WebApplication2.Controllers
 
         #endregion
 
+        #region agGrid
         /* --------------------------------------- */
         //NEW AGGRID GENERIC TABLE EDITOR STUFF
 
@@ -144,18 +139,24 @@ namespace WebApplication2.Controllers
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
+                //got table
                 if (table != null)
                 {
+                    //correct form
                     var tableToLoad = table.Trim('/', '"');
-                    var t = typeof(SYS_Lock).AssemblyQualifiedName; //should use this to generate type: "ConfigTool.SYS_Lock, ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+                    var t = typeof(SYS_Lock).AssemblyQualifiedName; //<-- example of whole random table name, should refactor to use this to generate type
                     string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
                     Type tableType = Type.GetType(tableName);
+                    var tableData = contextObj.GetTable(tableType).AsQueryable();
+                    var pKeyName = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.SingleOrDefault(m => m.IsPrimaryKey).MappedName;
+                    //got selected table info, pass to web
+
                     try
-                    {
-                        var returnTableNoList = contextObj.GetTable(tableType).AsQueryable();
-                        JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(returnTableNoList));
-                        //var jsonParse = arr();
-                        //var result = arr.Root.ToString();
+                    { 
+                        //pass table in json data form - parse js side?
+                        JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData));
+                        
+                        //another method to pass data to front end
                         var headers = dataArr.Root[0].ToString().Split(',');
                         var headerList = new List<string>();
                         JArray headArr = new JArray();
@@ -171,7 +172,8 @@ namespace WebApplication2.Controllers
                             headerList.Add(headerName);
                         }
                         string bla = headArr.ToString().TrimStart('{').TrimEnd('}');
-                        //var jsonData = new Tuple<JArray, JArray>(headArr, dataArr);
+
+                        //uncomment different methods for testing
                         var jsonData = new Tuple<string, JArray>(bla, dataArr);
                         //var jsonData = new Tuple<List<string>, JArray>(headerList, dataArr);
                         var json = Json(jsonData, JsonRequestBehavior.AllowGet);
@@ -258,6 +260,7 @@ namespace WebApplication2.Controllers
             }
         }
 
+        #endregion
 
         #region Get Info on Tables in DB
         /* --------------------------------------- */

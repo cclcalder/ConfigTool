@@ -54,6 +54,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -80,6 +81,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ScriptGenerator.cs" />
+    <Compile Include="Script\EFExtensions.cs" />
+    <Compile Include="Script\Merge.cs" />
+    <Compile Include="Script\Upsert.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
