@@ -15,11 +15,9 @@ using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
 
-
-
 namespace WebApplication2.Controllers
 {
-    #region Action Views
+        #region Action Views
     //does this mean you have to authorize every controller below?
     [Authorize]
     public class HomeController : Controller
@@ -177,7 +175,7 @@ namespace WebApplication2.Controllers
                         var obj = new JObject();
                         var prop = new JProperty("headerName", headerName);
                         var fieldprop = new JProperty("field", headerName);
-                        var widthprop = new JProperty("width", "150");
+                        var widthprop = new JProperty("width", 150);
                         var editprop = new JProperty("editable", "true");
                         obj.Add(prop);
                         obj.Add(fieldprop);
@@ -185,16 +183,11 @@ namespace WebApplication2.Controllers
                         obj.Add(editprop);
                         headArr.Add(obj);
                     }
-                    //string bla = headArr.ToString().TrimStart('{').TrimEnd('}');
+
                     var headArrStr = headArr.ToString();
                     var dataArrStr = dataArr.ToString();
-                    //uncomment different methods for testing
-                    //var jsonData = new Tuple<JArray, JArray>(headArr, dataArr);
                     var jsonData = new Tuple<string, string>(headArrStr, dataArrStr);
-                    //var jsonData = new Tuple<List<string>, JArray>(headerList, dataArr);
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
-
-
                 }
                 else
                 {
