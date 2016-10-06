@@ -1016,6 +1016,8 @@
     <Content Include="Scripts\angular-aria\angular-aria.js" />
     <Content Include="Scripts\angular-aria\angular-aria.min.js" />
     <Content Include="Scripts\angular-aria\index.js" />
+    <Content Include="Scripts\angular-bootstrap-tree-grid\tree-grid-directive.js" />
+    <Content Include="Scripts\angular-bootstrap-tree-grid\treeGrid.css" />
     <Content Include="Scripts\angular-cookies.js" />
     <Content Include="Scripts\angular-cookies.min.js" />
     <Content Include="Scripts\angular-csp.css" />

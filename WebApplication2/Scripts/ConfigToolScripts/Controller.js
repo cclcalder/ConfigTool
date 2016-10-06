@@ -14,78 +14,86 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJServ
         var loadMethod = crudAJService.loadTableContent($scope.tablename);
         loadMethod.then(function (TableContent) {
 
-            var columnHeaders = JSON.parse(TableContent.data.Item1);
+            $scope.columnHeaders = JSON.parse(TableContent.data.Item1);
             var data = JSON.parse(TableContent.data.Item2);
-
+            $scope.dataReturn = data;
             var gridOptions = {
-                columnDefs: columnHeaders,
+                columnDefs: $scope.columnHeaders,
                 rowData: data,
                 singleClickEdit: false,
                 rowHeight: 35,
                 enableSorting: true,
                 enableFilter: true,
                 rowSelection: 'multiple',
-                
+
                 enableColResize: true,
             };
 
-            function sizeToFit() {
-                gridOptions.api.sizeColumnsToFit();
-            }
 
-            function autoSizeAll() {
-                var allColumnIds = [];
-                columnDefs.forEach(function (columnDef) {
-                    allColumnIds.push(columnDef.field);
-                });
-                gridOptions.columnApi.autoSizeColumns(allColumnIds);
-            }
-            
+
             $scope.gridOptions = gridOptions;
 
             $scope.dataLoaded = true;
-            $scope.isLoading = false;    
+            $scope.isLoading = false;
             $scope.loadingIsDone = true;
 
-        },function () {
+        }, function () {
             alert('Error in getting data');
             $scope.isLoading = false;
         });
     };
 
+
     LoadTableContent();
 
     //CRUD..
-    function onRemoveSelected() {
-        var selectedNodes = gridOptions.api.getSelectedNodes();
-        gridOptions.api.removeItems(selectedNodes);
+    $scope.onRemoveSelected = function () {
+        console.log("onRemoveSelected");
+        var selectedNodes = $scope.gridOptions.api.getSelectedNodes();
+        $scope.gridOptions.api.removeItems(selectedNodes);
+        //do we want an 'are you sure' dialog? or a checker to see what it affects?
+        //SubmitChanges();
     }
 
     var tableAction = $scope.Action;
 
     var newCount = 1;
 
-    function onAddRow() {
+    $scope.onAddRow = function () {
+        console.log("onAddRow");
         var newItem = createNewRowData();
-        gridOptions.api.insertItemsAtIndex(1, [newItem]);
+        $scope.gridOptions.api.insertItemsAtIndex(1, [newItem]);
     }
-    function createNewRowData() {
-        console.log("Insert Record: " + data[0]);
-        var newData = data[0];
+   function createNewRowData () {
+       console.log("Insert Record: " + $scope.dataReturn[0]); //this just copies last row of data instead of empty record..
+       var newData = $scope.dataReturn[0];
         newCount++;
         return newData;
     }
 
-    function getRowData() {
+    $scope.getRowData = function () {
+        console.log("getRowData");
         var rowData = [];
-        gridOptions.api.forEachNode(function (node) {
+        $scope.gridOptions.api.forEachNode(function (node) {
             rowData.push(node.data);
         });
         console.log('Row Data:');
         console.log(rowData);
     }
 
+    $scope.sizeToFit = function () {
+        console.log("sizeToFit");
+        $scope.gridOptions.api.sizeColumnsToFit();
+    }
 
+    $scope.autoSizeAll = function () {
+        console.log("autoSizeAll");
+        var allColumnIds = [];
+        $scope.columnHeaders.forEach(function (columnDef) {
+            allColumnIds.push(columnDef.field);
+        });
+        $scope.gridOptions.columnApi.autoSizeColumns(allColumnIds);
+    }
 
 
 });
@@ -350,6 +358,213 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         });
     }
 
+    //data for wizard tree -- turn into .json file
+    $scope.tree_data = [
+        {
+            Task: 'Master Data Setup',
+            Complete: ' ',
+
+            children: [
+                {
+                    Task: 'Setup Sales Orgs and Customer Hierarchy / Levels',
+                    Complete: ' ',
+                    children: [
+                        {
+                            Task: 'Review @Html.ActionLink("SYS_Config", "Index", "Home")',
+                            Complete: ' '
+                        }
+                    ]
+                },
+            {
+                Task: 'Setup Product Hierarchy / Levels',
+                Complete: ' ',
+                children: [
+                    {
+                        Task: 'Review setup.ETL_UK_Load_Products',
+                        Complete: ' '
+                    }
+                ]
+            },
+            {
+                Task: 'Setup Measures and Attributes',
+                Complete: ' ',
+                children: [
+                    {
+                        Task: 'app.Dim_Product_Cust_Measures',
+                        Complete: ' '
+                    },
+                    {
+                        Task: 'app.Dim_Product_Sku_Measures',
+                        Complete: ' '
+                    },
+                    {
+                        Task: 'app.Dim_Product_Sku_Cust_Measures',
+                        Complete: ' '
+                    },
+                    {
+                        Task: 'app.Dim_Product_Cust_Attributes',
+                        Complete: ' '
+                    },
+                    {
+                        Task: 'app.Dim_Product_Sku_Attributes',
+                        Complete: ' '
+                    },
+                    {
+                        Task: 'app.Dim_Product_Sku_Cust_Attribute',
+                        Complete: ' '
+                    }
+                ]
+            },
+            ]
+        },
+        {
+            Task: 'General Setup',
+            Complete: ' ',
+
+            children: [
+                {
+                    Task: 'Set Base Unit Of Measure',
+                    Complete: ' ',
+                    children: [
+                        {
+                            Task: 'app.SYS_Config',
+                            Complete: ' '
+                        }
+                    ]
+                },
+                {
+                    Task: 'Set Deleting Policy',
+                    Complete: ' ',
+                    children: [
+                        {
+                            Task: 'app.SYS_Config',
+                            Complete: ' '
+                        }
+                    ]
+                },
+                {
+                    Task: 'Set Password Policy',
+                    Complete: ' ',
+                    children: [
+                        {
+                            Task: 'app.SYS_Config',
+                            Complete: ' '
+                        }
+                    ]
+                },
+                {
+                    Task: 'Config client Calendar View',
+                    Complete: ' ',
+                    children: [
+                        {
+                            Task: 'clnt.vw_Dim_Calendar',
+                            Complete: ' '
+                        }
+                    ]
+                },
+                {
+                    Task: 'Review References to “Demo”',
+                    Complete: ' ',
+                    children: [
+                        {
+                            Task: 'app.SYS_Config',
+                            Complete: ' '
+                        }
+                    ]
+                },
+                {
+                    Task: 'Remove any screens and tabs not in scope',
+                    Complete: ' ',
+                    children: [
+                        {
+                            Task: 'app.SYS_Screens',
+                            Complete: ' '
+                        },
+                        {
+                            Task: 'app.SYS_ScreenTabs',
+                            Complete: ' '
+                        },
+                        {
+                            Task: 'app.Fact_Screen_ScreenGroup',
+                            Complete: ' '
+                        }
+                    ]
+                },
+                {
+                    Task: 'Update languages settings for any renaming of screens, tabs and controls',
+                    Complete: ' ',
+                    children: [
+                        {
+                            Task: 'app.Dim_Language_AppLabels',
+                            Complete: ' '
+                        }
+                    ]
+                },
+
+            ]
+        },
+        {
+            Task: 'Planning Screen Configuration',
+            Complete: ' ',
+            children: [
+               {
+                   Task: 'Setup Master Data',
+                   Complete: ' ',
+                   children: [
+                       {
+                           Task: 'Review and modify as appropriate app.Dim_Planning_Volume_MeasureGroups',
+                           Complete: ' '
+                       },
+                       {
+                           Task: 'Review and modify as appropriate app.Dim_Planning_Volume_Measures',
+                           Complete: ' '
+                       },
+                       {
+                           Task: 'Review and modify as appropriate app.Dim_Planning_Time_Range',
+                           Complete: ' '
+                       },
+                       {
+                           Task: 'Review and modify as appropriate app.Dim_Planning_Time_Levels',
+                           Complete: ' '
+                       }
+                   ]
+               },
+               {
+                   Task: 'Test',
+                   Complete: ' ',
+                   children: [
+                       {
+                           Task: 'Check volume saves and reloads, and unit of measure correctly set',
+                           Complete: ' '
+                       }
+                   ]
+               }
+            ]
+        },
+        {
+            Task: 'Promotions Configuration',
+            Complete: ' ',
+        },
+        {
+            Task: 'Terms Configuration',
+            Complete: ' ',
+        },
+        {
+            Task: 'Management Adjustment Configuration',
+            Complete: ' ',
+
+        },
+        {
+            Task: 'Risk And Ops Configuration',
+            Complete: ' ',
+
+        },
+        {
+            Task: 'Funds',
+            Complete: ' ',
+
+        }
+    ];
 });
 
 /* ----- Test Table ----- */

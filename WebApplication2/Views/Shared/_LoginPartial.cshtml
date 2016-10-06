@@ -44,7 +44,8 @@
                     <md-list-item><a class="sidenav" href="#Table/SYS_Config">Test agGrid (should be same as clicking SYS_Config below)</a></md-list-item>
                     <md-list-item><a class="sidenav" href="#Index">Test Table Editor</a></md-list-item>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-magic" aria-hidden="true"></i>    Wizard (Disabled in Wizard Mode), can only use forward and back?</md-subheader>
-                    <md-list-item>Wizard tree grid..</md-list-item>
+                    <md-list-item>Go To Wizard <i class="fa fa-arrow-right" aria-hidden="true"></i></md-list-item>
+                    <tree-grid style="font-size: 12px;" tree-data="tree_data"></tree-grid>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-table" aria-hidden="true"></i>    Tables (Disabled in Wizard Mode)</md-subheader>
                     @*<md-list-item ng-repeat="Table in TableList"><md-checkbox class="orange" aria-label="false" ></md-checkbox><a class="sidenav" href="#Table" ng-click="LoadTableContent(Table)">{{Table}}</a></md-list-item>*@
                     <md-list-item ng-repeat="Table in TableList">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" href="#Table/{{Table.Item2}}" ng-click="Load()"  >{{Table.Item1}}</a></md-list-item>
