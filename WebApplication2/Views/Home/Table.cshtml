@@ -1,7 +1,8 @@
 ﻿@{
     ViewBag.Title = "Table";
 }
-<body @*ng-controller="exampleCtrl"*@>
+<body>
+
     <p style="text-align:right;">
         <div id="childTableCSS">
             <center>
@@ -13,8 +14,13 @@
             </center>
         </div>
     </p>
-    <md-button class="md-raised"  ng-click="addRecord()"> Add New Record </md-button>
-    <div ng-if="dataLoaded" ag-grid="gridOptions" style="height: 100%;" class="ag-fresh"></div>
+
+    <div style="text-align:right">
+        <md-button class="md-raised" ng-click="onAddRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add New Record </md-button>
+        <md-button class="md-raised" ng-click="onRemoveSelected()"><i class="fa fa-times" aria-hidden="true"></i> Delete Selected Record </md-button>
+    </div>
+
+    <div id="myGrid" ng-if="dataLoaded" ag-grid="gridOptions" style="height: 100%;" class="ag-fresh"></div>
     <div ng-if="!dataLoaded">
         <div class="container" style="margin-left:0px;margin-right:0px">
             <md-progress-linear md-mode="indeterminate" ng-disabled="!isLoading"></md-progress-linear>
@@ -24,5 +30,5 @@
             </div>
         </div>
     </div>
-    @*<div ag-grid="gridOptions" style="height: 100%; border-color: gray" id="tableEditorGrid" class="ag-fresh"></div>*@
+
 </body>

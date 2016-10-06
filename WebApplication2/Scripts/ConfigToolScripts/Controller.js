@@ -1,9 +1,8 @@
 ﻿/* ----- ANGULAR CONTROLLERS ----- */
 
 /* ----- agGrid CRUD ----- */
-// angular js module
 app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJService) {
-    console.log("TableCtrl" + $scope.tablename);
+    console.log("TableCtrl, " + $routeParams.tablename);
     $scope.tablename = $routeParams.tablename;
 
     $scope.loadingIsDone = false;
@@ -18,23 +17,80 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJServ
             var columnHeaders = JSON.parse(TableContent.data.Item1);
             var data = JSON.parse(TableContent.data.Item2);
 
-            // initialization of grid options          
-            $scope.gridOptions = {
+            var gridOptions = {
                 columnDefs: columnHeaders,
                 rowData: data,
-                singleClickEdit: true,
-                rowHeight: 35,              
+                singleClickEdit: false,
+                rowHeight: 35,
+                enableSorting: true,
+                enableFilter: true,
+                rowSelection: 'multiple',
+                
+                enableColResize: true,
             };
+
+            function sizeToFit() {
+                gridOptions.api.sizeColumnsToFit();
+            }
+
+            function autoSizeAll() {
+                var allColumnIds = [];
+                columnDefs.forEach(function (columnDef) {
+                    allColumnIds.push(columnDef.field);
+                });
+                gridOptions.columnApi.autoSizeColumns(allColumnIds);
+            }
+            
+            $scope.gridOptions = gridOptions;
 
             $scope.dataLoaded = true;
             $scope.isLoading = false;    
             $scope.loadingIsDone = true;
+
+        },function () {
+            alert('Error in getting data');
+            $scope.isLoading = false;
         });
     };
 
     LoadTableContent();
 
+    //CRUD..
+    function onRemoveSelected() {
+        var selectedNodes = gridOptions.api.getSelectedNodes();
+        gridOptions.api.removeItems(selectedNodes);
+    }
+
+    var tableAction = $scope.Action;
+
+    var newCount = 1;
+
+    function onAddRow() {
+        var newItem = createNewRowData();
+        gridOptions.api.insertItemsAtIndex(1, [newItem]);
+    }
+    function createNewRowData() {
+        console.log("Insert Record: " + data[0]);
+        var newData = data[0];
+        newCount++;
+        return newData;
+    }
+
+    function getRowData() {
+        var rowData = [];
+        gridOptions.api.forEachNode(function (node) {
+            rowData.push(node.data);
+        });
+        console.log('Row Data:');
+        console.log(rowData);
+    }
+
+
+
+
 });
+
+/* ----- LINQ CRUD ----- */
 
 /* ----- Side Nav ----- */
 app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {
@@ -277,7 +333,9 @@ app.controller('ModeContinueCtrl', function ($scope, $mdDialog, $location) {
     };
 });
 
-/* ----- Main ----- */
+/* ----- Mode Compare ----- */
+
+/* ----- Table List ----- */
 app.controller("GetTablesCtrl", function ($scope, crudAJService) {
     console.log("Ctrl = GetTablesCtrl");
     //Loads all table names from the data base into navbar

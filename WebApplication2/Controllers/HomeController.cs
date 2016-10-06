@@ -153,45 +153,57 @@ namespace WebApplication2.Controllers
                     string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
                     Type tableType = Type.GetType(tableName);
 
-                    //got selected table info, pass to web
-
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
                     var columnNames = (from property in tableData.ToString().GetType().GetProperties()
                                        select property.Name).ToList();
-
-
                     var pKeyName = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.FirstOrDefault(m => m.IsPrimaryKey).MappedName;
 
-                    //pass table in json data form 
                     //GET RID OF ASSOCIATION FROM DBML!
-                    JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData));
-
-                    //another method to pass data 
-                    var headers = dataArr.Root[0].ToString().Split(',');
-                    JArray headArr = new JArray();
-                    foreach (string cell in headers)
+                    try
                     {
-                        var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
-                        var obj = new JObject();
-                        var prop = new JProperty("headerName", headerName);
-                        var fieldprop = new JProperty("field", headerName);
-                        var widthprop = new JProperty("width", 150);
-                        var editprop = new JProperty("editable", "true");
-                        obj.Add(prop);
-                        obj.Add(fieldprop);
-                        obj.Add(widthprop);
-                        obj.Add(editprop);
-                        headArr.Add(obj);
-                    }
+                        JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData));
+                        var headers = dataArr.Root[0].ToString().Split(',');
+                        JArray headArr = new JArray();
+                        foreach (string cell in headers)
+                        {
+                            var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
+                            var obj = new JObject();
+                            var prop = new JProperty("headerName", headerName);
+                            var fieldprop = new JProperty("field", headerName);
+                            var widthprop = new JProperty("width", 150);
+                            var editprop = new JProperty("editable", true);
+                            if (headerName == "Description" || headerName == pKeyName) { editprop = new JProperty("editable", false); }
+                            obj.Add(prop);
+                            obj.Add(fieldprop);
+                            obj.Add(widthprop);
+                            obj.Add(editprop);
+                            headArr.Add(obj);
+                        }
+                        //add comlum to potentially use for add/delete
+                        var addObj = new JObject();
+                        var aProp = new JProperty("headerName", "Action");
+                        var aFieldprop = new JProperty("field", "Action");
+                        var aWidthprop = new JProperty("width", 150);
+                        var aEditprop = new JProperty("editable", true);
+                        addObj.Add(aProp);
+                        addObj.Add(aFieldprop);
+                        addObj.Add(aWidthprop);
+                        addObj.Add(aEditprop);
+                        headArr.Add(addObj);
 
-                    var headArrStr = headArr.ToString();
-                    var dataArrStr = dataArr.ToString();
-                    var jsonData = new Tuple<string, string>(headArrStr, dataArrStr);
-                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                        var headArrStr = headArr.ToString();
+                        var dataArrStr = dataArr.ToString();
+                        var jsonData = new Tuple<string, string>(headArrStr, dataArrStr);
+                        return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
                 }
                 else
                 {
-                    return Json("Error getting table data from db.");
+                    return Json("Error: Getting table data from db.");
                 }
             }
         }
