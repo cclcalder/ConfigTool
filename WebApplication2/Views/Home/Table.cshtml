@@ -1,15 +1,19 @@
 ﻿@{
     ViewBag.Title = "Table";
 }
-<p style="text-align:right;">
-    <div id="childTableCSS">
-        <center>
-            <h1 class="display-1">
-                @ViewBag.TableName
-                <small class="text-muted">Table</small>
-            </h1>
-            <hr />
-        </center>
-    </div>
-</p>
-<div ag-grid="gridOptions" style="height: 100%; border-color: gray" id="tableEditorGrid" class="ag-fresh"></div>
+<body @*ng-controller="exampleCtrl"*@>
+    <p style="text-align:right;">
+        <div id="childTableCSS">
+            <center>
+                <h1 class="display-1">
+                    @ViewBag.TableName
+                    <small class="text-muted">Table</small>
+                </h1>
+                <hr />
+            </center>
+        </div>
+    </p>
+    <md-button class="md-raised"  ng-click="addRecord()"> Add New Record </md-button>
+    <div ag-grid="gridOptions" style="height: 100%;" class="ag-fresh"></div>
+    @*<div ag-grid="gridOptions" style="height: 100%; border-color: gray" id="tableEditorGrid" class="ag-fresh"></div>*@
+</body>

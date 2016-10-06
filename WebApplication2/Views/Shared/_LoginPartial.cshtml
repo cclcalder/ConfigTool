@@ -47,7 +47,7 @@
                     <md-list-item>Wizard tree grid..</md-list-item>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-table" aria-hidden="true"></i>    Tables (Disabled in Wizard Mode)</md-subheader>
                     @*<md-list-item ng-repeat="Table in TableList"><md-checkbox class="orange" aria-label="false" ></md-checkbox><a class="sidenav" href="#Table" ng-click="LoadTableContent(Table)">{{Table}}</a></md-list-item>*@
-                    <md-list-item ng-repeat="Table in TableList">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" href="#Table/{{Table}}" ng-click="Load()"  >{{Table}}</a></md-list-item>
+                    <md-list-item ng-repeat="Table in TableList">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" href="#Table/{{Table.Item2}}" ng-click="Load()"  >{{Table.Item1}}</a></md-list-item>
                 </md-list>
             </md-content>
         </md-sidenav>

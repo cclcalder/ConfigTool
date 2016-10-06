@@ -1,13 +1,20 @@
 ﻿using ConfigTool;
+using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
 using System.Linq.Dynamic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Remoting.Contexts;
+using System.Web;
 using System.Web.Mvc;
+
 
 
 namespace WebApplication2.Controllers
@@ -143,46 +150,51 @@ namespace WebApplication2.Controllers
                 if (table != null)
                 {
                     //correct form
-                    var tableToLoad = table.Trim('/', '"');
+                    var tableToLoad = table.Trim('/', '"'); //surely the table names with s at end arent why not working
                     var t = typeof(SYS_Lock).AssemblyQualifiedName; //<-- example of whole random table name, should refactor to use this to generate type
                     string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
                     Type tableType = Type.GetType(tableName);
-                    var tableData = contextObj.GetTable(tableType).AsQueryable();
-                    var pKeyName = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.SingleOrDefault(m => m.IsPrimaryKey).MappedName;
+
                     //got selected table info, pass to web
 
-                    try
-                    { 
-                        //pass table in json data form - parse js side?
-                        JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData));
-                        
-                        //another method to pass data to front end
-                        var headers = dataArr.Root[0].ToString().Split(',');
-                        var headerList = new List<string>();
-                        JArray headArr = new JArray();
-                        foreach (string cell in headers)
-                        {
-                            var headerName = cell.Split(':')[0].Trim(new Char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
-                            var obj = new JObject();
-                            var prop = new JProperty("headerName", headerName);
-                            var fieldprop = new JProperty("field", headerName);
-                            obj.Add(prop);
-                            obj.Add(fieldprop);
-                            headArr.Add(obj);
-                            headerList.Add(headerName);
-                        }
-                        string bla = headArr.ToString().TrimStart('{').TrimEnd('}');
+                    var tableData = contextObj.GetTable(tableType).AsQueryable();
+                    var columnNames = (from property in tableData.ToString().GetType().GetProperties()
+                                       select property.Name).ToList();
 
-                        //uncomment different methods for testing
-                        var jsonData = new Tuple<string, JArray>(bla, dataArr);
-                        //var jsonData = new Tuple<List<string>, JArray>(headerList, dataArr);
-                        var json = Json(jsonData, JsonRequestBehavior.AllowGet);
-                        return json;
-                    }
-                    catch
+
+                    var pKeyName = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.FirstOrDefault(m => m.IsPrimaryKey).MappedName;
+
+                    //pass table in json data form 
+                    //GET RID OF ASSOCIATION FROM DBML!
+                    JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData));
+
+                    //another method to pass data 
+                    var headers = dataArr.Root[0].ToString().Split(',');
+                    JArray headArr = new JArray();
+                    foreach (string cell in headers)
                     {
-                        return Json("Error getting table data from db.");
+                        var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
+                        var obj = new JObject();
+                        var prop = new JProperty("headerName", headerName);
+                        var fieldprop = new JProperty("field", headerName);
+                        var widthprop = new JProperty("width", "150");
+                        var editprop = new JProperty("editable", "true");
+                        obj.Add(prop);
+                        obj.Add(fieldprop);
+                        obj.Add(widthprop);
+                        obj.Add(editprop);
+                        headArr.Add(obj);
                     }
+                    //string bla = headArr.ToString().TrimStart('{').TrimEnd('}');
+                    var headArrStr = headArr.ToString();
+                    var dataArrStr = dataArr.ToString();
+                    //uncomment different methods for testing
+                    //var jsonData = new Tuple<JArray, JArray>(headArr, dataArr);
+                    var jsonData = new Tuple<string, string>(headArrStr, dataArrStr);
+                    //var jsonData = new Tuple<List<string>, JArray>(headerList, dataArr);
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+
+
                 }
                 else
                 {
@@ -260,6 +272,62 @@ namespace WebApplication2.Controllers
             }
         }
 
+        //for now CRUD not multi select (or copy/paste data etc)
+        //why can't have generic methods in mapmvcattributeroutes http://stackoverflow.com/questions/35800049/mvc-app-doesnt-run-with-a-generic-method
+        public string GenericInsert(string[] row)
+        {
+            if (row != null)
+            {
+                using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+                {
+
+                    return "Row inserted successfully";
+                }
+            }
+            else
+            {
+                return "Invalid record";
+            }
+        }
+        public string GenericUpdate(string cell)
+        {
+            if (cell != null)
+            {
+                using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+                {
+
+                    return "Record updated successfully";
+                }
+            }
+            else
+            {
+                return "Invalid record";
+            }
+        }
+        public string GenericDelete(string row)
+        {
+            if (row != null)
+            {
+                using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+                {
+
+                    return "Row deleted successfully";
+                }
+            }
+            else
+            {
+                return "Invalid deletion";
+            }
+        }
+        public string GenericGetByID(string id)
+        {
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                var recordId = Convert.ToInt32(id);
+            }
+            return "Don't think this is needed for new methods";
+        }
+
         #endregion
 
         #region Get Info on Tables in DB
@@ -277,13 +345,13 @@ namespace WebApplication2.Controllers
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
+                var tableInfo = new List<Tuple<string, string>>();
                 var tableList = contextObj.Mapping.GetTables();
-                var tabNames = new List<string>();
                 foreach (MetaTable table in tableList)
                 {
-                    tabNames.Add(table.TableName.TrimStart("app.".ToCharArray()));
+                    tableInfo.Add(new Tuple<string, string>(table.TableName, table.RowType.ToString()));
                 }
-                return Json(tabNames, JsonRequestBehavior.AllowGet);
+                return Json(tableInfo, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -297,7 +365,6 @@ namespace WebApplication2.Controllers
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-
                 var SYS_ConfigList = contextObj.SYS_Configs.ToList();
 
                 var data = new ColDataToHtml();
@@ -305,7 +372,6 @@ namespace WebApplication2.Controllers
                 data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(SYS_ConfigList[0], "type")), ColumnMapping(SYS_ConfigList[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
                 data.parents = ColumnMapping(SYS_ConfigList[0], "relations");
                 data.children = ColumnMapping(SYS_ConfigList[0], "relations");
-
 
                 var jsonReturn = new Tuple<List<SYS_Config>, ColDataToHtml>(SYS_ConfigList, data);
 
@@ -440,6 +506,9 @@ namespace WebApplication2.Controllers
         }
 
         #endregion
+
+        //OLD TABLE GENERIC 
     }
 
 }
+
