@@ -17,7 +17,7 @@ using System.Web.Mvc;
 
 namespace WebApplication2.Controllers
 {
-        #region Action Views
+    #region Action Views
     //does this mean you have to authorize every controller below?
     [Authorize]
     public class HomeController : Controller
@@ -154,52 +154,77 @@ namespace WebApplication2.Controllers
                     Type tableType = Type.GetType(tableName);
 
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
-                    var columnNames = (from property in tableData.ToString().GetType().GetProperties()
-                                       select property.Name).ToList();
-                    var pKeyName = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.FirstOrDefault(m => m.IsPrimaryKey).MappedName;
+                    var associationTables = new List<string>();
 
-                    //GET RID OF ASSOCIATION FROM DBML!
+                    var pKeyName = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToArray();
+
+                    JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+                    string[] headers;
                     try
                     {
-                        JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData));
-                        var headers = dataArr.Root[0].ToString().Split(',');
-                        JArray headArr = new JArray();
-                        foreach (string cell in headers)
+                        headers = dataArr.Root[0].ToString().Split(',');
+                    }
+                    catch
+                    {
+                        //if nothing in dataArr, cannot get headers from there..
+                        headers = new string[] { "Empty Table" };
+                        //headers = contextObj.Mapping.MappingSource.GetModel(typeof(DataContext)).GetMetaType(typeof(tableName)).DataMembers;
+                    }
+                    JArray headArr = new JArray();
+                    foreach (string cell in headers)
+                    {
+                        //if cell == tableName remove from headers and add as 'Association'
+                        var tableList = contextObj.Mapping.GetTables();
+                        var tabList = new List<string>();
+                        var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
+                        foreach (MetaTable tab in tableList)
                         {
-                            var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
+                            tabList.Add(tab.TableName.TrimStart("app.".ToCharArray()));
+                        }
+
+                        if (tabList.Contains(headerName))
+                        {
+                            associationTables.Add(cell);
+                        }
+                        else
+                        {
+                            
                             var obj = new JObject();
                             var prop = new JProperty("headerName", headerName);
                             var fieldprop = new JProperty("field", headerName);
                             var widthprop = new JProperty("width", 150);
                             var editprop = new JProperty("editable", true);
-                            if (headerName == "Description" || headerName == pKeyName) { editprop = new JProperty("editable", false); }
+                            var styleprop = new JProperty("cellStyle", "{}");
+                            if (headerName == "Description" || pKeyName.Contains(headerName)) { editprop = new JProperty("editable", false); styleprop = new JProperty("cellStyle", "{text-decoration: underline;}"); }
                             obj.Add(prop);
                             obj.Add(fieldprop);
                             obj.Add(widthprop);
                             obj.Add(editprop);
+                            obj.Add(styleprop);
                             headArr.Add(obj);
                         }
-                        //add comlum to potentially use for add/delete
-                        var addObj = new JObject();
-                        var aProp = new JProperty("headerName", "Action");
-                        var aFieldprop = new JProperty("field", "Action");
-                        var aWidthprop = new JProperty("width", 150);
-                        var aEditprop = new JProperty("editable", true);
-                        addObj.Add(aProp);
-                        addObj.Add(aFieldprop);
-                        addObj.Add(aWidthprop);
-                        addObj.Add(aEditprop);
-                        headArr.Add(addObj);
 
-                        var headArrStr = headArr.ToString();
-                        var dataArrStr = dataArr.ToString();
-                        var jsonData = new Tuple<string, string>(headArrStr, dataArrStr);
-                        return Json(jsonData, JsonRequestBehavior.AllowGet);
                     }
-                    catch
-                    {
-                        return null;
-                    }
+                    //action col to potentially use for add/delete?
+                    var addObj = new JObject();
+                    var aProp = new JProperty("headerName", "Action");
+                    var aFieldprop = new JProperty("field", "Action");
+                    var aWidthprop = new JProperty("width", 150);
+                    var aEditprop = new JProperty("editable", true);
+                    var aStyleprop = new JProperty("cellStyle", "{font-weight: bold;}");
+                    addObj.Add(aProp);
+                    addObj.Add(aFieldprop);
+                    addObj.Add(aWidthprop);
+                    addObj.Add(aEditprop);
+                    addObj.Add(aStyleprop);
+                    headArr.Add(addObj);
+
+                    var headArrStr = headArr.ToString();
+                    var dataArrStr = dataArr.ToString();
+                    var jsonData = new Tuple<string, string, List<string>>(headArrStr, dataArrStr, associationTables);
+                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+
+
                 }
                 else
                 {

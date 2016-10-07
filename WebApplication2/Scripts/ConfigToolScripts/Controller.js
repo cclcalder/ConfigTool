@@ -6,7 +6,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJServ
     $scope.tablename = $routeParams.tablename;
 
     $scope.loadingIsDone = false;
-
+    $scope.associatedTablesExist = false;
     function LoadTableContent() {
         $scope.dataLoaded = false;
         $scope.isLoading = true;
@@ -14,9 +14,23 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJServ
         var loadMethod = crudAJService.loadTableContent($scope.tablename);
         loadMethod.then(function (TableContent) {
 
+            if (TableContent.data.Item2 == null) {
+                var data = null;
+            }
+            else {
+                var data = JSON.parse(TableContent.data.Item2);
+            }
             $scope.columnHeaders = JSON.parse(TableContent.data.Item1);
-            var data = JSON.parse(TableContent.data.Item2);
             $scope.dataReturn = data;
+            $scope.associatedTables = TableContent.data.Item3;
+
+            if ($scope.associatedTables == 0 ) {
+                $scope.associatedTablesExist = false;
+            }
+            else {
+                $scope.associatedTablesExist = true;
+            }
+
             var gridOptions = {
                 columnDefs: $scope.columnHeaders,
                 rowData: data,
@@ -28,8 +42,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJServ
 
                 enableColResize: true,
             };
-
-
 
             $scope.gridOptions = gridOptions;
 
@@ -62,7 +74,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJServ
     $scope.onAddRow = function () {
         console.log("onAddRow");
         var newItem = createNewRowData();
-        $scope.gridOptions.api.insertItemsAtIndex(1, [newItem]);
+        $scope.gridOptions.api.insertItemsAtIndex(0, [newItem]);
     }
    function createNewRowData () {
        console.log("Insert Record: " + $scope.dataReturn[0]); //this just copies last row of data instead of empty record..
