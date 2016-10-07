@@ -1,12 +1,16 @@
-﻿/* ----- ANGULAR CONTROLLERS ----- */
+﻿/// <reference path="C:\Users\CosimaCalder\Documents\Visual Studio 2015\Projects\ConfigTool\WebApplication2\Views/Shared/Error.cshtml" />
+/// <reference path="C:\Users\CosimaCalder\Documents\Visual Studio 2015\Projects\ConfigTool\WebApplication2\Views/Shared/FormInput.html" />
+/// <reference path="C:\Users\CosimaCalder\Documents\Visual Studio 2015\Projects\ConfigTool\WebApplication2\Views/Shared/FormInput.html" />
+/* ----- ANGULAR CONTROLLERS ----- */
 
 /* ----- agGrid CRUD ----- */
-app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJService) {
+app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog, crudAJService) {
     console.log("TableCtrl, " + $routeParams.tablename);
     $scope.tablename = $routeParams.tablename;
 
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
+
     function LoadTableContent() {
         $scope.dataLoaded = false;
         $scope.isLoading = true;
@@ -24,7 +28,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJServ
             $scope.dataReturn = data;
             $scope.associatedTables = TableContent.data.Item3;
 
-            if ($scope.associatedTables == 0 ) {
+            if ($scope.associatedTables == 0) {
                 $scope.associatedTablesExist = false;
             }
             else {
@@ -39,7 +43,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJServ
                 enableSorting: true,
                 enableFilter: true,
                 rowSelection: 'multiple',
-
+                debug: true,
                 enableColResize: true,
             };
 
@@ -55,30 +59,49 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, crudAJServ
         });
     };
 
-
     LoadTableContent();
 
-    //CRUD..
-    $scope.onRemoveSelected = function () {
-        console.log("onRemoveSelected");
-        var selectedNodes = $scope.gridOptions.api.getSelectedNodes();
-        $scope.gridOptions.api.removeItems(selectedNodes);
-        //do we want an 'are you sure' dialog? or a checker to see what it affects?
-        //SubmitChanges();
-    }
+    //paging
+    //$scope.onPageSizeChanged = function (newPageSize) {
+    //    this.gridOptions.paginationPageSize = new Number(newPageSize);
+    //    createNewDatasource();
+    //}
 
-    var tableAction = $scope.Action;
+
+    //CRUD..
+    $scope.onRemoveSelected = function (record) {
+        console.log("onRemoveSelected");
+        $scope.selection = $scope.gridOptions.api.getSelectedNodes();
+        $scope.gridOptions.api.removeItems($scope.selection);
+        console.log(JSON.stringify($scope.selection[0].data)); //need to do this for more than one if multi row delete
+        var getData = crudAJService.DeleteRecord(JSON.stringify($scope.selection[0].data)); //pass record back to service
+        getData.then(function (msg) {
+            alert(msg.data);
+            LoadTableContent();
+        }, function () {
+            alert('Error in deleting record');
+        });
+    }
 
     var newCount = 1;
 
     $scope.onAddRow = function () {
         console.log("onAddRow");
-        var newItem = createNewRowData();
-        $scope.gridOptions.api.insertItemsAtIndex(0, [newItem]);
+        $mdDialog.show({
+            templateUrl: '#/Shared/InputForm.TMPL.html/' + $scope.tablename,
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+         .then(function (answer) {
+             $scope.status = 'You said the information was "' + answer + '".';
+         }, function () {
+             $scope.status = 'You cancelled the dialog.';
+         });
     }
-   function createNewRowData () {
-       console.log("Insert Record: " + $scope.dataReturn[0]); //this just copies last row of data instead of empty record..
-       var newData = $scope.dataReturn[0];
+    function createNewRowData() {
+        console.log("Insert Record: " + $scope.dataReturn[0]); //this just copies last row of data instead of empty record..
+        var newData = $scope.dataReturn[0];
         newCount++;
         return newData;
     }

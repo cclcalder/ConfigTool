@@ -16,10 +16,8 @@
     </p>
     <div style="text-align:left">
         <div ng-if="associatedTablesExist">
-            Associated Tables:
-            <div>
-                hello! there are some associated tables!
-            </div>
+            <div style="padding-left: 12pt; font-weight: bold;">@*<i class="fa fa-info" aria-hidden="true"></i>*@ Associated Tables:</div>
+            <md-list-item ng-repeat="Table in associatedTables">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" href="#Table/{{Table.Item2}}" ng-click="Load()">{{Table.Item1}}</a></md-list-item>
         </div>
         <md-button class="md-raised" ng-click="onAddRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add New Record </md-button>
         <md-button class="md-raised" ng-click="onRemoveSelected()"><i class="fa fa-times" aria-hidden="true"></i> Delete Selected Record </md-button>
@@ -27,7 +25,7 @@
         <md-button ng-click="autoSizeAll()">Auto-Size All</md-button>
     </div>
 
-    <div id="myGrid" ng-if="dataLoaded" ag-grid="gridOptions" style="height: 100%;" class="ag-fresh"></div>
+    <div id="myGrid" ng-if="dataLoaded" ag-grid="gridOptions" style="height: 100%; width:100%; font-size:8pt" class="ag-fresh"></div>
     <div ng-if="!dataLoaded">
         <div class="container" style="margin-left:0px;margin-right:0px">
             <md-progress-linear md-mode="indeterminate" ng-disabled="!isLoading"></md-progress-linear>

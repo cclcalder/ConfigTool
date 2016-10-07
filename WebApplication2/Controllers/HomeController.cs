@@ -144,19 +144,15 @@ namespace WebApplication2.Controllers
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                //got table
                 if (table != null)
                 {
-                    //correct form
-                    var tableToLoad = table.Trim('/', '"'); //surely the table names with s at end arent why not working
+                    var tableToLoad = table.Trim('/', '"');
                     var t = typeof(SYS_Lock).AssemblyQualifiedName; //<-- example of whole random table name, should refactor to use this to generate type
                     string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
                     Type tableType = Type.GetType(tableName);
-
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
-                    var associationTables = new List<string>();
-
-                    var pKeyName = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToArray();
+                    var associationTables = new List<Tuple<string, string>>();
+                    var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToArray();
 
                     JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
                     string[] headers;
@@ -166,36 +162,35 @@ namespace WebApplication2.Controllers
                     }
                     catch
                     {
-                        //if nothing in dataArr, cannot get headers from there..
+                        //if nothing in dataArr, cannot get headers from there.. BUT WHERE FROM
                         headers = new string[] { "Empty Table" };
-                        //headers = contextObj.Mapping.MappingSource.GetModel(typeof(DataContext)).GetMetaType(typeof(tableName)).DataMembers;
                     }
                     JArray headArr = new JArray();
                     foreach (string cell in headers)
                     {
                         //if cell == tableName remove from headers and add as 'Association'
                         var tableList = contextObj.Mapping.GetTables();
-                        var tabList = new List<string>();
+                        var tabList = new List<Tuple<string, string>>();
                         var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
                         foreach (MetaTable tab in tableList)
                         {
-                            tabList.Add(tab.TableName.TrimStart("app.".ToCharArray()));
+                            tabList.Add(new Tuple<string, string>(tab.TableName.TrimStart("app.".ToCharArray()), tab.RowType.ToString()));
                         }
 
-                        if (tabList.Contains(headerName))
+                        if (tabList.Select(l => l.Item1).ToList().Contains(headerName))
                         {
-                            associationTables.Add(cell);
+                            var typeName = tabList.Where(n => n.Item1 == headerName).ToList()[0].Item2;
+                            associationTables.Add(new Tuple<string, string>("app." + headerName, typeName));
                         }
                         else
                         {
-                            
                             var obj = new JObject();
                             var prop = new JProperty("headerName", headerName);
                             var fieldprop = new JProperty("field", headerName);
                             var widthprop = new JProperty("width", 150);
                             var editprop = new JProperty("editable", true);
                             var styleprop = new JProperty("cellStyle", "{}");
-                            if (headerName == "Description" || pKeyName.Contains(headerName)) { editprop = new JProperty("editable", false); styleprop = new JProperty("cellStyle", "{text-decoration: underline;}"); }
+                            if (headerName == "Description" || pKeyNames.Contains(headerName)) { editprop = new JProperty("editable", false); styleprop = new JProperty("cellStyle", "{text-decoration: underline;}"); }
                             obj.Add(prop);
                             obj.Add(fieldprop);
                             obj.Add(widthprop);
@@ -209,7 +204,7 @@ namespace WebApplication2.Controllers
                     var addObj = new JObject();
                     var aProp = new JProperty("headerName", "Action");
                     var aFieldprop = new JProperty("field", "Action");
-                    var aWidthprop = new JProperty("width", 150);
+                    var aWidthprop = new JProperty("width", 100);
                     var aEditprop = new JProperty("editable", true);
                     var aStyleprop = new JProperty("cellStyle", "{font-weight: bold;}");
                     addObj.Add(aProp);
@@ -221,10 +216,8 @@ namespace WebApplication2.Controllers
 
                     var headArrStr = headArr.ToString();
                     var dataArrStr = dataArr.ToString();
-                    var jsonData = new Tuple<string, string, List<string>>(headArrStr, dataArrStr, associationTables);
+                    var jsonData = new Tuple<string, string, List<Tuple<string, string>>>(headArrStr, dataArrStr, associationTables);
                     return Json(jsonData, JsonRequestBehavior.AllowGet);
-
-
                 }
                 else
                 {
@@ -304,7 +297,7 @@ namespace WebApplication2.Controllers
 
         //for now CRUD not multi select (or copy/paste data etc)
         //why can't have generic methods in mapmvcattributeroutes http://stackoverflow.com/questions/35800049/mvc-app-doesnt-run-with-a-generic-method
-        public string GenericInsert(string[] row)
+        public string InsertRecord(string[] row)
         {
             if (row != null)
             {
@@ -319,34 +312,81 @@ namespace WebApplication2.Controllers
                 return "Invalid record";
             }
         }
-        public string GenericUpdate(string cell)
+        public string UpdateRecord(string record)
         {
-            if (cell != null)
+            var toUpdate = record;
+            if (record != null)
             {
                 using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
                 {
+                    //rplace these all with actuall pKey identified
+                    var parseJson = toUpdate.Split(',')[0];
+                    var pkeyName = parseJson.Split(':')[0].Trim(new char[] { '{', '"', ':', ',' });
+                    var pkeyValue = parseJson.Split(':')[1].Trim(new char[] { '{', '"', ':', ',', '}' });
 
-                    return "Record updated successfully";
+                    var _newRecord = contextObj.SYS_Configs.Where(b => b.OptionItem_ID.ToString() == pkeyValue).FirstOrDefault();
+
+                    //parse json to each 
+                    _newRecord.IsEditable = true;
+                    _newRecord.MenuItem_Code = "true";
+                    _newRecord.OptionItem = "true";
+                    _newRecord.OptionItemDetail = "true";
+                    _newRecord.OptionItemDetail_Value = "true";
+
+                    try
+                    {
+                        contextObj.SubmitChanges();
+                    }
+                    catch (SqlException sqlex)
+                    {
+                        return sqlex.Message;
+                    }
+                    catch (Exception ex)
+                    {
+                        return ex.Message; //This will trap any other 'type' of exception incase a sqlex is not thrown.
+                    }
+
+                    //contextObj.SubmitChanges();
+                    return "SYS_Config record updated successfully";
                 }
             }
             else
             {
-                return "Invalid record";
+                return "Invalid SYS_Config record";
             }
         }
-        public string GenericDelete(string row)
+        public string DeleteRecord(string record)
         {
-            if (row != null)
+            //method needs to know what table we're in!
+            var toDelete = record;
+            if (!String.IsNullOrEmpty(toDelete))
             {
-                using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+                //THIS NEEDS TO COME FROM KNOWN PKEY
+                //here just assuming its first value
+                //also only working for single deleting
+                var parseJson = toDelete.Split(',')[0];
+                var pkeyName = parseJson.Split(':')[0].Trim(new char[] { '{', '"', ':', ',' });
+                var pkeyValue = parseJson.Split(':')[1].Trim(new char[] { '{', '"', ':', ',','}' });
+                try
                 {
-
-                    return "Row deleted successfully";
+                    using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+                    {
+                        //NOT YET WOKRING FOR ANYTHING OTHER THAN SYS_CONFIG, CLASSIC
+                        var _Record = contextObj.SYS_Configs.FirstOrDefault(s => s.OptionItem_ID.ToString() == pkeyValue); //only one?
+                        contextObj.SYS_Configs.DeleteOnSubmit(_Record);
+                        //contextObj.Log = new System.IO.StreamWriter("linqtosql.log", true) { AutoFlush = true };
+                        contextObj.SubmitChanges();
+                        return "Selected SYS_Config record deleted sucessfully";
+                    }
+                }
+                catch (Exception)
+                {
+                    return "Record details not found";
                 }
             }
             else
             {
-                return "Invalid deletion";
+                return "Invalid operation";
             }
         }
         public string GenericGetByID(string id)

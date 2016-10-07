@@ -128,12 +128,12 @@
     };
 
     //Delete record
-    this.DeleteRecord = function (RecordId) {
+    this.DeleteRecord = function (Record) {
         var response = $http({
             method: "post",
-            url: "Table/DeleteRecord",
+            url: "Home/DeleteRecord",
             params: {
-                SYS_ConfigId: JSON.stringify(Record)
+                Record: Record
             }
         });
         return response;
