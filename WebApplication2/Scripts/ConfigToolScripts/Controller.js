@@ -14,19 +14,19 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     function LoadTableContent() {
         $scope.dataLoaded = false;
         $scope.isLoading = true;
-
+        //call service
         var loadMethod = crudAJService.loadTableContent($scope.tablename);
         loadMethod.then(function (TableContent) {
-
-            if (TableContent.data.Item2 == null) {
+            //check data present
+            if (TableContent.data.dataArr == null) {
                 var data = null;
             }
             else {
-                var data = JSON.parse(TableContent.data.Item2);
+                var data = JSON.parse(TableContent.data.dataArr);
             }
-            $scope.columnHeaders = JSON.parse(TableContent.data.Item1);
+            $scope.columnHeaders = JSON.parse(TableContent.data.headerArr);
             $scope.dataReturn = data;
-            $scope.associatedTables = TableContent.data.Item3;
+            $scope.associatedTables = TableContent.data.fKeyTables;
 
             if ($scope.associatedTables == 0) {
                 $scope.associatedTablesExist = false;
@@ -61,45 +61,31 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 
     LoadTableContent();
 
-    //paging
-    //$scope.onPageSizeChanged = function (newPageSize) {
-    //    this.gridOptions.paginationPageSize = new Number(newPageSize);
-    //    createNewDatasource();
-    //}
-
-
     //CRUD..
+
     $scope.onRemoveSelected = function (record) {
         console.log("onRemoveSelected");
         $scope.selection = $scope.gridOptions.api.getSelectedNodes();
         $scope.gridOptions.api.removeItems($scope.selection);
-        console.log(JSON.stringify($scope.selection[0].data)); //need to do this for more than one if multi row delete
-        var getData = crudAJService.DeleteRecord(JSON.stringify($scope.selection[0].data)); //pass record back to service
-        getData.then(function (msg) {
-            alert(msg.data);
-            LoadTableContent();
-        }, function () {
-            alert('Error in deleting record');
-        });
+        //console.log(JSON.stringify($scope.selection[0].data)); //need to do this for more than one if multi row delete
+        //var getData = crudAJService.DeleteRecord(JSON.stringify($scope.selection[0].data)); //pass record back to service
+        //getData.then(function (msg) {
+        //    alert(msg.data);
+        //    LoadTableContent();
+        //}, function () {
+        //    alert('Error in deleting record');
+        //});
     }
 
     var newCount = 1;
 
     $scope.onAddRow = function () {
         console.log("onAddRow");
-        $mdDialog.show({
-            templateUrl: '#/Shared/InputForm.TMPL.html/' + $scope.tablename,
-            parent: angular.element(document.body),
-            clickOutsideToClose: true,
-            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-        })
-         .then(function (answer) {
-             $scope.status = 'You said the information was "' + answer + '".';
-         }, function () {
-             $scope.status = 'You cancelled the dialog.';
-         });
+        var newItem = tempNewRowData();
+        $scope.gridOptions.api.insertItemsAtIndex(0, [newItem]);
     }
-    function createNewRowData() {
+
+    function tempNewRowData() {
         console.log("Insert Record: " + $scope.dataReturn[0]); //this just copies last row of data instead of empty record..
         var newData = $scope.dataReturn[0];
         newCount++;
@@ -116,6 +102,8 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         console.log(rowData);
     }
 
+    //sizing
+
     $scope.sizeToFit = function () {
         console.log("sizeToFit");
         $scope.gridOptions.api.sizeColumnsToFit();
@@ -129,6 +117,17 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         });
         $scope.gridOptions.columnApi.autoSizeColumns(allColumnIds);
     }
+
+    //save changes push to DB and write script
+
+    //$scope.onSave = function () {
+    //    console.log("Saving changes");
+    //    pushToDB();
+    //}
+
+    //function pushToDB() {
+    //    console.log("Pushing changes to DB, write merge script..");
+    //};
 
 
 });
@@ -365,9 +364,7 @@ app.controller('ModeContinueCtrl', function ($scope, $mdDialog, $location) {
         $mdDialog.show(confirm).then(function () {
             console.log('Continue to: table editor view .... ');
             //$location.url();
-            $location.path('/Home/Tables');
-
-
+            $location.path('/Table/SYS_Config');
             //url: '/tables';
 
         }, function () {
@@ -397,56 +394,56 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
     $scope.tree_data = [
         {
             Task: 'Master Data Setup',
-            Complete: ' ',
+            Script: ' ',
 
             children: [
                 {
                     Task: 'Setup Sales Orgs and Customer Hierarchy / Levels',
-                    Complete: ' ',
+                    Script: ' ',
                     children: [
                         {
                             Task: 'Review @Html.ActionLink("SYS_Config", "Index", "Home")',
-                            Complete: ' '
+                            Script: ' '
                         }
                     ]
                 },
             {
                 Task: 'Setup Product Hierarchy / Levels',
-                Complete: ' ',
+                Script: ' ',
                 children: [
                     {
                         Task: 'Review setup.ETL_UK_Load_Products',
-                        Complete: ' '
+                        Script: ' '
                     }
                 ]
             },
             {
                 Task: 'Setup Measures and Attributes',
-                Complete: ' ',
+                Script: ' ',
                 children: [
                     {
                         Task: 'app.Dim_Product_Cust_Measures',
-                        Complete: ' '
+                        Script: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Sku_Measures',
-                        Complete: ' '
+                        Script: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Sku_Cust_Measures',
-                        Complete: ' '
+                        Script: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Cust_Attributes',
-                        Complete: ' '
+                        Script: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Sku_Attributes',
-                        Complete: ' '
+                        Script: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Sku_Cust_Attribute',
-                        Complete: ' '
+                        Script: ' '
                     }
                 ]
             },
@@ -454,84 +451,84 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         },
         {
             Task: 'General Setup',
-            Complete: ' ',
+            Script: ' ',
 
             children: [
                 {
                     Task: 'Set Base Unit Of Measure',
-                    Complete: ' ',
+                    Script: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Config',
-                            Complete: ' '
+                            Script: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Set Deleting Policy',
-                    Complete: ' ',
+                    Script: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Config',
-                            Complete: ' '
+                            Script: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Set Password Policy',
-                    Complete: ' ',
+                    Script: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Config',
-                            Complete: ' '
+                            Script: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Config client Calendar View',
-                    Complete: ' ',
+                    Script: ' ',
                     children: [
                         {
                             Task: 'clnt.vw_Dim_Calendar',
-                            Complete: ' '
+                            Script: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Review References to “Demo”',
-                    Complete: ' ',
+                    Script: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Config',
-                            Complete: ' '
+                            Script: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Remove any screens and tabs not in scope',
-                    Complete: ' ',
+                    Script: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Screens',
-                            Complete: ' '
+                            Script: ' '
                         },
                         {
                             Task: 'app.SYS_ScreenTabs',
-                            Complete: ' '
+                            Script: ' '
                         },
                         {
                             Task: 'app.Fact_Screen_ScreenGroup',
-                            Complete: ' '
+                            Script: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Update languages settings for any renaming of screens, tabs and controls',
-                    Complete: ' ',
+                    Script: ' ',
                     children: [
                         {
                             Task: 'app.Dim_Language_AppLabels',
-                            Complete: ' '
+                            Script: ' '
                         }
                     ]
                 },
@@ -540,37 +537,37 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         },
         {
             Task: 'Planning Screen Configuration',
-            Complete: ' ',
+            Script: ' ',
             children: [
                {
                    Task: 'Setup Master Data',
-                   Complete: ' ',
+                   Script: ' ',
                    children: [
                        {
                            Task: 'Review and modify as appropriate app.Dim_Planning_Volume_MeasureGroups',
-                           Complete: ' '
+                           Script: ' '
                        },
                        {
                            Task: 'Review and modify as appropriate app.Dim_Planning_Volume_Measures',
-                           Complete: ' '
+                           Script: ' '
                        },
                        {
                            Task: 'Review and modify as appropriate app.Dim_Planning_Time_Range',
-                           Complete: ' '
+                           Script: ' '
                        },
                        {
                            Task: 'Review and modify as appropriate app.Dim_Planning_Time_Levels',
-                           Complete: ' '
+                           Script: ' '
                        }
                    ]
                },
                {
                    Task: 'Test',
-                   Complete: ' ',
+                   Script: ' ',
                    children: [
                        {
                            Task: 'Check volume saves and reloads, and unit of measure correctly set',
-                           Complete: ' '
+                           Script: ' '
                        }
                    ]
                }
@@ -578,25 +575,25 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         },
         {
             Task: 'Promotions Configuration',
-            Complete: ' ',
+            Script: ' ',
         },
         {
             Task: 'Terms Configuration',
-            Complete: ' ',
+            Script: ' ',
         },
         {
             Task: 'Management Adjustment Configuration',
-            Complete: ' ',
+            Script: ' ',
 
         },
         {
             Task: 'Risk And Ops Configuration',
-            Complete: ' ',
+            Script: ' ',
 
         },
         {
             Task: 'Funds',
-            Complete: ' ',
+            Script: ' ',
 
         }
     ];

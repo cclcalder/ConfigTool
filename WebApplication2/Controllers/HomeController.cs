@@ -140,47 +140,66 @@ namespace WebApplication2.Controllers
         /* --------------------------------------- */
         //NEW AGGRID GENERIC TABLE EDITOR STUFF
 
+        //create structure containing all info needed to be passed back rather than list,tuples etc
+        public struct Result
+        {
+            public string headerArr;
+            public string dataArr;
+            public List<string> pKey;
+            public List<Tuple<string, string, string>> fKeyTables; //headername, typename, and data for dropdowns
+            public List<string> descriptions;
+        }
+
         public JsonResult LoadTableContent(string table)
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
                 if (table != null)
                 {
-                    var tableToLoad = table.Trim('/', '"');
-                    var t = typeof(SYS_Lock).AssemblyQualifiedName; //<-- example of whole random table name, should refactor to use this to generate type
-                    string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
-                    Type tableType = Type.GetType(tableName);
+                    var tableType = GetType(table);
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
-                    var associationTables = new List<Tuple<string, string>>();
-                    var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToArray();
+                    
+                    //get keys
+                    var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
+                    //var fKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsForeignKey).ToArray().Select(p => p.MappedName).ToList();
 
+                    //get data
                     JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-                    string[] headers;
-                    try
-                    {
-                        headers = dataArr.Root[0].ToString().Split(',');
-                    }
-                    catch
-                    {
-                        //if nothing in dataArr, cannot get headers from there.. BUT WHERE FROM
-                        headers = new string[] { "Empty Table" };
-                    }
+
+                    //initialise values
+                    var jsonResult = new Result();
                     JArray headArr = new JArray();
+                    string[] headers;
+                    var associationTables = new List<Tuple<string, string, string>>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
+                    var descriptions = new List<string>();
+
+                    //check if can get header data (if there is data in table)
+                    headers = GetHeaders(dataArr);
+
                     foreach (string cell in headers)
                     {
-                        //if cell == tableName remove from headers and add as 'Association'
                         var tableList = contextObj.Mapping.GetTables();
                         var tabList = new List<Tuple<string, string>>();
                         var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
+                        var info = GetProps(tableType, headerName);
+                        System.Data.Linq.Mapping.ColumnAttribute[] cellInfo = (System.Data.Linq.Mapping.ColumnAttribute[])info;
+                        //string type = ParseDbType(cellInfo[0].DbType);
+                        //get datacontext table names
                         foreach (MetaTable tab in tableList)
                         {
                             tabList.Add(new Tuple<string, string>(tab.TableName.TrimStart("app.".ToCharArray()), tab.RowType.ToString()));
                         }
-
-                        if (tabList.Select(l => l.Item1).ToList().Contains(headerName))
+                        //if header is ?not name of current table? && other table name, list as associated table
+                        if (tabList.Select(l => l.Item1).ToList().Contains(headerName) /*&& headerName != tableToLoad*/)
                         {
                             var typeName = tabList.Where(n => n.Item1 == headerName).ToList()[0].Item2;
-                            associationTables.Add(new Tuple<string, string>("app." + headerName, typeName));
+                            string jsonFKeyData = GetFKeyData(tableData, headerName);
+                            associationTables.Add(new Tuple<string, string, string>("app." + headerName, typeName, jsonFKeyData));
+                        }
+                        //if description pass in as description not in table editor
+                        else if (headerName == "Description")
+                        {
+                            descriptions.Add(headerName);
                         }
                         else
                         {
@@ -190,34 +209,26 @@ namespace WebApplication2.Controllers
                             var widthprop = new JProperty("width", 150);
                             var editprop = new JProperty("editable", true);
                             var styleprop = new JProperty("cellStyle", "{}");
+                            var typeprop = new JProperty("cellEditor", cellInfo[0].DbType);
+                            var nullprop = new JProperty("canBeNull", cellInfo[0].CanBeNull);
                             if (headerName == "Description" || pKeyNames.Contains(headerName)) { editprop = new JProperty("editable", false); styleprop = new JProperty("cellStyle", "{text-decoration: underline;}"); }
                             obj.Add(prop);
                             obj.Add(fieldprop);
                             obj.Add(widthprop);
                             obj.Add(editprop);
                             obj.Add(styleprop);
+                            obj.Add(typeprop);
+                            obj.Add(nullprop);
                             headArr.Add(obj);
                         }
-
                     }
-                    //action col to potentially use for add/delete?
-                    var addObj = new JObject();
-                    var aProp = new JProperty("headerName", "Action");
-                    var aFieldprop = new JProperty("field", "Action");
-                    var aWidthprop = new JProperty("width", 100);
-                    var aEditprop = new JProperty("editable", true);
-                    var aStyleprop = new JProperty("cellStyle", "{font-weight: bold;}");
-                    addObj.Add(aProp);
-                    addObj.Add(aFieldprop);
-                    addObj.Add(aWidthprop);
-                    addObj.Add(aEditprop);
-                    addObj.Add(aStyleprop);
-                    headArr.Add(addObj);
+                    jsonResult.headerArr = headArr.ToString();
+                    jsonResult.dataArr = dataArr.ToString();
+                    jsonResult.pKey = pKeyNames;
+                    jsonResult.fKeyTables = associationTables;
+                    jsonResult.descriptions = descriptions;
 
-                    var headArrStr = headArr.ToString();
-                    var dataArrStr = dataArr.ToString();
-                    var jsonData = new Tuple<string, string, List<Tuple<string, string>>>(headArrStr, dataArrStr, associationTables);
-                    return Json(jsonData, JsonRequestBehavior.AllowGet);
+                    return Json(jsonResult, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -225,6 +236,51 @@ namespace WebApplication2.Controllers
                 }
             }
         }
+
+        public object GetProps(Type type, string col)
+        {
+            PropertyInfo prop = type.GetProperty(col);
+            return prop.GetCustomAttributes(typeof(System.Data.Linq.Mapping.ColumnAttribute), true);
+
+        }
+
+        //public string ParseDbType(string dbType)
+        //{
+        //    if (dbType.Contains("Int")) { }
+        //    else if (dbType.Contains("VarChar")) { }
+        //    else if (dbType.Contains("Xml")) { }
+        //    else if (dbType.Contains("DateTime")) { }
+        //    else if (dbType.Contains("Bit")) { }
+        //}
+
+        public string[] GetHeaders(JArray data)
+        {
+            try
+            {
+                return data.Root[0].ToString().Split(',');
+            }
+            catch
+            {
+                //if nothing in dataArr, cannot get headers from there.. BUT WHERE FROM
+                return new string[] { "Empty Table" };
+            }
+        }
+
+        public string GetFKeyData(IQueryable data, string fKey)
+        {
+                return "json column of data of foreign key";
+        }
+
+        public Type GetType(string table)
+        {
+            //get data from table name
+            var tableToLoad = table.Trim('/', '"');
+            var t = typeof(SYS_Lock).AssemblyQualifiedName; //example of whole random table name, should refactor to use this to generate type
+            string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+            return Type.GetType(tableName);
+        }
+
+
 
         public JsonResult LoadTableData(string table)
         {
