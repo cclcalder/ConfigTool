@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
+using System.Text.RegularExpressions;
 
 namespace WebApplication2.Controllers
 {
@@ -146,7 +147,7 @@ namespace WebApplication2.Controllers
             public string headerArr;
             public string dataArr;
             public List<string> pKey;
-            public List<Tuple<string, string, string>> fKeyTables; //headername, typename, and data for dropdowns
+            public List<Tuple<string, string>> fKeyTables; //headername, typename, and data for dropdowns
             public List<string> descriptions;
         }
 
@@ -170,8 +171,9 @@ namespace WebApplication2.Controllers
                     var jsonResult = new Result();
                     JArray headArr = new JArray();
                     string[] headers;
-                    var associationTables = new List<Tuple<string, string, string>>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
+                    var associationTables = new List<Tuple<string, string>>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
                     var descriptions = new List<string>();
+                    
 
                     //check if can get header data (if there is data in table)
                     headers = GetHeaders(dataArr);
@@ -181,9 +183,8 @@ namespace WebApplication2.Controllers
                         var tableList = contextObj.Mapping.GetTables();
                         var tabList = new List<Tuple<string, string>>();
                         var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
-                        var info = GetProps(tableType, headerName);
-                        System.Data.Linq.Mapping.ColumnAttribute[] cellInfo = (System.Data.Linq.Mapping.ColumnAttribute[])info;
-                        //string type = ParseDbType(cellInfo[0].DbType);
+
+
                         //get datacontext table names
                         foreach (MetaTable tab in tableList)
                         {
@@ -193,8 +194,8 @@ namespace WebApplication2.Controllers
                         if (tabList.Select(l => l.Item1).ToList().Contains(headerName) /*&& headerName != tableToLoad*/)
                         {
                             var typeName = tabList.Where(n => n.Item1 == headerName).ToList()[0].Item2;
-                            string jsonFKeyData = GetFKeyData(tableData, headerName);
-                            associationTables.Add(new Tuple<string, string, string>("app." + headerName, typeName, jsonFKeyData));
+                            
+                            associationTables.Add(new Tuple<string, string>("app." + headerName, typeName));
                         }
                         //if description pass in as description not in table editor
                         else if (headerName == "Description")
@@ -203,25 +204,34 @@ namespace WebApplication2.Controllers
                         }
                         else
                         {
+                            var info = GetProps(tableType, headerName);
+                            System.Data.Linq.Mapping.ColumnAttribute[] cellInfo = (System.Data.Linq.Mapping.ColumnAttribute[])info;
+                            string typeEditor = ParseDbType(cellInfo[0].DbType);
+
                             var obj = new JObject();
                             var prop = new JProperty("headerName", headerName);
                             var fieldprop = new JProperty("field", headerName);
                             var widthprop = new JProperty("width", 150);
                             var editprop = new JProperty("editable", true);
                             var styleprop = new JProperty("cellStyle", "{}");
-                            var typeprop = new JProperty("cellEditor", cellInfo[0].DbType);
+                            var typeprop = new JProperty("cellEditor", typeEditor);
                             var nullprop = new JProperty("canBeNull", cellInfo[0].CanBeNull);
-                            if (headerName == "Description" || pKeyNames.Contains(headerName)) { editprop = new JProperty("editable", false); styleprop = new JProperty("cellStyle", "{text-decoration: underline;}"); }
+                            //if primary key -- not editable and underlined?
+                            if (pKeyNames.Contains(headerName)) { editprop = new JProperty("editable", false); styleprop = new JProperty("cellStyle", "{text-decoration: underline;}"); }
                             obj.Add(prop);
                             obj.Add(fieldprop);
                             obj.Add(widthprop);
                             obj.Add(editprop);
                             obj.Add(styleprop);
-                            obj.Add(typeprop);
                             obj.Add(nullprop);
+                            //here create json of foreign key data col
+                            if (headerName == "FK") { typeprop = new JProperty("cellEditor", "select"); obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, headerName))); }
+                            obj.Add(typeprop);
                             headArr.Add(obj);
                         }
+
                     }
+
                     jsonResult.headerArr = headArr.ToString();
                     jsonResult.dataArr = dataArr.ToString();
                     jsonResult.pKey = pKeyNames;
@@ -244,14 +254,19 @@ namespace WebApplication2.Controllers
 
         }
 
-        //public string ParseDbType(string dbType)
-        //{
-        //    if (dbType.Contains("Int")) { }
-        //    else if (dbType.Contains("VarChar")) { }
-        //    else if (dbType.Contains("Xml")) { }
-        //    else if (dbType.Contains("DateTime")) { }
-        //    else if (dbType.Contains("Bit")) { }
-        //}
+        public string ParseDbType(string dbType)
+        {
+            if (dbType.Contains("Int")) { return "NumericCellEditor"; }
+            else if (dbType.Contains("VarChar")) {
+                if (int.Parse(Regex.Match(dbType, @"\d+").Value) > 100) { return "LargeTextEditor"; }
+                else return "TextEditor";
+            }
+            else if (dbType.Contains("Xml")) { return "XmlEditor"; }
+            else if (dbType.Contains("DateTime")) { return "DateEditor"; }
+            else if (dbType.Contains("Bit")) { return "CheckBoxEditor"; }
+            //here need to check if foreign key and return foreignkey                    
+            else return "New type: "+dbType;
+        }
 
         public string[] GetHeaders(JArray data)
         {
@@ -268,7 +283,8 @@ namespace WebApplication2.Controllers
 
         public string GetFKeyData(IQueryable data, string fKey)
         {
-                return "json column of data of foreign key";
+            //return json of fk col data
+            return  "['English', 'Spanish', 'French', 'Portuguese', '(other)']";
         }
 
         public Type GetType(string table)

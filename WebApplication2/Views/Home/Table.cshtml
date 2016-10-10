@@ -14,15 +14,19 @@
             </center>
         </div>
     </p>
+
     <div style="text-align:left">
         <div ng-if="associatedTablesExist">
             <div style="padding-left: 12pt; font-weight: bold;">@*<i class="fa fa-info" aria-hidden="true"></i>*@ Associated Tables:</div>
             <md-list-item ng-repeat="Table in associatedTables">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" href="#Table/{{Table.Item2}}" ng-click="Load()">{{Table.Item1}}</a></md-list-item>
         </div>
+        <md-button ng-click="sizeToFit()">Size to Fit</md-button>
+        <md-button ng-click="autoSizeAll()">Auto-Size</md-button>
         <md-button class="md-raised" ng-click="onAddRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add New Record </md-button>
         <md-button class="md-raised" ng-click="onRemoveSelected()"><i class="fa fa-times" aria-hidden="true"></i> Delete Selected Record </md-button>
-        <md-button ng-click="sizeToFit()">Size to Fit</md-button>
-        <md-button ng-click="autoSizeAll()">Auto-Size All</md-button>
+        <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onSave()">Save Changes</md-button>
+        @*this will take you yto created script*@
+        <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="openCurrentScript()"><i class="fa fa-files-o fa-2x" aria-hidden="true"></i></md-button>
     </div>
 
     <div id="myGrid" ng-if="dataLoaded" ag-grid="gridOptions" style="height: 100%; width:100%; font-size:8pt" class="ag-fresh"></div>

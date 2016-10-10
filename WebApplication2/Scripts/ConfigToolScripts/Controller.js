@@ -1,33 +1,37 @@
-﻿/// <reference path="C:\Users\CosimaCalder\Documents\Visual Studio 2015\Projects\ConfigTool\WebApplication2\Views/Shared/Error.cshtml" />
-/// <reference path="C:\Users\CosimaCalder\Documents\Visual Studio 2015\Projects\ConfigTool\WebApplication2\Views/Shared/FormInput.html" />
-/// <reference path="C:\Users\CosimaCalder\Documents\Visual Studio 2015\Projects\ConfigTool\WebApplication2\Views/Shared/FormInput.html" />
-/* ----- ANGULAR CONTROLLERS ----- */
+﻿/* ----- ANGULAR CONTROLLERS ----- */
 
 /* ----- agGrid CRUD ----- */
+//THIS NEEDS TO BE SPLIT INTO LOTS OF DIFFERENT CONTROLS - WAY TOO MUCH HERE AT THE MOMENT
 app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog, crudAJService) {
     console.log("TableCtrl, " + $routeParams.tablename);
     $scope.tablename = $routeParams.tablename;
 
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
+    $scope.unsavedChanges = true;
 
     function LoadTableContent() {
         $scope.dataLoaded = false;
         $scope.isLoading = true;
+
         //call service
         var loadMethod = crudAJService.loadTableContent($scope.tablename);
         loadMethod.then(function (TableContent) {
+
             //check data present
             if (TableContent.data.dataArr == null) {
                 var data = null;
             }
             else {
                 var data = JSON.parse(TableContent.data.dataArr);
+
             }
+
             $scope.columnHeaders = JSON.parse(TableContent.data.headerArr);
             $scope.dataReturn = data;
             $scope.associatedTables = TableContent.data.fKeyTables;
 
+            //check for associated tables
             if ($scope.associatedTables == 0) {
                 $scope.associatedTablesExist = false;
             }
@@ -59,11 +63,80 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         });
     };
 
+    //cell editors
+
+    function DateEditor() { console.log("Numeric Cell Editor"); }
+    function LargeTextEditor() { console.log("Numeric Cell Editor"); }
+    function TextEditor() { console.log("Numeric Cell Editor"); }
+    function XmlEditor() { console.log("Numeric Cell Editor"); }
+    function CheckBoxEditor() { console.log("Numeric Cell Editor"); }
+
+    // function to act as a class
+    function NumericCellEditor() { console.log("Numeric Cell Editor"); }
+
+    // gets called once before the renderer is used
+    NumericCellEditor.prototype.init = function (params) {
+        // create the cell
+        this.eInput = document.createElement('input');
+        this.eInput.value = isCharNumeric(params.charPress) ? params.charPress : params.value;
+
+        var that = this;
+        this.eInput.addEventListener('keypress', function (event) {
+            if (!isKeyPressedNumeric(event)) {
+                that.eInput.focus();
+                if (event.preventDefault) event.preventDefault();
+            }
+        });
+
+        // only start edit if key pressed is a number, not a letter
+        var charPressIsNotANumber = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
+        this.cancelBeforeStart = charPressIsNotANumber;
+    };
+
+    // gets called once when grid ready to insert the element
+    NumericCellEditor.prototype.getGui = function () {
+        return this.eInput;
+    };
+
+    // focus and select can be done after the gui is attached
+    NumericCellEditor.prototype.afterGuiAttached = function () {
+        this.eInput.focus();
+    };
+
+    // returns the new value after editing
+    NumericCellEditor.prototype.isCancelBeforeStart = function () {
+        return this.cancelBeforeStart;
+    };
+
+    // example - will reject the number if it contains the value 007
+    // - not very practical, but demonstrates the method.
+    NumericCellEditor.prototype.isCancelAfterEnd = function () {
+        var value = this.getValue();
+        return value.indexOf('007') >= 0;
+    };
+
+    // returns the new value after editing
+    NumericCellEditor.prototype.getValue = function () {
+        return this.eInput.value;
+    };
+
+    // any cleanup we need to be done here
+    NumericCellEditor.prototype.destroy = function () {
+        // but this example is simple, no cleanup, we could  even leave this method out as it's optional
+    };
+
+    // if true, then this editor will appear in a popup 
+    NumericCellEditor.prototype.isPopup = function () {
+        // and we could leave this method out also, false is the default
+        return false;
+    };
+
     LoadTableContent();
 
     //CRUD..
 
     $scope.onRemoveSelected = function (record) {
+        $scope.unsavedChanges = true;
         console.log("onRemoveSelected");
         $scope.selection = $scope.gridOptions.api.getSelectedNodes();
         $scope.gridOptions.api.removeItems($scope.selection);
@@ -81,6 +154,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 
     $scope.onAddRow = function () {
         console.log("onAddRow");
+        $scope.unsavedChanges = true;
         var newItem = tempNewRowData();
         $scope.gridOptions.api.insertItemsAtIndex(0, [newItem]);
     }
@@ -119,20 +193,42 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     }
 
     //save changes push to DB and write script
+    $scope.onSave = function () {
+        var confirm = $mdDialog.confirm()
+             .title('Are you sure you want to save changes, this cannot be undone.')
+             .ok('Save')
+             .cancel('Cancel');
+        $mdDialog.show(confirm).then(function () {
+            console.log("Saving changes");
+            $scope.unsavedChanges = false;
+            pushToDB();
 
-    //$scope.onSave = function () {
-    //    console.log("Saving changes");
-    //    pushToDB();
-    //}
+        }, function () {
+            console.log('Cancel');
+        });
+    }
 
-    //function pushToDB() {
-    //    console.log("Pushing changes to DB, write merge script..");
-    //};
+    $scope.openCurrentScript = function () {
+        console.log("Open current script");
+        var confirm = $mdDialog.confirm()
+            .title('Current change script.')
+            .ok('Copy')
+            .cancel('Cancel');
+        $mdDialog.show(confirm).then(function () {
+            console.log("Copying script");
+        }, function () {
+            console.log('Cancel');
+        });
+    }
+
+    function pushToDB() {
+        console.log("Pushing changes to DB, write merge script..");
+    };
 
 
 });
 
-/* ----- LINQ CRUD ----- */
+/* ----- Open Script ----- */
 
 /* ----- Side Nav ----- */
 app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {
@@ -741,4 +837,3 @@ app.config(function ($routeProvider,
         .otherwise({ redirectTo: '/Home/HomeSetup' });
 
 });
-
