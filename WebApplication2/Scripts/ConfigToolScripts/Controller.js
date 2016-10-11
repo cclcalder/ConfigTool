@@ -6,15 +6,20 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     console.log("TableCtrl, " + $routeParams.tablename);
     $scope.tablename = $routeParams.tablename;
 
+    //INITIATES FLAGS, NOT IMPORTANT
+    //flags 
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
     $scope.unsavedChanges = true;
 
+    //CALLED BELOW
+    //load data
     function LoadTableContent() {
-        $scope.dataLoaded = false;
-        $scope.isLoading = true;
 
-        //call service
+        $scope.dataLoaded = false;
+        $scope.isLoading = true;   
+
+        //get data from service
         var loadMethod = crudAJService.loadTableContent($scope.tablename);
         loadMethod.then(function (TableContent) {
 
@@ -24,14 +29,14 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
             }
             else {
                 var data = JSON.parse(TableContent.data.dataArr);
-
             }
 
+            //set data
             $scope.columnHeaders = JSON.parse(TableContent.data.headerArr);
             $scope.dataReturn = data;
             $scope.associatedTables = TableContent.data.fKeyTables;
 
-            //check for associated tables
+            //check for 'associated' tables
             if ($scope.associatedTables == 0) {
                 $scope.associatedTablesExist = false;
             }
@@ -39,6 +44,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 $scope.associatedTablesExist = true;
             }
 
+            //init gridOptions
             var gridOptions = {
                 columnDefs: $scope.columnHeaders,
                 rowData: data,
@@ -51,6 +57,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 enableColResize: true,
             };
 
+            //init grid
             $scope.gridOptions = gridOptions;
 
             $scope.dataLoaded = true;
@@ -63,7 +70,10 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         });
     };
 
-    //cell editors
+    //WHERE TO PUT THE CELL EDITOR STUFF? --------------------------------------------------------
+    //cell editors to implement once numeric is working
+
+    //ERROR: ag-Grid: unable to find cellEditor for key CheckBoxEditor
 
     function DateEditor() { console.log("Numeric Cell Editor"); }
     function LargeTextEditor() { console.log("Numeric Cell Editor"); }
@@ -71,9 +81,23 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     function XmlEditor() { console.log("Numeric Cell Editor"); }
     function CheckBoxEditor() { console.log("Numeric Cell Editor"); }
 
-    // function to act as a class
-    function NumericCellEditor() { console.log("Numeric Cell Editor"); }
+    function getCharCodeFromEvent(event) {
+        event = event || window.event;
+        return (typeof event.which == "undefined") ? event.keyCode : event.which;
+    }
+    function isCharNumeric(charStr) {
+        return !!/\d/.test(charStr);
+    }
+    function isKeyPressedNumeric(event) {
+        var charCode = getCharCodeFromEvent(event);
+        var charStr = String.fromCharCode(charCode);
+        return isCharNumeric(charStr);
 
+    }
+
+    // function to act as a class
+    function NumericCellEditor() {
+    }
     // gets called once before the renderer is used
     NumericCellEditor.prototype.init = function (params) {
         // create the cell
@@ -108,33 +132,19 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         return this.cancelBeforeStart;
     };
 
-    // example - will reject the number if it contains the value 007
-    // - not very practical, but demonstrates the method.
-    NumericCellEditor.prototype.isCancelAfterEnd = function () {
-        var value = this.getValue();
-        return value.indexOf('007') >= 0;
-    };
-
     // returns the new value after editing
     NumericCellEditor.prototype.getValue = function () {
         return this.eInput.value;
     };
 
-    // any cleanup we need to be done here
-    NumericCellEditor.prototype.destroy = function () {
-        // but this example is simple, no cleanup, we could  even leave this method out as it's optional
-    };
+    //---------------------------------------------------------------------------------------------
 
-    // if true, then this editor will appear in a popup 
-    NumericCellEditor.prototype.isPopup = function () {
-        // and we could leave this method out also, false is the default
-        return false;
-    };
-
+    //CALLS ABOVE METHOD TO LOAD ALL DATA 
+    //call load
     LoadTableContent();
 
-    //CRUD..
-
+    //THESE ARE ALL 'ONLICK' FUNCTIONS, HENCE $SCOPE
+    //local grid CRUD
     $scope.onRemoveSelected = function (record) {
         $scope.unsavedChanges = true;
         console.log("onRemoveSelected");
@@ -151,7 +161,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     }
 
     var newCount = 1;
-
     $scope.onAddRow = function () {
         console.log("onAddRow");
         $scope.unsavedChanges = true;
@@ -177,7 +186,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     }
 
     //sizing
-
     $scope.sizeToFit = function () {
         console.log("sizeToFit");
         $scope.gridOptions.api.sizeColumnsToFit();
@@ -208,6 +216,25 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         });
     }
 
+    $scope.onRevert = function () {
+        var confirm = $mdDialog.confirm()
+             .title('Are you sure you want to undo changes.')
+             .ok('Revert')
+             .cancel('Cancel');
+        $mdDialog.show(confirm).then(function () {
+            console.log("Revert changes");
+            $scope.unsavedChanges = false;
+            //$scope.gridOptions.api.refreshView();
+
+        }, function () {
+            console.log('Cancel');
+        });
+    }
+
+    function pushToDB() {
+        console.log("Pushing changes to DB, write merge script..");
+    };
+
     $scope.openCurrentScript = function () {
         console.log("Open current script");
         var confirm = $mdDialog.confirm()
@@ -221,14 +248,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         });
     }
 
-    function pushToDB() {
-        console.log("Pushing changes to DB, write merge script..");
-    };
-
-
 });
-
-/* ----- Open Script ----- */
 
 /* ----- Side Nav ----- */
 app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {

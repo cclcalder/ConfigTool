@@ -141,7 +141,6 @@ namespace WebApplication2.Controllers
         /* --------------------------------------- */
         //NEW AGGRID GENERIC TABLE EDITOR STUFF
 
-        //create structure containing all info needed to be passed back rather than list,tuples etc
         public struct Result
         {
             public string headerArr;
@@ -159,7 +158,7 @@ namespace WebApplication2.Controllers
                 {
                     var tableType = GetType(table);
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
-                    
+
                     //get keys
                     var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
                     //var fKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsForeignKey).ToArray().Select(p => p.MappedName).ToList();
@@ -173,7 +172,7 @@ namespace WebApplication2.Controllers
                     string[] headers;
                     var associationTables = new List<Tuple<string, string>>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
                     var descriptions = new List<string>();
-                    
+
 
                     //check if can get header data (if there is data in table)
                     headers = GetHeaders(dataArr);
@@ -194,7 +193,7 @@ namespace WebApplication2.Controllers
                         if (tabList.Select(l => l.Item1).ToList().Contains(headerName) /*&& headerName != tableToLoad*/)
                         {
                             var typeName = tabList.Where(n => n.Item1 == headerName).ToList()[0].Item2;
-                            
+
                             associationTables.Add(new Tuple<string, string>("app." + headerName, typeName));
                         }
                         //if description pass in as description not in table editor
@@ -225,7 +224,7 @@ namespace WebApplication2.Controllers
                             obj.Add(styleprop);
                             obj.Add(nullprop);
                             //here create json of foreign key data col
-                            if (headerName == "FK") { typeprop = new JProperty("cellEditor", "select"); obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, headerName))); }
+                            if (headerName == "FK") { typeprop = new JProperty("cellEditor", "popupSelect"); obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, headerName))); }
                             obj.Add(typeprop);
                             headArr.Add(obj);
                         }
@@ -257,15 +256,15 @@ namespace WebApplication2.Controllers
         public string ParseDbType(string dbType)
         {
             if (dbType.Contains("Int")) { return "NumericCellEditor"; }
-            else if (dbType.Contains("VarChar")) {
-                if (int.Parse(Regex.Match(dbType, @"\d+").Value) > 100) { return "LargeTextEditor"; }
-                else return "TextEditor";
+            else if (dbType.Contains("VarChar"))
+            {
+                if (int.Parse(Regex.Match(dbType, @"\d+").Value) > 100) { return "largeText"; }
+                else return "";
             }
             else if (dbType.Contains("Xml")) { return "XmlEditor"; }
             else if (dbType.Contains("DateTime")) { return "DateEditor"; }
             else if (dbType.Contains("Bit")) { return "CheckBoxEditor"; }
-            //here need to check if foreign key and return foreignkey                    
-            else return "New type: "+dbType;
+            else return "New type: " + dbType;
         }
 
         public string[] GetHeaders(JArray data)
@@ -284,7 +283,7 @@ namespace WebApplication2.Controllers
         public string GetFKeyData(IQueryable data, string fKey)
         {
             //return json of fk col data
-            return  "['English', 'Spanish', 'French', 'Portuguese', '(other)']";
+            return "{ values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
         }
 
         public Type GetType(string table)
@@ -294,77 +293,6 @@ namespace WebApplication2.Controllers
             var t = typeof(SYS_Lock).AssemblyQualifiedName; //example of whole random table name, should refactor to use this to generate type
             string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
             return Type.GetType(tableName);
-        }
-
-
-
-        public JsonResult LoadTableData(string table)
-        {
-            //string tableName
-            var tableToLoad = table.Trim('/', '"');
-
-            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
-            {
-                //this shouldn't exist - if no match show dialog alert and don't reload page
-                if (String.IsNullOrEmpty(table))
-                {
-                    //load SYS_Config example
-                    var SYS_ConfigList = contextObj.SYS_Configs.ToList();
-                    //perhaps redundant v
-                    var data = new ColDataToHtml();
-                    data.names = ColumnMapping(SYS_ConfigList[0], "name");
-                    data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(SYS_ConfigList[0], "type")), ColumnMapping(SYS_ConfigList[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
-                    data.parents = ColumnMapping(SYS_ConfigList[0], "relations");
-                    data.children = ColumnMapping(SYS_ConfigList[0], "relations");
-                    //json parsing
-                    JArray jArr = new JArray();
-                    foreach (string name in data.names)
-                    {
-                        var obj = new JObject();
-                        var prop = new JProperty("headerName", name.Trim('_'));
-                        var fieldprop = new JProperty("field", name.Trim('_'));
-                        obj.Add(prop);
-                        obj.Add(fieldprop);
-                        jArr.Add(obj);
-                    }
-                    data.namesJson = jArr.ToString();
-                    var jsonReturn = new Tuple<List<SYS_Config>, ColDataToHtml>(SYS_ConfigList, data);
-                    return Json(jsonReturn, JsonRequestBehavior.AllowGet);
-                }
-                /* THIS IS FIRST ISSUE - dynamically get tables from tableNames */
-                /* SECOND ISSUE = TROUBLE GETTING DATA INTO AGGRID */
-                else
-                {
-                    try
-                    {
-                        //non generic method, using SYS_Locks at the moment
-                        var test1 = contextObj.SYS_Locks; //this is Table<SYS_Lock>
-                        var returnTable = contextObj.SYS_Locks.ToList();
-                        var data = new ColDataToHtml();
-                        data.names = ColumnMapping(returnTable[0], "name");
-                        data.inputTypes = new Tuple<List<string>, List<bool>>((ColumnMapping(returnTable[0], "type")), ColumnMapping(returnTable[0], "null").Select(b => Convert.ToBoolean(b)).ToList());
-                        data.parents = ColumnMapping(returnTable[0], "relations");
-                        data.children = ColumnMapping(returnTable[0], "relations");
-                        JArray jArr = new JArray();
-                        foreach (string name in data.names)
-                        {
-                            var obj = new JObject();
-                            var prop = new JProperty("headerName", name.Trim('_'));
-                            var fieldprop = new JProperty("field", name.Trim('_'));
-                            obj.Add(prop);
-                            obj.Add(fieldprop);
-                            jArr.Add(obj);
-                        }
-                        data.namesJson = jArr.ToString();
-                        var jsonReturn = new Tuple<List<SYS_Lock>, ColDataToHtml>(returnTable, data);
-                        return Json(jsonReturn, JsonRequestBehavior.AllowGet);
-                    }
-                    catch
-                    {
-                        return Json("Error getting table data from db.");
-                    }
-                }
-            }
         }
 
         //for now CRUD not multi select (or copy/paste data etc)
@@ -438,7 +366,7 @@ namespace WebApplication2.Controllers
                 //also only working for single deleting
                 var parseJson = toDelete.Split(',')[0];
                 var pkeyName = parseJson.Split(':')[0].Trim(new char[] { '{', '"', ':', ',' });
-                var pkeyValue = parseJson.Split(':')[1].Trim(new char[] { '{', '"', ':', ',','}' });
+                var pkeyValue = parseJson.Split(':')[1].Trim(new char[] { '{', '"', ':', ',', '}' });
                 try
                 {
                     using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
@@ -649,7 +577,6 @@ namespace WebApplication2.Controllers
 
         #endregion
 
-        //OLD TABLE GENERIC 
     }
 
 }

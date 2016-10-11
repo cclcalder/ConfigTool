@@ -25,6 +25,8 @@
         <md-button class="md-raised" ng-click="onAddRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add New Record </md-button>
         <md-button class="md-raised" ng-click="onRemoveSelected()"><i class="fa fa-times" aria-hidden="true"></i> Delete Selected Record </md-button>
         <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onSave()">Save Changes</md-button>
+        <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onRevert()">Revert Changes</md-button>
+
         @*this will take you yto created script*@
         <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="openCurrentScript()"><i class="fa fa-files-o fa-2x" aria-hidden="true"></i></md-button>
     </div>
