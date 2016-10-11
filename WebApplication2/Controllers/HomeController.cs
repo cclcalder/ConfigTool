@@ -213,10 +213,10 @@ namespace WebApplication2.Controllers
                             var widthprop = new JProperty("width", 150);
                             var editprop = new JProperty("editable", true);
                             var styleprop = new JProperty("cellStyle", "{}");
-                            var typeprop = new JProperty("cellEditor", typeEditor);
+                            var typeprop = new JProperty("type", typeEditor);
                             var nullprop = new JProperty("canBeNull", cellInfo[0].CanBeNull);
                             //if primary key -- not editable and underlined?
-                            if (pKeyNames.Contains(headerName)) { editprop = new JProperty("editable", false); styleprop = new JProperty("cellStyle", "{text-decoration: underline;}"); }
+                            if (pKeyNames.Contains(headerName)) { editprop = new JProperty("editable", false); typeprop = new JProperty("type", typeEditor); styleprop = new JProperty("cellStyle", "{text-decoration: underline;}"); }
                             obj.Add(prop);
                             obj.Add(fieldprop);
                             obj.Add(widthprop);
@@ -225,6 +225,7 @@ namespace WebApplication2.Controllers
                             obj.Add(nullprop);
                             //here create json of foreign key data col
                             if (headerName == "FK") { typeprop = new JProperty("cellEditor", "popupSelect"); obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, headerName))); }
+                            //obj.Add(renderprop);
                             obj.Add(typeprop);
                             headArr.Add(obj);
                         }
@@ -259,7 +260,7 @@ namespace WebApplication2.Controllers
             else if (dbType.Contains("VarChar"))
             {
                 if (int.Parse(Regex.Match(dbType, @"\d+").Value) > 100) { return "largeText"; }
-                else return "";
+                else return "text";
             }
             else if (dbType.Contains("Xml")) { return "XmlEditor"; }
             else if (dbType.Contains("DateTime")) { return "DateEditor"; }

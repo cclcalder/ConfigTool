@@ -1,19 +1,19 @@
 ﻿/* ----- ANGULAR CONTROLLERS ----- */
 
 /* ----- agGrid CRUD ----- */
-//THIS NEEDS TO BE SPLIT INTO LOTS OF DIFFERENT CONTROLS - WAY TOO MUCH HERE AT THE MOMENT
+// --- THIS NEEDS TO BE SPLIT INTO LOTS OF DIFFERENT CONTROLS - WAY TOO MUCH HERE AT THE MOMENT
 app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog, crudAJService) {
     console.log("TableCtrl, " + $routeParams.tablename);
     $scope.tablename = $routeParams.tablename;
 
-    //INITIATES FLAGS, NOT IMPORTANT
+    // --- INITIATES FLAGS, NOT IMPORTANT
     //flags 
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
     $scope.unsavedChanges = true;
 
-    //CALLED BELOW
-    //load data
+    // --- CALLED BELOW
+    //load data and init grid
     function LoadTableContent() {
 
         $scope.dataLoaded = false;
@@ -25,16 +25,42 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 
             //check data present
             if (TableContent.data.dataArr == null) {
-                var data = null;
+                $scope.data = null;
             }
             else {
-                var data = JSON.parse(TableContent.data.dataArr);
+                $scope.data = JSON.parse(TableContent.data.dataArr);
             }
 
             //set data
             $scope.columnHeaders = JSON.parse(TableContent.data.headerArr);
-            $scope.dataReturn = data;
+            $scope.dataReturn = $scope.data;
             $scope.associatedTables = TableContent.data.fKeyTables;
+
+            var typeRenderer = function (params) {
+                $scope.columnHeaders.forEach(function (head) {
+                    head.cellRenderer = function (params) {
+                        switch (head.type) {
+                            case "CheckBoxEditor":
+                                return '<md-checkbox aria-label="addWhenBound" type="checkbox">'
+                                return '<input type="checkbox">'
+                                break;
+                            case "text" || "largeText" || "XmlEditor" || null:
+                                return '<span>' + params.value + '</span>'
+                                break;
+                            case "DateEditor":
+                                return '<md-datepicker ng-model="params.input"></md-datepicker>'
+                                break;
+
+                        }
+                    }
+
+                });
+            };
+
+            var typeEditor = function(){
+
+            }
+
 
             //check for 'associated' tables
             if ($scope.associatedTables == 0) {
@@ -47,14 +73,17 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
             //init gridOptions
             var gridOptions = {
                 columnDefs: $scope.columnHeaders,
-                rowData: data,
+                rowData: $scope.data,
+                angularCompileRows: true,
                 singleClickEdit: false,
-                rowHeight: 35,
+                rowHeight: 30,
                 enableSorting: true,
                 enableFilter: true,
                 rowSelection: 'multiple',
                 debug: true,
                 enableColResize: true,
+                cellRenderer: typeRenderer(),
+                cellEditor: typeEditor()
             };
 
             //init grid
@@ -67,97 +96,88 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         }, function () {
             alert('Error in getting data');
             $scope.isLoading = false;
+            $scope.unsavedChanges = false;
         });
     };
 
-    //WHERE TO PUT THE CELL EDITOR STUFF? --------------------------------------------------------
-    //cell editors to implement once numeric is working
+    ////--------------------------------------------------------
+    ////ERROR: ag-Grid: unable to find cellEditor for key CheckBoxEditor
 
-    //ERROR: ag-Grid: unable to find cellEditor for key CheckBoxEditor
+    //function DateEditor() { console.log("Numeric Cell Editor"); }
+    //function LargeTextEditor() { console.log("Numeric Cell Editor"); }
+    //function TextEditor() { console.log("Numeric Cell Editor"); }
+    //function XmlEditor() { console.log("Numeric Cell Editor"); }
+    //function CheckBoxEditor() { console.log("Numeric Cell Editor"); }
 
-    function DateEditor() { console.log("Numeric Cell Editor"); }
-    function LargeTextEditor() { console.log("Numeric Cell Editor"); }
-    function TextEditor() { console.log("Numeric Cell Editor"); }
-    function XmlEditor() { console.log("Numeric Cell Editor"); }
-    function CheckBoxEditor() { console.log("Numeric Cell Editor"); }
+    //function getCharCodeFromEvent(event) {
+    //    event = event || window.event;
+    //    return (typeof event.which == "undefined") ? event.keyCode : event.which;
+    //}
+    //function isCharNumeric(charStr) {
+    //    return !!/\d/.test(charStr);
+    //}
+    //function isKeyPressedNumeric(event) {
+    //    var charCode = getCharCodeFromEvent(event);
+    //    var charStr = String.fromCharCode(charCode);
+    //    return isCharNumeric(charStr);
 
-    function getCharCodeFromEvent(event) {
-        event = event || window.event;
-        return (typeof event.which == "undefined") ? event.keyCode : event.which;
-    }
-    function isCharNumeric(charStr) {
-        return !!/\d/.test(charStr);
-    }
-    function isKeyPressedNumeric(event) {
-        var charCode = getCharCodeFromEvent(event);
-        var charStr = String.fromCharCode(charCode);
-        return isCharNumeric(charStr);
+    //}
 
-    }
+    //// function to act as a class
+    //function NumericCellEditor() {
+    //}
+    //// gets called once before the renderer is used
+    //NumericCellEditor.prototype.init = function (params) {
+    //    // create the cell
+    //    this.eInput = document.createElement('input');
+    //    this.eInput.value = isCharNumeric(params.charPress) ? params.charPress : params.value;
 
-    // function to act as a class
-    function NumericCellEditor() {
-    }
-    // gets called once before the renderer is used
-    NumericCellEditor.prototype.init = function (params) {
-        // create the cell
-        this.eInput = document.createElement('input');
-        this.eInput.value = isCharNumeric(params.charPress) ? params.charPress : params.value;
+    //    var that = this;
+    //    this.eInput.addEventListener('keypress', function (event) {
+    //        if (!isKeyPressedNumeric(event)) {
+    //            that.eInput.focus();
+    //            if (event.preventDefault) event.preventDefault();
+    //        }
+    //    });
 
-        var that = this;
-        this.eInput.addEventListener('keypress', function (event) {
-            if (!isKeyPressedNumeric(event)) {
-                that.eInput.focus();
-                if (event.preventDefault) event.preventDefault();
-            }
-        });
+    //    // only start edit if key pressed is a number, not a letter
+    //    var charPressIsNotANumber = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
+    //    this.cancelBeforeStart = charPressIsNotANumber;
+    //};
 
-        // only start edit if key pressed is a number, not a letter
-        var charPressIsNotANumber = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
-        this.cancelBeforeStart = charPressIsNotANumber;
-    };
+    //// gets called once when grid ready to insert the element
+    //NumericCellEditor.prototype.getGui = function () {
+    //    return this.eInput;
+    //};
 
-    // gets called once when grid ready to insert the element
-    NumericCellEditor.prototype.getGui = function () {
-        return this.eInput;
-    };
+    //// focus and select can be done after the gui is attached
+    //NumericCellEditor.prototype.afterGuiAttached = function () {
+    //    this.eInput.focus();
+    //};
 
-    // focus and select can be done after the gui is attached
-    NumericCellEditor.prototype.afterGuiAttached = function () {
-        this.eInput.focus();
-    };
+    //// returns the new value after editing
+    //NumericCellEditor.prototype.isCancelBeforeStart = function () {
+    //    return this.cancelBeforeStart;
+    //};
 
-    // returns the new value after editing
-    NumericCellEditor.prototype.isCancelBeforeStart = function () {
-        return this.cancelBeforeStart;
-    };
+    //// returns the new value after editing
+    //NumericCellEditor.prototype.getValue = function () {
+    //    return this.eInput.value;
+    //};
 
-    // returns the new value after editing
-    NumericCellEditor.prototype.getValue = function () {
-        return this.eInput.value;
-    };
+    ////---------------------------------------------------------------------------------------------
 
-    //---------------------------------------------------------------------------------------------
-
-    //CALLS ABOVE METHOD TO LOAD ALL DATA 
+    // --- CALLS ABOVE METHOD TO LOAD ALL DATA 
     //call load
     LoadTableContent();
 
-    //THESE ARE ALL 'ONLICK' FUNCTIONS, HENCE $SCOPE
+    // --- THESE ARE ALL 'ONLICK' FUNCTIONS, HENCE $SCOPE
     //local grid CRUD
     $scope.onRemoveSelected = function (record) {
         $scope.unsavedChanges = true;
         console.log("onRemoveSelected");
         $scope.selection = $scope.gridOptions.api.getSelectedNodes();
         $scope.gridOptions.api.removeItems($scope.selection);
-        //console.log(JSON.stringify($scope.selection[0].data)); //need to do this for more than one if multi row delete
-        //var getData = crudAJService.DeleteRecord(JSON.stringify($scope.selection[0].data)); //pass record back to service
-        //getData.then(function (msg) {
-        //    alert(msg.data);
-        //    LoadTableContent();
-        //}, function () {
-        //    alert('Error in deleting record');
-        //});
     }
 
     var newCount = 1;
@@ -200,7 +220,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         $scope.gridOptions.columnApi.autoSizeColumns(allColumnIds);
     }
 
-    //save changes push to DB and write script
+    //save/revert changes, push to DB, and write script
     $scope.onSave = function () {
         var confirm = $mdDialog.confirm()
              .title('Are you sure you want to save changes, this cannot be undone.')
@@ -216,6 +236,10 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         });
     }
 
+    function pushToDB() {
+        console.log("Pushing changes to DB, write merge script..");
+    };
+
     $scope.onRevert = function () {
         var confirm = $mdDialog.confirm()
              .title('Are you sure you want to undo changes.')
@@ -223,17 +247,13 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
              .cancel('Cancel');
         $mdDialog.show(confirm).then(function () {
             console.log("Revert changes");
-            $scope.unsavedChanges = false;
-            //$scope.gridOptions.api.refreshView();
-
+            //refresh data, remove unsaved changes
+            $scope.gridOptions.api.setRowData($scope.data);
+            //$scope.unsavedChanges = false;
         }, function () {
             console.log('Cancel');
         });
     }
-
-    function pushToDB() {
-        console.log("Pushing changes to DB, write merge script..");
-    };
 
     $scope.openCurrentScript = function () {
         console.log("Open current script");
