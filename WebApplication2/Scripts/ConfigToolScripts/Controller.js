@@ -11,6 +11,8 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
     $scope.unsavedChanges = false;
+    $scope.wizardMode = false;
+    $scope.error = false;
 
     // --- CALLED BELOW
     //load data and init grid
@@ -44,6 +46,9 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                                 return '<md-checkbox aria-label="addWhenBound" type="checkbox">'
                                 return '<input type="checkbox">'
                                 break;
+                            case "pKey":
+                                return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>'
+                                break;
                             case "text":
                                 return '<span>' + params.value + '</span>'
                                 break;
@@ -74,21 +79,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 });
             };
 
-            //you have unsaved changes to continue you must save or revert
-
-            //var headerStyle = function (params) {
-            //    $scope.columnHeaders.forEach(function (head) {
-            //        console.log(head.editable);
-            //        head.headerCellTemplate = function (params) {
-            //            if (!head.editable) {
-            //                return '<div>'+ params.value + ' &nbsp;  <i class="fa fa-key" aria-hidden="true"></i> </div>'
-            //            }
-            //        }
-            //    });
-
-            //};
-
-
             //check for 'associated' tables
             if ($scope.associatedTables == 0) {
                 $scope.associatedTablesExist = false;
@@ -110,9 +100,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 debug: true,
                 enableColResize: true,
                 cellRenderer: typeRenderer(),
-                //cellEditor: typeEditor(),
-                //headerCellTemplate: headerStyle()
-
             };
 
             //init grid
@@ -124,77 +111,11 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 
         }, function () {
             alert('Error in getting data');
+            $scope.error = true;
             $scope.isLoading = false;
             $scope.unsavedChanges = false;
         });
     };
-
-    ////--------------------------------------------------------
-    ////ERROR: ag-Grid: unable to find cellEditor for key CheckBoxEditor
-
-    //function DateEditor() { console.log("Numeric Cell Editor"); }
-    //function LargeTextEditor() { console.log("Numeric Cell Editor"); }
-    //function TextEditor() { console.log("Numeric Cell Editor"); }
-    //function XmlEditor() { console.log("Numeric Cell Editor"); }
-    //function CheckBoxEditor() { console.log("Numeric Cell Editor"); }
-
-    //function getCharCodeFromEvent(event) {
-    //    event = event || window.event;
-    //    return (typeof event.which == "undefined") ? event.keyCode : event.which;
-    //}
-    //function isCharNumeric(charStr) {
-    //    return !!/\d/.test(charStr);
-    //}
-    //function isKeyPressedNumeric(event) {
-    //    var charCode = getCharCodeFromEvent(event);
-    //    var charStr = String.fromCharCode(charCode);
-    //    return isCharNumeric(charStr);
-
-    //}
-
-    //// function to act as a class
-    //function NumericCellEditor() {
-    //}
-    //// gets called once before the renderer is used
-    //NumericCellEditor.prototype.init = function (params) {
-    //    // create the cell
-    //    this.eInput = document.createElement('input');
-    //    this.eInput.value = isCharNumeric(params.charPress) ? params.charPress : params.value;
-
-    //    var that = this;
-    //    this.eInput.addEventListener('keypress', function (event) {
-    //        if (!isKeyPressedNumeric(event)) {
-    //            that.eInput.focus();
-    //            if (event.preventDefault) event.preventDefault();
-    //        }
-    //    });
-
-    //    // only start edit if key pressed is a number, not a letter
-    //    var charPressIsNotANumber = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
-    //    this.cancelBeforeStart = charPressIsNotANumber;
-    //};
-
-    //// gets called once when grid ready to insert the element
-    //NumericCellEditor.prototype.getGui = function () {
-    //    return this.eInput;
-    //};
-
-    //// focus and select can be done after the gui is attached
-    //NumericCellEditor.prototype.afterGuiAttached = function () {
-    //    this.eInput.focus();
-    //};
-
-    //// returns the new value after editing
-    //NumericCellEditor.prototype.isCancelBeforeStart = function () {
-    //    return this.cancelBeforeStart;
-    //};
-
-    //// returns the new value after editing
-    //NumericCellEditor.prototype.getValue = function () {
-    //    return this.eInput.value;
-    //};
-
-    ////---------------------------------------------------------------------------------------------
 
     // --- CALLS ABOVE METHOD TO LOAD ALL DATA 
     //call load
@@ -553,6 +474,11 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         var getTableNameData = crudAJService.getTables();
         getTableNameData.then(function (Table) {
             $scope.TableList = Table.data;
+            $scope.TableList.forEach(function(table) {
+                if (table == app.SYS_Telemetry) {
+                    $scope.excludedTable = true;
+                }
+                });
         }, function () {
             alert('Error in getting Table Names');
         });

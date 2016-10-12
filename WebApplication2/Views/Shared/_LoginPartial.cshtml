@@ -46,7 +46,7 @@
                     <md-list-item>Wizard Progress</md-list-item>
                     <tree-grid style="font-size: 12px;" tree-data="tree_data"></tree-grid>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-table" aria-hidden="true"></i>    Tables (Disabled in Wizard Mode)</md-subheader>
-                    <md-list-item ng-repeat="Table in TableList">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" href="#Table/{{Table.Item2}}" ng-click="Load()"  >{{Table.Item1}}</a></md-list-item>
+                    <md-list-item ng-disabled="excludedTable" ng-repeat="Table in TableList">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" href="#Table/{{Table.Item2}}" ng-click="Load()"  >{{Table.Item1}}</a></md-list-item>
                 </md-list>
             </md-content>
         </md-sidenav>

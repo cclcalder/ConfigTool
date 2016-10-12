@@ -155,32 +155,38 @@ namespace WebApplication2.Controllers
             {
                 if (table != null)
                 {
-                    var tableType = GetType(table);
+                    var name = table.Trim('/', '"');
+                    var tableType = Type.GetType("ConfigTool." + name + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
+                    JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
 
-                    //get keys
                     var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
                     //var fKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsForeignKey).ToArray().Select(p => p.MappedName).ToList();
-
-                    //get data
-                    JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+                    var associationTables = new List<Tuple<string, string>>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
 
                     //initialise values
                     var jsonResult = new Result();
                     JArray headArr = new JArray();
-                    string[] headers;
+                    var datamodel = contextObj.Mapping;
+                    var headers = GetHeaders(name, associationTables);
 
-                    //check if can get header data (if there is data in table)
-                    headers = GetHeaders(dataArr);
-                    var associationTables = new List<Tuple<string, string>>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
                     foreach (string cell in headers)
                     {
                         var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
-                        if (CheckHeader(headerName, associationTables))
+                        if (!associationTables.Select(l => l.Item2).ToList().Contains(headerName))
                         {
-                            var info = GetProps(tableType, headerName);
-                            System.Data.Linq.Mapping.ColumnAttribute[] cellInfo = (System.Data.Linq.Mapping.ColumnAttribute[])info;
-                            string typeEditor = ParseDbType(cellInfo[0].DbType);
+                            string typeEditor;
+                            try
+                            {
+                                var info = GetProps(tableType, headerName);
+                                System.Data.Linq.Mapping.ColumnAttribute[] cellInfo = (System.Data.Linq.Mapping.ColumnAttribute[])info;
+                                typeEditor = ParseDbType(cellInfo[0].DbType);
+                            }
+                            catch
+                            {
+                                //this meas if no data all cells are text boxes - doesnt matter right this second but needs changing
+                                typeEditor = "text";
+                            }
 
                             var obj = new JObject();
                             var nameProp = new JProperty("headerName", headerName);
@@ -189,20 +195,28 @@ namespace WebApplication2.Controllers
                             var editProp = new JProperty("editable", true);
                             var editorProp = new JProperty("cellEditor", typeEditor);
                             var typeProp = new JProperty("type", typeEditor);
-                            var nullProp = new JProperty("canBeNull", cellInfo[0].CanBeNull);
+                            //var nullProp = new JProperty("canBeNull", cellInfo[0].CanBeNull);
+                            //foreign key drop down data
+                            if (headerName == "FK")
+                            {
+                                editorProp = new JProperty("cellEditor", "popupSelect");
+                                obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, headerName)));
+                            }
                             //if primary key -- not editable and underlined?
-                            if (pKeyNames.Contains(headerName)) {
-                                editProp = new JProperty("editable", false); }
+                            if (pKeyNames.Contains(headerName))
+                            {
+                                typeProp = new JProperty("type", "pKey");
+                                editProp = new JProperty("editable", false);
+                            }
                             obj.Add(nameProp);
                             obj.Add(fieldProp);
                             obj.Add(widthProp);
                             obj.Add(editProp);
-                            obj.Add(editorProp);
-                            obj.Add(nullProp);
-                            //foreign key drop down data
-                            if (headerName == "FK") {
-                                editorProp = new JProperty("cellEditor", "popupSelect");
-                                obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, headerName))); }
+                            if (!pKeyNames.Contains(headerName))
+                            {
+                                obj.Add(editorProp);
+                            }
+                            //obj.Add(nullProp);
                             obj.Add(typeProp);
                             headArr.Add(obj);
                         }
@@ -221,33 +235,7 @@ namespace WebApplication2.Controllers
                 }
             }
         }
-        public bool CheckHeader(string name, List<Tuple<string, string>> ascTables)
-        {
-            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
-            {
-                var tableList = contextObj.Mapping.GetTables();
-                var tabList = new List<Tuple<string, string>>();
 
-                foreach (MetaTable tab in tableList)
-                {
-                    tabList.Add(new Tuple<string, string>(tab.TableName.TrimStart("app.".ToCharArray()), tab.RowType.ToString()));
-
-                }
-                //if header is ?not name of current table? && other table name, list as associated table
-                if (tabList.Select(l => l.Item1).ToList().Contains(name) /*&& headerName != tableToLoad*/)
-                {
-                    var typeName = tabList.Where(n => n.Item1 == name).ToList()[0].Item2;
-
-                    ascTables.Add(new Tuple<string, string>("app." + name, typeName));
-                    return false;
-                }
-                //if description pass in as description not in table editor
-                else
-                {
-                    return true;
-                }
-            }
-        }
         public object GetProps(Type type, string col)
         {
             PropertyInfo prop = type.GetProperty(col);
@@ -256,44 +244,56 @@ namespace WebApplication2.Controllers
         }
         public string ParseDbType(string dbType)
         {
-            if (dbType.Contains("Int")) { return "text"; }
-            else if (dbType.Contains("VarChar"))
-            {
-                if (int.Parse(Regex.Match(dbType, @"\d+").Value) > 100) { return "text"; }
-                else return "text";
+            if (dbType.Contains("Int")) { return "NumericCellEditor"; }
+            else if (dbType.Contains("VarChar")) {
+                if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100 ) { return "text"; }
+                else return "largeText";
             }
-            else if (dbType.Contains("Xml")) { return "text"; }
+            else if (dbType.Contains("Xml")) { return "XmlEditor"; }
             else if (dbType.Contains("DateTime")) { return "DateEditor"; }
             else if (dbType.Contains("Bit")) { return "CheckBoxEditor"; }
             else if (dbType.Contains("Unique")) { return "text"; }
             else return "New type: " + dbType;
         }
-        public string[] GetHeaders(JArray data)
+        public List<string> GetHeaders(string name, List<Tuple<string, string>> ascTables)
         {
-            try
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                return data.Root[0].ToString().Split(',');
-            }
-            catch
-            {
-                //if nothing in dataArr, cannot get headers from there.. BUT WHERE FROM
-                //create dummy row and get headers?
-                return new string[] { "Empty Table" };
+                var tableList = contextObj.Mapping.GetTables();
+                var tabList = new List<Tuple<string, string>>();
+
+                List<string> headers = new List<string>();
+                foreach (MetaTable tab in tableList)
+                {
+                    var t = tab.TableName.TrimStart("app.".ToCharArray());
+                    var rt = tab.RowType.ToString();
+                    tabList.Add(new Tuple<string, string>(t, rt));
+
+                    if (rt.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        foreach (var r1 in tab.RowType.DataMembers)
+                        {
+                            headers.Add(r1.MappedName);
+                        }
+                    }
+                }
+                if (tabList.Select(l => l.Item1).ToList().Contains(name))
+                {
+                    var typeName = tabList.Where(n => n.Item1 == name).ToList()[0].Item2;
+
+                    ascTables.Add(new Tuple<string, string>("app." + name, typeName));
+                }
+                return headers;
             }
         }
+
+
         public string GetFKeyData(IQueryable data, string fKey)
         {
             //return json of fk col data
             return "{ values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
         }
-        public Type GetType(string table)
-        {
-            //get data from table name
-            var tableToLoad = table.Trim('/', '"');
-            var t = typeof(SYS_Lock).AssemblyQualifiedName; //example of whole random table name, should refactor to use this to generate type
-            string tableName = "ConfigTool." + tableToLoad + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
-            return Type.GetType(tableName);
-        }
+
 
         //submit all changes on click and generate script
         public void SubmitChanges()
