@@ -147,7 +147,6 @@ namespace WebApplication2.Controllers
             public string dataArr;
             public List<string> pKey;
             public List<Tuple<string, string>> fKeyTables; //headername, typename, and data for dropdowns
-            public List<string> descriptions;
         }
 
         public JsonResult LoadTableContent(string table)
@@ -170,73 +169,49 @@ namespace WebApplication2.Controllers
                     var jsonResult = new Result();
                     JArray headArr = new JArray();
                     string[] headers;
-                    var associationTables = new List<Tuple<string, string>>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
-                    var descriptions = new List<string>();
-
 
                     //check if can get header data (if there is data in table)
                     headers = GetHeaders(dataArr);
-
+                    var associationTables = new List<Tuple<string, string>>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
                     foreach (string cell in headers)
                     {
-                        var tableList = contextObj.Mapping.GetTables();
-                        var tabList = new List<Tuple<string, string>>();
                         var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
-
-
-                        //get datacontext table names
-                        foreach (MetaTable tab in tableList)
-                        {
-                            tabList.Add(new Tuple<string, string>(tab.TableName.TrimStart("app.".ToCharArray()), tab.RowType.ToString()));
-                        }
-                        //if header is ?not name of current table? && other table name, list as associated table
-                        if (tabList.Select(l => l.Item1).ToList().Contains(headerName) /*&& headerName != tableToLoad*/)
-                        {
-                            var typeName = tabList.Where(n => n.Item1 == headerName).ToList()[0].Item2;
-
-                            associationTables.Add(new Tuple<string, string>("app." + headerName, typeName));
-                        }
-                        //if description pass in as description not in table editor
-                        else if (headerName == "Description")
-                        {
-                            descriptions.Add(headerName);
-                        }
-                        else
+                        if (CheckHeader(headerName, associationTables))
                         {
                             var info = GetProps(tableType, headerName);
                             System.Data.Linq.Mapping.ColumnAttribute[] cellInfo = (System.Data.Linq.Mapping.ColumnAttribute[])info;
                             string typeEditor = ParseDbType(cellInfo[0].DbType);
 
                             var obj = new JObject();
-                            var prop = new JProperty("headerName", headerName);
-                            var fieldprop = new JProperty("field", headerName);
-                            var widthprop = new JProperty("width", 150);
-                            var editprop = new JProperty("editable", true);
-                            var styleprop = new JProperty("cellStyle", "{}");
-                            var typeprop = new JProperty("type", typeEditor);
-                            var nullprop = new JProperty("canBeNull", cellInfo[0].CanBeNull);
+                            var nameProp = new JProperty("headerName", headerName);
+                            var fieldProp = new JProperty("field", headerName);
+                            var widthProp = new JProperty("width", 150);
+                            var editProp = new JProperty("editable", true);
+                            var editorProp = new JProperty("cellEditor", typeEditor);
+                            var typeProp = new JProperty("type", typeEditor);
+                            var nullProp = new JProperty("canBeNull", cellInfo[0].CanBeNull);
                             //if primary key -- not editable and underlined?
-                            if (pKeyNames.Contains(headerName)) { editprop = new JProperty("editable", false); typeprop = new JProperty("type", typeEditor); styleprop = new JProperty("cellStyle", "{text-decoration: underline;}"); }
-                            obj.Add(prop);
-                            obj.Add(fieldprop);
-                            obj.Add(widthprop);
-                            obj.Add(editprop);
-                            obj.Add(styleprop);
-                            obj.Add(nullprop);
-                            //here create json of foreign key data col
-                            if (headerName == "FK") { typeprop = new JProperty("cellEditor", "popupSelect"); obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, headerName))); }
-                            //obj.Add(renderprop);
-                            obj.Add(typeprop);
+                            if (pKeyNames.Contains(headerName)) {
+                                editProp = new JProperty("editable", false); }
+                            obj.Add(nameProp);
+                            obj.Add(fieldProp);
+                            obj.Add(widthProp);
+                            obj.Add(editProp);
+                            obj.Add(editorProp);
+                            obj.Add(nullProp);
+                            //foreign key drop down data
+                            if (headerName == "FK") {
+                                editorProp = new JProperty("cellEditor", "popupSelect");
+                                obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, headerName))); }
+                            obj.Add(typeProp);
                             headArr.Add(obj);
                         }
-
                     }
 
                     jsonResult.headerArr = headArr.ToString();
                     jsonResult.dataArr = dataArr.ToString();
                     jsonResult.pKey = pKeyNames;
                     jsonResult.fKeyTables = associationTables;
-                    jsonResult.descriptions = descriptions;
 
                     return Json(jsonResult, JsonRequestBehavior.AllowGet);
                 }
@@ -246,28 +221,53 @@ namespace WebApplication2.Controllers
                 }
             }
         }
+        public bool CheckHeader(string name, List<Tuple<string, string>> ascTables)
+        {
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                var tableList = contextObj.Mapping.GetTables();
+                var tabList = new List<Tuple<string, string>>();
 
+                foreach (MetaTable tab in tableList)
+                {
+                    tabList.Add(new Tuple<string, string>(tab.TableName.TrimStart("app.".ToCharArray()), tab.RowType.ToString()));
+
+                }
+                //if header is ?not name of current table? && other table name, list as associated table
+                if (tabList.Select(l => l.Item1).ToList().Contains(name) /*&& headerName != tableToLoad*/)
+                {
+                    var typeName = tabList.Where(n => n.Item1 == name).ToList()[0].Item2;
+
+                    ascTables.Add(new Tuple<string, string>("app." + name, typeName));
+                    return false;
+                }
+                //if description pass in as description not in table editor
+                else
+                {
+                    return true;
+                }
+            }
+        }
         public object GetProps(Type type, string col)
         {
             PropertyInfo prop = type.GetProperty(col);
             return prop.GetCustomAttributes(typeof(System.Data.Linq.Mapping.ColumnAttribute), true);
 
         }
-
         public string ParseDbType(string dbType)
         {
-            if (dbType.Contains("Int")) { return "NumericCellEditor"; }
+            if (dbType.Contains("Int")) { return "text"; }
             else if (dbType.Contains("VarChar"))
             {
-                if (int.Parse(Regex.Match(dbType, @"\d+").Value) > 100) { return "largeText"; }
+                if (int.Parse(Regex.Match(dbType, @"\d+").Value) > 100) { return "text"; }
                 else return "text";
             }
-            else if (dbType.Contains("Xml")) { return "XmlEditor"; }
+            else if (dbType.Contains("Xml")) { return "text"; }
             else if (dbType.Contains("DateTime")) { return "DateEditor"; }
             else if (dbType.Contains("Bit")) { return "CheckBoxEditor"; }
+            else if (dbType.Contains("Unique")) { return "text"; }
             else return "New type: " + dbType;
         }
-
         public string[] GetHeaders(JArray data)
         {
             try
@@ -277,16 +277,15 @@ namespace WebApplication2.Controllers
             catch
             {
                 //if nothing in dataArr, cannot get headers from there.. BUT WHERE FROM
+                //create dummy row and get headers?
                 return new string[] { "Empty Table" };
             }
         }
-
         public string GetFKeyData(IQueryable data, string fKey)
         {
             //return json of fk col data
             return "{ values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
         }
-
         public Type GetType(string table)
         {
             //get data from table name
@@ -296,109 +295,11 @@ namespace WebApplication2.Controllers
             return Type.GetType(tableName);
         }
 
-        //for now CRUD not multi select (or copy/paste data etc)
-        //why can't have generic methods in mapmvcattributeroutes http://stackoverflow.com/questions/35800049/mvc-app-doesnt-run-with-a-generic-method
-        public string InsertRecord(string[] row)
+        //submit all changes on click and generate script
+        public void SubmitChanges()
         {
-            if (row != null)
-            {
-                using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
-                {
 
-                    return "Row inserted successfully";
-                }
-            }
-            else
-            {
-                return "Invalid record";
-            }
         }
-        public string UpdateRecord(string record)
-        {
-            var toUpdate = record;
-            if (record != null)
-            {
-                using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
-                {
-                    //rplace these all with actuall pKey identified
-                    var parseJson = toUpdate.Split(',')[0];
-                    var pkeyName = parseJson.Split(':')[0].Trim(new char[] { '{', '"', ':', ',' });
-                    var pkeyValue = parseJson.Split(':')[1].Trim(new char[] { '{', '"', ':', ',', '}' });
-
-                    var _newRecord = contextObj.SYS_Configs.Where(b => b.OptionItem_ID.ToString() == pkeyValue).FirstOrDefault();
-
-                    //parse json to each 
-                    _newRecord.IsEditable = true;
-                    _newRecord.MenuItem_Code = "true";
-                    _newRecord.OptionItem = "true";
-                    _newRecord.OptionItemDetail = "true";
-                    _newRecord.OptionItemDetail_Value = "true";
-
-                    try
-                    {
-                        contextObj.SubmitChanges();
-                    }
-                    catch (SqlException sqlex)
-                    {
-                        return sqlex.Message;
-                    }
-                    catch (Exception ex)
-                    {
-                        return ex.Message; //This will trap any other 'type' of exception incase a sqlex is not thrown.
-                    }
-
-                    //contextObj.SubmitChanges();
-                    return "SYS_Config record updated successfully";
-                }
-            }
-            else
-            {
-                return "Invalid SYS_Config record";
-            }
-        }
-        public string DeleteRecord(string record)
-        {
-            //method needs to know what table we're in!
-            var toDelete = record;
-            if (!String.IsNullOrEmpty(toDelete))
-            {
-                //THIS NEEDS TO COME FROM KNOWN PKEY
-                //here just assuming its first value
-                //also only working for single deleting
-                var parseJson = toDelete.Split(',')[0];
-                var pkeyName = parseJson.Split(':')[0].Trim(new char[] { '{', '"', ':', ',' });
-                var pkeyValue = parseJson.Split(':')[1].Trim(new char[] { '{', '"', ':', ',', '}' });
-                try
-                {
-                    using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
-                    {
-                        //NOT YET WOKRING FOR ANYTHING OTHER THAN SYS_CONFIG, CLASSIC
-                        var _Record = contextObj.SYS_Configs.FirstOrDefault(s => s.OptionItem_ID.ToString() == pkeyValue); //only one?
-                        contextObj.SYS_Configs.DeleteOnSubmit(_Record);
-                        //contextObj.Log = new System.IO.StreamWriter("linqtosql.log", true) { AutoFlush = true };
-                        contextObj.SubmitChanges();
-                        return "Selected SYS_Config record deleted sucessfully";
-                    }
-                }
-                catch (Exception)
-                {
-                    return "Record details not found";
-                }
-            }
-            else
-            {
-                return "Invalid operation";
-            }
-        }
-        public string GenericGetByID(string id)
-        {
-            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
-            {
-                var recordId = Convert.ToInt32(id);
-            }
-            return "Don't think this is needed for new methods";
-        }
-
         #endregion
 
         #region Get Info on Tables in DB

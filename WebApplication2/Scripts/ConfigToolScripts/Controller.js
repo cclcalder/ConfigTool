@@ -10,14 +10,14 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     //flags 
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
-    $scope.unsavedChanges = true;
+    $scope.unsavedChanges = false;
 
     // --- CALLED BELOW
     //load data and init grid
     function LoadTableContent() {
 
         $scope.dataLoaded = false;
-        $scope.isLoading = true;   
+        $scope.isLoading = true;
 
         //get data from service
         var loadMethod = crudAJService.loadTableContent($scope.tablename);
@@ -44,22 +44,49 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                                 return '<md-checkbox aria-label="addWhenBound" type="checkbox">'
                                 return '<input type="checkbox">'
                                 break;
-                            case "text" || "largeText" || "XmlEditor" || null:
+                            case "text":
+                                return '<span>' + params.value + '</span>'
+                                break;
+                            case "largeText":
+                                return '<span>' + params.value + '</span>'
+                                break;
+                            case "XmlEditor":
+                                return '<span>' + params.value + '</span>'
+                                break;
+                            case "NumericCellEditor":
                                 return '<span>' + params.value + '</span>'
                                 break;
                             case "DateEditor":
                                 return '<md-datepicker ng-model="params.input"></md-datepicker>'
                                 break;
-
                         }
                     }
 
                 });
             };
 
-            var typeEditor = function(){
+            var typeEditor = function (params) {
+                $scope.columnHeaders.forEach(function (head) {
+                    head.cellEditor = function (params) {
+                        return head.cellEditor;
+                    }
 
-            }
+                });
+            };
+
+            //you have unsaved changes to continue you must save or revert
+
+            //var headerStyle = function (params) {
+            //    $scope.columnHeaders.forEach(function (head) {
+            //        console.log(head.editable);
+            //        head.headerCellTemplate = function (params) {
+            //            if (!head.editable) {
+            //                return '<div>'+ params.value + ' &nbsp;  <i class="fa fa-key" aria-hidden="true"></i> </div>'
+            //            }
+            //        }
+            //    });
+
+            //};
 
 
             //check for 'associated' tables
@@ -83,7 +110,9 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 debug: true,
                 enableColResize: true,
                 cellRenderer: typeRenderer(),
-                cellEditor: typeEditor()
+                //cellEditor: typeEditor(),
+                //headerCellTemplate: headerStyle()
+
             };
 
             //init grid
@@ -177,6 +206,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         $scope.unsavedChanges = true;
         console.log("onRemoveSelected");
         $scope.selection = $scope.gridOptions.api.getSelectedNodes();
+        //$scope.selection.rowStyle = { 'background-color': 'yellow' };
         $scope.gridOptions.api.removeItems($scope.selection);
     }
 
@@ -249,6 +279,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
             console.log("Revert changes");
             //refresh data, remove unsaved changes
             $scope.gridOptions.api.setRowData($scope.data);
+            $scope.unsavedChanges = false;
             //$scope.unsavedChanges = false;
         }, function () {
             console.log('Cancel');
@@ -515,6 +546,7 @@ app.controller('ModeContinueCtrl', function ($scope, $mdDialog, $location) {
 app.controller("GetTablesCtrl", function ($scope, crudAJService) {
     console.log("Ctrl = GetTablesCtrl");
     //Loads all table names from the data base into navbar
+
     GetAllTableNames();
     function GetAllTableNames() {
         console.log("get table names");
@@ -525,6 +557,34 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
             alert('Error in getting Table Names');
         });
     }
+
+    //$scope.prevTable = function (current) {
+    //    var n = tableN(current);
+    //    console.log("n:" + n);
+    //    console.log("going to prev table bbi" + $scope.TableList[n - 1]);
+    //    $scope.prevTab = $scope.TableList[n - 1];
+    //}
+    //$scope.nextTable = function (current) {
+    //    var n = tableN(current);
+    //    console.log("going to next table bbi");
+    //    $scope.nextTab = $scope.TableList[n + 1];
+    //}
+
+    //function tableN(current) {
+    //    var tabNo = 0;
+    //    $scope.TableList.forEach(function (table) {
+    //        tabNo++;
+    //        if (table == current) {
+    //            $scope.n = tabNo;
+    //        };
+    //    });
+    //    $scope.prevTab = $scope.TableList[$scope.n - 1];
+    //    $scope.nextTab = $scope.TableList[$scope.n + 1];
+    //    console.log($scope.prevTab);
+    //    console.log(current);
+    //    console.log($scope.nextTab);
+    //}
+
 
     //data for wizard tree -- turn into .json file
     $scope.tree_data = [

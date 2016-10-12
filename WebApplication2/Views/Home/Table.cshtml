@@ -3,17 +3,27 @@
 }
 <body>
 
-    <p style="text-align:right;">
-        <div id="childTableCSS">
+
+        <div @*ng-controller="GetTablesCtrl"*@>
             <center>
+                
                 <h1 class="display-1">
+                    <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="prevTable(@ViewBag.TableName)" href="#Table/{{prevTab}}"><i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i></md-button>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
                     @ViewBag.TableName
                     <small class="text-muted">Table</small>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="nextTable(@ViewBag.TableName)" href="#Table/{{nextTab}}"><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></md-button>
                 </h1>
+
                 <hr />
             </center>
         </div>
-    </p>
+
 
     <div style="text-align:left">
         <div ng-if="associatedTablesExist">
@@ -26,7 +36,6 @@
         <md-button class="md-raised" ng-click="onRemoveSelected()"><i class="fa fa-times" aria-hidden="true"></i> Delete Selected Record </md-button>
         <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onSave()">Save Changes</md-button>
         <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onRevert()">Revert Changes</md-button>
-
         @*this will take you yto created script*@
         <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="openCurrentScript()"><i class="fa fa-files-o fa-2x" aria-hidden="true"></i></md-button>
     </div>
@@ -37,7 +46,7 @@
             <md-progress-linear md-mode="indeterminate" ng-disabled="!isLoading"></md-progress-linear>
             <div class="bottom-block">
                 <span ng-if="isLoading">Loading data..</span>
-                <span style="color:orange" ng-if="!isLoading">Error</span>
+                <span style="color:orange; text-align:center;" ng-if="!isLoading">Error loading data...</span>
             </div>
         </div>
     </div>
