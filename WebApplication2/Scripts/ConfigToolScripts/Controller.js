@@ -38,6 +38,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
             $scope.associatedTables = TableContent.data.fKeyTables;
 
             var typeRenderer = function (params) {
+                console.log("RENDERING BBI");
                 $scope.columnHeaders.forEach(function (head) {
                     head.cellRenderer = function (params) {
                         switch (head.cellRenderer) {

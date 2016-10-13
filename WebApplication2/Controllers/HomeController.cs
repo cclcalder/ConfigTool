@@ -150,17 +150,17 @@ namespace WebApplication2.Controllers
         }
         public struct AssociatedTable
         {
-            public string name;
-            public string typeName;
-            public string relationship;
-            public string otherKey;
-            public string isParent;
+            public string name;                     //name 
+            public string typeName;                 //and typename of associated table
+            public string relationshipStr;          //string to print to screen
+            public string currentKey;               //key in current table
+            public string foreignKey;               //corresponding key in associated
+            public string relationToCurrent;        //relation to current - PARENT OR CHILD - if child - drop down input where headername = currentKey
         }
         public struct Header
         {
             public string name;
             public string type;
-            public List<string> fKeys;
         }
 
         public JsonResult LoadTableContent(string table)
@@ -196,11 +196,11 @@ namespace WebApplication2.Controllers
                         var rendererProp = new JProperty("cellRenderer", ParseDbType(header.type));
 
                         //overwrite customisations for : foreign key cols
-                        foreach (string fk in associationTables.Select(a => a.otherKey))
+                        foreach (string fk in associationTables.Where(a => a.foreignKey != null).ToList().Select(o => o.foreignKey).ToList())
                         {
                             if (fk.Contains(header.name))
                             {
-                                rendererProp = new JProperty("cellRenderer", "fkRenderer");
+                                //rendererProp = new JProperty("cellRenderer", "pKey");
                                 editorProp = new JProperty("cellEditor", "popupSelect");
                                 obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, header.name)));
                             }
@@ -209,7 +209,7 @@ namespace WebApplication2.Controllers
                         if (pKeyNames.Contains(header.name))
                         {
                             rendererProp = new JProperty("cellRenderer", "pKey");
-                            editProp = new JProperty("editable", false);
+                            //editProp = new JProperty("editable", false);
                         }
 
                         //add properties to object
@@ -235,19 +235,14 @@ namespace WebApplication2.Controllers
                 }
             }
         }
-
-        public object GetProps(Type type, string col)
-        {
-            PropertyInfo prop = type.GetProperty(col);
-            return prop.GetCustomAttributes(typeof(System.Data.Linq.Mapping.ColumnAttribute), true);
-
-        }
         public string ParseDbType(string dbType)
         {
             if (dbType.Contains("Int")) { return "NumericCellEditor"; }
             else if (dbType.Contains("VarChar"))
             {
-                if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100) { return "text"; }
+                //shoudlr restrain char count
+                if(dbType.Contains("MAX")) { return "largetext";  }
+                else if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100 || dbType.Contains("MAX")) { return "text"; }
                 else return "largeText";
             }
             else if (dbType.Contains("Xml")) { return "XmlEditor"; }
@@ -277,21 +272,25 @@ namespace WebApplication2.Controllers
                     {
                         foreach (var r1 in tab.RowType.DataMembers)
                         {
+                            //if there exists an associated table
                             if (r1.Association != null)
                             {
                                 var ascTable = new AssociatedTable();
-                                ascTable.relationship = r1.Association.ToString();
-                                ascTable.otherKey = r1.Association.OtherKey[0].ToString();
+                                ascTable.relationshipStr = r1.Association.ToString();
                                 var test = checkTabList.Where(n => n.Item1 == r1.Name || n.Item2 == r1.Name).ToList();
                                 ascTable.typeName = test[0].Item2;
-                                ascTable.name = "app." + name;
+                                ascTable.foreignKey = r1.Association.OtherKey[0].MappedName;
+                                ascTable.currentKey = r1.Association.ThisKey[0].MappedName;
+                                //ascTable.name = "app." + name;
                                 if (r1.Association.IsForeignKey)
                                 {
-                                    ascTable.isParent = "Parent";
+                                    //if has foreign key must be the child of the current table..
+                                    ascTable.relationToCurrent = "Parent";
                                 }
                                 else
                                 {
-                                    ascTable.isParent = "Child";
+                                    //if does not have foreign key -> is parent 
+                                    ascTable.relationToCurrent = "Child";
                                 }
                                 ascTables.Add(ascTable);
                             }
@@ -311,14 +310,11 @@ namespace WebApplication2.Controllers
                 return headers;
             }
         }
-
-
         public string GetFKeyData(IQueryable data, string fKey)
         {
             //return json of fk col data
             return "{ cellRenderer: fkRenderer, values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
         }
-
 
         //submit all changes on click and generate script
         public void SubmitChanges()

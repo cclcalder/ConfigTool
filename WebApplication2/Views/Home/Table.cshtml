@@ -25,20 +25,42 @@
     <div style="text-align:left" ng-if="!error">
         <div ng-if="associatedTablesExist">
             <div style="padding-left: 12pt; font-weight: bold; text-decoration: underline"> Associated Tables:</div>
-            <md-list-item class="md-2-line" ng-repeat="Table in associatedTables">
+            <md-list-item class="md-3-line" ng-repeat="Table in associatedTables">
                 <div class="md-list-item-text" layout="column">
-                    <p><a class="sidenav" href="#Table/{{Table.typeName}}" ng-click="Load()">&nbsp;<b>-&nbsp;{{Table.isParent}}&nbsp;:</b> &nbsp;{{Table.relationship}}</a></p>
-                    <p><a class="sidenav" style="color:darkgrey">&nbsp;&nbsp;&nbsp;&nbsp;<b>Foreign Key&nbsp;:&nbsp;</b>{{Table.otherKey}}</a></p>
+                    <p>
+                        <a class="sidenav" href="#Table/{{Table.typeName}}" ng-click="Load()">
+                            &nbsp;
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <b>&nbsp;{{Table.relationToCurrent}} Table &nbsp;:</b> &nbsp;{{Table.typeName}}&nbsp;&nbsp;
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </p>
+                    <p>
+                        <a class="sidenav" style="color:darkgrey; font-size:smaller">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-cogs" aria-hidden="true"></i>
+                            <b>Relationship &nbsp;:&nbsp;</b>{{Table.relationshipStr}}
+                        </a>
+                    </p>
+                    <p>
+                        <a class="sidenav" style="color:darkgrey; font-size:smaller">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                            <b>Key Relationships &nbsp;:&nbsp;</b>@ViewBag.TableName.{{Table.currentKey}} -> {{Table.typeName}}.{{Table.foreignKey}}
+                        </a>
+                    </p>
                 </div>
             </md-list-item>
+            <hr />
         </div>
+
         <md-button ng-click="sizeToFit()">Size to Fit</md-button>
         <md-button ng-click="autoSizeAll()">Auto-Size</md-button>
         <md-button class="md-raised" ng-click="onAddRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add New Record </md-button>
         <md-button class="md-raised" ng-click="onRemoveSelected()"><i class="fa fa-times" aria-hidden="true"></i> Delete Selected Record </md-button>
         <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onSave()">Save Changes</md-button>
         <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onRevert()">Revert Changes</md-button>
-        <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="openCurrentScript()"><i class="fa fa-files-o fa-2x"></i></md-button>
+        <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="openCurrentScript()"><i class="fa fa-files-o"></i></md-button>
     </div>
 
     <div id="myGrid" ng-if="dataLoaded" ag-grid="gridOptions" style="height: 100%; width:100%; font-size:8pt" class="ag-fresh"></div>
