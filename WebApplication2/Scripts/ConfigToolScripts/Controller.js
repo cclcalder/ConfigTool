@@ -5,7 +5,6 @@
 app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog, crudAJService) {
     console.log("TableCtrl, " + $routeParams.tablename);
     $scope.tablename = $routeParams.tablename;
-    console.log("scope: " + $scope.tablename);
 
     // --- INITIATE FLAGS
     //flags 
@@ -36,17 +35,18 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
             $scope.columnHeaders = JSON.parse(TableContent.data.headerArr);
             $scope.dataReturn = $scope.data;
             $scope.associatedTables = TableContent.data.fKeyTables;
-
             var typeRenderer = function (params) {
-                console.log("RENDERING BBI");
                 $scope.columnHeaders.forEach(function (head) {
                     head.cellRenderer = function (params) {
-                        switch (head.cellRenderer) {
+                        switch (head.renderer) {
                             case "CheckBoxEditor":
-                                return '<center><md-checkbox aria-label="addWhenBound" type="checkbox"><center>'
+                                return '<md-checkbox aria-label="addWhenBound" type="checkbox">'
                                 return '<input type="checkbox">'
                                 break;
                             case "pKey":
+                                return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>'
+                                break;
+                            case "fkRenderer":
                                 return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>'
                                 break;
                             case "text":
@@ -59,34 +59,16 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                                 return '<span>' + params.value + '</span>'
                                 break;
                             case "NumericCellEditor":
-                                console.log("NumericCellEditor"+head.type);
-                                return '<span style="text-align: right;">' + params.value + '</span>'
+                                return '<span>' + params.value + '</span>'
                                 break;
                             case "DateEditor":
-                                return '<md-datepicker class="md-custom2" ng-model="params.input"></md-datepicker>'
+                                return '<md-datepicker ng-model="params.input"></md-datepicker>'
                                 break;
                         }
                     }
+
                 });
             };
-            //if nothing fancy no need for renderer? ^ hence break, but maybe wont work..
-
-            function fkRenderer() {
-            }
-
-            fkRenderer.prototype.init = function (params) {
-                if (params.value === "" || params.value === undefined || params.value === null) {
-                    this.eGui = '';
-                } else {
-                    this.eGui = '<span style="cursor: default;">' + params.value + '</span>';
-                }
-            };
-
-            fkRenderer.prototype.getGui = function () {
-                return this.eGui;
-            };
-
-
 
             //check for 'associated' tables
             if ($scope.associatedTables == 0) {
@@ -108,7 +90,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 rowSelection: 'multiple',
                 debug: true,
                 enableColResize: true,
-                cellRenderer: typeRenderer()
+                cellRenderer: typeRenderer(),
             };
 
             //init grid

@@ -193,32 +193,39 @@ namespace WebApplication2.Controllers
                         var editProp = new JProperty("editable", true);
                         //var nullProp = new JProperty("canBeNull", cellInfo[0].CanBeNull);
                         var editorProp = new JProperty("cellEditor", ParseDbType(header.type));
-                        var rendererProp = new JProperty("cellRenderer", ParseDbType(header.type));
+                        var rendererProp = new JProperty("renderer", ParseDbType(header.type));
+                        JProperty editorParamsProp = new JProperty("","");
+                        var fkFlag = false;
+                        var pkFlag = pKeyNames.Contains(header.name);
 
-                        //overwrite customisations for : foreign key cols
-                        foreach (string fk in associationTables.Where(a => a.foreignKey != null).ToList().Select(o => o.foreignKey).ToList())
-                        {
-                            if (fk.Contains(header.name))
-                            {
-                                //rendererProp = new JProperty("cellRenderer", "pKey");
-                                editorProp = new JProperty("cellEditor", "popupSelect");
-                                obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, header.name)));
-                            }
-                        }
-                        // : primary key cols
-                        if (pKeyNames.Contains(header.name))
-                        {
-                            rendererProp = new JProperty("cellRenderer", "pKey");
-                            //editProp = new JProperty("editable", false);
-                        }
-
-                        //add properties to object
                         obj.Add(nameProp);
                         obj.Add(fieldProp);
                         obj.Add(widthProp);
+
+                        foreach (AssociatedTable aTable in associationTables)
+                        {
+                            if(aTable.relationToCurrent == "Parent")
+                            {
+                                //need to implement a dropdown in currentKey col of foreignKey col
+                                if(header.name == aTable.currentKey)
+                                {
+                                    fkFlag = true;
+                                    editorProp = new JProperty("cellEditor", "popupSelect");
+                                    editorParamsProp = new JProperty("cellEditorParams", GetFKeyData(aTable));
+                                    if (pKeyNames.Contains(header.name))
+                                    {
+                                        rendererProp = new JProperty("renderer", "pKey");
+                                    }
+                                }
+                            }
+                        }
+                        //overwrite customisations for : foreign key cols
+                        if (!pkFlag || fkFlag) { obj.Add(editorProp); }
+                        if (fkFlag) { obj.Add(editorParamsProp); rendererProp = new JProperty("renderer", "fkRenderer"); };
+                        if (pkFlag && !fkFlag) { rendererProp = new JProperty("renderer", "pKey");  editProp = new JProperty("editable", false); }
+
+                        //add properties to object
                         obj.Add(editProp);
-                        //obj.Add(nullProp);
-                        if (!pKeyNames.Contains(header.name)) { obj.Add(editorProp); }
                         obj.Add(rendererProp);
                         headArr.Add(obj);
                     }
@@ -310,10 +317,16 @@ namespace WebApplication2.Controllers
                 return headers;
             }
         }
-        public string GetFKeyData(IQueryable data, string fKey)
+        public string GetFKeyData(AssociatedTable getDataTable)
         {
-            //return json of fk col data
-            return "{ cellRenderer: fkRenderer, values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                var getCol = getDataTable.foreignKey;
+                var tableType = Type.GetType("ConfigTool." + getDataTable.typeName + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+                var data = contextObj.GetTable(tableType).AsQueryable();
+                //select data where header = foreign key
+                return "{ cellRenderer: fkRenderer, values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
+            }
         }
 
         //submit all changes on click and generate script
