@@ -5,8 +5,9 @@
 app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog, crudAJService) {
     console.log("TableCtrl, " + $routeParams.tablename);
     $scope.tablename = $routeParams.tablename;
+    console.log("scope: " + $scope.tablename);
 
-    // --- INITIATES FLAGS, NOT IMPORTANT
+    // --- INITIATE FLAGS
     //flags 
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
@@ -24,7 +25,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         //get data from service
         var loadMethod = crudAJService.loadTableContent($scope.tablename);
         loadMethod.then(function (TableContent) {
-
             //check data present
             if (TableContent.data.dataArr == null) {
                 $scope.data = null;
@@ -33,7 +33,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 $scope.data = JSON.parse(TableContent.data.dataArr);
             }
 
-            //set data
             $scope.columnHeaders = JSON.parse(TableContent.data.headerArr);
             $scope.dataReturn = $scope.data;
             $scope.associatedTables = TableContent.data.fKeyTables;
@@ -41,9 +40,9 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
             var typeRenderer = function (params) {
                 $scope.columnHeaders.forEach(function (head) {
                     head.cellRenderer = function (params) {
-                        switch (head.type) {
+                        switch (head.cellRenderer) {
                             case "CheckBoxEditor":
-                                return '<md-checkbox aria-label="addWhenBound" type="checkbox">'
+                                return '<center><md-checkbox aria-label="addWhenBound" type="checkbox"><center>'
                                 return '<input type="checkbox">'
                                 break;
                             case "pKey":
@@ -59,25 +58,34 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                                 return '<span>' + params.value + '</span>'
                                 break;
                             case "NumericCellEditor":
-                                return '<span>' + params.value + '</span>'
+                                console.log("NumericCellEditor"+head.type);
+                                return '<span style="text-align: right;">' + params.value + '</span>'
                                 break;
                             case "DateEditor":
-                                return '<md-datepicker ng-model="params.input"></md-datepicker>'
+                                return '<md-datepicker class="md-custom2" ng-model="params.input"></md-datepicker>'
                                 break;
                         }
                     }
-
                 });
             };
+            //if nothing fancy no need for renderer? ^ hence break, but maybe wont work..
 
-            var typeEditor = function (params) {
-                $scope.columnHeaders.forEach(function (head) {
-                    head.cellEditor = function (params) {
-                        return head.cellEditor;
-                    }
+            function fkRenderer() {
+            }
 
-                });
+            fkRenderer.prototype.init = function (params) {
+                if (params.value === "" || params.value === undefined || params.value === null) {
+                    this.eGui = '';
+                } else {
+                    this.eGui = '<span style="cursor: default;">' + params.value + '</span>';
+                }
             };
+
+            fkRenderer.prototype.getGui = function () {
+                return this.eGui;
+            };
+
+
 
             //check for 'associated' tables
             if ($scope.associatedTables == 0) {
@@ -99,7 +107,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 rowSelection: 'multiple',
                 debug: true,
                 enableColResize: true,
-                cellRenderer: typeRenderer(),
+                cellRenderer: typeRenderer()
             };
 
             //init grid
@@ -467,7 +475,7 @@ app.controller('ModeContinueCtrl', function ($scope, $mdDialog, $location) {
 app.controller("GetTablesCtrl", function ($scope, crudAJService) {
     console.log("Ctrl = GetTablesCtrl");
     //Loads all table names from the data base into navbar
-
+    $scope.excludedTable = false;
     GetAllTableNames();
     function GetAllTableNames() {
         console.log("get table names");
@@ -516,56 +524,56 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
     $scope.tree_data = [
         {
             Task: 'Master Data Setup',
-            Script: ' ',
+            Done: ' ',
 
             children: [
                 {
                     Task: 'Setup Sales Orgs and Customer Hierarchy / Levels',
-                    Script: ' ',
+                    Done: ' ',
                     children: [
                         {
-                            Task: 'Review @Html.ActionLink("SYS_Config", "Index", "Home")',
-                            Script: ' '
+                            Task: 'Review app.SYS_Config',
+                            Done: ' '
                         }
                     ]
                 },
             {
                 Task: 'Setup Product Hierarchy / Levels',
-                Script: ' ',
+                Done: ' ',
                 children: [
                     {
                         Task: 'Review setup.ETL_UK_Load_Products',
-                        Script: ' '
+                        Done: ' '
                     }
                 ]
             },
             {
                 Task: 'Setup Measures and Attributes',
-                Script: ' ',
+                Done: ' ',
                 children: [
                     {
                         Task: 'app.Dim_Product_Cust_Measures',
-                        Script: ' '
+                        Done: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Sku_Measures',
-                        Script: ' '
+                        Done: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Sku_Cust_Measures',
-                        Script: ' '
+                        Done: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Cust_Attributes',
-                        Script: ' '
+                        Done: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Sku_Attributes',
-                        Script: ' '
+                        Done: ' '
                     },
                     {
                         Task: 'app.Dim_Product_Sku_Cust_Attribute',
-                        Script: ' '
+                        Done: ' '
                     }
                 ]
             },
@@ -573,84 +581,84 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         },
         {
             Task: 'General Setup',
-            Script: ' ',
+            Done: ' ',
 
             children: [
                 {
                     Task: 'Set Base Unit Of Measure',
-                    Script: ' ',
+                    Done: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Config',
-                            Script: ' '
+                            Done: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Set Deleting Policy',
-                    Script: ' ',
+                    Done: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Config',
-                            Script: ' '
+                            Done: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Set Password Policy',
-                    Script: ' ',
+                    Done: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Config',
-                            Script: ' '
+                            Done: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Config client Calendar View',
-                    Script: ' ',
+                    Done: ' ',
                     children: [
                         {
                             Task: 'clnt.vw_Dim_Calendar',
-                            Script: ' '
+                            Done: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Review References to “Demo”',
-                    Script: ' ',
+                    Done: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Config',
-                            Script: ' '
+                            Done: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Remove any screens and tabs not in scope',
-                    Script: ' ',
+                    Done: ' ',
                     children: [
                         {
                             Task: 'app.SYS_Screens',
-                            Script: ' '
+                            Done: ' '
                         },
                         {
                             Task: 'app.SYS_ScreenTabs',
-                            Script: ' '
+                            Done: ' '
                         },
                         {
                             Task: 'app.Fact_Screen_ScreenGroup',
-                            Script: ' '
+                            Done: ' '
                         }
                     ]
                 },
                 {
                     Task: 'Update languages settings for any renaming of screens, tabs and controls',
-                    Script: ' ',
+                    Done: ' ',
                     children: [
                         {
                             Task: 'app.Dim_Language_AppLabels',
-                            Script: ' '
+                            Done: ' '
                         }
                     ]
                 },
@@ -659,37 +667,37 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         },
         {
             Task: 'Planning Screen Configuration',
-            Script: ' ',
+            Done: ' ',
             children: [
                {
                    Task: 'Setup Master Data',
-                   Script: ' ',
+                   Done: ' ',
                    children: [
                        {
                            Task: 'Review and modify as appropriate app.Dim_Planning_Volume_MeasureGroups',
-                           Script: ' '
+                           Done: ' '
                        },
                        {
                            Task: 'Review and modify as appropriate app.Dim_Planning_Volume_Measures',
-                           Script: ' '
+                           Done: ' '
                        },
                        {
                            Task: 'Review and modify as appropriate app.Dim_Planning_Time_Range',
-                           Script: ' '
+                           Done: ' '
                        },
                        {
                            Task: 'Review and modify as appropriate app.Dim_Planning_Time_Levels',
-                           Script: ' '
+                           Done: ' '
                        }
                    ]
                },
                {
                    Task: 'Test',
-                   Script: ' ',
+                   Done: ' ',
                    children: [
                        {
                            Task: 'Check volume saves and reloads, and unit of measure correctly set',
-                           Script: ' '
+                           Done: ' '
                        }
                    ]
                }
@@ -697,28 +705,32 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         },
         {
             Task: 'Promotions Configuration',
-            Script: ' ',
+            Done: ' ',
         },
         {
             Task: 'Terms Configuration',
-            Script: ' ',
+            Done: ' ',
         },
         {
             Task: 'Management Adjustment Configuration',
-            Script: ' ',
+            Done: ' ',
 
         },
         {
             Task: 'Risk And Ops Configuration',
-            Script: ' ',
+            Done: ' ',
 
         },
         {
             Task: 'Funds',
-            Script: ' ',
+            Done: ' ',
 
         }
     ];
+
+    //if cell name is done renderer = checkbox
+    //save to local app database? along with projects and progress etc
+
 });
 
 /* ----- Test Table ----- */

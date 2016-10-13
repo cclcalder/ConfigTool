@@ -667,13 +667,15 @@ a {
     border-top: 1px solid #f4f4f4;
     max-width: 150pt;
     word-wrap: break-word;
+    background-color:white;
 }
 
 .table > thead > tr > th {
     border-bottom: 2px solid #f4f4f4;
     max-width: 100pt;
-    text-align: center;
     padding-bottom: 1%;
+    padding:7pt;
+    background-color:#e3e6eb
 }
 
 .table tr td .progress {

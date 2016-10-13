@@ -146,7 +146,21 @@ namespace WebApplication2.Controllers
             public string headerArr;
             public string dataArr;
             public List<string> pKey;
-            public List<Tuple<string, string>> fKeyTables; //headername, typename, and data for dropdowns
+            public List<AssociatedTable> fKeyTables; //headername, typename, and data for dropdowns
+        }
+        public struct AssociatedTable
+        {
+            public string name;
+            public string typeName;
+            public string relationship;
+            public string otherKey;
+            public string isParent;
+        }
+        public struct Header
+        {
+            public string name;
+            public string type;
+            public List<string> fKeys;
         }
 
         public JsonResult LoadTableContent(string table)
@@ -162,66 +176,52 @@ namespace WebApplication2.Controllers
 
                     var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
                     //var fKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsForeignKey).ToArray().Select(p => p.MappedName).ToList();
-                    var associationTables = new List<Tuple<string, string>>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
+                    var associationTables = new List<AssociatedTable>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
 
                     //initialise values
                     var jsonResult = new Result();
                     JArray headArr = new JArray();
-                    var datamodel = contextObj.Mapping;
                     var headers = GetHeaders(name, associationTables);
 
-                    foreach (string cell in headers)
+                    foreach (Header header in headers)
                     {
-                        var headerName = cell.Split(':')[0].Trim(new char[] { '"', '{', '\r', '\n', '\"', '\"', ' ' });
-                        if (!associationTables.Select(l => l.Item2).ToList().Contains(headerName))
+                        //general properties
+                        var obj = new JObject();
+                        var nameProp = new JProperty("headerName", header.name);
+                        var fieldProp = new JProperty("field", header.name);
+                        var widthProp = new JProperty("width", 150);
+                        var editProp = new JProperty("editable", true);
+                        //var nullProp = new JProperty("canBeNull", cellInfo[0].CanBeNull);
+                        var editorProp = new JProperty("cellEditor", ParseDbType(header.type));
+                        var rendererProp = new JProperty("cellRenderer", ParseDbType(header.type));
+
+                        //overwrite customisations for : foreign key cols
+                        foreach (string fk in associationTables.Select(a => a.otherKey))
                         {
-                            string typeEditor;
-                            try
+                            if (fk.Contains(header.name))
                             {
-                                var info = GetProps(tableType, headerName);
-                                System.Data.Linq.Mapping.ColumnAttribute[] cellInfo = (System.Data.Linq.Mapping.ColumnAttribute[])info;
-                                typeEditor = ParseDbType(cellInfo[0].DbType);
-                            }
-                            catch
-                            {
-                                //this meas if no data all cells are text boxes - doesnt matter right this second but needs changing
-                                typeEditor = "text";
-                            }
-
-                            var obj = new JObject();
-                            var nameProp = new JProperty("headerName", headerName);
-                            var fieldProp = new JProperty("field", headerName);
-                            var widthProp = new JProperty("width", 150);
-                            var editProp = new JProperty("editable", true);
-                            var editorProp = new JProperty("cellEditor", typeEditor);
-                            var typeProp = new JProperty("type", typeEditor);
-                            //var nullProp = new JProperty("canBeNull", cellInfo[0].CanBeNull);
-                            //foreign key drop down data
-                            if (headerName == "FK")
-                            {
+                                rendererProp = new JProperty("cellRenderer", "fkRenderer");
                                 editorProp = new JProperty("cellEditor", "popupSelect");
-                                obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, headerName)));
+                                obj.Add(new JProperty("cellEditorParams", GetFKeyData(tableData, header.name)));
                             }
-                            //if primary key -- not editable and underlined?
-                            if (pKeyNames.Contains(headerName))
-                            {
-                                typeProp = new JProperty("type", "pKey");
-                                editProp = new JProperty("editable", false);
-                            }
-                            obj.Add(nameProp);
-                            obj.Add(fieldProp);
-                            obj.Add(widthProp);
-                            obj.Add(editProp);
-                            if (!pKeyNames.Contains(headerName))
-                            {
-                                obj.Add(editorProp);
-                            }
-                            //obj.Add(nullProp);
-                            obj.Add(typeProp);
-                            headArr.Add(obj);
                         }
-                    }
+                        // : primary key cols
+                        if (pKeyNames.Contains(header.name))
+                        {
+                            rendererProp = new JProperty("cellRenderer", "pKey");
+                            editProp = new JProperty("editable", false);
+                        }
 
+                        //add properties to object
+                        obj.Add(nameProp);
+                        obj.Add(fieldProp);
+                        obj.Add(widthProp);
+                        obj.Add(editProp);
+                        //obj.Add(nullProp);
+                        if (!pKeyNames.Contains(header.name)) { obj.Add(editorProp); }
+                        obj.Add(rendererProp);
+                        headArr.Add(obj);
+                    }
                     jsonResult.headerArr = headArr.ToString();
                     jsonResult.dataArr = dataArr.ToString();
                     jsonResult.pKey = pKeyNames;
@@ -245,8 +245,9 @@ namespace WebApplication2.Controllers
         public string ParseDbType(string dbType)
         {
             if (dbType.Contains("Int")) { return "NumericCellEditor"; }
-            else if (dbType.Contains("VarChar")) {
-                if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100 ) { return "text"; }
+            else if (dbType.Contains("VarChar"))
+            {
+                if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100) { return "text"; }
                 else return "largeText";
             }
             else if (dbType.Contains("Xml")) { return "XmlEditor"; }
@@ -255,34 +256,58 @@ namespace WebApplication2.Controllers
             else if (dbType.Contains("Unique")) { return "text"; }
             else return "New type: " + dbType;
         }
-        public List<string> GetHeaders(string name, List<Tuple<string, string>> ascTables)
+        public List<Header> GetHeaders(string name, List<AssociatedTable> ascTables)
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
                 var tableList = contextObj.Mapping.GetTables();
                 var tabList = new List<Tuple<string, string>>();
-
-                List<string> headers = new List<string>();
+                var checkTabList = new List<Tuple<string, string>>();
                 foreach (MetaTable tab in tableList)
                 {
                     var t = tab.TableName.TrimStart("app.".ToCharArray());
                     var rt = tab.RowType.ToString();
-                    tabList.Add(new Tuple<string, string>(t, rt));
+                    checkTabList.Add(new Tuple<string, string>(t, rt));
+                }
 
-                    if (rt.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+                List<Header> headers = new List<Header>();
+                foreach (MetaTable tab in tableList)
+                {
+                    if (tab.RowType.ToString().Equals(name, StringComparison.InvariantCultureIgnoreCase))
                     {
                         foreach (var r1 in tab.RowType.DataMembers)
                         {
-                            headers.Add(r1.MappedName);
+                            if (r1.Association != null)
+                            {
+                                var ascTable = new AssociatedTable();
+                                ascTable.relationship = r1.Association.ToString();
+                                ascTable.otherKey = r1.Association.OtherKey[0].ToString();
+                                var test = checkTabList.Where(n => n.Item1 == r1.Name || n.Item2 == r1.Name).ToList();
+                                ascTable.typeName = test[0].Item2;
+                                ascTable.name = "app." + name;
+                                if (r1.Association.IsForeignKey)
+                                {
+                                    ascTable.isParent = "Parent";
+                                }
+                                else
+                                {
+                                    ascTable.isParent = "Child";
+                                }
+                                ascTables.Add(ascTable);
+                            }
+                            else
+                            {
+                                var h = new Header();
+                                var fk = new List<string>();
+                                h.name = r1.MappedName;
+                                h.type = r1.DbType.ToString();
+                                //h.fKeys = fk.Add(r1.Association.IsForeignKey.ToString());
+                                headers.Add(h);
+                            }
                         }
                     }
                 }
-                if (tabList.Select(l => l.Item1).ToList().Contains(name))
-                {
-                    var typeName = tabList.Where(n => n.Item1 == name).ToList()[0].Item2;
 
-                    ascTables.Add(new Tuple<string, string>("app." + name, typeName));
-                }
                 return headers;
             }
         }
@@ -291,7 +316,7 @@ namespace WebApplication2.Controllers
         public string GetFKeyData(IQueryable data, string fKey)
         {
             //return json of fk col data
-            return "{ values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
+            return "{ cellRenderer: fkRenderer, values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
         }
 
 
@@ -357,6 +382,7 @@ namespace WebApplication2.Controllers
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
                 var SYS_ConfigId = Convert.ToInt32(id);
+
                 var getSYS_ConfigById = contextObj.SYS_Configs.FirstOrDefault(s => s.OptionItem_ID == SYS_ConfigId);
                 return Json(getSYS_ConfigById, JsonRequestBehavior.AllowGet);
             }

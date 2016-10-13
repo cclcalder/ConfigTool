@@ -39,10 +39,11 @@ namespace WebApplication2
                         "~/Content/SidebarTransitions/css/demo.css",
                         //"~/Content/SidebarTransitions/css/normalize.css",
                         "~/Content/SidebarTransitions/css/icons.css",
-                        "~/Content/CustomSiteCSS/Site.css",
+
                         "~/Scripts/angular-material/angular-material.min.css",
                         "~/node_modules/ag-grid/dist/styles/ag-grid.css",
-                        "~/Scripts/angular-bootstrap-tree-grid/treeGrid.css"
+                        "~/Scripts/angular-bootstrap-tree-grid/treeGrid.css",
+                                                "~/Content/CustomSiteCSS/Site.css"
                         ));
 
             bundles.Add(new ScriptBundle("~/bundles/angularJS").Include(

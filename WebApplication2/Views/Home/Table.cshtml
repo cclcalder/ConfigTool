@@ -2,25 +2,18 @@
     ViewBag.Title = "Table";
 }
 <body>
-
-
-    <div @*ng-controller="GetTablesCtrl"*@>
+    <div>
         <center>
-
-
             <div ng-if="wizardMode">
+                Task: task in wizard mode
                 <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="prevTable(@ViewBag.TableName)" href="#Table/{{prevTab}}"><i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i></md-button>
             </div>
-            &nbsp;
-            &nbsp;
-            &nbsp;
+            &nbsp; &nbsp; &nbsp;
             <h1 class="display-1">
                 @ViewBag.TableName
                 <small class="text-muted">Table</small>
             </h1>
-            &nbsp;
-            &nbsp;
-            &nbsp;
+            &nbsp; &nbsp; &nbsp;
             <div ng-if="wizardMode">
                 <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="nextTable(@ViewBag.TableName)" href="#Table/{{nextTab}}"><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></md-button>
             </div>
@@ -29,11 +22,15 @@
         </center>
     </div>
 
-
     <div style="text-align:left" ng-if="!error">
         <div ng-if="associatedTablesExist">
-            <div style="padding-left: 12pt; font-weight: bold;">@*<i class="fa fa-info" aria-hidden="true"></i>*@ Associated Tables:</div>
-            <md-list-item ng-repeat="Table in associatedTables">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" href="#Table/{{Table.Item2}}" ng-click="Load()">{{Table.Item1}}</a></md-list-item>
+            <div style="padding-left: 12pt; font-weight: bold; text-decoration: underline"> Associated Tables:</div>
+            <md-list-item class="md-2-line" ng-repeat="Table in associatedTables">
+                <div class="md-list-item-text" layout="column">
+                    <p><a class="sidenav" href="#Table/{{Table.typeName}}" ng-click="Load()">&nbsp;<b>-&nbsp;{{Table.isParent}}&nbsp;:</b> &nbsp;{{Table.relationship}}</a></p>
+                    <p><a class="sidenav" style="color:darkgrey">&nbsp;&nbsp;&nbsp;&nbsp;<b>Foreign Key&nbsp;:&nbsp;</b>{{Table.otherKey}}</a></p>
+                </div>
+            </md-list-item>
         </div>
         <md-button ng-click="sizeToFit()">Size to Fit</md-button>
         <md-button ng-click="autoSizeAll()">Auto-Size</md-button>
@@ -41,7 +38,6 @@
         <md-button class="md-raised" ng-click="onRemoveSelected()"><i class="fa fa-times" aria-hidden="true"></i> Delete Selected Record </md-button>
         <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onSave()">Save Changes</md-button>
         <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onRevert()">Revert Changes</md-button>
-        @*this will take you to created script*@
         <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="openCurrentScript()"><i class="fa fa-files-o fa-2x"></i></md-button>
     </div>
 
@@ -55,5 +51,4 @@
             </div>
         </div>
     </div>
-
 </body>
