@@ -138,15 +138,13 @@ namespace WebApplication2.Controllers
         #endregion
 
         #region agGrid
-        /* --------------------------------------- */
-        //NEW AGGRID GENERIC TABLE EDITOR STUFF
-
         public struct Result
         {
             public string headerArr;
             public string dataArr;
             public List<string> pKey;
             public List<AssociatedTable> fKeyTables; //headername, typename, and data for dropdowns
+            public string emptyRow;
         }
         public struct AssociatedTable
         {
@@ -186,15 +184,15 @@ namespace WebApplication2.Controllers
                     foreach (Header header in headers)
                     {
                         //general properties
+                        string type = ParseDbType(header.type);
                         var obj = new JObject();
                         var nameProp = new JProperty("headerName", header.name);
                         var fieldProp = new JProperty("field", header.name);
                         var widthProp = new JProperty("width", 150);
                         var editProp = new JProperty("editable", true);
                         //var nullProp = new JProperty("canBeNull", cellInfo[0].CanBeNull);
-                        var editorProp = new JProperty("cellEditor", ParseDbType(header.type));
-                        var rendererProp = new JProperty("renderer", ParseDbType(header.type));
-                        JProperty editorParamsProp = new JProperty("","");
+                        var typeProp = new JProperty("cellEditor", type);
+                        JProperty editorParamsProp = new JProperty("", "");
                         var fkFlag = false;
                         var pkFlag = pKeyNames.Contains(header.name);
 
@@ -202,37 +200,41 @@ namespace WebApplication2.Controllers
                         obj.Add(fieldProp);
                         obj.Add(widthProp);
 
+                        if (pkFlag && !fkFlag) { typeProp = new JProperty("cellEditor", "pKey"); editProp = new JProperty("editable", false); }
+                        if (type == "DateTime") //disable date time stuff - auto created from datbase - wont need to prepare the
+                        { editProp = new JProperty("editable", false); }
+                        if(type  == "largeText") { typeProp = new JProperty("cellEditor", type); }
+                        //add properties to object
+                        obj.Add(editProp);
+                        obj.Add(typeProp);
+
                         foreach (AssociatedTable aTable in associationTables)
                         {
-                            if(aTable.relationToCurrent == "Parent")
+                            if (aTable.relationToCurrent == "Parent")
                             {
                                 //need to implement a dropdown in currentKey col of foreignKey col
-                                if(header.name == aTable.currentKey)
+                                if (header.name == aTable.currentKey && !pKeyNames.Contains(header.name))
                                 {
                                     fkFlag = true;
-                                    editorProp = new JProperty("cellEditor", "popupSelect");
-                                    editorParamsProp = new JProperty("cellEditorParams", GetFKeyData(aTable));
-                                    if (pKeyNames.Contains(header.name))
-                                    {
-                                        rendererProp = new JProperty("renderer", "pKey");
-                                    }
+                                    editorParamsProp = new JProperty("editorParams", GetFKeyData(aTable));
+                                    //if (pKeyNames.Contains(header.name))
+                                    //{
+                                    //    typeProp = new JProperty("cellEditor", "pKey");
+                                    //}
                                 }
                             }
                         }
                         //overwrite customisations for : foreign key cols
-                        if (!pkFlag || fkFlag) { obj.Add(editorProp); }
-                        if (fkFlag) { obj.Add(editorParamsProp); rendererProp = new JProperty("renderer", "fkRenderer"); };
-                        if (pkFlag && !fkFlag) { rendererProp = new JProperty("renderer", "pKey");  editProp = new JProperty("editable", false); }
-
-                        //add properties to object
-                        obj.Add(editProp);
-                        obj.Add(rendererProp);
+                        //if (!pkFlag || fkFlag) { obj.Add(editorProp); }
+                        //thas
+                        if (fkFlag) { obj.Add(editorParamsProp); typeProp = new JProperty("cellEditor", "fKey"); };
                         headArr.Add(obj);
                     }
                     jsonResult.headerArr = headArr.ToString();
                     jsonResult.dataArr = dataArr.ToString();
                     jsonResult.pKey = pKeyNames;
                     jsonResult.fKeyTables = associationTables;
+                    jsonResult.emptyRow = NewTempRow(headers).ToString();
 
                     return Json(jsonResult, JsonRequestBehavior.AllowGet);
                 }
@@ -244,18 +246,25 @@ namespace WebApplication2.Controllers
         }
         public string ParseDbType(string dbType)
         {
-            if (dbType.Contains("Int")) { return "NumericCellEditor"; }
+            if (dbType.Contains("Int")) {
+                return "NumericCellEditor"; }
             else if (dbType.Contains("VarChar"))
             {
                 //shoudlr restrain char count
-                if(dbType.Contains("MAX")) { return "largetext";  }
-                else if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100 || dbType.Contains("MAX")) { return "text"; }
+                if (dbType.Contains("MAX")) { return "largetext"; }
+                else if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100 ) { return "text"; }
                 else return "largeText";
             }
-            else if (dbType.Contains("Xml")) { return "XmlEditor"; }
-            else if (dbType.Contains("DateTime")) { return "DateEditor"; }
-            else if (dbType.Contains("Bit")) { return "CheckBoxEditor"; }
-            else if (dbType.Contains("Unique")) { return "text"; }
+            else if (dbType.Contains("Xml")) {
+                return "XmlEditor"; }
+            else if (dbType.Contains("DateTime")) {
+                return "DateTime"; }
+            else if (dbType.Contains("Date")) {
+                return "Date"; }
+            else if (dbType.Contains("Bit")) {
+                return "CheckBoxEditor"; }
+            else if (dbType.Contains("Unique")) {
+                return "text"; }
             else return "New type: " + dbType;
         }
         public List<Header> GetHeaders(string name, List<AssociatedTable> ascTables)
@@ -321,12 +330,25 @@ namespace WebApplication2.Controllers
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                var getCol = getDataTable.foreignKey;
+                var getCol = getDataTable.foreignKey; //this is header of colData we want 
                 var tableType = Type.GetType("ConfigTool." + getDataTable.typeName + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-                var data = contextObj.GetTable(tableType).AsQueryable();
-                //select data where header = foreign key
-                return "{ cellRenderer: fkRenderer, values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
+                var item = contextObj.GetTable(tableType);
+                var obj = JArray.Parse(JsonConvert.SerializeObject(contextObj.GetTable(tableType), new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+                //var value = item.GetType();
+                //var next = value.GetProperty(getCol);
+                //var nnext = next.GetValue(item);
+                return "{ values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
             }
+        }
+
+        public JObject NewTempRow(List<Header> headers)
+        {
+            var emptyRecord = new JObject();
+            foreach (Header header in headers)
+            {
+                emptyRecord.Add(new JProperty(header.name, ""));
+            }
+            return emptyRecord;
         }
 
         //submit all changes on click and generate script

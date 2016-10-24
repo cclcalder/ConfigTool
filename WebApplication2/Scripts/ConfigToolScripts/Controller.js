@@ -33,23 +33,29 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
             }
 
             $scope.columnHeaders = JSON.parse(TableContent.data.headerArr);
+            $scope.tempRow = JSON.parse(TableContent.data.emptyRow);
             $scope.dataReturn = $scope.data;
             $scope.associatedTables = TableContent.data.fKeyTables;
+
+            //define renderers
             var typeRenderer = function (params) {
                 $scope.columnHeaders.forEach(function (head) {
                     head.cellRenderer = function (params) {
-                        switch (head.renderer) {
+                        switch (head.type) {
                             case "CheckBoxEditor":
-                                return '<md-checkbox aria-label="addWhenBound" type="checkbox">'
+                                return '<div style="text-align:center;"><md-checkbox class="orange" aria-label="addWhenBound" type="checkbox"><div>'
                                 return '<input type="checkbox">'
                                 break;
                             case "pKey":
                                 return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>'
                                 break;
-                            case "fkRenderer":
-                                return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>'
+                            case "fKey":
+                                return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;' + params.value + '</span>'
                                 break;
                             case "text":
+                                return '<span>' + params.value + '</span>'
+                                break;
+                            case "DateTime":
                                 return '<span>' + params.value + '</span>'
                                 break;
                             case "largeText":
@@ -59,16 +65,140 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                                 return '<span>' + params.value + '</span>'
                                 break;
                             case "NumericCellEditor":
-                                return '<span>' + params.value + '</span>'
+                                return '<div style="text-align: right;"><span>' + params.value + '</span></div>'
+                                return '<input type="number">'
                                 break;
-                            case "DateEditor":
+                            case "Date":
                                 return '<md-datepicker ng-model="params.input"></md-datepicker>'
+                                return '<input type="date">'
                                 break;
                         }
                     }
 
                 });
             };
+
+            var typeEditor = function (params) {
+                console.log('type renderer');
+                $scope.columnHeaders.forEach(function (head) {
+                    head.type = function (params) {
+                        switch (head.type) {
+                            case "CheckBoxEditor":
+                                return "CheckBoxEditor";
+                                break;
+                            case "pKey":
+                                return "'PKeyEditor'";
+                                break;
+                            case "fKey":
+                                return "select";
+                                break;
+                            case "text":
+                                return "'text'";
+                                break;
+                            case "largeText":
+                                return "'largeText'";
+                                break;
+                            case "XmlEditor":
+                                return "'largeText'";
+                                break;
+                            case "NumericCellEditor":
+                                return "NumericCellEditor";
+                                break;
+                            case "Date":
+                                return "NumericCellEditor";
+                                break;
+                        }
+                    }
+                })
+            };
+
+
+            /* --------- Cell Editor Testing ------------------------------------ */
+            function getCharCodeFromEvent(event) {
+                event = event || window.event;
+                return (typeof event.which == "undefined") ? event.keyCode : event.which;
+            }
+
+            function isCharNumeric(charStr) {
+                return !!/\d/.test(charStr);
+            }
+
+            function isKeyPressedNumeric(event) {
+                var charCode = getCharCodeFromEvent(event);
+                var charStr = String.fromCharCode(charCode);
+                return isCharNumeric(charStr);
+
+            }
+            // simple function cellRenderer, just returns back the name of the country
+            function CountryCellRenderer(params) {
+                return params.value.name;
+            }
+
+            // function to act as a class
+            function NumericCellEditor() {
+                $log.console('NumericaCellEditor..');
+            }
+
+            // gets called once before the renderer is used
+            NumericCellEditor.prototype.init = function (params) {
+                // create the cell
+                $log.console('NumericaCellEditor Init');
+
+                this.eInput = document.createElement('input');
+                this.eInput.value = isCharNumeric(params.charPress) ? params.charPress : params.value;
+
+                var that = this;
+                this.eInput.addEventListener('keypress', function (event) {
+                    if (!isKeyPressedNumeric(event)) {
+                        that.eInput.focus();
+                        if (event.preventDefault) event.preventDefault();
+                    }
+                });
+
+                // only start edit if key pressed is a number, not a letter
+                var charPressIsNotANumber = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
+                this.cancelBeforeStart = charPressIsNotANumber;
+            };
+
+            // gets called once when grid ready to insert the element
+            NumericCellEditor.prototype.getGui = function () {
+                return this.eInput;
+            };
+
+            // focus and select can be done after the gui is attached
+            NumericCellEditor.prototype.afterGuiAttached = function () {
+                this.eInput.focus();
+            };
+
+            // returns the new value after editing
+            NumericCellEditor.prototype.isCancelBeforeStart = function () {
+                return this.cancelBeforeStart;
+            };
+
+            // example - will reject the number if it contains the value 007
+            // - not very practical, but demonstrates the method.
+            NumericCellEditor.prototype.isCancelAfterEnd = function () {
+                var value = this.getValue();
+                return value.indexOf('007') >= 0;
+            };
+
+            // returns the new value after editing
+            NumericCellEditor.prototype.getValue = function () {
+                return this.eInput.value;
+            };
+
+            // any cleanup we need to be done here
+            NumericCellEditor.prototype.destroy = function () {
+                // but this example is simple, no cleanup, we could  even leave this method out as it's optional
+            };
+
+            // if true, then this editor will appear in a popup 
+            NumericCellEditor.prototype.isPopup = function () {
+                // and we could leave this method out also, false is the default
+                return false;
+            };
+
+
 
             //check for 'associated' tables
             if ($scope.associatedTables == 0) {
@@ -90,7 +220,9 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 rowSelection: 'multiple',
                 debug: true,
                 enableColResize: true,
-                cellRenderer: typeRenderer(),
+                cellEditor: typeEditor(),
+                //cellRenderer: typeRenderer(),
+
             };
 
             //init grid
@@ -122,7 +254,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         $scope.gridOptions.api.removeItems($scope.selection);
     }
 
-    var newCount = 1;
+    var newCount = 0;
     $scope.onAddRow = function () {
         console.log("onAddRow");
         $scope.unsavedChanges = true;
@@ -131,10 +263,9 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     }
 
     function tempNewRowData() {
-        console.log("Insert Record: " + $scope.dataReturn[0]); //this just copies last row of data instead of empty record..
-        var newData = $scope.dataReturn[0];
+        var newRow = $scope.tempRow;
         newCount++;
-        return newData;
+        return newRow;
     }
 
     $scope.getRowData = function () {
@@ -214,18 +345,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 });
 
 /* ----- Side Nav ----- */
-app.controller('NavCtrl', function ($scope, $timeout, $mdSidenav) {
-    $scope.toggleLeft = buildToggler('left');
-    $scope.toggleRight = buildToggler('right');
-
-    function buildToggler(componentId) {
-        return function () {
-            $mdSidenav(componentId).toggle();
-        }
-    }
-});
-
-/* ----- Side Nav ----- */
 app.controller('SideNavCtrl', function ($scope, $timeout, $mdSidenav, $log) {
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
@@ -287,7 +406,6 @@ app.controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
 
     };
 })
-
 /* ----- Home Setup ----- */
 app.controller('HomeSetupCtrl', function ($scope, $routeParams) {
     console.log("Ctrl = HomeSetupCtrl");
@@ -465,11 +583,11 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         var getTableNameData = crudAJService.getTables();
         getTableNameData.then(function (Table) {
             $scope.TableList = Table.data;
-            $scope.TableList.forEach(function(table) {
+            $scope.TableList.forEach(function (table) {
                 if (table == app.SYS_Telemetry) {
                     $scope.excludedTable = true;
                 }
-                });
+            });
         }, function () {
             alert('Error in getting Table Names');
         });
@@ -856,5 +974,6 @@ app.config(function ($routeProvider,
             templateUrl: function () { console.log("Route: Home/About/"); return "/Home/About ;" },
         })
         .otherwise({ redirectTo: '/Home/HomeSetup' });
+
 
 });
