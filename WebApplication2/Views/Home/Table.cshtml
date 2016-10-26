@@ -2,77 +2,78 @@
     ViewBag.Title = "Table";
 }
 <body>
-        <div>
-            <center>
-                <div ng-if="wizardMode">
-                    Task: task in wizard mode
-                    <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="prevTable(@ViewBag.TableName)" href="#Table/{{prevTab}}"><i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i></md-button>
-                </div>
-                &nbsp; &nbsp; &nbsp;
-                <h1 class="display-1">
-                    @ViewBag.TableName
-                    <small class="text-muted">Table</small>
-                </h1>
-                &nbsp; &nbsp; &nbsp;
-                <div ng-if="wizardMode">
-                    <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="nextTable(@ViewBag.TableName)" href="#Table/{{nextTab}}"><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></md-button>
-                </div>
+    <div>
+        <center>
 
-                <hr />
-            </center>
-        </div>
-
-        <div style="text-align:left" ng-if="!error">
-            <div ng-if="associatedTablesExist" style="background: rgba(255, 184, 77, 0.3)">
-                <div style="padding-left: 12pt; font-weight: bold; text-decoration: underline"> Associated Tables:</div>
-                <md-list-item class="md-3-line" ng-repeat="Table in associatedTables">
-                    <div class="md-list-item-text" layout="column">
-                        <p>
-                            <a class="sidenav" href="#Table/{{Table.typeName}}" ng-click="Load()">
-                                &nbsp;
-                                <i class="fa fa-table" aria-hidden="true"></i>
-                                <b>&nbsp;{{Table.relationToCurrent}} Table &nbsp;:</b> &nbsp;{{Table.typeName}}&nbsp;&nbsp;
-                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                            </a>
-                        </p>
-                        <p>
-                            <a class="sidenav" style="color:darkgrey; font-size:smaller">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
-                                <b>Relationship &nbsp;:&nbsp;</b>{{Table.relationshipStr}}
-                            </a>
-                        </p>
-                        <p>
-                            <a class="sidenav" style="color:darkgrey; font-size:smaller">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-key" aria-hidden="true"></i>&nbsp;
-                                <b>Key Relationships &nbsp;:&nbsp;</b>@ViewBag.TableName.{{Table.currentKey}} -> {{Table.typeName}}.{{Table.foreignKey}}
-                            </a>
-                        </p>
-                    </div>
-                </md-list-item>
-                <hr />
+            <h1 class="display-1">
+                @ViewBag.TableName
+                <small class="text-muted">Table</small>
+            </h1>
+            <div ng-if="wizardMode">
+                <p>
+                    <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="nextTask(@ViewBag.TableName)" href="#Table/{{prevTab}}"><i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i></md-button>
+                    @*parent and task?*@
+                    {{task}} &nbsp; <md-checkbox class="orange" type="checkbox">
+                    <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="nextTask(@ViewBag.TableName)" href="#Table/{{nextTab}}"><i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i></md-button>
+                </p>
             </div>
 
-            <md-button ng-click="sizeToFit()">Size to Fit</md-button>
-            <md-button ng-click="autoSizeAll()">Auto-Size</md-button>
-            <md-button class="md-raised" ng-click="onAddRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add New Record </md-button>
-            <md-button class="md-raised" ng-click="onRemoveSelected()"><i class="fa fa-times" aria-hidden="true"></i> Delete Selected Record </md-button>
-            <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onSave()">Save Changes</md-button>
-            <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onRevert()">Revert Changes</md-button>
-            <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="openCurrentScript()"><i class="fa fa-files-o"></i></md-button>
+
+            <hr />
+        </center>
+    </div>
+
+    <div style="text-align:left" ng-if="!error">
+        <div ng-if="associatedTablesExist" style="background: rgba(255, 184, 77, 0.3)">
+            <div style="padding-left: 12pt; font-weight: bold; text-decoration: underline"> Associated Tables:</div>
+            <md-list-item class="md-3-line" ng-repeat="Table in associatedTables">
+                <div class="md-list-item-text" layout="column">
+                    <p>
+                        <a class="sidenav" href="#Table/{{Table.typeName}}" ng-click="Load()">
+                            &nbsp;
+                            <i class="fa fa-table" aria-hidden="true"></i>
+                            <b>&nbsp;{{Table.relationToCurrent}} Table &nbsp;:</b> &nbsp;{{Table.typeName}}&nbsp;&nbsp;
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </p>
+                    <p>
+                        <a class="sidenav" style="color:darkgrey; font-size:smaller">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-cogs" aria-hidden="true"></i>&nbsp;
+                            <b>Relationship &nbsp;:&nbsp;</b>{{Table.relationshipStr}}
+                        </a>
+                    </p>
+                    <p>
+                        <a class="sidenav" style="color:darkgrey; font-size:smaller">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-key" aria-hidden="true"></i>&nbsp;
+                            <b>Key Relationships &nbsp;:&nbsp;</b>@ViewBag.TableName.{{Table.currentKey}} -> {{Table.typeName}}.{{Table.foreignKey}}
+                        </a>
+                    </p>
+                </div>
+            </md-list-item>
+            <hr />
         </div>
 
-        <div @*layout-padding*@ class="ag-root ag-scrolls" style="padding:1%;">
-            <div id="myGrid" ng-if="dataLoaded" ag-grid="gridOptions" style="height: 100%; width:100%; font-size:8pt" class="ag-fresh"></div>
-            <div ng-if="!dataLoaded">
-                <div class="container" style="margin-left:0px;margin-right:0px">
-                    <md-progress-linear md-mode="indeterminate" ng-disabled="!isLoading"></md-progress-linear>
-                    <div class="bottom-block">
-                        <span ng-if="isLoading">Loading data..</span>
-                        <center><span style="color:red; text-align:center;" ng-if="!isLoading"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Error loading data!</span></center>
-                    </div>
+        <md-button ng-click="sizeToFit()">Size to Fit</md-button>
+        <md-button ng-click="autoSizeAll()">Auto-Size</md-button>
+        <md-button class="md-raised" ng-click="onAddRow()"><i class="fa fa-plus" aria-hidden="true"></i> Add New Record </md-button>
+        <md-button class="md-raised" ng-click="onRemoveSelected()"><i class="fa fa-times" aria-hidden="true"></i> Delete Selected Record </md-button>
+        <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onSave()">Save Changes</md-button>
+        <md-button class="md-raised md-primary" ng-disabled="!unsavedChanges" ng-click="onRevert()">Revert Changes</md-button>
+        <md-button class="md-icon-button md-primary" ng-disabled="unsavedChanges" ng-click="openCurrentScript()"><i class="fa fa-files-o"></i></md-button>
+    </div>
+
+    <div @*layout-padding*@ class="ag-root ag-scrolls" style="padding:1%;">
+        <div id="myGrid" ng-if="dataLoaded" ag-grid="gridOptions" style="height: 100%; width:100%; font-size:8pt" class="ag-fresh"></div>
+        <div ng-if="!dataLoaded">
+            <div class="container" style="margin-left:0px;margin-right:0px">
+                <md-progress-linear md-mode="indeterminate" ng-disabled="!isLoading"></md-progress-linear>
+                <div class="bottom-block">
+                    <span ng-if="isLoading">Loading data..</span>
+                    <center><span style="color:red; text-align:center;" ng-if="!isLoading"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Error loading data!</span></center>
                 </div>
             </div>
         </div>
+    </div>
 </body>

@@ -1057,6 +1057,7 @@
     <Content Include="Scripts\ConfigToolScripts\GridController.js" />
     <Content Include="Scripts\ConfigToolScripts\Module.js" />
     <Content Include="Scripts\ConfigToolScripts\Service.js" />
+    <Content Include="Scripts\ConfigToolScripts\SharedPropertiesService.js" />
     <Content Include="Scripts\ConfigToolScripts\WizardController.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -1963,8 +1964,10 @@
     <Folder Include="App_Data\" />
     <Folder Include="node_modules\ag-grid\node_modules\css-loader\node_modules\cssnano\node_modules\postcss-calc\node_modules\reduce-css-calc\node_modules\math-expression-evaluator\" />
     <Folder Include="Roles\" />
+    <Folder Include="Scripts\angular-chart.js\" />
     <Folder Include="Scripts\angular-material\layouts\" />
     <Folder Include="Scripts\angular-material\modules\" />
+    <Folder Include="Scripts\chart.js\" />
     <Folder Include="Views\Setup\" />
     <Folder Include="Views\Wizard\" />
   </ItemGroup>

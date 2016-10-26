@@ -50,19 +50,27 @@ namespace WebApplication2
                         "~/Scripts/angular.js",
                         "~/Scripts/angular-route.js",
                         "~/Scripts/angular-resource.js",
-                        "~/Scripts/angular-bootstrap-tree-grid/tree-grid-directive.js"));
+                        "~/Scripts/angular-bootstrap-tree-grid/tree-grid-directive.js"
+                        ));
+
+            bundles.Add(new ScriptBundle("~/bundles/angularChart").Include(
+                        "~/Scripts/chart.js/dist/Chart.min.js",
+                        "~/Scripts/angular-chart.js/dist/angular-chart.min.js"
+
+                ));
 
             bundles.Add(new ScriptBundle("~/bundles/customJS").Include(
                         "~/Scripts/ConfigToolScripts/Module.js",
                         "~/Scripts/ConfigToolScripts/Service.js",
+                        "~/Scripts/ConfigToolScripts/SharedPropertiesService.js",
                         "~/Scripts/ConfigToolScripts/Controller.js",
                         "~/Scripts/ConfigToolScripts/WizardController.js",
                         "~/Scripts/ConfigToolScripts/GridController.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/JSplugins").Include(
-                        "~/Scripts/fastclick.js",
-                        "~/Content/SidebarTransitions/js/classie.js",
-                        "~/Content/SidebarTransitions/js/sidebarEffects.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/JSplugins").Include(
+            //            "~/Scripts/fastclick.js",
+            //            "~/Content/SidebarTransitions/js/classie.js",
+            //            "~/Content/SidebarTransitions/js/sidebarEffects.js"));
         }
     }
 }

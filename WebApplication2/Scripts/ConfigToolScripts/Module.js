@@ -2,7 +2,7 @@
 agGrid.initialiseAgGridWithAngular1(angular);
 
 var app = angular.module("mvcCRUDApp",
-    ['ui.bootstrap', 'ngResource', "ngMaterial", "ngAnimate", "ngAria", 'ngRoute', "agGrid", "treeGrid"
+    ['ui.bootstrap', 'ngResource', "ngMaterial", "ngAnimate", "ngAria", 'ngRoute', "agGrid", "treeGrid", "chart.js"
        //'ngMessages'
     ]
 );

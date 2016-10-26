@@ -2,7 +2,7 @@
 
 /* ----- agGrid CRUD ----- */
 // --- THIS NEEDS TO BE SPLIT INTO LOTS OF DIFFERENT CONTROLS - WAY TOO MUCH HERE AT THE MOMENT
-app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog, crudAJService) {
+app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog, crudAJService, sharedService) {
     console.log("TableCtrl, " + $routeParams.tablename);
     $scope.tablename = $routeParams.tablename;
 
@@ -11,11 +11,20 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
     $scope.unsavedChanges = false;
-    $scope.wizardMode = false;
+    $scope.wizardMode = true;
     $scope.error = false;
-
+    if ($scope.wizardMode) {
+        $scope.task = sharedService.getTask();
+    }
+    console.log($scope.task);
     // --- CALLED BELOW
     //load data and init grid
+
+
+
+    //SOMETHING ABOUT ANGULAR COMPILE ROWS...
+
+
     function LoadTableContent() {
 
         $scope.dataLoaded = false;
@@ -43,7 +52,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     head.cellRenderer = function (params) {
                         switch (head.type) {
                             case "CheckBoxEditor":
-                                return '<div style="text-align:center;"><md-checkbox class="orange" aria-label="addWhenBound" type="checkbox"><div>'
+                                return '<div style="text-align:center;"><md-checkbox ng-model="params.value"class="orange" aria-label="addWhenBound" type="checkbox"><div>'
                                 return '<input type="checkbox">'
                                 break;
                             case "pKey":
@@ -78,40 +87,45 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 });
             };
 
-            var typeEditor = function (params) {
-                console.log('type renderer');
-                $scope.columnHeaders.forEach(function (head) {
-                    head.type = function (params) {
-                        switch (head.type) {
-                            case "CheckBoxEditor":
-                                return "CheckBoxEditor";
-                                break;
-                            case "pKey":
-                                return "'PKeyEditor'";
-                                break;
-                            case "fKey":
-                                return "select";
-                                break;
-                            case "text":
-                                return "'text'";
-                                break;
-                            case "largeText":
-                                return "'largeText'";
-                                break;
-                            case "XmlEditor":
-                                return "'largeText'";
-                                break;
-                            case "NumericCellEditor":
-                                return "NumericCellEditor";
-                                break;
-                            case "Date":
-                                return "NumericCellEditor";
-                                break;
-                        }
-                    }
-                })
-            };
+            //var typeEditor = function (params) {
+            //    console.log('type renderer');
+            //    $scope.columnHeaders.forEach(function (head) {
+            //        head.type = function (params) {
+            //            console.log(head.type);
+            //            switch (head.type) {
+            //                case "CheckBoxEditor":
+            //                    return "'CheckBoxEditor'";
+            //                    break;
+            //                case "pKey":
+            //                    return "'PKeyEditor'";
+            //                    break;
+            //                case "fKey":
+            //                    return "'select'";
+            //                    break;
+            //                case "text":
+            //                    return "'text'";
+            //                    break;
+            //                case "largeText":
+            //                    return "'largeText'";
+            //                    break;
+            //                case "XmlEditor":
+            //                    return "'largeText'";
+            //                    break;
+            //                case "NumericCellEditor":
+            //                    return "'NumericCellEditor'";
+            //                    break;
+            //                case "Date":
+            //                    return "'NumericCellEditor'";
+            //                    break;
+            //            }
+            //        }
+            //    })
+            //};
 
+            //add this to numeric cells
+            function sizeCellStyle() {
+                return { 'text-align': 'right' };
+            }
 
             /* --------- Cell Editor Testing ------------------------------------ */
             function getCharCodeFromEvent(event) {
@@ -220,8 +234,8 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 rowSelection: 'multiple',
                 debug: true,
                 enableColResize: true,
-                cellEditor: typeEditor(),
-                //cellRenderer: typeRenderer(),
+                //cellEditor: typeEditor(),
+                cellRenderer: typeRenderer(),
 
             };
 
@@ -573,7 +587,7 @@ app.controller('ModeContinueCtrl', function ($scope, $mdDialog, $location) {
 /* ----- Mode Compare ----- */
 
 /* ----- Table List ----- */
-app.controller("GetTablesCtrl", function ($scope, crudAJService) {
+app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, $log) {
     console.log("Ctrl = GetTablesCtrl");
     //Loads all table names from the data base into navbar
     $scope.excludedTable = false;
@@ -593,13 +607,13 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
         });
     }
 
-    //$scope.prevTable = function (current) {
+    //$scope.prevTask = function (current) {
     //    var n = tableN(current);
     //    console.log("n:" + n);
     //    console.log("going to prev table bbi" + $scope.TableList[n - 1]);
     //    $scope.prevTab = $scope.TableList[n - 1];
     //}
-    //$scope.nextTable = function (current) {
+    //$scope.nextTask = function (current) {
     //    var n = tableN(current);
     //    console.log("going to next table bbi");
     //    $scope.nextTab = $scope.TableList[n + 1];
@@ -619,218 +633,326 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService) {
     //    console.log(current);
     //    console.log($scope.nextTab);
     //}
-
-
-    //data for wizard tree -- turn into .json file
-    $scope.tree_data = [
-        {
-            Task: 'Master Data Setup',
-            Done: ' ',
-
-            children: [
-                {
-                    Task: 'Setup Sales Orgs and Customer Hierarchy / Levels',
-                    Done: ' ',
-                    children: [
-                        {
-                            Task: 'Review app.SYS_Config',
-                            Done: ' '
-                        }
-                    ]
-                },
+    (function () {
+        
+        //$log.debug($scope.task);
+        //-- into .json file
+        var rowData = [
             {
-                Task: 'Setup Product Hierarchy / Levels',
-                Done: ' ',
+                folder: true,
+                open: true,
+                name: 'Master Data Setup',
+                done: 'false',
                 children: [
                     {
-                        Task: 'Review setup.ETL_UK_Load_Products',
-                        Done: ' '
-                    }
+                        folder: true,
+                        open: true,
+                        name: 'Setup Sales Orgs and Customer Hierarchy / Levels',
+                        done: 'false',
+                        children: [
+                            { name: 'Review app.SYS_Config', table: 'app.SYS_Config', dateChanged: '25/10/2016', done: 'false' }
+                        ]
+                    },
+                    {
+                        folder: true,
+                        name: 'Setup Product Hierarchy / Levels',
+                        done: 'false',
+                        open: true,
+                        children: [
+                            {
+                                name: 'Review setup.ETL_UK_Load_Products',
+                                table: 'setup.ETL_UK_Load_Products',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            }
+                        ]
+                    },
+                    {
+                        folder: true,
+                        open: true,
+                        name: 'Setup Measures and Attributes',
+                        done: 'false',
+                        children: [
+                            {
+                                name: 'Setup app.Dim_Product_Cust_Measures',
+                                table: 'app.Dim_Product_Cust_Measures',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            },
+                            {
+                                name: 'Setup app.Dim_Product_Sku_Measures',
+                                table: 'app.Dim_Product_Sku_Measures',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            },
+                            {
+                                name: 'Setup app.Dim_Product_Sku_Cust_Measures',
+                                table: 'app.Dim_Product_Sku_Cust_Measures',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            },
+                            {
+                                name: 'Setup app.Dim_Product_Cust_Attributes',
+                                table: 'app.Dim_Product_Cust_Attributes',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            },
+                            {
+                                name: 'Setup app.Dim_Product_Sku_Attributes',
+                                table: 'app.Dim_Product_Sku_Attributes',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            },
+                            {
+                                name: 'Setup app.Dim_Product_Sku_Cust_Attribute',
+                                table: 'app.Dim_Product_Sku_Cust_Attribute',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            }
+                        ]
+                    },
+                    ]
+            },
+            {
+                folder: true,
+                open: true,
+                name: 'General Setup',
+                done: 'false',
+                children: [
+                    {
+                        name: 'Set Base Unit Of Measure',
+                        table: 'app.SYS_Config',
+                        dateChanged: '25/10/2016',
+                        done: 'false'
+                    },
+                    {
+                        name: 'Set Deleting Policy',
+                        table: 'app.SYS_Config',
+                        dateChanged: '25/10/2016',
+                        done: 'false'
+                    },
+                    {
+                        name: 'Set Password Policy',
+                        table: 'app.SYS_Config',
+                        dateChanged: '25/10/2016',
+                        done: 'false'
+                    },
+                    {
+                        name: 'Config client Calendar View',
+                        table: 'clnt.vw_Dim_Calendar',
+                        dateChanged: '25/10/2016',
+                        done: 'false'
+                    },
+                    {
+                        name: 'Review References to “Demo”',
+                        table: 'app.SYS_Config',
+                        dateChanged: '25/10/2016',
+                        done: 'false'
+                    },
+                    {
+                        folder: true,
+                        name: 'Remove any screens and tabs not in scope',
+                        done: 'false',
+                        children: [
+                            {
+                                name: 'Remove Screens',
+                                table: 'app.SYS_Screens',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            },
+                            {
+                                name: 'Remove ScreenTabs',
+                                table: 'app.SYS_ScreenTabs',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            },
+                            {
+                                name: 'Remove ScreenGroups',
+                                table: 'app.Fact_Screen_ScreenGroup',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Update languages settings for any renaming of screens, tabs and controls',
+                        table: 'app.Dim_Language_AppLabels',
+                        dateChanged: '25/10/2016',
+                        done: 'false'
+                    },
+
                 ]
             },
             {
-                Task: 'Setup Measures and Attributes',
-                Done: ' ',
+                folder: true,
+                open: true,
+                name: 'Planning Screen Configuration',
+                done: 'false',
                 children: [
-                    {
-                        Task: 'app.Dim_Product_Cust_Measures',
-                        Done: ' '
-                    },
-                    {
-                        Task: 'app.Dim_Product_Sku_Measures',
-                        Done: ' '
-                    },
-                    {
-                        Task: 'app.Dim_Product_Sku_Cust_Measures',
-                        Done: ' '
-                    },
-                    {
-                        Task: 'app.Dim_Product_Cust_Attributes',
-                        Done: ' '
-                    },
-                    {
-                        Task: 'app.Dim_Product_Sku_Attributes',
-                        Done: ' '
-                    },
-                    {
-                        Task: 'app.Dim_Product_Sku_Cust_Attribute',
-                        Done: ' '
-                    }
+                   {
+                       folder: true,
+                       name: 'Setup Master Data',
+                       done: 'false',
+                       children: [
+                           {
+                               name: 'Review and modify as appropriate',
+                               table: 'app.Dim_Planning_Volume_MeasureGroups',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
+                           },
+                           {
+                               name: 'Review and modify as appropriate',
+                               table: 'app.Dim_Planning_Volume_Measures',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
+                           },
+                           {
+                               name: 'Review and modify as appropriate',
+                               table: 'app.Dim_Planning_Time_Range',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
+                           },
+                           {
+                               name: 'Review and modify as appropriate',
+                               table: 'app.Dim_Planning_Time_Levels',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
+                           }
+                       ]
+                   },
+                   {
+                       folder: true,
+                       name: 'Test',
+                       done: 'false',
+                       children: [
+                           {
+                               name: 'Check volume saves and reloads, and unit of measure correctly set',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
+                           }
+                       ]
+                   }
                 ]
             },
-            ]
-        },
-        {
-            Task: 'General Setup',
-            Done: ' ',
+            {
+                open: true,
+                name: 'Promotions Configuration',
+                done: 'false',
+            },
+            {
+                open: true,
+                name: 'Terms Configuration',
+                done: 'false',
+            },
+            {
+                open: true,
+                name: 'Management Adjustment Configuration',
+                done: 'false',
 
-            children: [
-                {
-                    Task: 'Set Base Unit Of Measure',
-                    Done: ' ',
-                    children: [
-                        {
-                            Task: 'app.SYS_Config',
-                            Done: ' '
-                        }
-                    ]
-                },
-                {
-                    Task: 'Set Deleting Policy',
-                    Done: ' ',
-                    children: [
-                        {
-                            Task: 'app.SYS_Config',
-                            Done: ' '
-                        }
-                    ]
-                },
-                {
-                    Task: 'Set Password Policy',
-                    Done: ' ',
-                    children: [
-                        {
-                            Task: 'app.SYS_Config',
-                            Done: ' '
-                        }
-                    ]
-                },
-                {
-                    Task: 'Config client Calendar View',
-                    Done: ' ',
-                    children: [
-                        {
-                            Task: 'clnt.vw_Dim_Calendar',
-                            Done: ' '
-                        }
-                    ]
-                },
-                {
-                    Task: 'Review References to “Demo”',
-                    Done: ' ',
-                    children: [
-                        {
-                            Task: 'app.SYS_Config',
-                            Done: ' '
-                        }
-                    ]
-                },
-                {
-                    Task: 'Remove any screens and tabs not in scope',
-                    Done: ' ',
-                    children: [
-                        {
-                            Task: 'app.SYS_Screens',
-                            Done: ' '
-                        },
-                        {
-                            Task: 'app.SYS_ScreenTabs',
-                            Done: ' '
-                        },
-                        {
-                            Task: 'app.Fact_Screen_ScreenGroup',
-                            Done: ' '
-                        }
-                    ]
-                },
-                {
-                    Task: 'Update languages settings for any renaming of screens, tabs and controls',
-                    Done: ' ',
-                    children: [
-                        {
-                            Task: 'app.Dim_Language_AppLabels',
-                            Done: ' '
-                        }
-                    ]
-                },
+            },
+            {
+                open: true,
+                name: 'Risk And Ops Configuration',
+                done: 'false',
 
-            ]
-        },
-        {
-            Task: 'Planning Screen Configuration',
-            Done: ' ',
-            children: [
-               {
-                   Task: 'Setup Master Data',
-                   Done: ' ',
-                   children: [
-                       {
-                           Task: 'Review and modify as appropriate app.Dim_Planning_Volume_MeasureGroups',
-                           Done: ' '
-                       },
-                       {
-                           Task: 'Review and modify as appropriate app.Dim_Planning_Volume_Measures',
-                           Done: ' '
-                       },
-                       {
-                           Task: 'Review and modify as appropriate app.Dim_Planning_Time_Range',
-                           Done: ' '
-                       },
-                       {
-                           Task: 'Review and modify as appropriate app.Dim_Planning_Time_Levels',
-                           Done: ' '
-                       }
-                   ]
-               },
-               {
-                   Task: 'Test',
-                   Done: ' ',
-                   children: [
-                       {
-                           Task: 'Check volume saves and reloads, and unit of measure correctly set',
-                           Done: ' '
-                       }
-                   ]
-               }
-            ]
-        },
-        {
-            Task: 'Promotions Configuration',
-            Done: ' ',
-        },
-        {
-            Task: 'Terms Configuration',
-            Done: ' ',
-        },
-        {
-            Task: 'Management Adjustment Configuration',
-            Done: ' ',
+            },
+            {
+                open: true,
+                name: 'Funds',
+                done: 'false',
+                group: false
+            }
+        ];
 
-        },
-        {
-            Task: 'Risk And Ops Configuration',
-            Done: ' ',
+        var columnDefs = [
+            {
+                headerName: "Task", field: "name", cellRenderer: 'group', width: 350, cellStyle : infoStyle,
+                cellRendererParams: {
+                    innerRenderer: innerCellRenderer
+                }
+            },
+            { headerName: "Go To Table", field: "table", cellRenderer: tableLink, width: 250 },
+            { headerName: "Complete", field: "done", cellRenderer: checkBoxRenderer, width: 60, editable: true },
+            { headerName: "Date Modified", field: "dateChanged", cellStyle: centerStyle, width: 100 }
+        ];
+       
+        var gridOptions = {
+            columnDefs: columnDefs,
+            rowData: rowData,
+            rowSelection: 'multiple',
+            rowHeight: 35,
+            getNodeChildDetails: function (task) {
+                if (task.folder) {
+                    return {
+                        group: true,
+                        children: task.children,
+                        expanded: task.open
+                    };
+                } else {
+                    return null;
+                }
+            },
+            icons: {
+                groupExpanded: '<i class="fa fa-minus-square-o"/>',
+                groupContracted: '<i class="fa fa-plus-square-o"/>'
+            },
+            onRowClicked: rowClicked
 
-        },
-        {
-            Task: 'Funds',
-            Done: ' ',
+        };
 
+        function rowClicked(params) {
+            sharedService.setTask(params.data.name);
+            var node = params.node;
+            var path = node.data.name;
+            while (node.parent) {
+                node = node.parent;
+                path = node.data.name + '\\' + path;
+                
+            }
+            //document.querySelector('#selectedFile').innerHTML = path;
         }
-    ];
 
-    //if cell name is done renderer = checkbox
-    //save to local app database? along with projects and progress etc
+        function centerStyle() {
+            return { 'text-align': 'center' };
+        }
+
+        function infoStyle() {
+            return { 'white-space': 'normal' };
+        }
+
+        function innerCellRenderer(params) {
+            var image;
+            if (params.node.group) {
+                image = params.node.level === 0 ? '<i class="fa fa-tasks" aria-hidden="true"></i> &nbsp;&nbsp;' : ' <i class="fa fa-cubes" aria-hidden="true"></i> &nbsp;&nbsp;';
+            } else {
+                image = "<i  style='color:#696969'class='fa fa-arrow-right' aria-hidden='true'></i> &nbsp;&nbsp;";
+            }
+            return  image + params.data.name;
+        }
+
+        function tableExists(table) {
+            console.log("check table exists in connected database");
+            return false;
+        }
+
+        function tableLink(params) {
+            if (params.data.table != null) {
+                
+                //console.log(params.data.name + params.data);
+                //return "<div  style='color:#0000FF'> "+ params.data.table+"</div>";
+                return "&nbsp; <a style='color:#696969;' ng-disabled = tableExists(" + params.data.table + ") href='#Table/" + params.data.table.replace('app.', '') + "'>" + params.data.table + "<a>";
+            }
+            else return ' ';
+           
+        };
+
+        function checkBoxRenderer(params) {
+            //return '<div style="text-align:center;"><md-checkbox ng-model="'+params.data.done+'"class="orange" aria-label="addWhenBound" type="checkbox"></div>';
+            return '<div style="text-align:center;"><input type="checkbox"><div>';
+        };
+
+        $scope.gridOptions = gridOptions;
+    })();
 
 });
 

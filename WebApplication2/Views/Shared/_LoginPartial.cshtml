@@ -43,7 +43,7 @@
                     <md-list-item><a class="sidenav" href="#ModeSetup">Mode Setup</a></md-list-item>
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-magic" aria-hidden="true"></i>&nbsp;Wizard</md-subheader>
                     <md-list-item><a class="sidenav" href="#Index">Wizard Progress</a></md-list-item>
-                    <tree-grid style="font-size: 12px;" tree-data="tree_data"></tree-grid>
+                    @*<tree-grid style="font-size: 12px;" tree-data="tree_data"></tree-grid>*@
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-table" aria-hidden="true"></i>&nbsp;Tables (Disabled in Wizard Mode)</md-subheader>
                     <md-list-item ng-disabled="excludedTable" ng-repeat="Table in TableList" href="#Table/{{Table.Item2}}">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" ng-click="Load()"  >{{Table.Item1}}</a></md-list-item>
                 </md-list>
