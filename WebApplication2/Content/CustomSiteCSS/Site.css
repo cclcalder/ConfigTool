@@ -41,7 +41,7 @@ a.sidenav:focus, a.sidenav:hover{
 }
 hr{
     border-top-width:1.5px;
-    border-top-color:#edecec;
+    border-top-color:#d2d6de;
 }
 
 .loader{
@@ -129,6 +129,11 @@ md-checkbox.md-checked.orange .md-icon {
     transition: .25s transform;*/
 }
 
+@media (max-width: 1919px) and (min-width: 12080px) .hide-gt-md:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show), .hide-gt-sm:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show), .hide-gt-xs:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show), .hide-lg:not(.show-lg):not(.show-gt-md):not(.show-gt-sm):not(.show-gt-xs):not(.show), .hide:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show)
+{
+
+}
+
 .heads-up {
     transform: translateY(-6rem);
     transform: translate3d(0,-6rem,0);
@@ -142,12 +147,7 @@ md-checkbox.md-checked.orange .md-icon {
 
 .main-header nav2 {
     position: absolute;
-    z-index: 0;
-    padding-top: 5px;
-    padding-left: 10px;
     color: rgb(48,48,48);
-    float: left;
-    font-size: 2.4rem;
 }
 
 .main-header nav1 ul {

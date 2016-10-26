@@ -1,13 +1,39 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-
-<h1 class="display-1" style="text-align:center">
-    Wizard
-    <small class="text-muted">Progress</small>
-</h1>
-<hr />
 <div ng-controller="GetTablesCtrl">
+    <h1 class="display-1" style="text-align:center">
+        Wizard
+        <small class="text-muted">Progress</small>
+    </h1>
+    <hr />
+    @*chart*@<div layout="row">
+        <div flex>
+           <b>Master Data Setup</b>
+        </div>
+        <div flex>
+            <b>General Setup</b>
+        </div>
+        <div flex>
+            <b>Screen Configuration</b>
+        </div>
+    </div>
+    @*chart*@<div layout="row">
+        <div flex>
+            <canvas id="doughnut" class="chart chart-doughnut"
+                    chart-data="masterData" chart-labels="masterLabels"></canvas>
+        </div>
+        <div flex>
+            <canvas id="doughnut" class="chart chart-doughnut"
+                    chart-data="doughnutData" chart-labels="doughnutLabels"></canvas>
+        </div>
+        <div flex>
+            <canvas id="doughnut" class="chart chart-doughnut"
+                    chart-data="doughnutData" chart-labels="doughnutLabels"></canvas>
+        </div>
+    </div>
+    <hr />
+
     <div id="wizardGrid" ag-grid="gridOptions" style="font-size:8pt;" class="ag-fresh"></div>
 </div>
 

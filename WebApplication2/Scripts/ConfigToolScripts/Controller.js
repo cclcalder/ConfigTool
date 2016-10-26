@@ -20,10 +20,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     // --- CALLED BELOW
     //load data and init grid
 
-
-
     //SOMETHING ABOUT ANGULAR COMPILE ROWS...
-
 
     function LoadTableContent() {
 
@@ -211,8 +208,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 // and we could leave this method out also, false is the default
                 return false;
             };
-
-
 
             //check for 'associated' tables
             if ($scope.associatedTables == 0) {
@@ -633,9 +628,8 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
     //    console.log(current);
     //    console.log($scope.nextTab);
     //}
+
     (function () {
-        
-        //$log.debug($scope.task);
         //-- into .json file
         var rowData = [
             {
@@ -711,7 +705,7 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
                             }
                         ]
                     },
-                    ]
+                ]
             },
             {
                 folder: true,
@@ -786,87 +780,93 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
             {
                 folder: true,
                 open: true,
-                name: 'Planning Screen Configuration',
+                name: 'Screen Configuration',
                 done: 'false',
                 children: [
-                   {
-                       folder: true,
-                       name: 'Setup Master Data',
-                       done: 'false',
-                       children: [
+                    {
+                        name: 'Planning Screen Configuration',
+                        done: 'false',
+                        children: [
                            {
-                               name: 'Review and modify as appropriate',
-                               table: 'app.Dim_Planning_Volume_MeasureGroups',
-                               dateChanged: '25/10/2016',
-                               done: 'false'
+                               folder: true,
+                               name: 'Setup Master Data',
+                               done: 'false',
+                               children: [
+                                   {
+                                       name: 'Review and modify as appropriate',
+                                       table: 'app.Dim_Planning_Volume_MeasureGroups',
+                                       dateChanged: '25/10/2016',
+                                       done: 'false'
+                                   },
+                                   {
+                                       name: 'Review and modify as appropriate',
+                                       table: 'app.Dim_Planning_Volume_Measures',
+                                       dateChanged: '25/10/2016',
+                                       done: 'false'
+                                   },
+                                   {
+                                       name: 'Review and modify as appropriate',
+                                       table: 'app.Dim_Planning_Time_Range',
+                                       dateChanged: '25/10/2016',
+                                       done: 'false'
+                                   },
+                                   {
+                                       name: 'Review and modify as appropriate',
+                                       table: 'app.Dim_Planning_Time_Levels',
+                                       dateChanged: '25/10/2016',
+                                       done: 'false'
+                                   }
+                               ]
                            },
                            {
-                               name: 'Review and modify as appropriate',
-                               table: 'app.Dim_Planning_Volume_Measures',
-                               dateChanged: '25/10/2016',
-                               done: 'false'
-                           },
-                           {
-                               name: 'Review and modify as appropriate',
-                               table: 'app.Dim_Planning_Time_Range',
-                               dateChanged: '25/10/2016',
-                               done: 'false'
-                           },
-                           {
-                               name: 'Review and modify as appropriate',
-                               table: 'app.Dim_Planning_Time_Levels',
-                               dateChanged: '25/10/2016',
-                               done: 'false'
+                               folder: true,
+                               name: 'Test',
+                               done: 'false',
+                               children: [
+                                   {
+                                       name: 'Check volume saves and reloads, and unit of measure correctly set',
+                                       dateChanged: '25/10/2016',
+                                       done: 'false'
+                                   }
+                               ]
                            }
-                       ]
-                   },
-                   {
-                       folder: true,
-                       name: 'Test',
-                       done: 'false',
-                       children: [
-                           {
-                               name: 'Check volume saves and reloads, and unit of measure correctly set',
-                               dateChanged: '25/10/2016',
-                               done: 'false'
-                           }
-                       ]
-                   }
+                        ]
+                    },
+                    {
+                        open: true,
+                        name: 'Promotions Configuration',
+                        done: 'false',
+                    },
+                    {
+                        open: true,
+                        name: 'Terms Configuration',
+                        done: 'false',
+                    },
+                    {
+                        open: true,
+                        name: 'Management Adjustment Configuration',
+                        done: 'false',
+
+                    },
+                    {
+                        open: true,
+                        name: 'Risk And Ops Configuration',
+                        done: 'false',
+
+                    },
+                    {
+                        open: true,
+                        name: 'Funds',
+                        done: 'false',
+                        group: false
+                    }
                 ]
-            },
-            {
-                open: true,
-                name: 'Promotions Configuration',
-                done: 'false',
-            },
-            {
-                open: true,
-                name: 'Terms Configuration',
-                done: 'false',
-            },
-            {
-                open: true,
-                name: 'Management Adjustment Configuration',
-                done: 'false',
-
-            },
-            {
-                open: true,
-                name: 'Risk And Ops Configuration',
-                done: 'false',
-
-            },
-            {
-                open: true,
-                name: 'Funds',
-                done: 'false',
-                group: false
             }
         ];
 
         var columnDefs = [
             {
-                headerName: "Task", field: "name", cellRenderer: 'group', width: 350, cellStyle : infoStyle,
+                headerName: "Task", field: "name", cellRenderer: 'group', width: 350, cellStyle: infoStyle,
                 cellRendererParams: {
                     innerRenderer: innerCellRenderer
                 }
@@ -875,7 +875,7 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
             { headerName: "Complete", field: "done", cellRenderer: checkBoxRenderer, width: 60, editable: true },
             { headerName: "Date Modified", field: "dateChanged", cellStyle: centerStyle, width: 100 }
         ];
-       
+
         var gridOptions = {
             columnDefs: columnDefs,
             rowData: rowData,
@@ -907,10 +907,12 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
             while (node.parent) {
                 node = node.parent;
                 path = node.data.name + '\\' + path;
-                
+
             }
             //document.querySelector('#selectedFile').innerHTML = path;
         }
+
+        $scope.parents = rowData.data;
 
         function centerStyle() {
             return { 'text-align': 'center' };
@@ -927,7 +929,7 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
             } else {
                 image = "<i  style='color:#696969'class='fa fa-arrow-right' aria-hidden='true'></i> &nbsp;&nbsp;";
             }
-            return  image + params.data.name;
+            return image + params.data.name;
         }
 
         function tableExists(table) {
@@ -937,13 +939,13 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
 
         function tableLink(params) {
             if (params.data.table != null) {
-                
+
                 //console.log(params.data.name + params.data);
                 //return "<div  style='color:#0000FF'> "+ params.data.table+"</div>";
                 return "&nbsp; <a style='color:#696969;' ng-disabled = tableExists(" + params.data.table + ") href='#Table/" + params.data.table.replace('app.', '') + "'>" + params.data.table + "<a>";
             }
             else return ' ';
-           
+
         };
 
         function checkBoxRenderer(params) {
@@ -953,6 +955,14 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
 
         $scope.gridOptions = gridOptions;
     })();
+
+    console.log($scope.parents+'!!!');
+
+    $scope.masterLabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales","test", "t2"];
+    $scope.masterData = [300, 500, 100, 80, 200];
+
+    $scope.doughnutLabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+    $scope.doughnutData = [300, 500, 100];
 
 });
 
