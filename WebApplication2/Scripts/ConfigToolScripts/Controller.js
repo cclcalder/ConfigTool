@@ -53,6 +53,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 
             //setup ag-Grid
             (function () {
+
                 var rowData = $scope.data;
                 var columnDefs = $scope.columnHeaders;
 
@@ -72,8 +73,11 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                                 return { 'padding-left': '5px', 'font-weight':'bold' };
                             }
                             else if (head.type == "fKey") {
-                                head.cellRenderer = fKeyRenderer;
-                                head.cellEditorParams = head.cellEditorParams;
+                                head.cellRenderer = pKeyRenderer;
+                                head.cellEditor = 'select';
+                                var table = $scope.associatedTables[0];
+                                //MASSIVE ISSUE THAT ONLY WORKS IF ONE FOREIGH KEY TABLE AT THE MOMENT
+                                head.cellEditorParams = JSON.parse(table.fKeyData);
                                 return { 'padding-left': '5px' };
                             }
                             else if (head.type == "date") {
@@ -84,25 +88,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                         }
                     })
                 };
-
-                //FKEY SELECT EDITOR
-                //var fkeySelect = function (params) {
-                //    console.log("dis fkey editor yo");
-                //    console.log(params.value);
-                //};
-
-                //fkeySelect.prototype.init = function (params) {
-                //    if (params.value === "" || params.value === undefined || params.value === null) {
-                //        this.eGui = '';
-                //    } else {
-                //        this.eGui = '<span style="cursor: default;">' +  params.value + '</span>';
-                //    }
-                //};
-
-                //fkeySelect.prototype.getGui = function () {
-                //    return this.eGui;
-                //};
-
 
                 //NUMERIC EDITOR
                 var numericEditor = function (params) {
@@ -156,28 +141,12 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 };
 
 
-                //cellRenderers
-                var fKeyRenderer = function (params) {
-                    console.log("fkeyrenderer?");
-                    console.log(params);
-                };
-                fKeyRenderer.prototype.init = function (params) {
-                    if (params.value === "" || params.value === undefined || params.value === null) {
-                        this.eGui = '';
-                    } else {
-                        this.eGui = '<span style="cursor: default;">' + params.value + '</span>';
-                    }
-                };
-
-                fKeyRenderer.prototype.getGui = function () {
-                    return this.eGui;
-                };
 
                 var pKeyRenderer = function(params) {
                     return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>';
                 };
 
-                var checkBoxRenderer = function(params) {
+                var checkBoxRenderer = function (params) {
                     return '<div style="text-align:center;"><md-checkbox ng-model="params.value"class="orange" aria-label="addWhenBound" type="checkbox"><div>';
                     return '<input type="checkbox">';
                 };
@@ -206,51 +175,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     cellStyle: getStyle()
                 };
 
-
-
-                var typeRenderer = function (params) {
-                    $scope.columnHeaders.forEach(function (head) {
-                        head.cellRenderer = function (params) {
-                            switch (head.type) {
-                                case "CheckBoxEditor":
-                                    return '<div style="text-align:center;"><md-checkbox ng-model="params.value"class="orange" aria-label="addWhenBound" type="checkbox"><div>'
-                                    return '<input type="checkbox">'
-                                    break;
-                                case "pKey":
-                                    return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>'
-                                    break;
-                                case "fKey":
-                                    return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;' + params.value + '</span>'
-                                    break;
-                                case "text":
-                                    return '<span>' + params.value + '</span>'
-                                    break;
-                                case "DateTime":
-                                    return '<span>' + params.value + '</span>'
-                                    break;
-                                case "largeText":
-                                    return '<span>' + params.value + '</span>'
-                                    break;
-                                case "XmlEditor":
-                                    return '<span>' + params.value + '</span>'
-                                    break;
-                                case "NumericCellEditor":
-                                    return '<div style="text-align: right;"><span>' + params.value + '</span></div>'
-                                    return '<input type="number">'
-                                    break;
-                                case "Date":
-                                    return '<md-datepicker ng-model="params.input"></md-datepicker>'
-                                    return '<input type="date">'
-                                    break;
-                            }
-                        }
-
-                    });
-                };
-
-                //cellEditors
-
-                //init grid
                 $scope.gridOptions = gridOptions;
             })();
 

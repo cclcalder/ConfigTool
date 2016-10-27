@@ -15,6 +15,7 @@ using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
 using System.Text.RegularExpressions;
+using System.Web.Script.Serialization;
 
 namespace WebApplication2.Controllers
 {
@@ -148,13 +149,13 @@ namespace WebApplication2.Controllers
         }
         public struct AssociatedTable
         {
-            public string name;                     //name 
-            public string typeName;                 //and typename of associated table
-            public string relationshipStr;          //string to print to screen
-            public string currentKey;               //key in current table
-            public string foreignKey;               //corresponding key in associated
-            public string relationToCurrent;        //relation to current - PARENT OR CHILD - if child - drop down input where headername = currentKey
-            public string dropDownData;             //if table is parent of current, store data for fKey dropdowns
+            public string name;                                 //name 
+            public string typeName;                             //and typename of associated table
+            public string relationshipStr;                      //string to print to screen
+            public string currentKey;                           //key in current table
+            public string foreignKey;//corresponding key in associated, if table is parent of current, store data for fKey dropdowns
+            public string fKeyData;
+            public string relationToCurrent;                    //relation to current - PARENT OR CHILD - if child - drop down input where headername = currentKey           
         }
         public struct Header
         {
@@ -321,8 +322,7 @@ namespace WebApplication2.Controllers
                             {
                                 var ascTable = new AssociatedTable();
                                 ascTable.relationshipStr = r1.Association.ToString();
-                                var test = checkTabList.Where(n => n.Item1 == r1.Name || n.Item2 == r1.Name).ToList();
-                                ascTable.typeName = test[0].Item2;
+                                ascTable.typeName = checkTabList.Where(n => n.Item1 == r1.Name || n.Item2 == r1.Name).ToList()[0].Item2;
                                 ascTable.foreignKey = r1.Association.OtherKey[0].MappedName;
                                 ascTable.currentKey = r1.Association.ThisKey[0].MappedName;
                                 //ascTable.name = "app." + name;
@@ -330,11 +330,13 @@ namespace WebApplication2.Controllers
                                 {
                                     //if has foreign key must be the child of the current table..
                                     ascTable.relationToCurrent = "Parent";
+                                    ascTable.fKeyData = GetFKeyData(ascTable);
                                 }
                                 else
                                 {
                                     //if does not have foreign key -> is parent 
                                     ascTable.relationToCurrent = "Child";
+                                    ascTable.fKeyData = null;
                                 }
                                 ascTables.Add(ascTable);
                             }
@@ -358,14 +360,18 @@ namespace WebApplication2.Controllers
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
+                JArray data = new JArray();
                 var getCol = getDataTable.foreignKey; //this is header of colData we want 
                 var tableType = Type.GetType("ConfigTool." + getDataTable.typeName + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                 var item = contextObj.GetTable(tableType);
-                var obj = JArray.Parse(JsonConvert.SerializeObject(contextObj.GetTable(tableType), new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-                //var value = item.GetType();
-                //var next = value.GetProperty(getCol);
-                //var nnext = next.GetValue(item);
-                return "{ values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
+                JArray arr = JArray.Parse(JsonConvert.SerializeObject(contextObj.GetTable(tableType), new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+                foreach(JObject element in arr)
+                {
+                    data.Add(element[getDataTable.foreignKey]);
+                }
+                var dataStr = "{ 'values' :"+data.ToString() +"}";
+                JObject json = JObject.Parse(dataStr);
+                return json.ToString();
             }
         }
         public JObject NewTempRow(List<Header> headers)
