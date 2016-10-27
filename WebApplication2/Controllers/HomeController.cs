@@ -154,6 +154,7 @@ namespace WebApplication2.Controllers
             public string currentKey;               //key in current table
             public string foreignKey;               //corresponding key in associated
             public string relationToCurrent;        //relation to current - PARENT OR CHILD - if child - drop down input where headername = currentKey
+            public string dropDownData;             //if table is parent of current, store data for fKey dropdowns
         }
         public struct Header
         {
@@ -161,6 +162,7 @@ namespace WebApplication2.Controllers
             public string type;
         }
 
+        //Get Result data
         public JsonResult LoadTableContent(string table)
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
@@ -172,62 +174,58 @@ namespace WebApplication2.Controllers
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
                     JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
 
-                    var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
-                    //var fKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsForeignKey).ToArray().Select(p => p.MappedName).ToList();
-                    var associationTables = new List<AssociatedTable>(); //list of fKey tables and data for dropdown (foreign key col data), is the table a parent or a child?
 
-                    //initialise values
+                    var associationTables = new List<AssociatedTable>();
                     var jsonResult = new Result();
                     JArray headArr = new JArray();
+                    var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
                     var headers = GetHeaders(name, associationTables);
 
                     foreach (Header header in headers)
                     {
                         //general properties
-                        string type = ParseDbType(header.type);
                         var obj = new JObject();
                         var nameProp = new JProperty("headerName", header.name);
                         var fieldProp = new JProperty("field", header.name);
                         var widthProp = new JProperty("width", 150);
-                        var editProp = new JProperty("editable", true);
-                        //var nullProp = new JProperty("canBeNull", cellInfo[0].CanBeNull);
-                        var typeProp = new JProperty("cellEditor", type);
-                        JProperty editorParamsProp = new JProperty("", "");
-                        var fkFlag = false;
-                        var pkFlag = pKeyNames.Contains(header.name);
-
                         obj.Add(nameProp);
                         obj.Add(fieldProp);
                         obj.Add(widthProp);
 
-                        if (pkFlag && !fkFlag) { typeProp = new JProperty("cellEditor", "pKey"); editProp = new JProperty("editable", false); }
-                        if (type == "DateTime") //disable date time stuff - auto created from datbase - wont need to prepare the
-                        { editProp = new JProperty("editable", false); }
-                        if(type  == "largeText") { typeProp = new JProperty("cellEditor", type); }
-                        //add properties to object
-                        obj.Add(editProp);
-                        obj.Add(typeProp);
-
-                        foreach (AssociatedTable aTable in associationTables)
+                        //properties specific to type
+                        if (associationTables.Count() != 0)
                         {
-                            if (aTable.relationToCurrent == "Parent")
+                            foreach (AssociatedTable aTable in associationTables)
                             {
-                                //need to implement a dropdown in currentKey col of foreignKey col
-                                if (header.name == aTable.currentKey && !pKeyNames.Contains(header.name))
+                                if (aTable.relationToCurrent == "Parent" && header.name == aTable.currentKey)
                                 {
-                                    fkFlag = true;
-                                    editorParamsProp = new JProperty("editorParams", GetFKeyData(aTable));
-                                    //if (pKeyNames.Contains(header.name))
-                                    //{
-                                    //    typeProp = new JProperty("cellEditor", "pKey");
-                                    //}
+                                    obj.Add(new JProperty("editable", true));
+                                    obj.Add(new JProperty("type", "fKey"));
+                                    obj.Add(new JProperty("cellEditor", "select"));
+                                    obj.Add(new JProperty("editorParams", GetFKeyData(aTable)));
                                 }
+                                else if (pKeyNames.Contains(header.name))
+                                {
+                                    //if primary key: key renderer and non editable
+                                    obj.Add(new JProperty("editable", false));
+                                    obj.Add(new JProperty("type", "pKey"));
+                                }
+                                else { ParseDbType(header.type, obj); }
                             }
                         }
-                        //overwrite customisations for : foreign key cols
-                        //if (!pkFlag || fkFlag) { obj.Add(editorProp); }
-                        //thas
-                        if (fkFlag) { obj.Add(editorParamsProp); typeProp = new JProperty("cellEditor", "fKey"); };
+                        else if (pKeyNames.Contains(header.name))
+                        {
+                            //if primary key: key renderer and non editable
+                            obj.Add(new JProperty("editable", false));
+                            obj.Add(new JProperty("type", "pKey"));
+                        }
+                        else
+                        {
+                            ParseDbType(header.type, obj);
+                        }
+
+
+
                         headArr.Add(obj);
                     }
                     jsonResult.headerArr = headArr.ToString();
@@ -244,28 +242,58 @@ namespace WebApplication2.Controllers
                 }
             }
         }
-        public string ParseDbType(string dbType)
+        public void ParseDbType(string dbType, JObject obj)
         {
-            if (dbType.Contains("Int")) {
-                return "NumericCellEditor"; }
+            //**should restrain char count and add not null 
+            if (dbType.Contains("Int"))
+            {
+                //if numeric: editable, cell style align right and numeric editor
+                obj.Add(new JProperty("editable", true));
+                obj.Add(new JProperty("type", "numeric"));
+            }
             else if (dbType.Contains("VarChar"))
             {
-                //shoudlr restrain char count
-                if (dbType.Contains("MAX")) { return "largetext"; }
-                else if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100 ) { return "text"; }
-                else return "largeText";
+                if (dbType.Contains("MAX"))
+                {
+                    obj.Add(new JProperty("editable", true));
+                    obj.Add(new JProperty("cellEditor", "largeText"));
+                }
+                else if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100)
+                {
+                    obj.Add(new JProperty("editable", true));
+                    obj.Add(new JProperty("cellEditor", "text"));
+                }
+                else
+                {
+                    obj.Add(new JProperty("editable", true));
+                    obj.Add(new JProperty("cellEditor", "largeText"));
+                }
             }
-            else if (dbType.Contains("Xml")) {
-                return "XmlEditor"; }
-            else if (dbType.Contains("DateTime")) {
-                return "DateTime"; }
-            else if (dbType.Contains("Date")) {
-                return "Date"; }
-            else if (dbType.Contains("Bit")) {
-                return "CheckBoxEditor"; }
-            else if (dbType.Contains("Unique")) {
-                return "text"; }
-            else return "New type: " + dbType;
+            else if (dbType.Contains("Xml"))
+            {
+                obj.Add(new JProperty("editable", true));
+                obj.Add(new JProperty("cellEditor", "largeText"));
+            }
+            else if (dbType.Contains("DateTime"))
+            {
+                obj.Add(new JProperty("editable", false));
+            }
+            else if (dbType.Contains("Date") && !dbType.Contains("DateTime"))
+            {
+                obj.Add(new JProperty("editable", true));
+                obj.Add(new JProperty("type", "date"));
+            }
+            else if (dbType.Contains("Bit"))
+            {
+                //if checkbox (boolean), editable, renderer and editor??
+                obj.Add(new JProperty("editable", true));
+                obj.Add(new JProperty("type", "bool"));
+            }
+            else if (dbType.Contains("Unique"))
+            {
+                obj.Add(new JProperty("editable", true));
+                obj.Add(new JProperty("cellEditor", "text"));
+            }
         }
         public List<Header> GetHeaders(string name, List<AssociatedTable> ascTables)
         {
@@ -340,7 +368,6 @@ namespace WebApplication2.Controllers
                 return "{ values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'] }";
             }
         }
-
         public JObject NewTempRow(List<Header> headers)
         {
             var emptyRecord = new JObject();
@@ -356,6 +383,7 @@ namespace WebApplication2.Controllers
         {
 
         }
+
         #endregion
 
         #region Get Info on Tables in DB

@@ -28,21 +28,16 @@
     //Actually only want to see this when in table (whatever mode..)
     <div ng-controller="SideNavCtrl" @*layout="column"*@ style="height:10px;" ng-cloak="">
         <md-sidenav class="md-sidenav-left" md-component-id="left" md-whiteframe="4">
-            <md-toolbar class="md-theme-indigo">
-                <h1 class="md-toolbar-tools">Sidenav Left</h1>
-            </md-toolbar>
             <md-content layout-padding="" ng-controller="LeftCtrl">
-                @*<md-button ng-click="close()" class="md-raised" hide-gt-md="">
-                    Close Sidenav Left
-                </md-button>*@
                 <md-list ng-controller="GetTablesCtrl" class="md-dense" flex>
-                    <md-subheader @*class="md-no-sticky"*@><i class="fa fa-bars" aria-hidden="true"></i>    Navigation - should be disabled when relevant, all active for now </md-subheader>
+                    <md-list-item></md-list-item>
+                    <md-subheader @*class="md-no-sticky"*@><i class="fa fa-cog" aria-hidden="true"></i>&nbsp;&nbsp;<b>Setup</b> @*- should be disabled when relevant, all active for now*@ </md-subheader>
                     <md-list-item><a class="sidenav" href="#/">Home Setup</a></md-list-item>
                     <md-list-item><a class="sidenav" href="#ModeSetup">Mode Setup</a></md-list-item>
-                    <md-subheader @*class="md-no-sticky"*@><i class="fa fa-magic" aria-hidden="true"></i>&nbsp;Wizard</md-subheader>
+                    <md-subheader @*class="md-no-sticky"*@><i class="fa fa-magic" aria-hidden="true"></i>&nbsp;&nbsp;<b>Wizard</b></md-subheader>
                     <md-list-item><a class="sidenav" href="#Index">Wizard Progress</a></md-list-item>
                     @*<tree-grid style="font-size: 12px;" tree-data="tree_data"></tree-grid>*@
-                    <md-subheader @*class="md-no-sticky"*@><i class="fa fa-table" aria-hidden="true"></i>&nbsp;Tables (Disabled in Wizard Mode)</md-subheader>
+                    <md-subheader @*class="md-no-sticky"*@><i class="fa fa-table" aria-hidden="true"></i>&nbsp;&nbsp;<b>Tables</b> @*(Disabled in Wizard Mode)*@</md-subheader>
                     <md-list-item ng-disabled="excludedTable" ng-repeat="Table in TableList" href="#Table/{{Table.Item2}}">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" ng-click="Load()"  >{{Table.Item1}}</a></md-list-item>
                 </md-list>
             </md-content>
@@ -62,7 +57,7 @@ else
         </nav2>
         <nav1>
             <ul>
-                <li><a href="/Home"><img src="/Images/ExceedraLogo_White.png" style="width:228px;" /></a></li>
+                <li><a href="/Home"><img src="/Images/ExceedraLogo_White.png" @*style="width:228px;"*@ /></a></li>
                 <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
                 <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
 

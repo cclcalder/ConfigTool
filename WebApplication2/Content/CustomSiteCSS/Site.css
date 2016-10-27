@@ -29,30 +29,33 @@ td th {
     max-width: 150px;
 }
 
-a.actionlink { 
-    color:rgba(48,48,48,0.6); 
-    text-align:center;
-}
-a.sidenav {
-    color:black; 
-}
-a.sidenav:focus, a.sidenav:hover{
-    color:rgb(63,81,181);
-}
-hr{
-    border-top-width:1.5px;
-    border-top-color:#d2d6de;
+a.actionlink {
+    color: rgba(48,48,48,0.6);
+    text-align: center;
 }
 
-.loader{
-  margin: 0 0 2em;
-  height: 100px;
-  width: 20%;
-  text-align: center;
-  padding: 1em;
-  margin: 0 auto 1em;
-  display: inline-block;
-  vertical-align: top;
+a.sidenav {
+    color: black;
+}
+
+    a.sidenav:focus, a.sidenav:hover {
+        color: rgb(63,81,181);
+    }
+
+hr {
+    border-top-width: 1.5px;
+    border-top-color: #d2d6de;
+}
+
+.loader {
+    margin: 0 0 2em;
+    height: 100px;
+    width: 20%;
+    text-align: center;
+    padding: 1em;
+    margin: 0 auto 1em;
+    display: inline-block;
+    vertical-align: top;
 }
 /*.md-subheader.md-default-theme, .md-subheader {
     color: rgba(0,0,0,0.54);
@@ -63,14 +66,13 @@ hr{
   Set the color of the icon
 */
 svg path,
-svg rect{
-  fill: #FF6700;
+svg rect {
+    fill: #FF6700;
 }
 
 /**/
-HTMLJSCSS
-.inputdemoIcons {
-  /*
+HTMLJSCSS .inputdemoIcons {
+    /*
 .right-icon {
   position: absolute;
   top: 4px;
@@ -78,16 +80,25 @@ HTMLJSCSS
   left: auto;
   margin-top: 0;
 }
-*/ }
-  .inputdemoIcons .inputIconDemo {
-    min-height: 48px; }
-  .inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.email {
-    color: green; }
-  .inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.name {
-    color: dodgerblue; }
-  .inputdemoIcons md-input-container.md-input-invalid > md-icon.email,
-  .inputdemoIcons md-input-container.md-input-invalid > md-icon.name {
-    color: red; }
+*/
+}
+
+.inputdemoIcons .inputIconDemo {
+    min-height: 48px;
+}
+
+.inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.email {
+    color: green;
+}
+
+.inputdemoIcons md-input-container:not(.md-input-invalid) > md-icon.name {
+    color: dodgerblue;
+}
+
+.inputdemoIcons md-input-container.md-input-invalid > md-icon.email,
+.inputdemoIcons md-input-container.md-input-invalid > md-icon.name {
+    color: red;
+}
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
@@ -110,9 +121,12 @@ h1 {
 /*side nav*/
 md-sidenav {
     max-width: 300px;
+    font-size: 10pt;
+    -webkit-font-smoothing: antialiased;
 }
+
 md-checkbox.md-checked.orange .md-icon {
- background-color: orange;
+    background-color: orange;
 }
 
 .main-header {
@@ -129,9 +143,7 @@ md-checkbox.md-checked.orange .md-icon {
     transition: .25s transform;*/
 }
 
-@media (max-width: 1919px) and (min-width: 12080px) .hide-gt-md:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show), .hide-gt-sm:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show), .hide-gt-xs:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show), .hide-lg:not(.show-lg):not(.show-gt-md):not(.show-gt-sm):not(.show-gt-xs):not(.show), .hide:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show)
-{
-
+@media (max-width: 1919px) and (min-width: 12080px) .hide-gt-md:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show), .hide-gt-sm:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show), .hide-gt-xs:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show), .hide-lg:not(.show-lg):not(.show-gt-md):not(.show-gt-sm):not(.show-gt-xs):not(.show), .hide:not(.show-gt-xs):not(.show-gt-sm):not(.show-gt-md):not(.show-lg):not(.show) {
 }
 
 .heads-up {
@@ -211,7 +223,7 @@ md-checkbox.md-checked.orange .md-icon {
 body {
     min-height: 100%;
     background-image: url('../../Images/ExceedraBackground.png');
-    background-size:100%;
+    background-size: 100%;
     background-repeat: no-repeat;
     -webkit-font-smoothing: antialiased;
     /*font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
@@ -368,13 +380,20 @@ a {
     color: white;
 }
 
-    a:hover,
-    a:active,
-    a:focus {
-        outline: none;
-        text-decoration: none;
-        color: #72afd2;
+@media (max-width: 630px) {
+    a{
+        font-size: 8pt;
+        width:128px;
     }
+}
+
+a:hover,
+a:active,
+a:focus {
+    outline: none;
+    text-decoration: none;
+    color: #72afd2;
+}
 /* Page Header */
 .page-header {
     margin: 10px 0 20px 0;
@@ -667,15 +686,15 @@ a {
     border-top: 1px solid #f4f4f4;
     max-width: 150pt;
     word-wrap: break-word;
-    background-color:white;
+    background-color: white;
 }
 
 .table > thead > tr > th {
     border-bottom: 2px solid #f4f4f4;
     max-width: 100pt;
     padding-bottom: 1%;
-    padding:7pt;
-    background-color:#e3e6eb
+    padding: 7pt;
+    background-color: #e3e6eb;
 }
 
 .table tr td .progress {
@@ -732,34 +751,55 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 /*white frame stuff*/
 
-  .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
+.whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
     background: #fff;
     margin: 30px;
-    height: 100px; }
-  @media (max-width: 599px) {
+    height: 100px;
+}
+
+@media (max-width: 599px) {
     .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
-      margin: 7px;
-      height: 50px;
-      background-color: #c8e4fa; }
-    .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
-      font-size: 0.4em; } }
-  @media (min-width: 600px) and (max-width: 959px) {
+        margin: 7px;
+        height: 50px;
+        background-color: #c8e4fa;
+    }
+
+        .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
+            font-size: 0.4em;
+        }
+}
+
+@media (min-width: 600px) and (max-width: 959px) {
     .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
-      margin: 20px;
-      height: 75px; }
-    .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
-      font-size: 0.6em; } }
-  @media (min-width: 960px) and (max-width: 1279px) {
+        margin: 20px;
+        height: 75px;
+    }
+
+        .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
+            font-size: 0.6em;
+        }
+}
+
+@media (min-width: 960px) and (max-width: 1279px) {
     .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
-      margin: 20px;
-      height: 90px;
-      background-color: #fcddde; }
-    .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
-      font-size: 0.9em; } }
-  @media (min-width: 1280px) {
+        margin: 20px;
+        height: 90px;
+        background-color: #fcddde;
+    }
+
+        .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
+            font-size: 0.9em;
+        }
+}
+
+@media (min-width: 1280px) {
     .whiteframedemoDirectiveAttributeUsage md-whiteframe, .whiteframedemoDirectiveAttributeUsage div.padded {
-      margin: 25px;
-      height: 100px;
-      background-color: #F2FCE2; }
-    .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
-      font-size: 1.0em; } }
+        margin: 25px;
+        height: 100px;
+        background-color: #F2FCE2;
+    }
+
+        .whiteframedemoDirectiveAttributeUsage md-whiteframe > span, .whiteframedemoDirectiveAttributeUsage div.padded > span {
+            font-size: 1.0em;
+        }
+}

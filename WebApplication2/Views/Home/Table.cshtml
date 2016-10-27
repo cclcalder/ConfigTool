@@ -24,7 +24,7 @@
     </div>
 
     <div style="text-align:left" ng-if="!error">
-        <div ng-if="associatedTablesExist" style="background: rgba(255, 184, 77, 0.3)">
+        <div ng-if="associatedTablesExist" style="background: rgba(230,230,230, 0.8); box-shadow: 0px 0px 20px 10px rgba(230,230,230, 0.8);">
             <div style="padding-left: 12pt; font-weight: bold; text-decoration: underline"> Associated Tables:</div>
             <md-list-item class="md-3-line" ng-repeat="Table in associatedTables">
                 <div class="md-list-item-text" layout="column">
@@ -52,8 +52,9 @@
                     </p>
                 </div>
             </md-list-item>
-            <hr />
         </div>
+
+        <br />
 
         <md-button ng-click="sizeToFit()">Size to Fit</md-button>
         <md-button ng-click="autoSizeAll()">Auto-Size</md-button>

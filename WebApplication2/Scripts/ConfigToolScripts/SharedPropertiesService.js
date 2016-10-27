@@ -2,7 +2,7 @@
 
 //share tasks between Table and Wizard controllers
 app.service("sharedService", function () {
-    var task = "service task";
+    var task = "No task set from service";
     return {
         getTask: function () {
             return task;

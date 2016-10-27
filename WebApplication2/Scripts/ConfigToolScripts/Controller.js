@@ -43,172 +43,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
             $scope.dataReturn = $scope.data;
             $scope.associatedTables = TableContent.data.fKeyTables;
 
-            //define renderers
-            var typeRenderer = function (params) {
-                $scope.columnHeaders.forEach(function (head) {
-                    head.cellRenderer = function (params) {
-                        switch (head.type) {
-                            case "CheckBoxEditor":
-                                return '<div style="text-align:center;"><md-checkbox ng-model="params.value"class="orange" aria-label="addWhenBound" type="checkbox"><div>'
-                                return '<input type="checkbox">'
-                                break;
-                            case "pKey":
-                                return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>'
-                                break;
-                            case "fKey":
-                                return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;' + params.value + '</span>'
-                                break;
-                            case "text":
-                                return '<span>' + params.value + '</span>'
-                                break;
-                            case "DateTime":
-                                return '<span>' + params.value + '</span>'
-                                break;
-                            case "largeText":
-                                return '<span>' + params.value + '</span>'
-                                break;
-                            case "XmlEditor":
-                                return '<span>' + params.value + '</span>'
-                                break;
-                            case "NumericCellEditor":
-                                return '<div style="text-align: right;"><span>' + params.value + '</span></div>'
-                                return '<input type="number">'
-                                break;
-                            case "Date":
-                                return '<md-datepicker ng-model="params.input"></md-datepicker>'
-                                return '<input type="date">'
-                                break;
-                        }
-                    }
-
-                });
-            };
-
-            //var typeEditor = function (params) {
-            //    console.log('type renderer');
-            //    $scope.columnHeaders.forEach(function (head) {
-            //        head.type = function (params) {
-            //            console.log(head.type);
-            //            switch (head.type) {
-            //                case "CheckBoxEditor":
-            //                    return "'CheckBoxEditor'";
-            //                    break;
-            //                case "pKey":
-            //                    return "'PKeyEditor'";
-            //                    break;
-            //                case "fKey":
-            //                    return "'select'";
-            //                    break;
-            //                case "text":
-            //                    return "'text'";
-            //                    break;
-            //                case "largeText":
-            //                    return "'largeText'";
-            //                    break;
-            //                case "XmlEditor":
-            //                    return "'largeText'";
-            //                    break;
-            //                case "NumericCellEditor":
-            //                    return "'NumericCellEditor'";
-            //                    break;
-            //                case "Date":
-            //                    return "'NumericCellEditor'";
-            //                    break;
-            //            }
-            //        }
-            //    })
-            //};
-
-            //add this to numeric cells
-            function sizeCellStyle() {
-                return { 'text-align': 'right' };
-            }
-
-            /* --------- Cell Editor Testing ------------------------------------ */
-            function getCharCodeFromEvent(event) {
-                event = event || window.event;
-                return (typeof event.which == "undefined") ? event.keyCode : event.which;
-            }
-
-            function isCharNumeric(charStr) {
-                return !!/\d/.test(charStr);
-            }
-
-            function isKeyPressedNumeric(event) {
-                var charCode = getCharCodeFromEvent(event);
-                var charStr = String.fromCharCode(charCode);
-                return isCharNumeric(charStr);
-
-            }
-            // simple function cellRenderer, just returns back the name of the country
-            function CountryCellRenderer(params) {
-                return params.value.name;
-            }
-
-            // function to act as a class
-            function NumericCellEditor() {
-                $log.console('NumericaCellEditor..');
-            }
-
-            // gets called once before the renderer is used
-            NumericCellEditor.prototype.init = function (params) {
-                // create the cell
-                $log.console('NumericaCellEditor Init');
-
-                this.eInput = document.createElement('input');
-                this.eInput.value = isCharNumeric(params.charPress) ? params.charPress : params.value;
-
-                var that = this;
-                this.eInput.addEventListener('keypress', function (event) {
-                    if (!isKeyPressedNumeric(event)) {
-                        that.eInput.focus();
-                        if (event.preventDefault) event.preventDefault();
-                    }
-                });
-
-                // only start edit if key pressed is a number, not a letter
-                var charPressIsNotANumber = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
-                this.cancelBeforeStart = charPressIsNotANumber;
-            };
-
-            // gets called once when grid ready to insert the element
-            NumericCellEditor.prototype.getGui = function () {
-                return this.eInput;
-            };
-
-            // focus and select can be done after the gui is attached
-            NumericCellEditor.prototype.afterGuiAttached = function () {
-                this.eInput.focus();
-            };
-
-            // returns the new value after editing
-            NumericCellEditor.prototype.isCancelBeforeStart = function () {
-                return this.cancelBeforeStart;
-            };
-
-            // example - will reject the number if it contains the value 007
-            // - not very practical, but demonstrates the method.
-            NumericCellEditor.prototype.isCancelAfterEnd = function () {
-                var value = this.getValue();
-                return value.indexOf('007') >= 0;
-            };
-
-            // returns the new value after editing
-            NumericCellEditor.prototype.getValue = function () {
-                return this.eInput.value;
-            };
-
-            // any cleanup we need to be done here
-            NumericCellEditor.prototype.destroy = function () {
-                // but this example is simple, no cleanup, we could  even leave this method out as it's optional
-            };
-
-            // if true, then this editor will appear in a popup 
-            NumericCellEditor.prototype.isPopup = function () {
-                // and we could leave this method out also, false is the default
-                return false;
-            };
-
             //check for 'associated' tables
             if ($scope.associatedTables == 0) {
                 $scope.associatedTablesExist = false;
@@ -217,25 +51,210 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 $scope.associatedTablesExist = true;
             }
 
-            //init gridOptions
-            var gridOptions = {
-                columnDefs: $scope.columnHeaders,
-                rowData: $scope.data,
-                angularCompileRows: true,
-                singleClickEdit: false,
-                rowHeight: 30,
-                enableSorting: true,
-                enableFilter: true,
-                rowSelection: 'multiple',
-                debug: true,
-                enableColResize: true,
-                //cellEditor: typeEditor(),
-                cellRenderer: typeRenderer(),
+            //setup ag-Grid
+            (function () {
+                var rowData = $scope.data;
+                var columnDefs = $scope.columnHeaders;
 
-            };
+                function getStyle(params) {
+                    $scope.columnHeaders.forEach(function (head) {
+                        head.cellStyle = function (params) {
+                            if (head.type == "numeric") {
+                                head.cellEditor = numericEditor;
+                                return { 'text-align': 'right', 'padding-right': '5px' };
+                            }
+                            else if (head.type == "bool") {
+                                head.cellRenderer = checkBoxRenderer;
+                                return { 'text-align': 'center' };
+                            }
+                            else if (head.type == "pKey") {
+                                head.cellRenderer = pKeyRenderer;
+                                return { 'padding-left': '5px', 'font-weight':'bold' };
+                            }
+                            else if (head.type == "fKey") {
+                                head.cellRenderer = fKeyRenderer;
+                                head.cellEditorParams = head.cellEditorParams;
+                                return { 'padding-left': '5px' };
+                            }
+                            else if (head.type == "date") {
+                                head.cellRenderer = dateRenderer;
+                                return { 'padding-left': '5px' };
+                            }
+                            else return { 'padding-left': '5px' };
+                        }
+                    })
+                };
 
-            //init grid
-            $scope.gridOptions = gridOptions;
+                //FKEY SELECT EDITOR
+                //var fkeySelect = function (params) {
+                //    console.log("dis fkey editor yo");
+                //    console.log(params.value);
+                //};
+
+                //fkeySelect.prototype.init = function (params) {
+                //    if (params.value === "" || params.value === undefined || params.value === null) {
+                //        this.eGui = '';
+                //    } else {
+                //        this.eGui = '<span style="cursor: default;">' +  params.value + '</span>';
+                //    }
+                //};
+
+                //fkeySelect.prototype.getGui = function () {
+                //    return this.eGui;
+                //};
+
+
+                //NUMERIC EDITOR
+                var numericEditor = function (params) {
+                    console.log("dis numeric editor yo");
+                };
+                function getCharCodeFromEvent(event) {
+                    event = event || window.event;
+                    return (typeof event.which == "undefined") ? event.keyCode : event.which;
+                }
+                function isCharNumeric(charStr) {
+                    return !!/\d/.test(charStr);
+                }
+                function isKeyPressedNumeric(event) {
+                    var charCode = getCharCodeFromEvent(event);
+                    var charStr = String.fromCharCode(charCode);
+                    return isCharNumeric(charStr);
+
+                }
+                // gets called once before the renderer is used
+                numericEditor.prototype.init = function (params) {
+                    // create the cell
+                    this.eInput = document.createElement('input');
+                    this.eInput.value = isCharNumeric(params.charPress) ? params.charPress : params.value;
+
+                    var that = this;
+                    this.eInput.addEventListener('keypress', function (event) {
+                        if (!isKeyPressedNumeric(event)) {
+                            that.eInput.focus();
+                            if (event.preventDefault) event.preventDefault();
+                        }
+                    });
+
+                    // only start edit if key pressed is a number, not a letter
+                    var charPressIsNotANumber = params.charPress && ('1234567890'.indexOf(params.charPress) < 0);
+                    this.cancelBeforeStart = charPressIsNotANumber;
+                };
+                // gets called once when grid ready to insert the element
+                numericEditor.prototype.getGui = function () {
+                    return this.eInput;
+                };
+                // focus and select can be done after the gui is attached
+                numericEditor.prototype.afterGuiAttached = function () {
+                    this.eInput.focus();
+                };
+                // returns the new value after editing
+                numericEditor.prototype.isCancelBeforeStart = function () {
+                    return this.cancelBeforeStart;
+                };
+                numericEditor.prototype.getValue = function () {
+                    return this.eInput.value;
+                };
+
+
+                //cellRenderers
+                var fKeyRenderer = function (params) {
+                    console.log("fkeyrenderer?");
+                    console.log(params);
+                };
+                fKeyRenderer.prototype.init = function (params) {
+                    if (params.value === "" || params.value === undefined || params.value === null) {
+                        this.eGui = '';
+                    } else {
+                        this.eGui = '<span style="cursor: default;">' + params.value + '</span>';
+                    }
+                };
+
+                fKeyRenderer.prototype.getGui = function () {
+                    return this.eGui;
+                };
+
+                var pKeyRenderer = function(params) {
+                    return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>';
+                };
+
+                var checkBoxRenderer = function(params) {
+                    return '<div style="text-align:center;"><md-checkbox ng-model="params.value"class="orange" aria-label="addWhenBound" type="checkbox"><div>';
+                    return '<input type="checkbox">';
+                };
+
+                var dateRenderer = function (params) {
+                    var datetime = params.value.split("T");
+                    var date = datetime[0];
+                    console.log("date renderer");
+                    console.log(date);
+                    return '<md-datepicker ng-model="' + date + '"></md-datepicker>';
+                    return '<input type="date">';
+                }
+
+                //init gridOptions
+                var gridOptions = {
+                    columnDefs: $scope.columnHeaders,
+                    rowData: $scope.data,
+                    angularCompileRows: true,
+                    singleClickEdit: true,
+                    rowHeight: 30,
+                    enableSorting: true,
+                    enableFilter: true,
+                    rowSelection: 'multiple',
+                    debug: true,
+                    enableColResize: true,
+                    cellStyle: getStyle()
+                };
+
+
+
+                var typeRenderer = function (params) {
+                    $scope.columnHeaders.forEach(function (head) {
+                        head.cellRenderer = function (params) {
+                            switch (head.type) {
+                                case "CheckBoxEditor":
+                                    return '<div style="text-align:center;"><md-checkbox ng-model="params.value"class="orange" aria-label="addWhenBound" type="checkbox"><div>'
+                                    return '<input type="checkbox">'
+                                    break;
+                                case "pKey":
+                                    return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>'
+                                    break;
+                                case "fKey":
+                                    return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i>&nbsp;' + params.value + '</span>'
+                                    break;
+                                case "text":
+                                    return '<span>' + params.value + '</span>'
+                                    break;
+                                case "DateTime":
+                                    return '<span>' + params.value + '</span>'
+                                    break;
+                                case "largeText":
+                                    return '<span>' + params.value + '</span>'
+                                    break;
+                                case "XmlEditor":
+                                    return '<span>' + params.value + '</span>'
+                                    break;
+                                case "NumericCellEditor":
+                                    return '<div style="text-align: right;"><span>' + params.value + '</span></div>'
+                                    return '<input type="number">'
+                                    break;
+                                case "Date":
+                                    return '<md-datepicker ng-model="params.input"></md-datepicker>'
+                                    return '<input type="date">'
+                                    break;
+                            }
+                        }
+
+                    });
+                };
+
+                //cellEditors
+
+                //init grid
+                $scope.gridOptions = gridOptions;
+            })();
+
+
 
             $scope.dataLoaded = true;
             $scope.isLoading = false;
@@ -956,9 +975,9 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
         $scope.gridOptions = gridOptions;
     })();
 
-    console.log($scope.parents+'!!!');
+    //console.log($scope.parents + '!!!');
 
-    $scope.masterLabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales","test", "t2"];
+    $scope.masterLabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "test", "t2"];
     $scope.masterData = [300, 500, 100, 80, 200];
 
     $scope.doughnutLabels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
