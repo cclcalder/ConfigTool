@@ -173,14 +173,15 @@ namespace WebApplication2.Controllers
                     var name = table.Trim('/', '"');
                     var tableType = Type.GetType("ConfigTool." + name + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
-                    JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-
 
                     var associationTables = new List<AssociatedTable>();
                     var jsonResult = new Result();
                     JArray headArr = new JArray();
                     var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
                     var headers = GetHeaders(name, associationTables);
+                    var size = tableData.Count() * headers.Count();
+
+                    JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
 
                     foreach (Header header in headers)
                     {
@@ -194,8 +195,11 @@ namespace WebApplication2.Controllers
                         obj.Add(widthProp);
 
                         //properties specific to type
+
+                        //if there are associated tables
                         if (associationTables.Count() != 0)
                         {
+                            //foreach connection
                             foreach (AssociatedTable aTable in associationTables)
                             {
                                 if (aTable.relationToCurrent == "Parent" && header.name == aTable.currentKey)
@@ -211,21 +215,25 @@ namespace WebApplication2.Controllers
                                     obj.Add(new JProperty("editable", false));
                                     obj.Add(new JProperty("type", "pKey"));
                                 }
-                                else { ParseDbType(header.type, obj); }
+                                else
+                                {
+                                    ParseDbType(header.type, obj);
+                                }
                             }
-                        }
-                        else if (pKeyNames.Contains(header.name))
-                        {
-                            //if primary key: key renderer and non editable
-                            obj.Add(new JProperty("editable", false));
-                            obj.Add(new JProperty("type", "pKey"));
                         }
                         else
                         {
-                            ParseDbType(header.type, obj);
+                            if (pKeyNames.Contains(header.name))
+                            {
+                                //if primary key: key renderer and non editable
+                                obj.Add(new JProperty("editable", false));
+                                obj.Add(new JProperty("type", "pKey"));
+                            }
+                            else
+                            {
+                                ParseDbType(header.type, obj);
+                            }
                         }
-
-
 
                         headArr.Add(obj);
                     }
@@ -365,11 +373,12 @@ namespace WebApplication2.Controllers
                 var tableType = Type.GetType("ConfigTool." + getDataTable.typeName + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                 var item = contextObj.GetTable(tableType);
                 JArray arr = JArray.Parse(JsonConvert.SerializeObject(contextObj.GetTable(tableType), new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-                foreach(JObject element in arr)
+                foreach (JObject element in arr)
                 {
                     data.Add(element[getDataTable.foreignKey]);
                 }
-                var dataStr = "{ 'values' :"+data.ToString() +"}";
+                var dataStr = "{ 'values' :" + data.ToString() + "}";
+                //var dataStr = "{ 'values' : ['1','2','3','4','5'] }";
                 JObject json = JObject.Parse(dataStr);
                 return json.ToString();
             }
