@@ -15,6 +15,7 @@
             </nav2>
             <nav1>
                 <ul>
+                    <li><i class="fa fa-database" aria-hidden="true"></i>&nbsp;&nbsp; ESP_Demo_DEV_UK_v2_9</li>
                     <li><a href="/Home"><img src="/Images/ExceedraLogo_White.png" style="width:228px;" /></a></li>
                     <li>
                         @Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
@@ -39,7 +40,7 @@
                     <md-list-item><a class="sidenav">Audit Log</a></md-list-item>
                     @*<tree-grid style="font-size: 12px;" tree-data="tree_data"></tree-grid>*@
                     <md-subheader @*class="md-no-sticky"*@><i class="fa fa-table" aria-hidden="true"></i>&nbsp;&nbsp;<b>Tables</b> @*(Disabled in Wizard Mode)*@</md-subheader>
-                    <md-list-item ng-disabled="excludedTable" ng-repeat="Table in TableList" href="#Table/{{Table.Item2}}">@*<md-checkbox class="orange" aria-label="false"></md-checkbox>*@<a class="sidenav" ng-click="Load()"  >{{Table.Item1}}</a></md-list-item>
+                    <md-list-item ng-disabled="excludedTable" ng-repeat="Table in TableList" style="font-size: 8pt" href="#Table/{{Table.Item2}}"><a class="sidenav" ng-click="Load()"  >{{Table.Item1}}</a></md-list-item>
                 </md-list>
             </md-content>
         </md-sidenav>

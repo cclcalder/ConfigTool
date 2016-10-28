@@ -62,7 +62,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                         head.cellStyle = function (params) {
                             if (head.type == "numeric") {
                                 head.cellEditor = numericEditor;
-                                return { 'text-align': 'right', 'padding-right': '5px' };
+                                return {  'text-align': 'right', 'padding-right': '5px' };
                             }
                             else if (head.type == "bool") {
                                 head.cellRenderer = checkBoxRenderer;
@@ -147,7 +147,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 };
 
                 var checkBoxRenderer = function (params) {
-                    return '<div style="text-align:center;"><md-checkbox ng-model="params.value"class="orange" aria-label="addWhenBound" type="checkbox"><div>';
+                    return '<div style="text-align:center;"><md-checkbox ng-model="params.value" aria-label="addWhenBound" type="checkbox"><div>';
                     return '<input type="checkbox">';
                 };
 
@@ -177,8 +177,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 
                 $scope.gridOptions = gridOptions;
             })();
-
-
 
             $scope.dataLoaded = true;
             $scope.isLoading = false;
