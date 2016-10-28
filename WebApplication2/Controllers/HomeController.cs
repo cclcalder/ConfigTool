@@ -180,9 +180,15 @@ namespace WebApplication2.Controllers
                     var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
                     var headers = GetHeaders(name, associationTables);
                     var size = tableData.Count() * headers.Count();
-
-                    JArray dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-
+                    JArray dataArr;
+                    try
+                    {
+                        dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+                    }
+                    catch
+                    {
+                        return Json("Error: Data timeout.");
+                    }
                     foreach (Header header in headers)
                     {
                         //general properties
@@ -194,8 +200,8 @@ namespace WebApplication2.Controllers
                         obj.Add(fieldProp);
                         obj.Add(widthProp);
 
-                        //properties specific to type
 
+                        var parent = false;
                         //if there are associated tables
                         if (associationTables.Count() != 0)
                         {
@@ -208,32 +214,25 @@ namespace WebApplication2.Controllers
                                     obj.Add(new JProperty("type", "fKey"));
                                     obj.Add(new JProperty("cellEditor", "select"));
                                     obj.Add(new JProperty("editorParams", GetFKeyData(aTable)));
-                                }
-                                else if (pKeyNames.Contains(header.name))
-                                {
-                                    //if primary key: key renderer and non editable
-                                    obj.Add(new JProperty("editable", false));
-                                    obj.Add(new JProperty("type", "pKey"));
-                                }
-                                else
-                                {
-                                    ParseDbType(header.type, obj);
+                                    parent = true;
+                                    
                                 }
                             }
+
                         }
-                        else
+                        //properties specific to type
+                        if (pKeyNames.Contains(header.name) && !parent)
                         {
-                            if (pKeyNames.Contains(header.name))
-                            {
-                                //if primary key: key renderer and non editable
-                                obj.Add(new JProperty("editable", false));
-                                obj.Add(new JProperty("type", "pKey"));
-                            }
-                            else
-                            {
-                                ParseDbType(header.type, obj);
-                            }
+                            //if primary key: key renderer and non editable
+                            obj.Add(new JProperty("editable", false));
+                            obj.Add(new JProperty("type", "pKey"));
                         }
+
+                        else if (!parent)
+                        {
+                            ParseDbType(header.type, obj);
+                        }
+
 
                         headArr.Add(obj);
                     }
@@ -325,12 +324,21 @@ namespace WebApplication2.Controllers
                     {
                         foreach (var r1 in tab.RowType.DataMembers)
                         {
-                            //if there exists an associated table
+                            //if there exists an associated table, test: "Dim_Admin_MenuItem"
                             if (r1.Association != null)
                             {
                                 var ascTable = new AssociatedTable();
                                 ascTable.relationshipStr = r1.Association.ToString();
-                                ascTable.typeName = checkTabList.Where(n => n.Item1 == r1.Name || n.Item2 == r1.Name).ToList()[0].Item2;
+
+                                if (checkTabList.FirstOrDefault(n => n.Item1 == r1.Name || n.Item2 == r1.Name) == null)
+                                {
+                                    //try remove s? TERRIBLE STUPID HACK THERE SHOULD BE A NORMAL SANE WAY AROUND THIS.....
+                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n.Item1 == r1.Name.TrimEnd('s')).Item2;
+                                }
+                                else
+                                {
+                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n.Item1 == r1.Name || n.Item2 == r1.Name).Item2;
+                                }
                                 ascTable.foreignKey = r1.Association.OtherKey[0].MappedName;
                                 ascTable.currentKey = r1.Association.ThisKey[0].MappedName;
                                 //ascTable.name = "app." + name;
@@ -372,13 +380,21 @@ namespace WebApplication2.Controllers
                 var getCol = getDataTable.foreignKey; //this is header of colData we want 
                 var tableType = Type.GetType("ConfigTool." + getDataTable.typeName + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                 var item = contextObj.GetTable(tableType);
-                JArray arr = JArray.Parse(JsonConvert.SerializeObject(contextObj.GetTable(tableType), new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-                foreach (JObject element in arr)
+                string dataStr;
+                try
                 {
-                    data.Add(element[getDataTable.foreignKey]);
+                    JArray arr = JArray.Parse(JsonConvert.SerializeObject(contextObj.GetTable(tableType), new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+                    foreach (JObject element in arr)
+                    {
+                        data.Add(element[getDataTable.foreignKey]);
+                    }
+                    dataStr = "{ 'values' :" + data.ToString() + "}";
                 }
-                var dataStr = "{ 'values' :" + data.ToString() + "}";
-                //var dataStr = "{ 'values' : ['1','2','3','4','5'] }";
+                catch
+                {
+                    dataStr = "{ 'values' : ['error','getting','fKey', 'data', 'prob out of mem'] }";
+                }
+
                 JObject json = JObject.Parse(dataStr);
                 return json.ToString();
             }
