@@ -62,7 +62,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                         head.cellStyle = function (params) {
                             if (head.type == "numeric") {
                                 head.cellEditor = numericEditor;
-                                return {  'text-align': 'right', 'padding-right': '5px' };
+                                return { 'text-align': 'right', 'padding-right': '5px' };
                             }
                             else if (head.type == "bool") {
                                 head.cellRenderer = checkBoxRenderer;
@@ -70,7 +70,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                             }
                             else if (head.type == "pKey") {
                                 head.cellRenderer = pKeyRenderer;
-                                return { 'padding-left': '5px', 'font-weight':'bold' };
+                                return { 'padding-left': '5px', 'font-weight': 'bold' };
                             }
                             else if (head.type == "fKey") {
                                 head.cellRenderer = pKeyRenderer;
@@ -142,7 +142,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 
 
 
-                var pKeyRenderer = function(params) {
+                var pKeyRenderer = function (params) {
                     return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>';
                 };
 
@@ -585,7 +585,12 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
                         name: 'Setup Sales Orgs and Customer Hierarchy / Levels',
                         done: 'false',
                         children: [
-                            { name: 'Review app.SYS_Config', table: 'app.SYS_Config', dateChanged: '25/10/2016', done: 'false' }
+                            {
+                                name: 'Review app.SYS_Config',
+                                table: 'app.SYS_Config',
+                                dateChanged: '25/10/2016',
+                                done: 'false'
+                            }
                         ]
                     },
                     {
@@ -719,90 +724,201 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
                 ]
             },
             {
+
                 folder: true,
-                open: true,
-                name: 'Screen Configuration',
+                name: 'Planning Screen Configuration',
                 done: 'false',
                 children: [
-                    {
-                        name: 'Planning Screen Configuration',
-                        done: 'false',
-                        children: [
+                   {
+                       folder: true,
+                       name: 'Setup Master Data',
+                       done: 'false',
+                       children: [
                            {
-                               folder: true,
-                               name: 'Setup Master Data',
-                               done: 'false',
-                               children: [
-                                   {
-                                       name: 'Review and modify as appropriate',
-                                       table: 'app.Dim_Planning_Volume_MeasureGroups',
-                                       dateChanged: '25/10/2016',
-                                       done: 'false'
-                                   },
-                                   {
-                                       name: 'Review and modify as appropriate',
-                                       table: 'app.Dim_Planning_Volume_Measures',
-                                       dateChanged: '25/10/2016',
-                                       done: 'false'
-                                   },
-                                   {
-                                       name: 'Review and modify as appropriate',
-                                       table: 'app.Dim_Planning_Time_Range',
-                                       dateChanged: '25/10/2016',
-                                       done: 'false'
-                                   },
-                                   {
-                                       name: 'Review and modify as appropriate',
-                                       table: 'app.Dim_Planning_Time_Levels',
-                                       dateChanged: '25/10/2016',
-                                       done: 'false'
-                                   }
-                               ]
+                               name: 'Review and modify as appropriate',
+                               table: 'app.Dim_Planning_Volume_MeasureGroups',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
                            },
                            {
-                               folder: true,
-                               name: 'Test',
-                               done: 'false',
-                               children: [
-                                   {
-                                       name: 'Check volume saves and reloads, and unit of measure correctly set',
-                                       dateChanged: '25/10/2016',
-                                       done: 'false'
-                                   }
-                               ]
+                               name: 'Review and modify as appropriate',
+                               table: 'app.Dim_Planning_Volume_Measures',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
+                           },
+                           {
+                               name: 'Review and modify as appropriate',
+                               table: 'app.Dim_Planning_Time_Range',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
+                           },
+                           {
+                               name: 'Review and modify as appropriate',
+                               table: 'app.Dim_Planning_Time_Levels',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
                            }
-                        ]
-                    },
-                    {
-                        open: true,
-                        name: 'Promotions Configuration',
-                        done: 'false',
-                    },
-                    {
-                        open: true,
-                        name: 'Terms Configuration',
-                        done: 'false',
-                    },
-                    {
-                        open: true,
-                        name: 'Management Adjustment Configuration',
-                        done: 'false',
-
-                    },
-                    {
-                        open: true,
-                        name: 'Risk And Ops Configuration',
-                        done: 'false',
-
-                    },
-                    {
-                        open: true,
-                        name: 'Funds',
-                        done: 'false',
-                        group: false
-                    }
+                       ]
+                   },
+                   {
+                       folder: true,
+                       name: 'Test',
+                       done: 'false',
+                       children: [
+                           {
+                               name: 'Check volume saves and reloads, and unit of measure correctly set',
+                               dateChanged: '25/10/2016',
+                               done: 'false'
+                           }
+                       ]
+                   }
                 ]
-            }
+            },
+             {
+                 folder: true,
+                 name: 'Promotions Configuration',
+                 done: 'false',
+                 children: [
+                     {
+                         folder: true,
+                         name: 'Overall Promotions Behaviour',
+                         done: 'false',
+                         children: [
+                                     {
+                                         folder: true,
+                                         name: 'Review Sys Config Settings',
+                                         done: 'false',
+                                         children: [
+                                             {
+                                                 name: 'Phasing',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'PostPromo',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'PromotionScenario',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'EnablePromotionProductsReferenceData',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'EnableTemplateConstraints',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'Scenario_IsExportActive',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'PromoPowerEditor',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'Promotion_FileSelector',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'ListingsProductSelectedByDefault CanEditPromoFinancialScreenProductData',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'Phasing.Daily',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'TriggerPromoOrProduct',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'TriggerUnitOrDeal',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'PromoPhasing_PostPromo',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'AllowOverlappingPromotions',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'PostPromoNumDays',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+                                             {
+                                                 name: 'PromoUseRRpc',
+                                                 table: 'app.SYS_Config',
+                                                 dateChanged: '25/10/2016',
+                                                 done: 'false'
+                                             },
+
+                                         ]
+                                     }
+                         ]
+                     },
+               {
+                   folder: true,
+                   open: true,
+                   name: 'Terms Configuration',
+                   done: 'false',
+               },
+               {
+                   folder: true,
+                   open: true,
+                   name: 'Management Adjustment Configuration',
+                   done: 'false',
+
+               },
+               {
+                   folder: true,
+                   open: true,
+                   name: 'Risk And Ops Configuration',
+                   done: 'false',
+
+               },
+               {
+                   folder: true,
+                   open: true,
+                   name: 'Funds',
+                   done: 'false',
+
+               }
+                 ]
+             }
         ];
 
         var columnDefs = [

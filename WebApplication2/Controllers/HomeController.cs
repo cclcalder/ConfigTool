@@ -200,7 +200,6 @@ namespace WebApplication2.Controllers
                         obj.Add(fieldProp);
                         obj.Add(widthProp);
 
-
                         var parent = false;
                         //if there are associated tables
                         if (associationTables.Count() != 0)
@@ -380,6 +379,8 @@ namespace WebApplication2.Controllers
                 var getCol = getDataTable.foreignKey; //this is header of colData we want 
                 var tableType = Type.GetType("ConfigTool." + getDataTable.typeName + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                 var item = contextObj.GetTable(tableType);
+
+                //try catch for timing out databases - if throws memory excetion - but need to fix it...
                 string dataStr;
                 try
                 {
