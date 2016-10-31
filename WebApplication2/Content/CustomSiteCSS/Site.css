@@ -20,10 +20,6 @@ textarea {
     resize: both;
 }
 
-table {
-    background-color: floralwhite;
-}
-
 td th {
     word-wrap: break-word;
     max-width: 150px;
@@ -35,7 +31,7 @@ a.actionlink {
 }
 
 a.sidenav {
-    color: black;
+    color:rgba(0,0,0,0.7);
 }
 
     a.sidenav:focus, a.sidenav:hover {
@@ -105,6 +101,13 @@ HTMLJSCSS .inputdemoIcons {
 */
 .dl-horizontal dt {
     white-space: normal;
+}
+
+/* md card ting */
+md-card.md-default-theme, md-card {
+    color: rgba(0,0,0,0.87);
+    background-color: rgba(255, 255, 255, 0.30);
+
 }
 
 /* Edit dropdown-menu bootstrap */

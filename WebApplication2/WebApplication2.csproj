@@ -222,6 +222,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\wizard.txt" />
     <Content Include="Content\angular-material.css" />
     <Content Include="Content\angular-material.layouts.css" />
     <Content Include="Content\angular-material.layouts.min.css" />
@@ -1052,9 +1053,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\ConfigToolScripts\agGridTest.js" />
     <Content Include="Scripts\ConfigToolScripts\Controller.js" />
-    <Content Include="Scripts\ConfigToolScripts\GridController.js" />
     <Content Include="Scripts\ConfigToolScripts\Module.js" />
     <Content Include="Scripts\ConfigToolScripts\Service.js" />
     <Content Include="Scripts\ConfigToolScripts\SharedPropertiesService.js" />
@@ -1961,7 +1960,6 @@
     <Content Include="Views\Home\CompareTab.tmpl.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="node_modules\ag-grid\node_modules\css-loader\node_modules\cssnano\node_modules\postcss-calc\node_modules\reduce-css-calc\node_modules\math-expression-evaluator\" />
     <Folder Include="Roles\" />
     <Folder Include="Scripts\angular-chart.js\" />

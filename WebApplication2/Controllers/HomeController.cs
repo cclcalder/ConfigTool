@@ -16,14 +16,16 @@ using System.Web;
 using System.Web.Mvc;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json.Serialization;
 
 namespace WebApplication2.Controllers
 {
-    #region Action Views
+
     //does this mean you have to authorize every controller below?
     [Authorize]
     public class HomeController : Controller
     {
+        #region Action Views
         // GET: SYS_Config
         public ActionResult Index()
         {
@@ -153,7 +155,7 @@ namespace WebApplication2.Controllers
             public string typeName;                             //and typename of associated table
             public string relationshipStr;                      //string to print to screen
             public string currentKey;                           //key in current table
-            public string foreignKey;//corresponding key in associated, if table is parent of current, store data for fKey dropdowns
+            public string foreignKey;                           //corresponding key in associated, if table is parent of current, store data for fKey dropdowns
             public string fKeyData;
             public string relationToCurrent;                    //relation to current - PARENT OR CHILD - if child - drop down input where headername = currentKey           
         }
@@ -174,21 +176,14 @@ namespace WebApplication2.Controllers
                     var tableType = Type.GetType("ConfigTool." + name + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
 
+                    JArray dataArr = GetJsonData(tableData);
+
                     var associationTables = new List<AssociatedTable>();
                     var jsonResult = new Result();
                     JArray headArr = new JArray();
                     var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
                     var headers = GetHeaders(name, associationTables);
-                    var size = tableData.Count() * headers.Count();
-                    JArray dataArr;
-                    try
-                    {
-                        dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-                    }
-                    catch
-                    {
-                        return Json("Error: Data timeout.");
-                    }
+
                     foreach (Header header in headers)
                     {
                         //general properties
@@ -214,10 +209,8 @@ namespace WebApplication2.Controllers
                                     obj.Add(new JProperty("cellEditor", "select"));
                                     obj.Add(new JProperty("editorParams", GetFKeyData(aTable)));
                                     parent = true;
-                                    
                                 }
                             }
-
                         }
                         //properties specific to type
                         if (pKeyNames.Contains(header.name) && !parent)
@@ -379,26 +372,32 @@ namespace WebApplication2.Controllers
                 var getCol = getDataTable.foreignKey; //this is header of colData we want 
                 var tableType = Type.GetType("ConfigTool." + getDataTable.typeName + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                 var item = contextObj.GetTable(tableType);
+                JArray arr = GetJsonData(contextObj.GetTable(tableType));
 
-                //try catch for timing out databases - if throws memory excetion - but need to fix it...
-                string dataStr;
-                try
+                foreach (JObject element in arr)
                 {
-                    JArray arr = JArray.Parse(JsonConvert.SerializeObject(contextObj.GetTable(tableType), new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-                    foreach (JObject element in arr)
-                    {
-                        data.Add(element[getDataTable.foreignKey]);
-                    }
-                    dataStr = "{ 'values' :" + data.ToString() + "}";
+                    data.Add(element[getDataTable.foreignKey]);
                 }
-                catch
-                {
-                    dataStr = "{ 'values' : ['error','getting','fKey', 'data', 'prob out of mem'] }";
-                }
+                string dataStr = "{ 'values' :" + data.ToString() + "}";
+
+                //    dataStr = "{ 'values' : ['error','getting','fKey', 'data', 'prob out of mem'] }";
 
                 JObject json = JObject.Parse(dataStr);
                 return json.ToString();
             }
+        }
+        public JArray GetJsonData(IQueryable tableData)
+        {
+            var size = tableData.Count(); //if table size becomes issue do iteratively 
+            JArray dataArr = new JArray();
+
+            dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    PreserveReferencesHandling = PreserveReferencesHandling.None,
+                    ContractResolver = new CustomResolver()
+            }));
+            return dataArr;
         }
         public JObject NewTempRow(List<Header> headers)
         {
@@ -598,5 +597,21 @@ namespace WebApplication2.Controllers
 
     }
 
+}
+class CustomResolver : DefaultContractResolver
+{
+    protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+    {
+        JsonProperty prop = base.CreateProperty(member, memberSerialization);
+
+        if (prop.DeclaringType != typeof(DataClasses1DataContext) &&
+            prop.PropertyType.IsClass &&
+            prop.PropertyType != typeof(string))
+        {
+            prop.ShouldSerialize = obj => false;
+        }
+
+        return prop;
+    }
 }
 

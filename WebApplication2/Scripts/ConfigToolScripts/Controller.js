@@ -1,4 +1,5 @@
 ﻿/* ----- ANGULAR CONTROLLERS ----- */
+// need to split these up into controllers
 
 /* ----- agGrid CRUD ----- */
 // --- THIS NEEDS TO BE SPLIT INTO LOTS OF DIFFERENT CONTROLS - WAY TOO MUCH HERE AT THE MOMENT
@@ -356,6 +357,7 @@ app.controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
 
     };
 })
+
 /* ----- Home Setup ----- */
 app.controller('HomeSetupCtrl', function ($scope, $routeParams) {
     console.log("Ctrl = HomeSetupCtrl");
