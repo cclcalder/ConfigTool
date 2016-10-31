@@ -24,9 +24,18 @@
     </div>
 
     <div style="text-align:left" ng-if="!error">
-        <div ng-if="associatedTablesExist" style="background: rgba(230,230,230, 0.8); box-shadow: 0px 0px 20px 10px rgba(230,230,230, 0.8);">
-            <div style="padding-left: 12pt; font-weight: bold; text-decoration: underline"> Associated Tables:</div>
-            <md-list-item class="md-3-line" ng-repeat="Table in associatedTables">
+        <div ng-if="associatedTablesExist">
+            <md-content class="md-whiteframe-5dp" md-theme="docs-dark" layout-padding="2pt" 
+                        style="text-transform: uppercase;
+                        font-weight: 500;
+                        font-size: 14px;
+                        font-style: inherit;
+                        font-variant: inherit;
+                        font-family: inherit;
+                        -webkit-font-smoothing: antialiased;">
+            <button id="mybutton" ng-click="openAssociatedTables()"><i class="fa fa-plus" aria-hidden="true"></i></button> Associated Tables</md-content>
+            <div class="md-whiteframe-4dp">
+            <md-list-item class="md-3-line" ng-if="showAssociatedTables" ng-repeat="Table in associatedTables">
                 <div class="md-list-item-text" layout="column">
                     <p>
                         <a class="sidenav" href="#Table/{{Table.typeName}}" ng-click="Load()">
@@ -52,6 +61,7 @@
                     </p>
                 </div>
             </md-list-item>
+            </div>
         </div>
 
         <br />

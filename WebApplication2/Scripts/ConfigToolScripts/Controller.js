@@ -11,6 +11,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     //flags 
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
+    $scope.showAssociatedTables = false ;
     $scope.unsavedChanges = false;
     $scope.wizardMode = true;
     $scope.error = false;
@@ -18,6 +19,19 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         $scope.task = sharedService.getTask();
     }
     console.log($scope.task);
+
+    $scope.openAssociatedTables = function () {
+        console.log("opentab" + $scope.showAssociatedTables);
+        if (!$scope.showAssociatedTables) {
+            $scope.showAssociatedTables = true;
+            console.log("opentab" + $scope.showAssociatedTables);
+        }
+        else if ($scope.showAssociatedTables) {
+            $scope.showAssociatedTables = false;
+            console.log("opentab" + $scope.showAssociatedTables);
+        }
+
+    }
     // --- CALLED BELOW
     //load data and init grid
 
