@@ -7,11 +7,14 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     console.log("TableCtrl, " + $routeParams.tablename);
     $scope.tablename = $routeParams.tablename;
 
+    //crud array init
+    var crudArray = new Array();
+
     // --- INITIATE FLAGS
     //flags 
     $scope.loadingIsDone = false;
     $scope.associatedTablesExist = false;
-    $scope.showAssociatedTables = false ;
+    $scope.showAssociatedTables = false;
     $scope.unsavedChanges = false;
     $scope.wizardMode = true;
     $scope.error = false;
@@ -20,23 +23,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     }
     console.log($scope.task);
 
-    $scope.openAssociatedTables = function () {
-        console.log("opentab" + $scope.showAssociatedTables);
-        if (!$scope.showAssociatedTables) {
-            $scope.showAssociatedTables = true;
-            console.log("opentab" + $scope.showAssociatedTables);
-        }
-        else if ($scope.showAssociatedTables) {
-            $scope.showAssociatedTables = false;
-            console.log("opentab" + $scope.showAssociatedTables);
-        }
-
-    }
-    // --- CALLED BELOW
-    //load data and init grid
-
-    //SOMETHING ABOUT ANGULAR COMPILE ROWS...
-
+    //load data and init grid (called below)
     function LoadTableContent() {
 
         $scope.dataLoaded = false;
@@ -45,9 +32,14 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         //get data from service
         var loadMethod = crudAJService.loadTableContent($scope.tablename);
         loadMethod.then(function (TableContent) {
+
             //check data present
             if (TableContent.data.dataArr == null) {
-                $scope.data = null;
+                if (TableContent.data.dataStringArr != null) {
+                    console.log(TableContent.data.dataStringArr);
+                    $scope.data = TableContent.data.dataStringArr;
+                }
+                else { $scope.data = null; }
             }
             else {
                 $scope.data = JSON.parse(TableContent.data.dataArr);
@@ -68,7 +60,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 
             //setup ag-Grid
             (function () {
-
                 var rowData = $scope.data;
                 var columnDefs = $scope.columnHeaders;
 
@@ -80,7 +71,9 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                                 return { 'text-align': 'right', 'padding-right': '5px' };
                             }
                             else if (head.type == "bool") {
-                                head.cellRenderer = checkBoxRenderer;
+                                //head.cellRenderer = checkBoxRenderer;
+                                head.cellEditor = 'select';
+                                head.cellEditorParams = { values: ['true', 'false'] };
                                 return { 'text-align': 'center' };
                             }
                             else if (head.type == "pKey") {
@@ -99,15 +92,17 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                                 head.cellRenderer = dateRenderer;
                                 return { 'padding-left': '5px' };
                             }
+                            else if (head.type == "changes") {
+                                head.cellRenderer = changesRenderer;
+                                return { 'text-align': 'center', 'background-color': 'rgba(0, 0, 0, 0.05)' };
+                            }
                             else return { 'padding-left': '5px' };
                         }
                     })
                 };
 
                 //NUMERIC EDITOR
-                var numericEditor = function (params) {
-                    console.log("dis numeric editor yo");
-                };
+                var numericEditor = function (params) { };
                 function getCharCodeFromEvent(event) {
                     event = event || window.event;
                     return (typeof event.which == "undefined") ? event.keyCode : event.which;
@@ -119,7 +114,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     var charCode = getCharCodeFromEvent(event);
                     var charStr = String.fromCharCode(charCode);
                     return isCharNumeric(charStr);
-
                 }
                 // gets called once before the renderer is used
                 numericEditor.prototype.init = function (params) {
@@ -155,15 +149,14 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     return this.eInput.value;
                 };
 
-
-
+                //CELL RENDERERS
                 var pKeyRenderer = function (params) {
                     return '<span title="Primary Key"><i class="fa fa-key" aria-hidden="true"></i> &nbsp;' + params.value + '</span>';
                 };
 
                 var checkBoxRenderer = function (params) {
-                    return '<div style="text-align:center;"><md-checkbox ng-model="params.value" aria-label="addWhenBound" type="checkbox"><div>';
-                    return '<input type="checkbox">';
+                    //return '<div style="text-align:center;"><md-checkbox ng-model="params.value" aria-label="addWhenBound" type="checkbox"><div>';
+                    //return '<input type="checkbox">';
                 };
 
                 var dateRenderer = function (params) {
@@ -175,22 +168,109 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     return '<input type="date">';
                 }
 
+                var changesRenderer = function (params) {
+                    if (params.value == null || params.value == "") { return '<span>0<span>'; }
+                    else { return '<span class="rag-element">' + params.value + '<span>' };
+                };
+
                 //init gridOptions
                 var gridOptions = {
                     columnDefs: $scope.columnHeaders,
                     rowData: $scope.data,
                     angularCompileRows: true,
                     singleClickEdit: true,
+                    editType: 'fullRow',
+                    cellStyle: getStyle(),
+                    //cellClassRules: {
+                    //    //
+                    //    'rag-green-outer': function (params) { event.data['hasChanges'] === 1 },
+                    //    'rag-red-outer': function (params) { event.data['hasChanges'] === 2 }
+                    //},
+                    onCellValueChanged: function (event) {
+                        $scope.unsaved = true;
+                        //this isnt working currently but should be soon (cahnge colour of edited field)
+                        event.colDef.field.cellStyle = { 'background-color': 'green' };
+                        var updateString = 'update:' + event.colDef.field + ' from ' + event.oldValue + ' to ' + event.newValue;
+                        crudArray.push(updateString);
+                        console.log('onCellValueChanged: ' + event.colDef.field + ' from ' + event.oldValue + ' to ' + event.newValue);
+                        if (event.oldValue != event.newValue) {
+                            event.data['hasChanges'] = 1;
+                            gridOptions.api.refreshView();
+                        };
+                    },
+                    onGridReady: function (event) {
+                        event.api.sizeColumnsToFit();
+                    },
                     rowHeight: 30,
                     enableSorting: true,
                     enableFilter: true,
                     rowSelection: 'multiple',
                     debug: true,
                     enableColResize: true,
-                    cellStyle: getStyle()
+
+                };
+
+                function getRowData() {
+                    var rowData = [];
+                    gridOptions.api.forEachNode(function (node) {
+                        rowData.push(node.data);
+                    });
+                    console.log('Row Data:');
+                    console.log(rowData);
                 };
 
                 $scope.gridOptions = gridOptions;
+
+                $scope.onRemoveSelected = function (params) {
+                    $scope.unsavedChanges = true;
+                    var selection = $scope.gridOptions.api.getSelectedNodes();
+                    //change this to turn rows red when provisionally deleted
+                    //$scope.gridOptions.api.removeItems(selection);
+                    selection.forEach(function (node) {
+                        console.log("node.data:" + node.data['hasChanges']);
+                        node.data['hasChanges'] = 2;
+                        gridOptions.api.refreshView();
+                        crudArray.push("delete:" + JSON.stringify(node.data));
+                    });
+                    
+                };
+
+
+
+                $scope.onSave = function () {
+                    var confirm = $mdDialog.confirm()
+                         .title('Are you sure you want to save changes, this cannot be undone.')
+                         .ok('Save')
+                         .cancel('Cancel');
+                    $mdDialog.show(confirm).then(function () {
+                        //crudArray could be used for audit - but more likely newValueHandler..
+                        console.log("Changes" + crudArray);
+                        var newData = getRowData();
+                        $scope.unsavedChanges = false;
+                    }, function () {
+                        console.log('Cancel');
+                    });
+                };
+
+                $scope.onRevert = function () {
+                    var confirm = $mdDialog.confirm()
+                         .title('Are you sure you want to undo changes.')
+                         .ok('Revert')
+                         .cancel('Cancel');
+                    $mdDialog.show(confirm).then(function () {
+                        console.log("Revert changes");
+                        //refresh data, remove unsaved changes
+                        $scope.gridOptions.api.refreshView();
+                        $scope.gridOptions.api.setRowData($scope.data);
+                        $scope.unsavedChanges = false;
+                        //$scope.unsavedChanges = false;
+                    }, function () {
+                        console.log('Cancel');
+                    });
+                };
+                //$scope.gridOptions.api.refreshView();
+
+
             })();
 
             $scope.dataLoaded = true;
@@ -205,19 +285,13 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         });
     };
 
-    // --- CALLS ABOVE METHOD TO LOAD ALL DATA 
     //call load
     LoadTableContent();
 
-    // --- THESE ARE ALL 'ONLICK' FUNCTIONS, HENCE $SCOPE
+
+    //these are 'onclick' functions
     //local grid CRUD
-    $scope.onRemoveSelected = function (record) {
-        $scope.unsavedChanges = true;
-        console.log("onRemoveSelected");
-        $scope.selection = $scope.gridOptions.api.getSelectedNodes();
-        //$scope.selection.rowStyle = { 'background-color': 'yellow' };
-        $scope.gridOptions.api.removeItems($scope.selection);
-    }
+
 
     var newCount = 0;
     $scope.onAddRow = function () {
@@ -226,21 +300,19 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         var newItem = tempNewRowData();
         $scope.gridOptions.api.insertItemsAtIndex(0, [newItem]);
     }
-
     function tempNewRowData() {
         var newRow = $scope.tempRow;
         newCount++;
         return newRow;
     }
 
-    $scope.getRowData = function () {
-        console.log("getRowData");
-        var rowData = [];
-        $scope.gridOptions.api.forEachNode(function (node) {
-            rowData.push(node.data);
-        });
-        console.log('Row Data:');
-        console.log(rowData);
+    $scope.openAssociatedTables = function () {
+        if (!$scope.showAssociatedTables) {
+            $scope.showAssociatedTables = true;
+        }
+        else if ($scope.showAssociatedTables) {
+            $scope.showAssociatedTables = false;
+        }
     }
 
     //sizing
@@ -256,42 +328,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
             allColumnIds.push(columnDef.field);
         });
         $scope.gridOptions.columnApi.autoSizeColumns(allColumnIds);
-    }
-
-    //save/revert changes, push to DB, and write script
-    $scope.onSave = function () {
-        var confirm = $mdDialog.confirm()
-             .title('Are you sure you want to save changes, this cannot be undone.')
-             .ok('Save')
-             .cancel('Cancel');
-        $mdDialog.show(confirm).then(function () {
-            console.log("Saving changes");
-            $scope.unsavedChanges = false;
-            pushToDB();
-
-        }, function () {
-            console.log('Cancel');
-        });
-    }
-
-    function pushToDB() {
-        console.log("Pushing changes to DB, write merge script..");
-    };
-
-    $scope.onRevert = function () {
-        var confirm = $mdDialog.confirm()
-             .title('Are you sure you want to undo changes.')
-             .ok('Revert')
-             .cancel('Cancel');
-        $mdDialog.show(confirm).then(function () {
-            console.log("Revert changes");
-            //refresh data, remove unsaved changes
-            $scope.gridOptions.api.setRowData($scope.data);
-            $scope.unsavedChanges = false;
-            //$scope.unsavedChanges = false;
-        }, function () {
-            console.log('Cancel');
-        });
     }
 
     $scope.openCurrentScript = function () {
@@ -558,33 +594,6 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
             alert('Error in getting Table Names');
         });
     }
-
-    //$scope.prevTask = function (current) {
-    //    var n = tableN(current);
-    //    console.log("n:" + n);
-    //    console.log("going to prev table bbi" + $scope.TableList[n - 1]);
-    //    $scope.prevTab = $scope.TableList[n - 1];
-    //}
-    //$scope.nextTask = function (current) {
-    //    var n = tableN(current);
-    //    console.log("going to next table bbi");
-    //    $scope.nextTab = $scope.TableList[n + 1];
-    //}
-
-    //function tableN(current) {
-    //    var tabNo = 0;
-    //    $scope.TableList.forEach(function (table) {
-    //        tabNo++;
-    //        if (table == current) {
-    //            $scope.n = tabNo;
-    //        };
-    //    });
-    //    $scope.prevTab = $scope.TableList[$scope.n - 1];
-    //    $scope.nextTab = $scope.TableList[$scope.n + 1];
-    //    console.log($scope.prevTab);
-    //    console.log(current);
-    //    console.log($scope.nextTab);
-    //}
 
     (function () {
         //-- into .json file
@@ -954,17 +963,17 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
             rowData: rowData,
             rowSelection: 'multiple',
             rowHeight: 35,
-            getNodeChildDetails: function (task) {
-                if (task.folder) {
-                    return {
-                        group: true,
-                        children: task.children,
-                        expanded: task.open
-                    };
-                } else {
-                    return null;
-                }
-            },
+            //getNodeChildDetails: function (task) {
+            //    if (task.folder) {
+            //        return {
+            //            group: true,
+            //            children: task.children,
+            //            expanded: task.open
+            //        };
+            //    } else {
+            //        return null;
+            //    }
+            //},
             icons: {
                 groupExpanded: '<i class="fa fa-minus-square-o"/>',
                 groupContracted: '<i class="fa fa-plus-square-o"/>'
@@ -972,6 +981,15 @@ app.controller("GetTablesCtrl", function ($scope, crudAJService, sharedService, 
             onRowClicked: rowClicked
 
         };
+
+        function expandAll(expand) {
+            var columnApi = gridOptions.columnApi;
+            var groupNames = ['GroupA', 'GroupB', 'GroupC', 'GroupD', 'GroupE', 'GroupF', 'GroupG'];
+
+            groupNames.forEach(function (groupId) {
+                columnApi.setColumnGroupOpened(groupId, expand);
+            });
+        }
 
         function rowClicked(params) {
             sharedService.setTask(params.data.name);

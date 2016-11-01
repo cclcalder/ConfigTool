@@ -144,6 +144,7 @@ namespace WebApplication2.Controllers
         public struct Result
         {
             public string headerArr;
+            public string[] dataStringArr;
             public string dataArr;
             public List<string> pKey;
             public List<AssociatedTable> fKeyTables; //headername, typename, and data for dropdowns
@@ -182,7 +183,15 @@ namespace WebApplication2.Controllers
                     var jsonResult = new Result();
                     JArray headArr = new JArray();
                     var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
+
                     var headers = GetHeaders(name, associationTables);
+                    var hasChanges = new JObject();
+                    hasChanges.Add(new JProperty("headerName", "Has Changes"));
+                    hasChanges.Add(new JProperty("field", "hasChanges"));
+                    hasChanges.Add(new JProperty("width", 150));
+                    hasChanges.Add(new JProperty("type", "changes"));
+                    hasChanges.Add(new JProperty("editable", false));
+                    headArr.Add(hasChanges);
 
                     foreach (Header header in headers)
                     {
@@ -228,8 +237,22 @@ namespace WebApplication2.Controllers
 
                         headArr.Add(obj);
                     }
+
                     jsonResult.headerArr = headArr.ToString();
-                    jsonResult.dataArr = dataArr.ToString();
+                    if(dataArr.Count() > 500)
+                    {    
+                        var dataStrArr = new List<string>();
+                        foreach(var data in dataArr)
+                        {
+                            dataStrArr.Add(data.ToString());
+                        }
+                        var array = dataStrArr.ToArray();
+                        jsonResult.dataStringArr = array;
+                    }
+                    else
+                    {
+                        jsonResult.dataArr = dataArr.ToString();
+                    }               
                     jsonResult.pKey = pKeyNames;
                     jsonResult.fKeyTables = associationTables;
                     jsonResult.emptyRow = NewTempRow(headers).ToString();
@@ -300,13 +323,11 @@ namespace WebApplication2.Controllers
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
                 var tableList = contextObj.Mapping.GetTables();
-                var tabList = new List<Tuple<string, string>>();
-                var checkTabList = new List<Tuple<string, string>>();
+                var checkTabList = new List<string>();
                 foreach (MetaTable tab in tableList)
                 {
-                    var t = tab.TableName.TrimStart("app.".ToCharArray());
                     var rt = tab.RowType.ToString();
-                    checkTabList.Add(new Tuple<string, string>(t, rt));
+                    checkTabList.Add(rt);
                 }
 
                 List<Header> headers = new List<Header>();
@@ -322,14 +343,14 @@ namespace WebApplication2.Controllers
                                 var ascTable = new AssociatedTable();
                                 ascTable.relationshipStr = r1.Association.ToString();
 
-                                if (checkTabList.FirstOrDefault(n => n.Item1 == r1.Name || n.Item2 == r1.Name) == null)
+                                if (checkTabList.FirstOrDefault(n => n == r1.Name) == null)
                                 {
-                                    //try remove s? TERRIBLE STUPID HACK THERE SHOULD BE A NORMAL SANE WAY AROUND THIS.....
-                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n.Item1 == r1.Name.TrimEnd('s')).Item2;
+                                    //try add s? TERRIBLE STUPID HACK THERE SHOULD BE A NORMAL SANE WAY AROUND THIS.....
+                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n == r1.Name+'1');
                                 }
                                 else
                                 {
-                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n.Item1 == r1.Name || n.Item2 == r1.Name).Item2;
+                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n== r1.Name);
                                 }
                                 ascTable.foreignKey = r1.Association.OtherKey[0].MappedName;
                                 ascTable.currentKey = r1.Association.ThisKey[0].MappedName;
@@ -452,7 +473,7 @@ namespace WebApplication2.Controllers
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                var SYS_ConfigList = contextObj.SYS_Configs.ToList();
+                var SYS_ConfigList = contextObj.SYS_Config.ToList();
 
                 var data = new ColDataToHtml();
                 data.names = ColumnMapping(SYS_ConfigList[0], "name");
@@ -473,7 +494,7 @@ namespace WebApplication2.Controllers
             {
                 var SYS_ConfigId = Convert.ToInt32(id);
 
-                var getSYS_ConfigById = contextObj.SYS_Configs.FirstOrDefault(s => s.OptionItem_ID == SYS_ConfigId);
+                var getSYS_ConfigById = contextObj.SYS_Config.FirstOrDefault(s => s.OptionItem_ID == SYS_ConfigId);
                 return Json(getSYS_ConfigById, JsonRequestBehavior.AllowGet);
             }
         }
@@ -486,7 +507,7 @@ namespace WebApplication2.Controllers
                 using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
                 {
                     int SYS_ConfigId = Convert.ToInt32(SYS_ConfigRecord.OptionItem_ID);
-                    SYS_Config _SYS_Configs = contextObj.SYS_Configs.Where(b => b.OptionItem_ID == SYS_ConfigId).FirstOrDefault();
+                    SYS_Config _SYS_Configs = contextObj.SYS_Config.Where(b => b.OptionItem_ID == SYS_ConfigId).FirstOrDefault();
 
                     ////alot easier to make generic for each table? - just have type as variable...
                     //MetaTable tableMeta = contextObj.Mapping.GetTable(typeof(SYS_Config));
@@ -537,7 +558,7 @@ namespace WebApplication2.Controllers
                 //find dbinfo of each row?
                 using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
                 {
-                    contextObj.SYS_Configs.InsertOnSubmit(SYS_ConfigRecord); //is this the same as add?
+                    contextObj.SYS_Config.InsertOnSubmit(SYS_ConfigRecord); //is this the same as add?
                     try
                     {
                         contextObj.SubmitChanges();
@@ -569,8 +590,8 @@ namespace WebApplication2.Controllers
                     int _SYS_ConfigId = Int32.Parse(SYS_ConfigId);
                     using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
                     {
-                        var _SYS_Config = contextObj.SYS_Configs.FirstOrDefault(s => s.OptionItem_ID == _SYS_ConfigId); //only one?
-                        contextObj.SYS_Configs.DeleteOnSubmit(_SYS_Config);//only one element?
+                        var _SYS_Config = contextObj.SYS_Config.FirstOrDefault(s => s.OptionItem_ID == _SYS_ConfigId); //only one?
+                        contextObj.SYS_Config.DeleteOnSubmit(_SYS_Config);//only one element?
                                                                            //https://damieng.com/blog/2008/07/30/linq-to-sql-log-to-debug-window-file-memory-or-multiple-writers
                                                                            //
                                                                            //contextObj.Log = new ConfigTool.Log();

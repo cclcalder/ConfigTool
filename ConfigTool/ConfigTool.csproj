@@ -66,6 +66,9 @@
     <Compile Include="AuditTrail.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="DatabaseConnect.cs" />
+    <Compile Include="ExceedraDB.cs">
+      <DependentUpon>ExceedraDB.dbml</DependentUpon>
+    </Compile>
     <Compile Include="LinqToSQL.cs" />
     <Compile Include="ExceedraDB.designer.cs">
       <AutoGen>True</AutoGen>

@@ -12,7 +12,7 @@ namespace ConfigTool
             var DB = new DataClasses1DataContext(); //DataContext object used to query database
 
             //Test table access (SYS_)
-            var testSYS_Config = DB.SYS_Configs.Where(d => d.OptionItemDetail_Value == "1").ToList();
+            var testSYS_Config = DB.SYS_Config.Where(d => d.OptionItemDetail_Value == "1").ToList();
             //var testSYS_Screens = DB.SYS_Screens.Where(s => s.Customer_Hierarchy_Idx != 0).ToList();
             //var testSYS_ScreenTabs = DB.SYS_ScreenTabs.Where(t => t.IsDisplayed == true).ToList();
             var newSYS_Config = new SYS_Config { OptionItem = "CosTest", OptionItemDetail_Value = "3", MenuItem_Code = "123" };
