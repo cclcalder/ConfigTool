@@ -176,8 +176,14 @@ namespace WebApplication2.Controllers
                     var name = table.Trim('/', '"');
                     var tableType = Type.GetType("ConfigTool." + name + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
+                    var overload = tableData.Count();
+                    var dataArr = new JArray();
 
-                    JArray dataArr = GetJsonData(tableData);
+                    //if bigger than 100,000 rows dont bother getting the data
+                    if (overload < 10000) {
+                        dataArr = GetJsonData(tableData);
+                    }
+                    else { }
 
                     var associationTables = new List<AssociatedTable>();
                     var jsonResult = new Result();
@@ -195,7 +201,7 @@ namespace WebApplication2.Controllers
 
                     foreach (Header header in headers)
                     {
-                        //general properties
+                        //common properties
                         var obj = new JObject();
                         var nameProp = new JProperty("headerName", header.name);
                         var fieldProp = new JProperty("field", header.name);
@@ -205,7 +211,6 @@ namespace WebApplication2.Controllers
                         obj.Add(widthProp);
 
                         var parent = false;
-                        //if there are associated tables
                         if (associationTables.Count() != 0)
                         {
                             //foreach connection
@@ -216,7 +221,6 @@ namespace WebApplication2.Controllers
                                     obj.Add(new JProperty("editable", true));
                                     obj.Add(new JProperty("type", "fKey"));
                                     obj.Add(new JProperty("cellEditor", "select"));
-                                    obj.Add(new JProperty("editorParams", GetFKeyData(aTable)));
                                     parent = true;
                                 }
                             }
@@ -233,8 +237,6 @@ namespace WebApplication2.Controllers
                         {
                             ParseDbType(header.type, obj);
                         }
-
-
                         headArr.Add(obj);
                     }
 
@@ -245,10 +247,10 @@ namespace WebApplication2.Controllers
                     jsonResult.overLoad = 0;
                     //try string array method for all - better to have same 
 
-                    if (dataArr.Count() > 10000)
+                    if (overload > 10000)
                     {
-                        jsonResult.overLoad = dataArr.Count();
-                        return Json(jsonResult, JsonRequestBehavior.AllowGet);
+                        jsonResult.overLoad = overload;
+                        //return Json(jsonResult, JsonRequestBehavior.AllowGet);
                     }
 
                     var dataStrArr = new List<string>();
@@ -360,8 +362,8 @@ namespace WebApplication2.Controllers
                                 //ascTable.name = "app." + name;
                                 if (r1.Association.IsForeignKey)
                                 {
-                                    //if has foreign key must be the child of the current table..
                                     ascTable.relationToCurrent = "Parent";
+                                    //does this need to be called here?
                                     ascTable.fKeyData = GetFKeyData(ascTable);
                                 }
                                 else
@@ -415,12 +417,14 @@ namespace WebApplication2.Controllers
             var size = tableData.Count(); //if table size becomes issue do iteratively 
             JArray dataArr = new JArray();
 
-            dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                PreserveReferencesHandling = PreserveReferencesHandling.None,
-                ContractResolver = new CustomResolver()
-            }));
+                dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    PreserveReferencesHandling = PreserveReferencesHandling.None,
+                    ContractResolver = new CustomResolver()
+                }));
+
+
             return dataArr;
         }
         public JObject NewTempRow(List<Header> headers)

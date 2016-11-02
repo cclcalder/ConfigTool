@@ -83,9 +83,12 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                             else if (head.type == "fKey") {
                                 head.cellRenderer = pKeyRenderer;
                                 head.cellEditor = 'select';
-                                var table = $scope.associatedTables[0];
-                                //MASSIVE ISSUE THAT ONLY WORKS IF ONE FOREIGH KEY TABLE AT THE MOMENT
-                                head.cellEditorParams = JSON.parse(table.fKeyData);
+                                //if multiple tables
+                                for (var i = 0; i < $scope.associatedTables.length; i++) {
+                                    if ($scope.associatedTables[i].currentKey === head.headerName) {
+                                        head.cellEditorParams = JSON.parse($scope.associatedTables[i].fKeyData);
+                                    }
+                                }
                                 return { 'padding-left': '5px' };
                             }
                             else if (head.type == "date") {
