@@ -144,8 +144,8 @@ namespace WebApplication2.Controllers
         public struct Result
         {
             public string headerArr;
+            public int overLoad;
             public string[] dataStringArr;
-            public string dataArr;
             public List<string> pKey;
             public List<AssociatedTable> fKeyTables; //headername, typename, and data for dropdowns
             public string emptyRow;
@@ -239,23 +239,25 @@ namespace WebApplication2.Controllers
                     }
 
                     jsonResult.headerArr = headArr.ToString();
-                    if(dataArr.Count() > 500)
-                    {    
-                        var dataStrArr = new List<string>();
-                        foreach(var data in dataArr)
-                        {
-                            dataStrArr.Add(data.ToString());
-                        }
-                        var array = dataStrArr.ToArray();
-                        jsonResult.dataStringArr = array;
-                    }
-                    else
-                    {
-                        jsonResult.dataArr = dataArr.ToString();
-                    }               
                     jsonResult.pKey = pKeyNames;
                     jsonResult.fKeyTables = associationTables;
                     jsonResult.emptyRow = NewTempRow(headers).ToString();
+                    jsonResult.overLoad = 0;
+                    //try string array method for all - better to have same 
+
+                    if (dataArr.Count() > 10000)
+                    {
+                        jsonResult.overLoad = dataArr.Count();
+                        return Json(jsonResult, JsonRequestBehavior.AllowGet);
+                    }
+
+                    var dataStrArr = new List<string>();
+                    foreach (var data in dataArr)
+                    {
+                        dataStrArr.Add(data.ToString());
+                    }
+                    var array = dataStrArr.ToArray();
+                    jsonResult.dataStringArr = array;
 
                     return Json(jsonResult, JsonRequestBehavior.AllowGet);
                 }
@@ -345,12 +347,13 @@ namespace WebApplication2.Controllers
 
                                 if (checkTabList.FirstOrDefault(n => n == r1.Name) == null)
                                 {
+                                    //Name = "Dim_Event_Status1"
                                     //try add s? TERRIBLE STUPID HACK THERE SHOULD BE A NORMAL SANE WAY AROUND THIS.....
-                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n == r1.Name+'1');
+                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n + '1' == r1.Name);
                                 }
                                 else
                                 {
-                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n== r1.Name);
+                                    ascTable.typeName = checkTabList.FirstOrDefault(n => n == r1.Name);
                                 }
                                 ascTable.foreignKey = r1.Association.OtherKey[0].MappedName;
                                 ascTable.currentKey = r1.Association.ThisKey[0].MappedName;
@@ -414,9 +417,9 @@ namespace WebApplication2.Controllers
 
             dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings()
             {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    PreserveReferencesHandling = PreserveReferencesHandling.None,
-                    ContractResolver = new CustomResolver()
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                PreserveReferencesHandling = PreserveReferencesHandling.None,
+                ContractResolver = new CustomResolver()
             }));
             return dataArr;
         }
@@ -438,10 +441,12 @@ namespace WebApplication2.Controllers
                 var toDelete = new JArray();
                 var toUpdate = new JArray();
                 var json = new JArray();
-                foreach(string i in newTable) {
+                foreach (string i in newTable)
+                {
                     json.Add(JsonConvert.DeserializeObject<JObject>(i.Replace("\\", "")));
-                }  
-                foreach(var obj in json) {
+                }
+                foreach (var obj in json)
+                {
                     var action = (string)obj["hasChanges"];
                     if (action == "2")
                     {
@@ -453,7 +458,7 @@ namespace WebApplication2.Controllers
                         toUpdate.Add(obj);
                     }
                 }
-                if(DeleteRows(toDelete) && UpdateRows(toUpdate))
+                if (DeleteRows(toDelete) && UpdateRows(toUpdate))
                 {
                     //if allowed by data base, write script
                     WriteScript();
@@ -648,10 +653,10 @@ namespace WebApplication2.Controllers
                     {
                         var _SYS_Config = contextObj.SYS_Config.FirstOrDefault(s => s.OptionItem_ID == _SYS_ConfigId); //only one?
                         contextObj.SYS_Config.DeleteOnSubmit(_SYS_Config);//only one element?
-                                                                           //https://damieng.com/blog/2008/07/30/linq-to-sql-log-to-debug-window-file-memory-or-multiple-writers
-                                                                           //
-                                                                           //contextObj.Log = new ConfigTool.Log();
-                                                                           //f you wish to not overwrite the existing log file then change the constructor to include the parameter true after the filename. 
+                                                                          //https://damieng.com/blog/2008/07/30/linq-to-sql-log-to-debug-window-file-memory-or-multiple-writers
+                                                                          //
+                                                                          //contextObj.Log = new ConfigTool.Log();
+                                                                          //f you wish to not overwrite the existing log file then change the constructor to include the parameter true after the filename. 
                         contextObj.Log = new System.IO.StreamWriter("linqtosql.log", true) { AutoFlush = true };
 
                         contextObj.SubmitChanges();

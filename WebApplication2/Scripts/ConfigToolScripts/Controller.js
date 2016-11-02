@@ -13,6 +13,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
     // --- INITIATE FLAGS
     //flags 
     $scope.loadingIsDone = false;
+    $scope.rowOverload = false;
     $scope.associatedTablesExist = false;
     $scope.showAssociatedTables = false;
     $scope.unsavedChanges = false;
@@ -32,19 +33,18 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         //get data from service
         var loadMethod = crudAJService.loadTableContent($scope.tablename);
         loadMethod.then(function (TableContent) {
-
-            //check data present
-            if (TableContent.data.dataArr == null) {
-                if (TableContent.data.dataStringArr != null) {
-                    console.log(TableContent.data.dataStringArr);
-                    $scope.data = TableContent.data.dataStringArr;
-                }
-                else { $scope.data = null; }
+            //check data present and not MASSIVE
+            if (TableContent.data.overLoad !== 0) {
+                alert('Overload: ' + TableContent.data.overLoad + " rows!");
+            }
+            if (TableContent.data.dataStringArr != null) {
+                $scope.data = JSON.parse("[" + TableContent.data.dataStringArr + "]");
             }
             else {
-                $scope.data = JSON.parse(TableContent.data.dataArr);
+                $scope.data = null;
             }
 
+            //setup scopes
             $scope.columnHeaders = JSON.parse(TableContent.data.headerArr);
             $scope.tempRow = JSON.parse(TableContent.data.emptyRow);
             $scope.dataReturn = $scope.data;
@@ -89,7 +89,8 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                                 return { 'padding-left': '5px' };
                             }
                             else if (head.type == "date") {
-                                head.cellRenderer = dateRenderer;
+                                //don't use data renderer until working - i think needs to be editor not renderer?
+                                //head.cellRenderer = dateRenderer;
                                 return { 'padding-left': '5px' };
                             }
                             else if (head.type == "changes") {
@@ -160,11 +161,9 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 };
 
                 var dateRenderer = function (params) {
-                    var datetime = params.value.split("T");
-                    var date = datetime[0];
                     console.log("date renderer");
-                    console.log(date);
-                    return '<md-datepicker ng-model="' + date + '"></md-datepicker>';
+                    //date renderer FIX - doesnt have ngModel at the moment
+                    //return '<md-datepicker ' + params.value + '"></md-datepicker>';
                     return '<input type="date">';
                 }
 
@@ -219,16 +218,16 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     });
                     var strArr = [];
                     rowData.forEach(function (obj) {
-                        if (obj['hasChanges'] !=null) {
+                        if (obj['hasChanges'] != null) {
                             strArr.push(JSON.stringify(obj));
-                        }            
+                        }
                     });
                     var savingTable = crudAJService.saveNewTable(strArr);
                     savingTable.then(function (success) {
                         gridOptions.api.refreshView();
                         if (success) {
                             gridOptions.api.refreshView(); //THIS DOESNT REFERESH PROPERLY RIGHT NOW?
-                            console.log('success'+success);
+                            console.log('success' + success);
                             alert("Success: Changes submitted to database.")
                             $scope.unsavedChanges = false;
                         }
@@ -254,12 +253,12 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                         gridOptions.api.refreshView();
                         crudArray.push("delete:" + JSON.stringify(node.data));
                     });
-                    
+
                 };
 
                 $scope.onSave = function () {
                     var confirm = $mdDialog.confirm()
-                         .title('Are you sure you want to save changes, this cannot be undone.'+crudArray)
+                         .title('Are you sure you want to save changes, this cannot be undone.' + crudArray)
                          .ok('Save')
                          .cancel('Cancel');
                     $mdDialog.show(confirm).then(function () {

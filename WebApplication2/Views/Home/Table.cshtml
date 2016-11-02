@@ -83,6 +83,7 @@
                 <div class="bottom-block">
                     <span ng-if="isLoading">Loading data..</span>
                     <center><span style="color:red; text-align:center;" ng-if="!isLoading"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;Error loading data!</span></center>
+                    <center><span style="color:red; text-align:center;" ng-if="rowOverload"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;OverLoad: No. rows = {{overLoad}}</span></center>
                 </div>
             </div>
         </div>
