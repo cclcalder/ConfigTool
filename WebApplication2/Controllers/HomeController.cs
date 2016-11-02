@@ -414,7 +414,7 @@ namespace WebApplication2.Controllers
 
             dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings()
             {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                     PreserveReferencesHandling = PreserveReferencesHandling.None,
                     ContractResolver = new CustomResolver()
             }));
@@ -429,14 +429,70 @@ namespace WebApplication2.Controllers
             }
             return emptyRecord;
         }
-
+        #endregion
         //submit all changes on click and generate script
-        public void SubmitChanges()
+        public bool SaveTable(string[] newTable)
         {
-
+            if (newTable != null)
+            {
+                var toDelete = new JArray();
+                var toUpdate = new JArray();
+                var json = new JArray();
+                foreach(string i in newTable) {
+                    json.Add(JsonConvert.DeserializeObject<JObject>(i.Replace("\\", "")));
+                }  
+                foreach(var obj in json) {
+                    var action = (string)obj["hasChanges"];
+                    if (action == "2")
+                    {
+                        toDelete.Add(obj);
+                    }
+                    else if (action == "1")
+                    {
+                        //edit or add
+                        toUpdate.Add(obj);
+                    }
+                }
+                if(DeleteRows(toDelete) && UpdateRows(toUpdate))
+                {
+                    //if allowed by data base, write script
+                    WriteScript();
+                    return true;
+                }
+                else { return false; }
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        #endregion
+        public bool DeleteRows(JArray data)
+        {
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                //GET PKEY AND DELETE BY THAT 
+                return true;
+            }
+        }
+        public bool UpdateRows(JArray data)
+        {
+            //DECIDE WHETHER INSERT OR UPDATE
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                //GET PKEY AND DELETE BY THAT 
+
+                return true;
+            }
+        }
+
+        public void WriteScript()
+        {
+            //in here take changes pushed to database and write merge script
+        }
+
+
+
 
         #region Get Info on Tables in DB
         /* --------------------------------------- */

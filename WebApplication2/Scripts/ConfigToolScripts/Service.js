@@ -41,6 +41,18 @@
         //return $http.get("Home/LoadTableContent");
     };
 
+    this.saveNewTable = function (newTable) {
+        console.log('save new table service!!!: ' + newTable);
+        var response = $http({
+            method: "post",
+            url: "Home/SaveTable",
+            params: {
+                newTable:newTable
+            }
+        });
+        return response;
+    };
+
     /* --------------------------------------- */
     //CRUD FUNCTIONS-- for old table layout
 
@@ -89,55 +101,5 @@
         });
         return response;
     };
-
-    /* --------------------------------------- */
-    //Generic Table view - same as above ish
-
-    //Get record by id
-    this.getRecord = function (RecordId) {
-        var response = $http({
-            method: "post",
-            url: "Table/GetRecordById",
-            params: {
-                id: JSON.stringify(RecordId)
-            }
-        });
-        return response;
-    };
-
-    //Update record 
-    this.updateRecord = function (Record) {
-        var response = $http({
-            method: "post",
-            url: "Table/UpdateRecord",
-            data: JSON.stringify(Record),
-            dataType: "json"
-        });
-        return response;
-    };
-
-    //Add record
-    this.AddRecord = function (Record) {
-        var response = $http({
-            method: "post",
-            url: "Table/AddRecord",
-            data: JSON.stringify(Record),
-            dataType: "json"
-        });
-        return response;
-    };
-
-    //Delete record
-    this.DeleteRecord = function (Record) {
-        var response = $http({
-            method: "post",
-            url: "Home/DeleteRecord",
-            params: {
-                Record: Record
-            }
-        });
-        return response;
-    };
-
    
 });

@@ -94,7 +94,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                             }
                             else if (head.type == "changes") {
                                 head.cellRenderer = changesRenderer;
-                                return { 'text-align': 'center', 'background-color': 'rgba(0, 0, 0, 0.05)' };
+                                return { 'background-color': 'rgba(0, 0, 0, 0.05)', 'padding-left': '5px' };
                             }
                             else return { 'padding-left': '5px' };
                         }
@@ -169,8 +169,10 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 }
 
                 var changesRenderer = function (params) {
-                    if (params.value == null || params.value == "") { return '<span>0<span>'; }
-                    else { return '<span class="rag-element">' + params.value + '<span>' };
+                    if (params.value == null || params.value == "") { return '<span style="color:rgb(63,81,181)"> - <span>'; }
+                    if (params.value == 1) { return '<span style="color:#45B25D"> Edited <span>'; };
+                    if (params.value == 2) { return '<span style="color:#EA4E4E"> Deleted <span>'; };
+                    //else { return '<span class="rag-element">' + params.value + '<span>' };
                 };
 
                 //init gridOptions
@@ -215,8 +217,29 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     gridOptions.api.forEachNode(function (node) {
                         rowData.push(node.data);
                     });
-                    console.log('Row Data:');
-                    console.log(rowData);
+                    var strArr = [];
+                    rowData.forEach(function (obj) {
+                        if (obj['hasChanges'] !=null) {
+                            strArr.push(JSON.stringify(obj));
+                        }            
+                    });
+                    var savingTable = crudAJService.saveNewTable(strArr);
+                    savingTable.then(function (success) {
+                        gridOptions.api.refreshView();
+                        if (success) {
+                            gridOptions.api.refreshView(); //THIS DOESNT REFERESH PROPERLY RIGHT NOW?
+                            console.log('success'+success);
+                            alert("Success: Changes submitted to database.")
+                            $scope.unsavedChanges = false;
+                        }
+                        else {
+                            $scope.unsavedChanges = true;
+                            alert("Error: Invalid operation");
+                        }
+                    }, function () {
+                        alert('Error: Save unsuccessful');
+                        $scope.unsavedChanges = true;
+                    });
                 };
 
                 $scope.gridOptions = gridOptions;
@@ -227,7 +250,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     //change this to turn rows red when provisionally deleted
                     //$scope.gridOptions.api.removeItems(selection);
                     selection.forEach(function (node) {
-                        console.log("node.data:" + node.data['hasChanges']);
                         node.data['hasChanges'] = 2;
                         gridOptions.api.refreshView();
                         crudArray.push("delete:" + JSON.stringify(node.data));
@@ -235,18 +257,15 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     
                 };
 
-
-
                 $scope.onSave = function () {
                     var confirm = $mdDialog.confirm()
-                         .title('Are you sure you want to save changes, this cannot be undone.')
+                         .title('Are you sure you want to save changes, this cannot be undone.'+crudArray)
                          .ok('Save')
                          .cancel('Cancel');
                     $mdDialog.show(confirm).then(function () {
                         //crudArray could be used for audit - but more likely newValueHandler..
-                        console.log("Changes" + crudArray);
-                        var newData = getRowData();
-                        $scope.unsavedChanges = false;
+                        //console.log("Changes" + crudArray);
+                        getRowData();
                     }, function () {
                         console.log('Cancel');
                     });
@@ -259,16 +278,19 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                          .cancel('Cancel');
                     $mdDialog.show(confirm).then(function () {
                         console.log("Revert changes");
-                        //refresh data, remove unsaved changes
+                        //reset all has changes col
+                        gridOptions.api.forEachNode(function (node) {
+                            node.data['hasChanges'] = 0;
+                        });
                         $scope.gridOptions.api.refreshView();
-                        $scope.gridOptions.api.setRowData($scope.data);
+                        //$scope.gridOptions.api.setRowData($scope.data);
                         $scope.unsavedChanges = false;
-                        //$scope.unsavedChanges = false;
+
                     }, function () {
                         console.log('Cancel');
                     });
                 };
-                //$scope.gridOptions.api.refreshView();
+
 
 
             })();
@@ -287,10 +309,6 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
 
     //call load
     LoadTableContent();
-
-
-    //these are 'onclick' functions
-    //local grid CRUD
 
 
     var newCount = 0;
@@ -330,6 +348,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
         $scope.gridOptions.columnApi.autoSizeColumns(allColumnIds);
     }
 
+    //scripts
     $scope.openCurrentScript = function () {
         console.log("Open current script");
         var confirm = $mdDialog.confirm()
