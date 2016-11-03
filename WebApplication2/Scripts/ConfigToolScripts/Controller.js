@@ -44,6 +44,8 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 $scope.data = null;
             }
 
+            console.log("DATA! : "+$scope.data);
+
             //setup scopes
             $scope.columnHeaders = JSON.parse(TableContent.data.headerArr);
             $scope.tempRow = JSON.parse(TableContent.data.emptyRow);
@@ -78,7 +80,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                             }
                             else if (head.type == "pKey") {
                                 head.cellRenderer = pKeyRenderer;
-                                return { 'padding-left': '5px', 'font-weight': 'bold' };
+                                return { 'padding-left': '5px', 'font-weight': 'bold'};
                             }
                             else if (head.type == "fKey") {
                                 head.cellRenderer = pKeyRenderer;
@@ -194,7 +196,15 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                         $scope.unsaved = true;
                         //this isnt working currently but should be soon (cahnge colour of edited field)
                         event.colDef.field.cellStyle = { 'background-color': 'green' };
-                        var updateString = 'update:' + event.colDef.field + ' from ' + event.oldValue + ' to ' + event.newValue;
+                        var updateString;
+                        //not 100% working but do in a min
+                        if (event.oldValue === "") {
+                            updateString = 'add: ' + event.colDef.field + event.newValue+", ";
+                        }
+                        else {
+                            updateString = 'update: ' + event.colDef.field + ' from ' + event.oldValue + ' to ' + event.newValue+", ";
+                        }
+                        
                         crudArray.push(updateString);
                         console.log('onCellValueChanged: ' + event.colDef.field + ' from ' + event.oldValue + ' to ' + event.newValue);
                         if (event.oldValue != event.newValue) {
@@ -254,7 +264,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     selection.forEach(function (node) {
                         node.data['hasChanges'] = 2;
                         gridOptions.api.refreshView();
-                        crudArray.push("delete:" + JSON.stringify(node.data));
+                        crudArray.push("delete: " + JSON.stringify(node.data)+", ");
                     });
 
                 };

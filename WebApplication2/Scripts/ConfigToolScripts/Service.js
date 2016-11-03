@@ -28,6 +28,7 @@
 
     //this should replace above method..
     this.loadTableContent = function (table) {
+        console.log("service " + table);
         var response = $http({
             method: "post",
             dataType: "json",
@@ -41,13 +42,12 @@
         //return $http.get("Home/LoadTableContent");
     };
 
-    this.saveNewTable = function (newTable) {
-        console.log('save new table service!!!: ' + newTable);
+    this.saveNewTable = function (changes) {
         var response = $http({
             method: "post",
             url: "Home/SaveTable",
             params: {
-                newTable:newTable
+                changes: changes
             }
         });
         return response;

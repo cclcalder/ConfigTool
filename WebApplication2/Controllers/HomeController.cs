@@ -9,6 +9,7 @@ using System.Data.Linq;
 using System.Data.Linq.Mapping;
 using System.Data.SqlClient;
 using System.Linq.Dynamic;
+using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Contexts;
@@ -17,6 +18,7 @@ using System.Web.Mvc;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Serialization;
+using System.Collections;
 
 namespace WebApplication2.Controllers
 {
@@ -141,6 +143,11 @@ namespace WebApplication2.Controllers
         #endregion
 
         #region agGrid
+
+        public struct currentTable
+        {
+            public static Type type;
+        }
         public struct Result
         {
             public string headerArr;
@@ -178,7 +185,7 @@ namespace WebApplication2.Controllers
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
                     var overload = tableData.Count();
                     var dataArr = new JArray();
-
+                    currentTable.type = tableType;
                     //if bigger than 100,000 rows dont bother getting the data
                     if (overload < 10000) {
                         dataArr = GetJsonData(tableData);
@@ -209,6 +216,9 @@ namespace WebApplication2.Controllers
                         obj.Add(nameProp);
                         obj.Add(fieldProp);
                         obj.Add(widthProp);
+                        if (header.type.Contains("NOT NULL")) {
+                            obj.Add(new JProperty("null", false));
+                        }
 
                         var parent = false;
                         if (associationTables.Count() != 0)
@@ -228,8 +238,11 @@ namespace WebApplication2.Controllers
                         //properties specific to type
                         if (pKeyNames.Contains(header.name) && !parent)
                         {
-                            //if primary key: key renderer and non editable
-                            obj.Add(new JProperty("editable", false));
+                            if (header.type.Contains("IDENTITY"))
+                            {
+                                obj.Add(new JProperty("editable", false));
+                            }
+                            else { obj.Add(new JProperty("editable", true)); } 
                             obj.Add(new JProperty("type", "pKey"));
                         }
 
@@ -245,7 +258,6 @@ namespace WebApplication2.Controllers
                     jsonResult.fKeyTables = associationTables;
                     jsonResult.emptyRow = NewTempRow(headers).ToString();
                     jsonResult.overLoad = 0;
-                    //try string array method for all - better to have same 
 
                     if (overload > 10000)
                     {
@@ -271,56 +283,52 @@ namespace WebApplication2.Controllers
         }
         public void ParseDbType(string dbType, JObject obj)
         {
+            bool editable = true;
             //**should restrain char count and add not null 
             if (dbType.Contains("Int"))
             {
                 //if numeric: editable, cell style align right and numeric editor
-                obj.Add(new JProperty("editable", true));
                 obj.Add(new JProperty("type", "numeric"));
             }
             else if (dbType.Contains("VarChar"))
             {
-                if (dbType.Contains("MAX"))
+                var limit = int.Parse(Regex.Match(dbType, @"\d+").Value);
+                if (limit >= 100 )
                 {
-                    obj.Add(new JProperty("editable", true));
                     obj.Add(new JProperty("cellEditor", "largeText"));
+                    obj.Add(new JProperty("charLimit", limit));
                 }
-                else if (int.Parse(Regex.Match(dbType, @"\d+").Value) <= 100)
+                else if (dbType.Contains("MAX"))
                 {
-                    obj.Add(new JProperty("editable", true));
-                    obj.Add(new JProperty("cellEditor", "text"));
+                    obj.Add(new JProperty("cellEditor", "largeText"));
                 }
                 else
                 {
-                    obj.Add(new JProperty("editable", true));
-                    obj.Add(new JProperty("cellEditor", "largeText"));
+                    obj.Add(new JProperty("cellEditor", "text"));
+                    obj.Add(new JProperty("charLimit", limit));
                 }
             }
             else if (dbType.Contains("Xml"))
             {
-                obj.Add(new JProperty("editable", true));
                 obj.Add(new JProperty("cellEditor", "largeText"));
             }
             else if (dbType.Contains("DateTime"))
             {
-                obj.Add(new JProperty("editable", false));
+                editable = false;
             }
             else if (dbType.Contains("Date") && !dbType.Contains("DateTime"))
             {
-                obj.Add(new JProperty("editable", true));
                 obj.Add(new JProperty("type", "date"));
             }
             else if (dbType.Contains("Bit"))
             {
-                //if checkbox (boolean), editable, renderer and editor??
-                obj.Add(new JProperty("editable", true));
                 obj.Add(new JProperty("type", "bool"));
             }
             else if (dbType.Contains("Unique"))
             {
-                obj.Add(new JProperty("editable", true));
                 obj.Add(new JProperty("cellEditor", "text"));
             }
+            obj.Add(new JProperty("editable", editable));
         }
         public List<Header> GetHeaders(string name, List<AssociatedTable> ascTables)
         {
@@ -438,53 +446,93 @@ namespace WebApplication2.Controllers
         }
         #endregion
         //submit all changes on click and generate script
-        public bool SaveTable(string[] newTable)
-        {
-            if (newTable != null)
-            {
-                var toDelete = new JArray();
-                var toUpdate = new JArray();
-                var json = new JArray();
-                foreach (string i in newTable)
-                {
-                    json.Add(JsonConvert.DeserializeObject<JObject>(i.Replace("\\", "")));
-                }
-                foreach (var obj in json)
-                {
-                    var action = (string)obj["hasChanges"];
-                    if (action == "2")
-                    {
-                        toDelete.Add(obj);
-                    }
-                    else if (action == "1")
-                    {
-                        //edit or add
-                        toUpdate.Add(obj);
-                    }
-                }
-                if (DeleteRows(toDelete) && UpdateRows(toUpdate))
-                {
-                    //if allowed by data base, write script
-                    WriteScript();
-                    return true;
-                }
-                else { return false; }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public bool DeleteRows(JArray data)
+        public bool SaveTable(string[] changes)
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                //GET PKEY AND DELETE BY THAT 
+                //static struct storing current table type (and whatever else might be needed to do database stuff)
+                if (changes != null)
+                {
+                    Type type = currentTable.type;
+                    var pKey = contextObj.Mapping.GetTable(type).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
+                    List<string> idsToDelete = new List<string>();
+                    var toUpsert = new JArray();
+                    var json = new JArray();
+                    foreach (string i in changes)
+                    {
+                        json.Add(JsonConvert.DeserializeObject<JObject>(i.Replace("\\", "")));
+                    }
+                    foreach (var obj in json)
+                    {
+                        var action = (string)obj["hasChanges"];
+                        if (action == "2")
+                        {
+                            //delete record where obj[pKey];
+                            //primary key can be made from multiple fields
+                            foreach (var item in pKey)
+                            {
+                                var id = (string)obj[item];
+                                idsToDelete.Add(id);
+                            }           
+                        }
+                        else if (action == "1")
+                        {
+                            //edit or add
+                            toUpsert.Add(obj);
+                        }
+                    }
+                    if (DeleteRows(idsToDelete) && Upsert(toUpsert))
+                    {
+                        //if allowed by data base, write script
+                        WriteScript();
+                        return true;
+                    }
+                    else { return false; }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool DeleteRows(List<string> idsToDelete)
+        {
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                //OR SHOULD I USE DELETE ALL ON SUBMIT
+                Type type = currentTable.type;
+                var pKey = contextObj.Mapping.GetTable(type).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
+                //get records
+                foreach (var id in idsToDelete)
+                {
+                    //var record = null;
+                    var colType = Type.GetType(pKey[0]);
+                    if(id.Split(',').Count() == 1 )//if single primary key
+                    {
+                        //var test = from x in contextObj.GetTable(type)
+                        //           select x;
+
+                        var test1 = contextObj.GetTable(type).Cast<object>();
+                        
+                        //var toQuery = from col in contextObj.GetTable(type) where col.Field<int>(pKey[0]) == id select col;
+                        
+                    }
+                    else //otherwise split and check for key combo
+                    {
+                        foreach(var part in id.Split(','))
+                        {
+                            //record = contextObj.GetTable(type).FirstOrDefault(s => s.OptionItem_ID == id && ....);
+                        }
+                    }
+                    //contextObj.GetTable(type).DeleteOnSubmit(record);
+                    //var record = contextObj.SYS_Config.FirstOrDefault(s => s.OptionItem_ID == _SYS_ConfigId);
+                    //contextObj.SYS_Config.DeleteOnSubmit(_SYS_Config);
+                }
                 return true;
             }
         }
-        public bool UpdateRows(JArray data)
+        public bool Upsert(JArray newRows)
         {
             //DECIDE WHETHER INSERT OR UPDATE
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
@@ -499,8 +547,6 @@ namespace WebApplication2.Controllers
         {
             //in here take changes pushed to database and write merge script
         }
-
-
 
 
         #region Get Info on Tables in DB
