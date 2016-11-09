@@ -19,6 +19,8 @@ using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json.Serialization;
 using System.Collections;
+using System.Linq.Expressions;
+
 
 namespace WebApplication2.Controllers
 {
@@ -147,6 +149,7 @@ namespace WebApplication2.Controllers
         public struct currentTable
         {
             public static Type type;
+            public static string name;
         }
         public struct Result
         {
@@ -180,14 +183,16 @@ namespace WebApplication2.Controllers
             {
                 if (table != null)
                 {
-                    var name = table.Trim('/', '"');
-                    var tableType = Type.GetType("ConfigTool." + name + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+                    var tableName = table.Trim('/', '"');
+                    var tableType = Type.GetType("ConfigTool." + tableName + ", ConfigTool, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
                     var tableData = contextObj.GetTable(tableType).AsQueryable();
                     var overload = tableData.Count();
                     var dataArr = new JArray();
                     currentTable.type = tableType;
+                    currentTable.name = tableName;
                     //if bigger than 100,000 rows dont bother getting the data
-                    if (overload < 10000) {
+                    if (overload < 10000)
+                    {
                         dataArr = GetJsonData(tableData);
                     }
                     else { }
@@ -197,7 +202,7 @@ namespace WebApplication2.Controllers
                     JArray headArr = new JArray();
                     var pKeyNames = contextObj.Mapping.GetTable(tableType).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
 
-                    var headers = GetHeaders(name, associationTables);
+                    var headers = GetHeaders(tableName, associationTables);
                     var hasChanges = new JObject();
                     hasChanges.Add(new JProperty("headerName", "Has Changes"));
                     hasChanges.Add(new JProperty("field", "hasChanges"));
@@ -216,7 +221,8 @@ namespace WebApplication2.Controllers
                         obj.Add(nameProp);
                         obj.Add(fieldProp);
                         obj.Add(widthProp);
-                        if (header.type.Contains("NOT NULL")) {
+                        if (header.type.Contains("NOT NULL"))
+                        {
                             obj.Add(new JProperty("null", false));
                         }
 
@@ -242,7 +248,7 @@ namespace WebApplication2.Controllers
                             {
                                 obj.Add(new JProperty("editable", false));
                             }
-                            else { obj.Add(new JProperty("editable", true)); } 
+                            else { obj.Add(new JProperty("editable", true)); }
                             obj.Add(new JProperty("type", "pKey"));
                         }
 
@@ -293,7 +299,7 @@ namespace WebApplication2.Controllers
             else if (dbType.Contains("VarChar"))
             {
                 var limit = int.Parse(Regex.Match(dbType, @"\d+").Value);
-                if (limit >= 100 )
+                if (limit >= 100)
                 {
                     obj.Add(new JProperty("cellEditor", "largeText"));
                     obj.Add(new JProperty("charLimit", limit));
@@ -330,7 +336,7 @@ namespace WebApplication2.Controllers
             }
             obj.Add(new JProperty("editable", editable));
         }
-        public List<Header> GetHeaders(string name, List<AssociatedTable> ascTables)
+        public List<Header> GetHeaders(string tableName, List<AssociatedTable> ascTables)
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
@@ -345,7 +351,7 @@ namespace WebApplication2.Controllers
                 List<Header> headers = new List<Header>();
                 foreach (MetaTable tab in tableList)
                 {
-                    if (tab.RowType.ToString().Equals(name, StringComparison.InvariantCultureIgnoreCase))
+                    if (tab.RowType.ToString().Equals(tableName, StringComparison.InvariantCultureIgnoreCase))
                     {
                         foreach (var r1 in tab.RowType.DataMembers)
                         {
@@ -425,12 +431,12 @@ namespace WebApplication2.Controllers
             var size = tableData.Count(); //if table size becomes issue do iteratively 
             JArray dataArr = new JArray();
 
-                dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                    PreserveReferencesHandling = PreserveReferencesHandling.None,
-                    ContractResolver = new CustomResolver()
-                }));
+            dataArr = JArray.Parse(JsonConvert.SerializeObject(tableData, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                PreserveReferencesHandling = PreserveReferencesHandling.None,
+                ContractResolver = new CustomResolver()
+            }));
 
 
             return dataArr;
@@ -445,43 +451,126 @@ namespace WebApplication2.Controllers
             return emptyRecord;
         }
         #endregion
+
+        //new method of saving to datacontext and writing script
+        public bool SaveTable(string[] changes)//RENAME TO EXECUTE IF WORKING
+        {
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                if (changes != null)
+                {
+                    var name = currentTable.name;
+                    var stringCols = String.Join(", ", GetHeaders(name, new List<AssociatedTable>()).Select(s => s.name).ToArray());
+                    string updateForMerge;
+                    string insertForMerge;
+                    foreach (string change in changes)//iterate thorugh changes 
+                    {
+
+                        var jsonChange = JsonConvert.DeserializeObject<JObject>(change.Replace("\\", ""));
+                        var action = (string)jsonChange["hasChanges"];
+                        if(action == "2")
+                        {
+                            //get pKey, if identity exists get that otherwise get pKey single or cluster
+                            var pKeyID = new Tuple<List<string>, string>(contextObj.Mapping.GetTable(currentTable.type).RowType.DataMembers.Where(m => m.IsPrimaryKey && m.DbType.Contains("IDENTITY")).ToArray().Select(p => p.MappedName).ToList(), "ID");
+                            if (pKeyID.Item1.Count() == 0)
+                            {
+                                pKeyID = new Tuple<List<string>, string>(contextObj.Mapping.GetTable(currentTable.type).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList(), "SINGLE");
+                                if (pKeyID.Item1.Count() > 1)
+                                {
+                                    pKeyID = new Tuple<List<string>, string>(contextObj.Mapping.GetTable(currentTable.type).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList(), "MULTI");
+                                }
+                            }
+                            var id = (string)jsonChange[pKeyID.Item1[0]];
+                            var colName = pKeyID.Item1[0].ToString();
+                            if (pKeyID.Item2 == "MULTI")
+                            {
+                                foreach (var item in pKeyID.Item1)
+                                {
+
+                                }
+                                id = ;
+                                colName = ;
+                            }
+                            // -- DELETE                     
+                            //build MERGE STATEMENT ??
+                            //this shouldnt be done in here?, should be done outside each change....
+                            string deleteQuery = "DELETE FROM app." + name + " WHERE " + colName + " = '" + id + "'";
+                            try { var record = contextObj.ExecuteCommand(deleteQuery); }
+                            catch { }
+                        }
+                        else
+                        {
+                            // -- INSERT
+                            string stringValues = " ";//remember to have '' around strings
+                            foreach (var head in GetHeaders(name, new List<AssociatedTable>()).Select(s => s.name).ToList())
+                            {
+                                stringValues += "'" + (string)jsonChange["head"] + "',";
+                            }
+                            stringValues = stringValues.TrimEnd(',');
+                            string insertQuery = "INSERT INTO app." + name + " ( " + stringCols + " ) SELECT " + stringValues;
+                            updateForMerge = " ( " + stringCols + " ) VALUES " + stringValues;
+
+                            // -- UPDATE
+                            //fing changes 
+                            string updateQuery = "UPDATE app." + name + " SET " + colName + " = '" + id + "'";
+                            updateForMerge = " SET " + colName + " = '" + id + "'";
+                        }
+
+
+                    }
+                    var matchKeys = "TGT.OptionItemDetail = SRC.OptionItemDetail AND TGT.OptionItem = SRC.OptionItem";//JUST AN EXAMPLE
+                    //notes:
+                    //not all tables are app. - this is easy fix
+                    string merge = @"MERGE INTO app."+name+" TARGET "+ 
+                                    "USING ( SELECT "+stringCols+ " FROM app." + name + " ) SOURCE "+
+                                    "ON "+ matchKeys +
+                                    "WHEN MATCHED AND " + matchKeys + //NOT RIGHT
+                                    "THEN UPDATE"+ updateForMerge +
+                                    "WHEN  NOT MATCHED BY TARGET THEN INSERT "+insertForMerge+
+                                    "WHEN NOT MATCHED BY SOURCE THEN DELETE";
+
+                    //TRY TO EXCUTE TO DATACONTEXT
+
+
+                    //IF SUCCESS WRITE QUERY TO FILE
+                }
+            }
+            return true;
+        }
+
+
         //submit all changes on click and generate script
-        public bool SaveTable(string[] changes)
+        public bool S(string[] changes)
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
                 //static struct storing current table type (and whatever else might be needed to do database stuff)
                 if (changes != null)
                 {
-                    Type type = currentTable.type;
-                    var pKey = contextObj.Mapping.GetTable(type).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
-                    List<string> idsToDelete = new List<string>();
+                    var tablePKey = contextObj.Mapping.GetTable(currentTable.type).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
+                    List<string> idToDelete = new List<string>();
                     var toUpsert = new JArray();
-                    var json = new JArray();
-                    foreach (string i in changes)
+
+                    var jsonChanges = new JArray();
+                    foreach (string change in changes)//iterate thorugh changes 
                     {
-                        json.Add(JsonConvert.DeserializeObject<JObject>(i.Replace("\\", "")));
-                    }
-                    foreach (var obj in json)
-                    {
-                        var action = (string)obj["hasChanges"];
-                        if (action == "2")
+                        var jsonChange = JsonConvert.DeserializeObject<JObject>(change.Replace("\\", ""));
+                        var action = (string)jsonChange["hasChanges"];
+                        if (action == "2") //delete
                         {
-                            //delete record where obj[pKey];
-                            //primary key can be made from multiple fields
-                            foreach (var item in pKey)
+                            string id = "";
+                            foreach (var item in tablePKey) //primary key can be 'clustered' (multiple fields)
                             {
-                                var id = (string)obj[item];
-                                idsToDelete.Add(id);
-                            }           
+                                id = id + (string)jsonChange[item] + ",";
+                                idToDelete.Add(id);//csv of primary key combo to delete
+                            }
                         }
-                        else if (action == "1")
+                        else if (action == "1") //edit or insert
                         {
-                            //edit or add
-                            toUpsert.Add(obj);
+                            toUpsert.Add(jsonChange);//pass whole record in json form to add or edit
                         }
                     }
-                    if (DeleteRows(idsToDelete) && Upsert(toUpsert))
+                    if (DeleteRow(idToDelete) && Upsert(toUpsert))
                     {
                         //if allowed by data base, write script
                         WriteScript();
@@ -496,31 +585,40 @@ namespace WebApplication2.Controllers
             }
         }
 
-        public bool DeleteRows(List<string> idsToDelete)
+        public bool DeleteRow(List<string> idsToDelete)
+        //Query the database for the row to be deleted.
+        //Call the DeleteOnSubmit method.
+        //Submit the change to the database.
         {
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                //OR SHOULD I USE DELETE ALL ON SUBMIT
                 Type type = currentTable.type;
+                //pkey of current table (however many) - correspond to list of ids set to 
                 var pKey = contextObj.Mapping.GetTable(type).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
                 //get records
                 foreach (var id in idsToDelete)
                 {
                     //var record = null;
                     var colType = Type.GetType(pKey[0]);
-                    if(id.Split(',').Count() == 1 )//if single primary key
+                    if (pKey.Count() == 1)//if single primary key
                     {
-                        //var test = from x in contextObj.GetTable(type)
-                        //           select x;
+                        //T instance = (T)contextObj.GetTable<T>().Where<T>(c => c == id).Single();
+                        var keyCol = pKey[0];
 
-                        var test1 = contextObj.GetTable(type).Cast<object>();
-                        
+                        //this can get element from selected record BUT I WANT THE WHOLE THING
+                        var record = contextObj.GetTable(type).
+                                        Where(keyCol + "=" + id).
+                                        Select("");
+
+                        //var test = contextObj.GetTable(type).SingleOrDefault(GetIDWhereExpression(id));
+                        //var test1 = ( select X from contextObj.GetTable(type).Cast<object>() WHERE ;
                         //var toQuery = from col in contextObj.GetTable(type) where col.Field<int>(pKey[0]) == id select col;
-                        
+
+                        contextObj.GetTable(type).DeleteOnSubmit(record);
                     }
                     else //otherwise split and check for key combo
                     {
-                        foreach(var part in id.Split(','))
+                        foreach (var part in pKey)
                         {
                             //record = contextObj.GetTable(type).FirstOrDefault(s => s.OptionItem_ID == id && ....);
                         }
@@ -529,24 +627,77 @@ namespace WebApplication2.Controllers
                     //var record = contextObj.SYS_Config.FirstOrDefault(s => s.OptionItem_ID == _SYS_ConfigId);
                     //contextObj.SYS_Config.DeleteOnSubmit(_SYS_Config);
                 }
-                return true;
+                //deletions on submit set..
+                try
+                {
+                    contextObj.SubmitChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    return false;
+                    // Provide for exceptions.
+                }
+
             }
         }
-        public bool Upsert(JArray newRows)
+        public bool Upsert(JArray newRow)
         {
             //DECIDE WHETHER INSERT OR UPDATE
             using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
             {
-                //GET PKEY AND DELETE BY THAT 
+                var pKey = contextObj.Mapping.GetTable(currentTable.type).RowType.DataMembers.Where(m => m.IsPrimaryKey).ToArray().Select(p => p.MappedName).ToList();
+                var newKey = new List<int>();
+                foreach (var item in pKey)
+                {
+                    if (newRow[item] == null || newRow[item].ToString() == "")//if no primarykey -> ADD
+                    {
+                        newKey.Add(GenerateIdentityPKey(item));
+                    }
+                    else //EDIT
+                    {
+
+                    }
+                }
 
                 return true;
             }
+        }
+
+        public int GenerateIdentityPKey(string item)
+        {
+            using (DataClasses1DataContext contextObj = new DataClasses1DataContext())
+            {
+                JArray data = new JArray();
+                JArray arr = GetJsonData(contextObj.GetTable(currentTable.type));
+                foreach (JObject element in arr)
+                {
+                    data.Add(element[item]);
+                }
+                //var findMax = ;
+
+                //have to generate it for script
+                //find max id and add one FOR NOW
+                return +1;
+            }
+
         }
 
         public void WriteScript()
         {
             //in here take changes pushed to database and write merge script
         }
+
+        //public virtual bool GenericDelete<T>(T item)
+        //{
+        //    using (DataClasses1DataContext db = new DataClasses1DataContext())
+        //    {
+        //        db.GetTable<T>().DeleteOnSubmit(item);
+        //        db.SubmitChanges();
+        //        return true;
+        //    }
+        //}
 
 
         #region Get Info on Tables in DB
@@ -746,4 +897,18 @@ class CustomResolver : DefaultContractResolver
         return prop;
     }
 }
+
+public interface IEntity<T> where T : class
+{
+    IList<T> List();
+    IList<T> List(int? page, int? pageSize, Expression<Func<T, bool>> predicate, Expression<Func<T, object>> sort);
+    void Add(T item);
+    T Get(Int64 Id);
+    void Update(T item);
+    bool Delete(T Item);
+}
+
+
+
+
 
