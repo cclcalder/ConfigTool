@@ -68,11 +68,11 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                 function getStyle(params) {
                     $scope.columnHeaders.forEach(function (head) {
                         head.cellStyle = function (params) {
-                            if (head.type == "numeric") {
+                            if (head.type === "numeric") {
                                 head.cellEditor = numericEditor;
                                 return { 'text-align': 'right', 'padding-right': '5px' };
                             }
-                            else if (head.type == "bool") {
+                            else if (head.type === "bool") {
                                 //head.cellRenderer = checkBoxRenderer;
                                 head.cellEditor = 'select';
                                 head.cellEditorParams = { values: ['true', 'false'] };
@@ -185,7 +185,7 @@ app.controller("TableCtrl", function ($scope, $routeParams, $timeout, $mdDialog,
                     rowData: $scope.data,
                     angularCompileRows: true,
                     singleClickEdit: true,
-                    editType: 'fullRow',
+                    editType: "fullRow",
                     cellStyle: getStyle(),
                     //cellClassRules: {
                     //    //
