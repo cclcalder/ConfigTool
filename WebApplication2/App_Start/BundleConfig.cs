@@ -64,8 +64,12 @@ namespace WebApplication2
                         "~/Scripts/ConfigToolScripts/Service.js",
                         "~/Scripts/ConfigToolScripts/SharedPropertiesService.js",
                         "~/Scripts/ConfigToolScripts/Controller.js",
-                        "~/Scripts/ConfigToolScripts/WizardController.js",
-                        "~/Scripts/ConfigToolScripts/GridController.js"));
+                        "~/Scripts/ConfigToolScripts/GridControl.js",
+                        "~/Scripts/ConfigToolScripts/GetTablesControl.js",
+                        "~/Scripts/ConfigToolScripts/NavControl.js",
+                        "~/Scripts/ConfigToolScripts/SetupControl.js",
+                        "~/Scripts/ConfigToolScripts/RoutingConfig.js",
+                        "~/Scripts/ConfigToolScripts/WizardControl.js"));
 
             //bundles.Add(new ScriptBundle("~/bundles/JSplugins").Include(
             //            "~/Scripts/fastclick.js",

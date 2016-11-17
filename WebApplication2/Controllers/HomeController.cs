@@ -348,6 +348,24 @@ namespace WebApplication2.Controllers
             }
             return emptyRecord;
         }
+        public JsonResult GetEmptyRow(string table)
+        {
+            if (table != null)
+            {
+                var tableName = table.Trim('/', '"');
+                var associationTables = new List<AssociatedTable>();
+
+                var headers = GetHeaders(tableName, associationTables);
+                var emptyRecord = new JObject(new JProperty("hasChanges", 3));
+                foreach (Header header in headers)
+                {
+                    emptyRecord.Add(new JProperty(header.name, ""));
+                }
+
+                return Json(emptyRecord.ToString(), JsonRequestBehavior.AllowGet);
+            }
+            return Json("Error: Getting table data from db.");
+        }
         #endregion
 
         //new method of saving to datacontext and writing script

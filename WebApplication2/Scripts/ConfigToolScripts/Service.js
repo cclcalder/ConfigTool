@@ -26,6 +26,20 @@
         return response;
     };
 
+    this.getEmptyRow = function(table) {
+        console.log("get row:  " + table);
+        var response = $http({
+            method: "post",
+            dataType: "json",
+            url: "Home/GetEmptyRow",
+            params: {
+                table: JSON.stringify(table)
+            }
+        });
+        return response;
+        //return $http.get("Home/LoadTableContent");
+    };
+
     //this should replace above method..
     this.loadTableContent = function (table) {
         console.log("service " + table);
